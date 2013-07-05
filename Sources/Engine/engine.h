@@ -5,25 +5,19 @@
 * @author Gwennaël ARBONA
 **/
 
-#ifndef __TEST_H_
-#define __TEST_H_
-
-#include "Engine/world.h"
+#ifndef __COMMON_H_
+#define __COMMON_H_
 
 
 /*----------------------------------------------
-Class definitions
+Includes & definitions
 ----------------------------------------------*/
 
-class Test : public World
-{
-public:
-		
-	/**
-	 * @brief World definition
-	 **/
-	void Construct();
-	
-};
+#include "Ogre.h"
+#include "OgreConfigFile.h"
+#include "OgreOverlaySystem.h"
 
-#endif /* __TEST_H_ */
+#include "ExampleApplication.h"
+
+
+#endif /* __COMMON_H_ */

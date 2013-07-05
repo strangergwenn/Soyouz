@@ -5,25 +5,15 @@
 * @author Gwennaël ARBONA
 **/
 
-#ifndef __TEST_H_
-#define __TEST_H_
-
-#include "Engine/world.h"
+#include "test.h"
 
 
 /*----------------------------------------------
-Class definitions
+	Methods
 ----------------------------------------------*/
 
-class Test : public World
-{
-public:
-		
-	/**
-	 * @brief World definition
-	 **/
-	void Construct();
-	
-};
-
-#endif /* __TEST_H_ */
+void Test::Construct()
+{	
+	scene->setAmbientLight(Ogre::ColourValue(0.5f, 0.5f, 0.5f));
+	Actor penguin = Actor(scene, "penguin", "penguin.mesh");
+}
