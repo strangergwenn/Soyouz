@@ -7,6 +7,17 @@
 
 #include "Engine/world.h"
 
+#define CONFIG_PATH		"../../Config/"
+#define OGRE_CONF		"soyouz.cfg"
+#if OGRE_DEBUG_MODE
+#  define PLUGINS_CONF		"plugins_d.cfg"	
+#  define RESOURCES_CONF	"resources_d.cfg"	
+#else
+#  define PLUGINS_CONF		"plugins.cfg"	
+#  define RESOURCES_CONF	"resources.cfg"	
+#endif
+#define LOGFILE_NAME		"soyouz.log"
+
 
 /*----------------------------------------------
 	Constructor & destructor
@@ -17,14 +28,6 @@ World::World()
 	mIOManager = 0;
 	mRoot = 0;
 	mOverlaySystem=0;
-
-#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
-	mResourcePath = macBundlePath() + "/Contents/Resources/";
-	mConfigPath = mResourcePath;
-#else
-	mResourcePath = "";
-	mConfigPath = mResourcePath;
-#endif
 }
 
 
@@ -57,129 +60,106 @@ World::~World()
 void World::run(void)
 {
 	setup();
+	mRoot->startRendering();
 
-    mRoot->startRendering();
-
+	while (!mWindow->isClosed() && mRoot->renderOneFrame())
+	{
+	    WindowEventUtilities::messagePump();
+	}
 	destruct();
 
 #ifdef USE_RTSHADER_SYSTEM
-		finalizeShaderGenerator();
+	finalizeShaderGenerator();
 #endif
 }
 
 
 bool World::setup(void)
 {
-    setupResources();
+	setupResources();
 
-    bool carryOn = mRoot->showConfigDialog();
-    if (carryOn)
-	{
-        mWindow = mRoot->initialise(true);
-	}
-	else
+	if (!mRoot->showConfigDialog())
 	{
 		return false;
 	}
-	
-    setupRender();
 
-	ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+	setupRender();
 
-    construct();
-	
-    mIOManager= new IOManager(mWindow, mCamera);
-    mIOManager->showDebugOverlay(true);
-    mRoot->addFrameListener(mIOManager);
+	construct();
 
-    return true;
+	mIOManager = new IOManager(mWindow, mCamera);
+	mRoot->addFrameListener(mIOManager);
+	return true;
 
-}
-
-
-void World::setupRender(void)
-{
-    mScene = mRoot->createSceneManager(ST_GENERIC, "ExampleSMInstance");
-	if(mOverlaySystem)
-	{
-			mScene->addRenderQueueListener(mOverlaySystem);
-	}
-
-    mCamera = mScene->createCamera("PlayerCam");
-    mCamera->setPosition(Vector3(0,0,500));
-    mCamera->lookAt(Vector3(0,0,-300));
-    mCamera->setNearClipDistance(5);
-
-    Viewport* vp = mWindow->addViewport(mCamera);
-    vp->setBackgroundColour(ColourValue(0,0,0));
-    mCamera->setAspectRatio(Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
-	
-#ifdef USE_RTSHADER_SYSTEM
-		initializeShaderGenerator(mSceneMgr);
-#endif
-
-    TextureManager::getSingleton().setDefaultNumMipmaps(5);
 }
 
 
 void World::setupResources(void)
 {
-    ConfigFile cf;
-	String pluginsPath;
+	ConfigFile cf;
+	String pluginsPath, secName, typeName, archName;
 
+	// Plugin loading
 #ifndef OGRE_STATIC_LIB
-#if OGRE_DEBUG_MODE
-	pluginsPath = mResourcePath + "plugins_d.cfg";
-#else
-	pluginsPath = mResourcePath + "plugins.cfg";
-#endif
-#endif
-		
-    mRoot = OGRE_NEW Root(pluginsPath, 
-        mConfigPath + "ogre.cfg", mResourcePath + "Ogre.log");
+	pluginsPath = CONFIG_PATH + PLUGINS_CONF;
+#endif	
+	mRoot = OGRE_NEW Root(pluginsPath, CONFIG_PATH + OGRE_CONF, CONFIG_PATH + LOGFILE_NAME);
 	mOverlaySystem = OGRE_NEW OverlaySystem();
-
 #ifdef OGRE_STATIC_LIB
 	mStaticPluginLoader.load();
 #endif
-#if OGRE_DEBUG_MODE
-    cf.load(mResourcePath + "resources_d.cfg");
-#else
-	cf.load(mResourcePath + "resources.cfg");
+
+	// Resource loading
+	cf.load(CONFIG_PATH + RESOURCES_CONF);
+	ConfigFile::SectionIterator seci = cf.getSectionIterator();
+	while (seci.hasMoreElements())
+	{
+		secName = seci.peekNextKey();
+		ConfigFile::SettingsMultiMap::iterator i;
+		ConfigFile::SettingsMultiMap *settings = seci.getNext();
+		for (i = settings->begin(); i != settings->end(); ++i)
+		{
+			typeName = i->first;
+			archName = i->second;
+			ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
+		}
+	}
+}
+
+
+void World::setupRender(void)
+{
+	mWindow = mRoot->initialise(true);
+	mScene = mRoot->createSceneManager(ST_GENERIC, "ExampleSMInstance");
+	if(mOverlaySystem)
+	{
+			mScene->addRenderQueueListener(mOverlaySystem);
+	}
+
+	mCamera = mScene->createCamera("PlayerCam");
+	mCamera->setPosition(Vector3(0,0,500));
+	mCamera->lookAt(Vector3(0,0,-300));
+	mCamera->setNearClipDistance(5);
+
+	Viewport* vp = mWindow->addViewport(mCamera);
+	vp->setBackgroundColour(ColourValue(0,0,0));
+	mCamera->setAspectRatio(Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
+	
+#ifdef USE_RTSHADER_SYSTEM
+	initializeShaderGenerator(mSceneMgr);
 #endif
-
-    ConfigFile::SectionIterator seci = cf.getSectionIterator();
-
-    String secName, typeName, archName;
-    while (seci.hasMoreElements())
-    {
-        secName = seci.peekNextKey();
-        ConfigFile::SettingsMultiMap *settings = seci.getNext();
-        ConfigFile::SettingsMultiMap::iterator i;
-        for (i = settings->begin(); i != settings->end(); ++i)
-        {
-            typeName = i->first;
-            archName = i->second;
-#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
-			if (!StringUtil::startsWith(archName, "/", false))
-				archName = String(macBundlePath() + "/" + archName);
-#endif
-            ResourceGroupManager::getSingleton().addResourceLocation(
-                archName, typeName, secName);
-
-        }
-    }
+	TextureManager::getSingleton().setDefaultNumMipmaps(5);
+	ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 }
 
 
 #ifdef USE_RTSHADER_SYSTEM
 
-bool World::initializeShaderGenerator(SceneManager* sceneMgr)
+bool World::setupShaderGenerator(SceneManager* sceneMgr)
 {	
 	if (RTShader::ShaderGenerator::initialize())
 	{
 		mShaderGenerator = RTShader::ShaderGenerator::getSingletonPtr();
-
 		mShaderGenerator->addSceneManager(sceneMgr);
 
 		ResourceGroupManager::LocationList resLocationsList = ResourceGroupManager::getSingleton().getResourceLocationList("Popular");
@@ -211,19 +191,18 @@ bool World::initializeShaderGenerator(SceneManager* sceneMgr)
 		mMaterialMgrListener = new ShaderGeneratorTechniqueResolverListener(mShaderGenerator);	
 		MaterialManager::getSingleton().addListener(mMaterialMgrListener);
 	}
-
 	return true;
 }
 
-void World::finalizeShaderGenerator()
+void World::stopShaderGenerator()
 {
-	if (mMaterialMgrListener != NULL)
+	if (mMaterialMgrListener)
 	{			
 		MaterialManager::getSingleton().removeListener(mMaterialMgrListener);
 		delete mMaterialMgrListener;
 		mMaterialMgrListener = NULL;
 	}
-	if (mShaderGenerator != NULL)
+	if (mShaderGenerator)
 	{
 		RTShader::ShaderGenerator::finalize();
 		mShaderGenerator = NULL;

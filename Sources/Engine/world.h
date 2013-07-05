@@ -47,17 +47,14 @@ public:
 			}
 			mRegisteredMaterials[originalMaterial] = techniqueCreated;
 		}
-
 		return NULL;
 	}
 
 protected:
-	typedef std::map<Material*, bool>		MaterialRegisterMap;
+	typedef std::map<Material*, bool>	MaterialRegisterMap;
 	typedef MaterialRegisterMap::iterator	MaterialRegisterIterator;
 
-
-protected:
-	MaterialRegisterMap				mRegisteredMaterials;
+	MaterialRegisterMap			mRegisteredMaterials;
 	RTShader::ShaderGenerator*		mShaderGenerator;
 };
 
@@ -76,78 +73,77 @@ public:
 	/**
 	 * @brief Load the world
 	 **/
-    World();
-	
+	World();
+
 	/**
 	 * @brief Unload the world
 	 **/
-    ~World();
+	~World();
 
 	/**
 	 * @brief Run the level (blocking)
 	 **/
-    void run();
+	void run();
 
 
 protected:
+
+	/**
+	 * @brief Level construction
+	 **/
+	virtual void construct() = NULL;
+
+	/**
+	 * @brief Level destruction
+	 **/
+	virtual void destruct() = NULL;
 	
 	/**
 	 * @brief Setup the level
 	 **/
-    bool setup();
-	
-	/**
-	 * @brief Setup rendering methods
-	 **/
-    void setupRender();
+	bool setup();
 
 	/**
 	 * @brief Setup resources
 	 **/
-    void setupResources();
-	
+	void setupResources();
+
 	/**
-	 * @brief Level construction
+	 * @brief Setup rendering methods
 	 **/
-    virtual void construct() = NULL;
-	
-	/**
-	 * @brief Level destruction
-	 **/
-    virtual void destruct() = NULL;
+	void setupRender();
 
 #ifdef USE_RTSHADER_SYSTEM
 
 	/**
 	 * @brief Start the shader generator
 	 **/
-	bool initializeShaderGenerator(SceneManager* sceneMgr);
+	bool setupShaderGenerator(SceneManager* sceneMgr);
 	
 	/**
 	 * @brief End the shader generator
 	 **/
-	void finalizeShaderGenerator();
+	void stopShaderGenerator();
 
 #endif
 
-    Root *mRoot;
-    Camera* mCamera;
-    SceneManager* mScene;
-    RenderWindow* mWindow;
+	Root *mRoot;
+	Camera* mCamera;
+	SceneManager* mScene;
+	RenderWindow* mWindow;
 	OverlaySystem* mOverlaySystem;
-    IOManager* mIOManager;
-	Ogre::String mResourcePath;
-	Ogre::String mConfigPath;
+	IOManager* mIOManager;
 
 #ifdef OGRE_STATIC_LIB
 	StaticPluginLoader mStaticPluginLoader;
 #endif
 
 #ifdef USE_RTSHADER_SYSTEM
-	RTShader::ShaderGenerator*					mShaderGenerator;
+	RTShader::ShaderGenerator*			mShaderGenerator;
 	ShaderGeneratorTechniqueResolverListener*	mMaterialMgrListener;
 #endif
 
 };
 
 #endif /* __WORLD_H_ */
+

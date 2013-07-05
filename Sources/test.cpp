@@ -21,3 +21,4 @@ void Test::construct()
 void Test::destruct()
 {
 }
+

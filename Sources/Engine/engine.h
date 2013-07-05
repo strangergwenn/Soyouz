@@ -36,9 +36,6 @@
 #  endif
 #  include "OgreStaticPluginLoader.h"
 #endif
-#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
-#   include "macUtils.h"
-#endif
 
 
 #ifdef USE_RTSHADER_SYSTEM

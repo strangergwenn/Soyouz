@@ -15,7 +15,6 @@
 	Class definitions
 ----------------------------------------------*/
 
-
 class Actor
 {
 
@@ -59,3 +58,4 @@ protected:
 };
 
 #endif /* __ACTOR_H_ */
+

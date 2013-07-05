@@ -44,3 +44,4 @@ void Actor::rotate(Vector3 rotator)
 	mNode->yaw(Degree(rotator[1]));
 	mNode->roll(Degree(rotator[2]));
 }
+
