@@ -6,17 +6,17 @@
 **/
 
 #include "Engine/world.h"
+#include "Engine/actor.h"
+#include "Engine/player.h"
 
-#define CONFIG_PATH		"../../Config/"
-#define OGRE_CONF		"soyouz.cfg"
+#define OGRE_CONF			"../../Config/soyouz.cfg"
 #if OGRE_DEBUG_MODE
-#  define PLUGINS_CONF		"plugins_d.cfg"	
-#  define RESOURCES_CONF	"resources_d.cfg"	
+#  define PLUGINS_CONF		"../../Config/plugins_d.cfg"
 #else
-#  define PLUGINS_CONF		"plugins.cfg"	
-#  define RESOURCES_CONF	"resources.cfg"	
+#  define PLUGINS_CONF		"../../Config/plugins.cfg"
 #endif
-#define LOGFILE_NAME		"soyouz.log"
+#define RESOURCES_CONF		"../../Config/resources.cfg"
+#define LOGFILE_NAME		"../../Config/soyouz.log"
 
 
 /*----------------------------------------------
@@ -54,10 +54,10 @@ World::~World()
 
 
 /*----------------------------------------------
-	Methods
+	Public methods
 ----------------------------------------------*/
 
-void World::run(void)
+void World::run()
 {
 	setup();
 	mRoot->startRendering();
@@ -69,48 +69,61 @@ void World::run(void)
 	destruct();
 
 #ifdef USE_RTSHADER_SYSTEM
-	finalizeShaderGenerator();
+	killShaderGenerator();
 #endif
 }
 
 
-bool World::setup(void)
+SceneNode* World::createWorldNode(String name)
+{
+	return mScene->getRootSceneNode()->createChildSceneNode(name);
+}
+
+
+Entity* World::createWorldEntity(String name, String file)
+{
+	return mScene->createEntity(name, file);
+}
+
+
+/*----------------------------------------------
+	Private methods
+----------------------------------------------*/
+
+bool World::setup()
 {
 	setupResources();
-
 	if (!mRoot->showConfigDialog())
 	{
 		return false;
 	}
-
 	setupRender();
 
 	construct();
 
-	mIOManager = new IOManager(mWindow, mCamera);
+	mIOManager = new IOManager(mWindow, mPlayer);
 	mRoot->addFrameListener(mIOManager);
 	return true;
-
 }
 
 
-void World::setupResources(void)
+void World::setupResources()
 {
 	ConfigFile cf;
 	String pluginsPath, secName, typeName, archName;
 
 	// Plugin loading
 #ifndef OGRE_STATIC_LIB
-	pluginsPath = CONFIG_PATH + PLUGINS_CONF;
+	pluginsPath = PLUGINS_CONF;
 #endif	
-	mRoot = OGRE_NEW Root(pluginsPath, CONFIG_PATH + OGRE_CONF, CONFIG_PATH + LOGFILE_NAME);
+	mRoot = OGRE_NEW Root(pluginsPath, OGRE_CONF, LOGFILE_NAME);
 	mOverlaySystem = OGRE_NEW OverlaySystem();
 #ifdef OGRE_STATIC_LIB
 	mStaticPluginLoader.load();
 #endif
 
 	// Resource loading
-	cf.load(CONFIG_PATH + RESOURCES_CONF);
+	cf.load(RESOURCES_CONF);
 	ConfigFile::SectionIterator seci = cf.getSectionIterator();
 	while (seci.hasMoreElements())
 	{
@@ -127,40 +140,45 @@ void World::setupResources(void)
 }
 
 
-void World::setupRender(void)
+void World::setupRender()
 {
 	mWindow = mRoot->initialise(true);
-	mScene = mRoot->createSceneManager(ST_GENERIC, "ExampleSMInstance");
-	if(mOverlaySystem)
+	mScene = mRoot->createSceneManager(ST_GENERIC, "WorldScene");
+	if (mOverlaySystem)
 	{
 			mScene->addRenderQueueListener(mOverlaySystem);
 	}
 
-	mCamera = mScene->createCamera("PlayerCam");
-	mCamera->setPosition(Vector3(0,0,500));
-	mCamera->lookAt(Vector3(0,0,-300));
-	mCamera->setNearClipDistance(5);
-
-	Viewport* vp = mWindow->addViewport(mCamera);
+	setupPlayer();
+	Viewport* vp = mWindow->addViewport(mPlayer->getCamera());
+	mPlayer->setCameraRatio(Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
 	vp->setBackgroundColour(ColourValue(0,0,0));
-	mCamera->setAspectRatio(Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
 	
 #ifdef USE_RTSHADER_SYSTEM
-	initializeShaderGenerator(mSceneMgr);
+	setupShaderGenerator();
 #endif
+
 	TextureManager::getSingleton().setDefaultNumMipmaps(5);
 	ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+	MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_ANISOTROPIC);
+	MaterialManager::getSingleton().setDefaultAnisotropy(8);
+}
+
+
+void World::setupPlayer()
+{
+	mPlayer = new Player(this, "LocalPlayer", mScene);
 }
 
 
 #ifdef USE_RTSHADER_SYSTEM
 
-bool World::setupShaderGenerator(SceneManager* sceneMgr)
+bool World::setupShaderGenerator()
 {	
 	if (RTShader::ShaderGenerator::initialize())
 	{
 		mShaderGenerator = RTShader::ShaderGenerator::getSingletonPtr();
-		mShaderGenerator->addSceneManager(sceneMgr);
+		mShaderGenerator->addSceneManager(mScene);
 
 		ResourceGroupManager::LocationList resLocationsList = ResourceGroupManager::getSingleton().getResourceLocationList("Popular");
 		ResourceGroupManager::LocationList::iterator it = resLocationsList.begin();
@@ -194,7 +212,7 @@ bool World::setupShaderGenerator(SceneManager* sceneMgr)
 	return true;
 }
 
-void World::stopShaderGenerator()
+void World::killShaderGenerator()
 {
 	if (mMaterialMgrListener)
 	{			

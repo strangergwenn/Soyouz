@@ -10,6 +10,8 @@
 
 #include "Engine/engine.h"
 
+class World;
+
 
 /*----------------------------------------------
 	Class definitions
@@ -21,39 +23,52 @@ class Actor
 public:
 	
 	/**
-	 * @brief Get an actor
-	 * @param pscene		Scene manager
+	 * @brief Create an actor
+	 * @param w				World actor
 	 * @param name			Unique name to set to the mesh
 	 **/
-	Actor(SceneManager* pscene, String name);
+	Actor(World* w, String name);
 
 	/**
-	 * @brief Get an actor
-	 * @param pscene		Scene manager
+	 * @brief Create an actor
+	 * @param w				World actor
 	 * @param name			Unique name to set to the mesh
 	 * @param file			Mesh file to load
 	 **/
-	Actor(SceneManager* pscene, String name, String file);
+	Actor(World* w, String name, String file);
+	
+	/**
+	 * @brief Delete an actor
+	 **/
+	~Actor();
+	
+	/**
+	 * @brief Get the current speed
+	 * @return the speed
+	 **/
+	Vector3 speed();
 
 	/**
 	 * @brief Translate the actor in the world
 	 * @param offset		movement vector
 	 * @param bRelative		true if relative to the node
 	 **/
-	void translate(Vector3 offset, bool bRelative);
+	void translate(Vector3 offset, bool bRelative = true);
 	
 	/**
 	 * @brief Rotate the actor in the world
-	 * @param offset		rotation vector (pitch, yaw, roll)
+	 * @param offset		rotation vector (pitch, yaw, roll) in degrees
 	 **/
 	void rotate(Vector3 rotator);
 
 
 protected: 
 
-	SceneManager* mScene;
-	SceneNode* mNode;
+	Vector3 mSpeed;
+
+	World* world;
 	Entity* mMesh;
+	SceneNode* mNode;
 
 };
 

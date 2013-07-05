@@ -6,19 +6,19 @@
 **/
 
 #include "Engine/iomanager.h"
+#include "Engine/actor.h"
+#include "Engine/player.h"
 
 
 /*----------------------------------------------
 	Constructor & destructor
 ----------------------------------------------*/
 
-IOManager::IOManager(RenderWindow* win, Camera* cam, bool bufferedKeys = false, bool bufferedMouse = false,  bool bufferedJoy = false) :
-	mCamera(cam), mTranslateVector(Vector3::ZERO), mCurrentSpeed(0), mWindow(win), mStatsOn(true), mNumScreenShots(0),
-	mMoveScale(0.0f), mRotScale(0.0f), mTimeUntilNextToggle(0), mFiltering(TFO_BILINEAR),
-	mAniso(1), mSceneDetailIndex(0), mMoveSpeed(100), mRotateSpeed(36), mDebugOverlay(0),
-	mInputManager(0), mMouse(0), mKeyboard(0), mJoy(0)
+IOManager::IOManager(RenderWindow* w, Player* p, bool bufferedKeys, bool bufferedMouse,  bool bufferedJoy) :
+	mDebugOverlay(NULL), mInputManager(NULL), mMouse(NULL), mKeyboard(NULL), mJoy(NULL)
 {
 	// Startup
+	mPlayer = p;
 	OIS::ParamList pl;
 	size_t windowHnd = 0;
 	std::ostringstream windowHndStr;
@@ -26,7 +26,8 @@ IOManager::IOManager(RenderWindow* win, Camera* cam, bool bufferedKeys = false, 
 	mDebugOverlay = OverlayManager::getSingleton().getByName("Core/DebugOverlay");
 
 	// Window management
-	win->getCustomAttribute("WINDOW", &windowHnd);
+	mWindow = w;
+	mWindow->getCustomAttribute("WINDOW", &windowHnd);
 	windowHndStr << windowHnd;
 	pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
 	mInputManager = OIS::InputManager::createInputSystem(pl);
@@ -37,13 +38,13 @@ IOManager::IOManager(RenderWindow* win, Camera* cam, bool bufferedKeys = false, 
 	try {
 		mJoy = static_cast<OIS::JoyStick*>(mInputManager->createInputObject(OIS::OISJoyStick, bufferedJoy));
 	}
-	catch(...) {
-		mJoy = 0;
+	catch (...) {
+		mJoy = NULL;
 	}
 
 	// Events
 	windowResized(mWindow);
-	showDebugOverlay(true);
+	mDebugOverlay->show();
 	WindowEventUtilities::addWindowEventListener(mWindow, this);		
 }
 
@@ -57,77 +58,7 @@ IOManager::~IOManager()
 
 
 /*----------------------------------------------
-	User methods
-----------------------------------------------*/
-
-bool IOManager::processKeyboard()
-{
-	Real moveScale = mMoveScale;
-	if (mKeyboard->isKeyDown(OIS::KC_LSHIFT))
-		moveScale *= 10;
-
-	if (mKeyboard->isKeyDown(OIS::KC_A))
-		mTranslateVector.x = -moveScale;
-
-	if (mKeyboard->isKeyDown(OIS::KC_D))
-		mTranslateVector.x = moveScale;
-
-	if (mKeyboard->isKeyDown(OIS::KC_W) )
-		mTranslateVector.z = -moveScale;
-
-	if (mKeyboard->isKeyDown(OIS::KC_S) )
-		mTranslateVector.z = moveScale;
-
-	if (mKeyboard->isKeyDown(OIS::KC_PGUP))
-		mTranslateVector.y = moveScale;
-
-	if (mKeyboard->isKeyDown(OIS::KC_PGDOWN))
-		mTranslateVector.y = -moveScale;
-
-	if (mKeyboard->isKeyDown(OIS::KC_RIGHT))
-		mCamera->yaw(-mRotScale);
-
-	if (mKeyboard->isKeyDown(OIS::KC_LEFT))
-		mCamera->yaw(mRotScale);
-
-	if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
-		return false;
-	else
-		return true;
-}
-
-
-bool IOManager::processMouse()
-{
-	const OIS::MouseState &ms = mMouse->getMouseState();
-	if (ms.buttonDown(OIS::MB_Right))
-	{
-		mTranslateVector.x += ms.X.rel * 0.13;
-		mTranslateVector.y -= ms.Y.rel * 0.13;
-	}
-	else
-	{
-		mRotX = Degree(-ms.X.rel * 0.13);
-		mRotY = Degree(-ms.Y.rel * 0.13);
-	}
-	return true;
-}
-
-
-void IOManager::showDebugOverlay(bool show)
-{
-	if (mDebugOverlay)
-	{
-		if (show)
-			mDebugOverlay->show();
-		else
-			mDebugOverlay->hide();
-	}
-}
-
-
-/*----------------------------------------------
-	Events
+	IO Events
 ----------------------------------------------*/
 
 void IOManager::windowResized(RenderWindow* rw)
@@ -152,164 +83,51 @@ void IOManager::windowClosed(RenderWindow* rw)
 		mInputManager->destroyInputObject(mKeyboard);
 		mInputManager->destroyInputObject(mJoy);
 		OIS::InputManager::destroyInputSystem(mInputManager);
-		mInputManager = 0;
+		mInputManager = NULL;
 	}
-}
-
-
-bool IOManager::processUnbufferedKeyInput(const FrameEvent& evt)
-{
-	// On-screen stats
-	if (mKeyboard->isKeyDown(OIS::KC_F) && mTimeUntilNextToggle <= 0)
-	{
-		mStatsOn = !mStatsOn;
-		showDebugOverlay(mStatsOn);
-		mTimeUntilNextToggle = 1;
-	}
-
-	// Texture filtering mode
-	if (mKeyboard->isKeyDown(OIS::KC_T) && mTimeUntilNextToggle <= 0)
-	{
-		switch(mFiltering)
-		{
-			case TFO_BILINEAR:
-				mFiltering = TFO_TRILINEAR;
-				mAniso = 1;
-				break;
-			case TFO_TRILINEAR:
-				mFiltering = TFO_ANISOTROPIC;
-				mAniso = 8;
-				break;
-			case TFO_ANISOTROPIC:
-				mFiltering = TFO_BILINEAR;
-				mAniso = 1;
-				break;
-			default: break;
-		}
-
-		MaterialManager::getSingleton().setDefaultTextureFiltering(mFiltering);
-		MaterialManager::getSingleton().setDefaultAnisotropy(mAniso);
-		showDebugOverlay(mStatsOn);
-		mTimeUntilNextToggle = 1;
-	}
-
-	// Screenshot
-	if (mKeyboard->isKeyDown(OIS::KC_SYSRQ) && mTimeUntilNextToggle <= 0)
-	{
-		std::ostringstream ss;
-		ss << "screenshot_" << ++mNumScreenShots << ".png";
-		mWindow->writeContentsToFile(ss.str());
-		mTimeUntilNextToggle = 0.5;
-		mDebugText = "Saved: " + ss.str();
-	}
-
-	// Scene rendering mode
-	if (mKeyboard->isKeyDown(OIS::KC_R) && mTimeUntilNextToggle <= 0)
-	{
-		mSceneDetailIndex = (mSceneDetailIndex+1)%3 ;
-		switch(mSceneDetailIndex) {
-			case 0 : mCamera->setPolygonMode(PM_SOLID); break;
-			case 1 : mCamera->setPolygonMode(PM_WIREFRAME); break;
-			case 2 : mCamera->setPolygonMode(PM_POINTS); break;
-		}
-		mTimeUntilNextToggle = 0.5;
-	}
-
-	// Camera details
-	static bool displayCameraDetails = false;
-	if (mKeyboard->isKeyDown(OIS::KC_P) && mTimeUntilNextToggle <= 0)
-	{
-		displayCameraDetails = !displayCameraDetails;
-		mTimeUntilNextToggle = 0.5;
-		if (!displayCameraDetails)
-		{
-			mDebugText = "";
-		}
-	}
-	if (displayCameraDetails)
-	{
-		mDebugText = "P: " + StringConverter::toString(mCamera->getDerivedPosition()) +
-			" " + "O: " + StringConverter::toString(mCamera->getDerivedOrientation());
-	}
-
-	return processKeyboard();
-}
-
-
-bool IOManager::processUnbufferedMouseInput(const FrameEvent& evt)
-{
-	return processMouse();
 }
 
 
 bool IOManager::frameRenderingQueued(const FrameEvent& evt)
 {
-
-	if(mWindow->isClosed())
+	if (mWindow->isClosed())
 	{
 		return false;
 	}
-
-	mSpeedLimit = mMoveScale * evt.timeSinceLastFrame;
-
-	mKeyboard->capture();
+	
 	mMouse->capture();
-	if( mJoy ) mJoy->capture();
+	mKeyboard->capture();
+	if (mJoy) mJoy->capture();
 
-	bool buffJ = (mJoy) ? mJoy->buffered() : true;
-
-	Ogre::Vector3 lastMotion = mTranslateVector;
-
-	if( !mMouse->buffered() || !mKeyboard->buffered() || !buffJ )
+	if (!mMouse->buffered())
 	{
-		if (mTimeUntilNextToggle >= 0)
+		if (mPlayer->processMouse(evt, mMouse) == false)
 		{
-			mTimeUntilNextToggle -= evt.timeSinceLastFrame;
+			return false;
 		}
-
-		mRotX = 0;
-		mRotY = 0;
-		mTranslateVector = Ogre::Vector3::ZERO;
-		mMoveScale = mMoveSpeed * evt.timeSinceLastFrame;
-		mRotScale = mRotateSpeed * evt.timeSinceLastFrame;
+	}
+	
+	if (!mKeyboard->buffered())
+	{
+		if (mPlayer->processKey(evt, mKeyboard) == false)
+		{
+			return false;
+		}
 	}
 
-	if( !mKeyboard->buffered() )
-		if( processUnbufferedKeyInput(evt) == false )
+	if (mJoy && !mJoy->buffered())
+	{
+		if (mPlayer->processJoystick(evt, mJoy) == false)
+		{
 			return false;
-
+		}
+	}
+	
 #ifdef USE_RTSHADER_SYSTEM
 	processShaderGeneratorInput();
 #endif
-	if( !mMouse->buffered() )
-		if( processUnbufferedMouseInput(evt) == false )
-			return false;
-
-	if (mTranslateVector == Ogre::Vector3::ZERO)
-	{
-		mCurrentSpeed -= evt.timeSinceLastFrame * 0.3;
-		mTranslateVector = lastMotion;
-	}
-	else
-	{
-		mCurrentSpeed += evt.timeSinceLastFrame;
-
-	}
-
-	if (mCurrentSpeed > 1.0)
-		mCurrentSpeed = 1.0;
-	if (mCurrentSpeed < 0.0)
-		mCurrentSpeed = 0.0;
-
-	mTranslateVector *= mCurrentSpeed;
-
-	if (!mMouse->buffered() || !mKeyboard->buffered() || !buffJ)
-	{
-		mCamera->yaw(mRotX);
-		mCamera->pitch(mRotY);
-		mCamera->moveRelative(mTranslateVector);
-	}
-
+	mPlayer->playerTick(evt);
+	mDebugText = StringConverter::toString(mPlayer->speed());
 	return true;
 }
 
@@ -372,10 +190,8 @@ void IOManager::processShaderGeneratorInput()
 		mDebugText += RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME;
 	}	
 
-	if (mKeyboard->isKeyDown(OIS::KC_F4) && mTimeUntilNextToggle <= 0)
+	if (mKeyboard->isKeyDown(OIS::KC_F4))
 	{	
-		mTimeUntilNextToggle = 1.0;
-
 		static bool userPerPixelLightModel = true;
 		RTShader::ShaderGenerator* shaderGenerator = RTShader::ShaderGenerator::getSingletonPtr();			
 		RTShader::RenderState* renderState = shaderGenerator->getRenderState(RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);

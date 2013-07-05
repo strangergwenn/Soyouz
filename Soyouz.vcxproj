@@ -127,17 +127,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Sources\Game\testPlayer.cpp" />
+    <ClCompile Include="Sources\Engine\player.cpp" />
     <ClCompile Include="Sources\Engine\actor.cpp" />
+    <ClCompile Include="Sources\Engine\iomanager.cpp" />
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\Engine\world.cpp" />
-    <ClCompile Include="Sources\test.cpp" />
+    <ClCompile Include="Sources\Game\testWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Sources\Game\testPlayer.h" />
+    <ClInclude Include="Sources\Engine\player.h" />
     <ClInclude Include="Sources\Engine\actor.h" />
     <ClInclude Include="Sources\Engine\engine.h" />
     <ClInclude Include="Sources\Engine\iomanager.h" />
     <ClInclude Include="Sources\Engine\world.h" />
-    <ClInclude Include="Sources\test.h" />
+    <ClInclude Include="Sources\Game\testWorld.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Config\plugins.cfg" />
+    <None Include="Config\plugins_d.cfg" />
+    <None Include="Config\resources.cfg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

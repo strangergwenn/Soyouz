@@ -10,8 +10,10 @@
 #define __WORLD_H_
 
 #include "Engine/engine.h"
-#include "Engine/actor.h"
 #include "Engine/iomanager.h"
+
+class Actor;
+class Player;
 
 
 /*----------------------------------------------
@@ -78,13 +80,27 @@ public:
 	/**
 	 * @brief Unload the world
 	 **/
-	~World();
+	virtual ~World();
 
 	/**
 	 * @brief Run the level (blocking)
 	 **/
-	void run();
+	virtual void run();
 
+	/**
+	 * @brief Run the level (blocking)
+	 * @param name					Node name
+	 * @return the scene node
+	 **/
+	SceneNode* createWorldNode(String name);
+	
+	/**
+	 * @brief Run the level (blocking)
+	 * @param name					Node name
+	 * @param name					File name
+	 * @return the scene entity
+	 **/
+	Entity* World::createWorldEntity(String name, String file);
 
 protected:
 
@@ -101,29 +117,34 @@ protected:
 	/**
 	 * @brief Setup the level
 	 **/
-	bool setup();
+	virtual bool setup();
 
 	/**
 	 * @brief Setup resources
 	 **/
-	void setupResources();
+	virtual void setupResources();
 
 	/**
 	 * @brief Setup rendering methods
 	 **/
-	void setupRender();
+	virtual void setupRender();
+	
+	/**
+	 * @brief Setup the player
+	 **/
+	virtual void setupPlayer();
 
 #ifdef USE_RTSHADER_SYSTEM
 
 	/**
 	 * @brief Start the shader generator
 	 **/
-	bool setupShaderGenerator(SceneManager* sceneMgr);
+	bool setupShaderGenerator();
 	
 	/**
 	 * @brief End the shader generator
 	 **/
-	void stopShaderGenerator();
+	void killShaderGenerator();
 
 #endif
 
@@ -132,6 +153,8 @@ protected:
 	SceneManager* mScene;
 	RenderWindow* mWindow;
 	OverlaySystem* mOverlaySystem;
+
+	Player* mPlayer;
 	IOManager* mIOManager;
 
 #ifdef OGRE_STATIC_LIB
@@ -139,8 +162,8 @@ protected:
 #endif
 
 #ifdef USE_RTSHADER_SYSTEM
-	RTShader::ShaderGenerator*			mShaderGenerator;
-	ShaderGeneratorTechniqueResolverListener*	mMaterialMgrListener;
+	RTShader::ShaderGenerator* mShaderGenerator;
+	ShaderGeneratorTechniqueResolverListener* mMaterialMgrListener;
 #endif
 
 };

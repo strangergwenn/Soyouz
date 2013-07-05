@@ -6,16 +6,30 @@
 **/
 
 #include "Engine/actor.h"
+#include "Engine/world.h"
 
 
 /*----------------------------------------------
 	Constructor & destructor
 ----------------------------------------------*/
 
-Actor::Actor(SceneManager* pscene, String name)
+Actor::Actor(World* w, String name)
+	: mMesh(NULL)
 {
-	mScene = pscene;
-	mNode = mScene->getRootSceneNode()->createChildSceneNode(name);
+	mNode = w->createWorldNode(name);
+}
+
+
+Actor::Actor(World* w, String name, String file)
+{
+	mNode = w->createWorldNode(name);
+	mMesh = w->createWorldEntity(name, file);
+	mNode->attachObject(mMesh);
+}
+
+
+Actor::~Actor()
+{
 }
 
 
@@ -23,12 +37,9 @@ Actor::Actor(SceneManager* pscene, String name)
 	Methods
 ----------------------------------------------*/
 
-Actor::Actor(SceneManager* pscene, String name, String file)
+Vector3 Actor::speed()
 {
-	mScene = pscene;
-	mNode = mScene->getRootSceneNode()->createChildSceneNode(name);
-	mMesh = mScene->createEntity(name, file);
-	mNode->attachObject(mMesh);
+	return mSpeed;
 }
 
 

@@ -39,7 +39,7 @@
 
 
 #ifdef USE_RTSHADER_SYSTEM
-#include "OgreRTShaderSystem.h"
+#include "RTShaderSystem/OgreRTShaderSystem.h"
 #endif
 
 
