@@ -152,6 +152,7 @@ void World::setupRender()
 	setupPlayer();
 	Viewport* vp = mWindow->addViewport(mPlayer->getCamera());
 	mPlayer->setCameraRatio(Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
+	mScene->setAmbientLight(Ogre::ColourValue(0,0,0));
 	vp->setBackgroundColour(ColourValue(0,0,0));
 	
 #ifdef USE_RTSHADER_SYSTEM

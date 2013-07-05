@@ -21,8 +21,8 @@ Player::Player(World* w, String name, SceneManager* scene) : Actor(w, name)
 	mSpeed = Vector3::ZERO;
 
 	mCamera = scene->createCamera("PlayerCam");
-	mCamera->setPosition(Vector3(0,0,100));
-	mCamera->lookAt(Vector3(0,0,-100));
+	mCamera->setPosition(Vector3(0,0,250));
+	mCamera->lookAt(Vector3(0,0,0));
 	mCamera->setNearClipDistance(5);
 }
 
@@ -64,7 +64,11 @@ bool Player::processMouse(const FrameEvent& evt, OIS::Mouse* m)
 
 bool Player::processKey(const FrameEvent& evt, OIS::Keyboard* kb)
 {
-	return true;
+	if (kb->isKeyDown(OIS::KC_F1))
+		mCamera->setPolygonMode(PM_SOLID);
+	if (kb->isKeyDown(OIS::KC_F2))
+		mCamera->setPolygonMode(PM_WIREFRAME);
+	return (!kb->isKeyDown(OIS::KC_ESCAPE));
 }
 
 

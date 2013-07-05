@@ -136,13 +136,14 @@
     <ClCompile Include="Sources\Game\testWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\Game\testPlayer.h" />
-    <ClInclude Include="Sources\Engine\player.h" />
-    <ClInclude Include="Sources\Engine\actor.h" />
-    <ClInclude Include="Sources\Engine\engine.h" />
-    <ClInclude Include="Sources\Engine\iomanager.h" />
-    <ClInclude Include="Sources\Engine\world.h" />
-    <ClInclude Include="Sources\Game\testWorld.h" />
+    <ClInclude Include="Sources\Game\demoWorld.hpp" />
+    <ClInclude Include="Sources\Game\testPlayer.hpp" />
+    <ClInclude Include="Sources\Engine\player.hpp" />
+    <ClInclude Include="Sources\Engine\actor.hpp" />
+    <ClInclude Include="Sources\Engine\engine.hpp" />
+    <ClInclude Include="Sources\Engine\iomanager.hpp" />
+    <ClInclude Include="Sources\Engine\world.hpp" />
+    <ClInclude Include="Sources\Game\testWorld.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\plugins.cfg" />

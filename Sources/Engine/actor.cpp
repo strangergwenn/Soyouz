@@ -28,6 +28,14 @@ Actor::Actor(World* w, String name, String file)
 }
 
 
+Actor::Actor(World* w, String name, String file, String material)
+{
+	mNode = w->createWorldNode(name);
+	mMesh = w->createWorldEntity(name, file);
+	setMaterial(material);
+}
+
+
 Actor::~Actor()
 {
 }
@@ -40,6 +48,12 @@ Actor::~Actor()
 Vector3 Actor::speed()
 {
 	return mSpeed;
+}
+
+
+void Actor::setLocation(Vector3 newPos)
+{
+	mNode->setPosition(newPos);
 }
 
 
@@ -56,3 +70,8 @@ void Actor::rotate(Vector3 rotator)
 	mNode->roll(Degree(rotator[2]));
 }
 
+
+void Actor::setMaterial(String name)
+{
+	mMesh->setMaterialName(name);
+}
