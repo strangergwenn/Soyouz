@@ -8,7 +8,7 @@
 #ifndef __ACTOR_H_
 #define __ACTOR_H_
 
-#include "Engine/engine.h"
+#include "Engine/engine.hpp"
 
 class World;
 

@@ -5,7 +5,7 @@
 * @author Gwennaël ARBONA
 **/
 
-#include "Game/testPlayer.h"
+#include "Game/testPlayer.hpp"
 
 
 /*----------------------------------------------

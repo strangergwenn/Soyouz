@@ -9,8 +9,8 @@
 #ifndef __WORLD_H_
 #define __WORLD_H_
 
-#include "Engine/engine.h"
-#include "Engine/iomanager.h"
+#include "Engine/engine.hpp"
+#include "Engine/iomanager.hpp"
 
 class Actor;
 class Player;

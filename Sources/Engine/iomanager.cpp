@@ -5,9 +5,9 @@
 * @author Gwennaël ARBONA
 **/
 
-#include "Engine/iomanager.h"
-#include "Engine/actor.h"
-#include "Engine/player.h"
+#include "Engine/iomanager.hpp"
+#include "Engine/actor.hpp"
+#include "Engine/player.hpp"
 
 
 /*----------------------------------------------

@@ -8,8 +8,8 @@
 #ifndef __PLAYER_H_
 #define __PLAYER_H_
 
-#include "Engine/engine.h"
-#include "Engine/actor.h"
+#include "Engine/engine.hpp"
+#include "Engine/actor.hpp"
 
 
 /*----------------------------------------------

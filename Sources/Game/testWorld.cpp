@@ -5,8 +5,8 @@
 * @author Gwennaël ARBONA
 **/
 
-#include "Game/testWorld.h"
-#include "Game/testPlayer.h"
+#include "Game/testWorld.hpp"
+#include "Game/testPlayer.hpp"
 
 #define SIZE 4
 #define RES Real(512)

@@ -1,21 +1,34 @@
-#include <Ogre.h>
+/**
+* This work is distributed under the General Public License,
+* see LICENSE for details
+*
+* @author Gwennaël ARBONA
+**/
 
-#include "Game/testWorld.h"
+#include "Game/testWorld.hpp"
+
+
+/*----------------------------------------------
+	Main
+----------------------------------------------*/
 
 #if OGRE_PLATFORM == PLATFORM_WIN32 || OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-#define WIN32_LEAN_AND_MEAN
-#include "windows.h"
-
-INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT)
+#   define WIN32_LEAN_AND_MEAN
+#   include "windows.h"
+	INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT)
 #else
-int main(int argc, char **argv)
+	int main(int argc, char **argv)
 #endif
 {
-	TestWorld w;
 
+	// Open the world
+	TestWorld w;
 	try {
 		w.run();
-	} catch(Ogre::Exception& e)
+	}
+
+	// Exception
+	catch(Ogre::Exception& e)
 	{
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
         MessageBoxA(NULL, e.getFullDescription().c_str(), "An exception has occurred!", MB_OK | MB_ICONERROR | MB_TASKMODAL);

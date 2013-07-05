@@ -5,9 +5,9 @@
 * @author Gwennaël ARBONA
 **/
 
-#include "Engine/world.h"
-#include "Engine/actor.h"
-#include "Engine/player.h"
+#include "Engine/world.hpp"
+#include "Engine/actor.hpp"
+#include "Engine/player.hpp"
 
 #define OGRE_CONF			"../../Config/soyouz.cfg"
 #if OGRE_DEBUG_MODE

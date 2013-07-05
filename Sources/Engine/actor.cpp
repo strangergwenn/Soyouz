@@ -5,8 +5,8 @@
 * @author Gwennaël ARBONA
 **/
 
-#include "Engine/actor.h"
-#include "Engine/world.h"
+#include "Engine/actor.hpp"
+#include "Engine/world.hpp"
 
 
 /*----------------------------------------------

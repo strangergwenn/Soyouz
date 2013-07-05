@@ -8,7 +8,7 @@
 #ifndef __TEST_H_
 #define __TEST_H_
 
-#include "Engine/world.h"
+#include "Engine/world.hpp"
 
 
 /*----------------------------------------------

@@ -8,7 +8,7 @@
 #ifndef __TESTPLAYER_H_
 #define __TESTPLAYER_H_
 
-#include "Engine/Player.h"
+#include "Engine/Player.hpp"
 
 
 /*----------------------------------------------
