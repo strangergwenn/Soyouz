@@ -17,12 +17,18 @@ Class definitions
 
 class Test : public World
 {
+
 public:
-		
+	
 	/**
 	 * @brief World definition
 	 **/
-	void Construct();
+	void construct();
+
+	/**
+	 * @brief World unloading
+	 **/
+	void destruct();
 	
 };
 

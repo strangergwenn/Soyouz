@@ -66,7 +66,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)Ogre\boost;$(SolutionDir)Ogre\include;$(SolutionDir)Ogre\include\OGRE;$(SolutionDir)Ogre\include\OGRE\Overlay;$(SolutionDir)Ogre\include\OGRE\RenderSystems;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Sources;$(SolutionDir)Ogre\boost;$(SolutionDir)Ogre\include;$(SolutionDir)Ogre\include\OGRE;$(SolutionDir)Ogre\include\OGRE\Overlay;$(SolutionDir)Ogre\include\OGRE\RenderSystems;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Ogre\boost\lib;$(SolutionDir)Ogre\lib\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Build\$(Configuration)\</IntDir>
@@ -127,8 +127,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Sources\Engine\actor.cpp" />
     <ClCompile Include="Sources\main.cpp" />
-    <ClCompile Include="Sources\test.h" />
+    <ClCompile Include="Sources\Engine\world.cpp" />
+    <ClCompile Include="Sources\test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Sources\Engine\actor.h" />
+    <ClInclude Include="Sources\Engine\engine.h" />
+    <ClInclude Include="Sources\Engine\iomanager.h" />
+    <ClInclude Include="Sources\Engine\world.h" />
+    <ClInclude Include="Sources\test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

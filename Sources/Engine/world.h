@@ -5,40 +5,148 @@
 * @author Gwennaël ARBONA
 **/
 
+
 #ifndef __WORLD_H_
 #define __WORLD_H_
 
 #include "Engine/engine.h"
 #include "Engine/actor.h"
+#include "Engine/iomanager.h"
 
 
 /*----------------------------------------------
-	Class definitions
+	Shader generator definition
 ----------------------------------------------*/
 
-class World : public ExampleApplication
+#ifdef USE_RTSHADER_SYSTEM
+
+class ShaderGeneratorTechniqueResolverListener : public MaterialManager::Listener
 {
+public:
+
+	ShaderGeneratorTechniqueResolverListener(RTShader::ShaderGenerator* pShaderGenerator)
+	{
+		mShaderGenerator = pShaderGenerator;
+	}
+
+	virtual Technique* handleSchemeNotFound(unsigned short schemeIndex, 
+		const String& schemeName, Material* originalMaterial, unsigned short lodIndex, 
+		const Renderable* rend)
+	{
+		if (schemeName == RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME)
+		{
+			MaterialRegisterIterator itFind = mRegisteredMaterials.find(originalMaterial);
+			bool techniqueCreated = false;
+
+			if (itFind == mRegisteredMaterials.end())
+			{
+				techniqueCreated = mShaderGenerator->createShaderBasedTechnique(
+					originalMaterial->getName(), 
+					MaterialManager::DEFAULT_SCHEME_NAME, 
+					schemeName);				
+			}
+			mRegisteredMaterials[originalMaterial] = techniqueCreated;
+		}
+
+		return NULL;
+	}
+
+protected:
+	typedef std::map<Material*, bool>		MaterialRegisterMap;
+	typedef MaterialRegisterMap::iterator	MaterialRegisterIterator;
+
+
+protected:
+	MaterialRegisterMap				mRegisteredMaterials;
+	RTShader::ShaderGenerator*		mShaderGenerator;
+};
+
+#endif
+
+
+/*----------------------------------------------
+	World class definition
+----------------------------------------------*/
+
+class World
+{
+
 public:
 	
 	/**
-	 * @brief World constructor
+	 * @brief Load the world
 	 **/
-	World();
+    World();
 	
 	/**
-	 * @brief Scene definition
+	 * @brief Unload the world
 	 **/
-	void createScene();
+    ~World();
 
 	/**
-	 * @brief World definition
+	 * @brief Run the level (blocking)
 	 **/
-	void Construct();
+    void run();
 
 
-private: 
+protected:
+	
+	/**
+	 * @brief Setup the level
+	 **/
+    bool setup();
+	
+	/**
+	 * @brief Setup rendering methods
+	 **/
+    void setupRender();
 
-	SceneManager* scene;
+	/**
+	 * @brief Setup resources
+	 **/
+    void setupResources();
+	
+	/**
+	 * @brief Level construction
+	 **/
+    virtual void construct() = NULL;
+	
+	/**
+	 * @brief Level destruction
+	 **/
+    virtual void destruct() = NULL;
+
+#ifdef USE_RTSHADER_SYSTEM
+
+	/**
+	 * @brief Start the shader generator
+	 **/
+	bool initializeShaderGenerator(SceneManager* sceneMgr);
+	
+	/**
+	 * @brief End the shader generator
+	 **/
+	void finalizeShaderGenerator();
+
+#endif
+
+    Root *mRoot;
+    Camera* mCamera;
+    SceneManager* mScene;
+    RenderWindow* mWindow;
+	OverlaySystem* mOverlaySystem;
+    IOManager* mIOManager;
+	Ogre::String mResourcePath;
+	Ogre::String mConfigPath;
+
+#ifdef OGRE_STATIC_LIB
+	StaticPluginLoader mStaticPluginLoader;
+#endif
+
+#ifdef USE_RTSHADER_SYSTEM
+	RTShader::ShaderGenerator*					mShaderGenerator;
+	ShaderGeneratorTechniqueResolverListener*	mMaterialMgrListener;
+#endif
 
 };
 

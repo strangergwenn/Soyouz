@@ -15,8 +15,10 @@
 	Class definitions
 ----------------------------------------------*/
 
+
 class Actor
 {
+
 public:
 	
 	/**
@@ -39,20 +41,20 @@ public:
 	 * @param offset		movement vector
 	 * @param bRelative		true if relative to the node
 	 **/
-	void Translate(Vector3 offset, bool bRelative);
+	void translate(Vector3 offset, bool bRelative);
 	
 	/**
 	 * @brief Rotate the actor in the world
 	 * @param offset		rotation vector (pitch, yaw, roll)
 	 **/
-	void Rotate(Vector3 rotator);
+	void rotate(Vector3 rotator);
 
 
-private: 
+protected: 
 
-	SceneManager* scene;
-	SceneNode* node;
-	Entity* mesh;
+	SceneManager* mScene;
+	SceneNode* mNode;
+	Entity* mMesh;
 
 };
 

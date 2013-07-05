@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 	Test w;
 
 	try {
-		w.go();
+		w.run();
 	} catch(Ogre::Exception& e)
 	{
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32

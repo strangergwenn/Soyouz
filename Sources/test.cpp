@@ -12,8 +12,12 @@
 	Methods
 ----------------------------------------------*/
 
-void Test::Construct()
-{	
-	scene->setAmbientLight(Ogre::ColourValue(0.5f, 0.5f, 0.5f));
-	Actor penguin = Actor(scene, "penguin", "penguin.mesh");
+void Test::construct()
+{
+	mScene->setAmbientLight(Ogre::ColourValue(0.5f, 0.5f, 0.5f));
+	Actor penguin = Actor(mScene, "penguin", "penguin.mesh");
+}
+
+void Test::destruct()
+{
 }
