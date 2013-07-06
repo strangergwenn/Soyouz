@@ -1,0 +1,38 @@
+
+vertex_program colorDiffuseVertexHlsl hlsl
+{
+	source Color_D.hlsl
+	entry_point vertex
+	target vs_3_0
+	default_params
+	{
+		param_named_auto mWorldViewProj worldviewproj_matrix
+	}
+}
+ 
+fragment_program colorDiffuseVertexHlsl hlsl
+{
+	source Color_D.hlsl
+	entry_point pixel
+	target ps_3_0
+	default_params
+	{
+		param_named mColor float4 0.7 1.0 0.0 1.0
+	}
+}
+
+material M_Color
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref diffuseVertexHlsl
+			{
+			}
+			fragment_program_ref colorDiffusePixelHlsl
+			{
+			}
+		}
+	}
+}

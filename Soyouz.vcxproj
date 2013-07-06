@@ -79,6 +79,7 @@
     <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
     <IncludePath>$(SolutionDir)Sources;$(SolutionDir)Ogre\boost;$(SolutionDir)Ogre\include;$(SolutionDir)Ogre\include\OGRE;$(SolutionDir)Ogre\include\OGRE\Overlay;$(SolutionDir)Ogre\include\OGRE\RenderSystems;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Ogre\boost\lib;$(SolutionDir)Ogre\lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)Build\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

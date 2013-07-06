@@ -1,0 +1,8 @@
+
+import * from "Generic/Materials/M_Main.material"
+
+material MI_Airlock : M_Main
+{
+	set_texture_alias DiffuseMap TX_Airlock_D.png
+	set_texture_alias NormalMap TX_Airlock_N.png
+}
