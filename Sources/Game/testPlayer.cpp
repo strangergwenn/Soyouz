@@ -18,23 +18,6 @@ void TestPlayer::playerTick(const FrameEvent& evt)
 }
 
 
-bool TestPlayer::processMouse(const FrameEvent& evt, OIS::Mouse* m)
-{
-	const OIS::MouseState &ms = m->getMouseState();
-	if (ms.buttonDown(OIS::MB_Right))
-	{
-		mSpeed.x += Real(ms.X.rel * mSpeedFactor);
-		mSpeed.y -= Real(ms.Y.rel * mSpeedFactor);
-	}
-	else
-	{
-		mCamera->yaw(Radian(-ms.X.rel * mRotFactor) * evt.timeSinceLastFrame);
-		mCamera->pitch(Radian(-ms.Y.rel * mRotFactor) * evt.timeSinceLastFrame);
-	}
-	return true;
-}
-
-
 bool TestPlayer::processKey(const FrameEvent& evt, OIS::Keyboard* kb)
 {
 	Real moveScale = 1.0;

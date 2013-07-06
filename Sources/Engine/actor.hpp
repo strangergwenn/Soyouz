@@ -56,6 +56,12 @@ public:
 	 * @return the speed
 	 **/
 	Vector3 speed();
+	
+	/**
+	 * @brief Attach something to this actor
+	 * @param obj			Attached object
+	 **/
+	void attachObject(MovableObject* obj);
 
 	/**
 	 * @brief Set the the actor location in the world

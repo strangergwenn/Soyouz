@@ -23,7 +23,6 @@ public:
 	TestPlayer(World* w, String name, SceneManager* scene) : Player(w, name, scene){}
 
 	void playerTick(const FrameEvent& evt);
-	bool processMouse(const FrameEvent& evt, OIS::Mouse* m);
 	bool processKey(const FrameEvent& evt, OIS::Keyboard* kb);
 	bool processJoystick(const FrameEvent& evt, OIS::JoyStick* j);
 

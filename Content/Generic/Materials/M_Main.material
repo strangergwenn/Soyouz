@@ -15,6 +15,9 @@ fragment_program mainDiffusePixelHlsl hlsl
 	source Main_D.hlsl
 	entry_point pixel
 	target ps_3_0
+    default_params
+    {
+    }
 }
 
 vertex_program mainNormalVertexHlsl hlsl
@@ -48,25 +51,25 @@ material M_Main
 {
 	technique
 	{
-		pass
+		pass Blanck
 		{
 			depth_write off
 			lighting off
 			scene_blend zero zero
 		}
 
-		pass
+		pass Normal
 		{
-			depth_write off
 			iteration once_per_light
 			scene_blend add
+			depth_write on
 			lighting on
-
+			
 			texture_unit
 			{
 				texture_alias NormalMap
-				texture TX_Airlock_N.png
 			}
+
 			vertex_program_ref mainNormalVertexHlsl
 			{
 			}
@@ -75,20 +78,27 @@ material M_Main
 			}
 		}
 
-		pass
+		pass Diffuse
 		{
+			iteration once_per_light
 			lighting on
 			
 			texture_unit
 			{
 				texture_alias DiffuseMap
-				texture TX_Airlock_D.png
 			}
+			texture_unit
+			{
+				texture_alias SpecularMap
+			}
+
 			vertex_program_ref mainDiffuseVertexHlsl
 			{
 			}
 			fragment_program_ref mainDiffusePixelHlsl
 			{
+				param_named mSpecularPower float 1.0
+				param_named mSpecularIntensity float 2.0
 			}
 		}
 	}

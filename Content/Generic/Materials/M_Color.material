@@ -10,7 +10,7 @@ vertex_program colorDiffuseVertexHlsl hlsl
 	}
 }
  
-fragment_program colorDiffuseVertexHlsl hlsl
+fragment_program colorDiffusePixelHlsl hlsl
 {
 	source Color_D.hlsl
 	entry_point pixel
@@ -27,7 +27,7 @@ material M_Color
 	{
 		pass
 		{
-			vertex_program_ref diffuseVertexHlsl
+			vertex_program_ref colorDiffuseVertexHlsl
 			{
 			}
 			fragment_program_ref colorDiffusePixelHlsl

@@ -23,15 +23,15 @@ struct VS_OUTPUT {
 sampler normalMap: register(s0);
 
 // Vertex parameters
-uniform float4   mLightPosition;
-uniform float4x4 mWorldViewProj;
-uniform float4x4 mWorldView;
-uniform float4x4 mView;
+float4   mLightPosition;
+float4x4 mWorldViewProj;
+float4x4 mWorldView;
+float4x4 mView;
 
 // Pixel parameters
-uniform float4   mLightColorDiffuse;
-uniform float4   mLightColorSpecular;
-uniform float    mShininess;
+float4   mLightColorDiffuse;
+float4   mLightColorSpecular;
+float    mShininess;
 
 
 /*----------------------------------------------
@@ -55,19 +55,19 @@ VS_OUTPUT vertex(
 	float3 binormal :	BINORMAL
 ){
 	VS_OUTPUT result;
-	float4 position   = mul(mWorldView, pos);
 
-	result.pos        = mul(mWorldViewProj, pos);
-	result.coords     = coords;
-	result.position   = pos.xyz / pos.w;
-	
+	float4 position   = mul(mWorldView, pos);
 	float3 nnormal    = normalize(mul(mWorldView, normal));
 	float3 ntangent   = normalize(mul(mWorldView, tangent));
 	float3 nbinormal  = normalize(mul(mWorldView, binormal));
 	float3x3 nMatrix  = float3x3(ntangent, nbinormal, nnormal);
-
+	
+	result.pos        = mul(mWorldViewProj, pos);
+	result.coords     = coords;
+	result.position   = pos.xyz / pos.w;
 	result.lightDir   = normalize(mul(nMatrix, mul(mView, mLightPosition) - pos));
 	result.halfAngle  = normalize(mul(nMatrix, -1.0f * pos + result.lightDir));
+
 	return result;
 }
 
@@ -95,6 +95,6 @@ float4 pixel(
 	float3 px = normalize(tex2D(normalMap, coords).xyz);
 	float4 lightFactors = lit(dot(lightDir, px), dot(halfAngle, px), mShininess);
 	result = mLightColorDiffuse * lightFactors.y + mLightColorSpecular * lightFactors.z;
-
+	
 	return result;
 }

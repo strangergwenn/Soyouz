@@ -25,6 +25,7 @@ Actor::Actor(World* w, String name, String file)
 	mNode = w->createWorldNode(name);
 	mMesh = w->createWorldEntity(name, file);
 	mNode->attachObject(mMesh);
+	mMesh->setCastShadows(true);
 }
 
 
@@ -33,6 +34,7 @@ Actor::Actor(World* w, String name, String file, String material)
 	mNode = w->createWorldNode(name);
 	mMesh = w->createWorldEntity(name, file);
 	mNode->attachObject(mMesh);
+	mMesh->setCastShadows(true);
 	setMaterial(material);
 }
 
@@ -52,6 +54,12 @@ Vector3 Actor::speed()
 }
 
 
+void Actor::attachObject(MovableObject* obj)
+{
+	mNode->attachObject(obj);
+}
+
+
 void Actor::setLocation(Vector3 newPos)
 {
 	mNode->setPosition(newPos);
@@ -60,7 +68,7 @@ void Actor::setLocation(Vector3 newPos)
 
 void Actor::translate(Vector3 offset, bool bRelative)
 {
-	mNode->translate(offset[0], offset[0], offset[0], bRelative ? Node::TS_LOCAL : Node::TS_WORLD);
+	mNode->translate(offset[0], offset[1], offset[2], bRelative ? Node::TS_LOCAL : Node::TS_WORLD);
 }
 
 

@@ -144,21 +144,30 @@ void World::setupRender()
 {
 	mWindow = mRoot->initialise(true);
 	mScene = mRoot->createSceneManager(ST_GENERIC, "WorldScene");
+
+	// Shadows
+	mScene->setShadowTexturePixelFormat(Ogre::PF_FLOAT16_R);
+	mScene->setShadowTechnique(Ogre::SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED);
+	mScene->setShadowTextureSelfShadow(true);
+	mScene->setShadowTextureSize(512);
+
+	// Player
 	if (mOverlaySystem)
 	{
 			mScene->addRenderQueueListener(mOverlaySystem);
 	}
-
 	setupPlayer();
+
+	// Window
 	Viewport* vp = mWindow->addViewport(mPlayer->getCamera());
 	mPlayer->setCameraRatio(Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
 	mScene->setAmbientLight(Ogre::ColourValue(0,0,0));
 	vp->setBackgroundColour(ColourValue(0,0,0));
 	
+	// Engine settings
 #ifdef USE_RTSHADER_SYSTEM
 	setupShaderGenerator();
 #endif
-
 	TextureManager::getSingleton().setDefaultNumMipmaps(5);
 	ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 	MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_ANISOTROPIC);

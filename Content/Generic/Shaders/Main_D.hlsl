@@ -16,8 +16,13 @@ struct VS_OUTPUT {
    float2 coords:	TEXCOORD0;
 };
 
-// Diffuse map
+// Maps
 sampler diffuseMap: register(s0);
+sampler specularMap: register(s1);
+
+// Parameters
+float mSpecularIntensity;
+float mSpecularPower;
 
 
 /*----------------------------------------------
@@ -27,13 +32,11 @@ sampler diffuseMap: register(s0);
 /**
  * @brief Vertex shader
  * @param pos			World position of the vertex
- * @param normal		Normal vector of the vertex
  * @param coords		Coordinates of the pixel to compute
  * @return Vertex structure
  **/
 VS_OUTPUT vertex(
     float4 pos:		POSITION, 
-    float3 normal:	NORMAL,
     float2 coords:	TEXCOORD0,
 	uniform float4x4 mWorldViewProj
 ){
@@ -53,5 +56,8 @@ VS_OUTPUT vertex(
  **/
 float4 pixel(float4 coords: TEXCOORD0): COLOR0
 {
-    return tex2D(diffuseMap, coords);
+    float4 pxDiff = tex2D(diffuseMap, coords);
+	float4 pxSpec = tex2D(specularMap, coords);
+	float4 result = pxDiff + mSpecularIntensity * pow(pxSpec, mSpecularPower);
+	return result;
 }
