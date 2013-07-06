@@ -1,0 +1,13 @@
+material UVTest
+{
+    technique
+    {
+        pass
+        {
+		    texture_unit
+			{
+			    texture 1d_debug.png
+			}
+        }
+    }
+}

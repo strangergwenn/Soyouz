@@ -32,6 +32,7 @@ Actor::Actor(World* w, String name, String file, String material)
 {
 	mNode = w->createWorldNode(name);
 	mMesh = w->createWorldEntity(name, file);
+	mNode->attachObject(mMesh);
 	setMaterial(material);
 }
 
