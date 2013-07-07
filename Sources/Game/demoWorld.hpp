@@ -24,9 +24,9 @@ public:
 	
 	void construct()
 	{
-		Actor* act = new Actor(this, "DemoMesh", "Airlock.mesh", "Material");
-		act->translate(Vector3(0,-500,0));
-		Light *light = mScene->createLight("light");
+		Actor* act = new Actor(this, "DemoMesh", "Airlock.mesh", "MI_Airlock");
+		act->translate(Vector3(0,0,-200));
+
 		/*
 		Plane plane(Vector3::UNIT_Y, 0);
 		MeshManager::getSingleton().createPlane("ground", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, 512, 512, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
@@ -41,9 +41,10 @@ public:
 		SceneNode* wallNode = mScene->getRootSceneNode()->createChildSceneNode();
 		wallNode->attachObject(entWall);
 		wallNode->setPosition(0, 0, -128);*/
-
+		
+		Light *light = mScene->createLight("light");
 		light->setDiffuseColour(1.0, 1.0, 1.0);
-		light->setDiffuseColour(1.0, 1.0, 1.0);
+		light->setSpecularColour(1.0, 1.0, 1.0);
 		light->setType(Light::LT_POINT);
 		light->setAttenuation(500, 0.1, 0.007, 0);
 		light->setCastShadows(true);

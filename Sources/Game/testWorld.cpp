@@ -34,7 +34,7 @@ void TestWorld::construct()
 			ss << "point" << i << "-" << j;
 			Entity* ent = mScene->createEntity(ss.str() , Ogre::SceneManager::PT_SPHERE);
 			SceneNode* node = mScene->getRootSceneNode()->createChildSceneNode();
-			node->setPosition(i * RES, 0, 4 * j * RES);
+			node->setPosition(4 * i * RES, 0, j * RES);
 			node->setScale(SCALE, SCALE, SCALE);
 			node->attachObject(ent);
 		}
