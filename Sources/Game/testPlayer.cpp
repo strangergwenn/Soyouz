@@ -12,12 +12,6 @@
 	Public methods
 ----------------------------------------------*/
 
-void TestPlayer::playerTick(const FrameEvent& evt)
-{
-	mCamera->moveRelative(mSpeed * evt.timeSinceLastFrame);
-}
-
-
 bool TestPlayer::processKey(const FrameEvent& evt, OIS::Keyboard* kb)
 {
 	Real moveScale = 1.0;
@@ -38,10 +32,4 @@ bool TestPlayer::processKey(const FrameEvent& evt, OIS::Keyboard* kb)
 		mSpeed.y -= moveScale;
 
 	return (!kb->isKeyDown(OIS::KC_ESCAPE));
-}
-
-
-bool TestPlayer::processJoystick(const FrameEvent& evt, OIS::JoyStick* j)
-{
-	return true;
 }

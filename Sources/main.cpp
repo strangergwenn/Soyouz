@@ -23,8 +23,8 @@
 {
 
 	// Open the world
-	//TestWorld w;
-	DemoWorld w;
+	TestWorld w;
+	//DemoWorld w;
 	try {
 		w.run();
 	}

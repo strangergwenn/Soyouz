@@ -24,7 +24,8 @@ public:
 	
 	void construct()
 	{
-		Actor act = Actor(this, "DemoMesh", "Airlock.mesh", "MI_Airlock");
+		Actor* act = new Actor(this, "DemoMesh", "Airlock.mesh", "Material");
+		act->translate(Vector3(0,-500,0));
 		Light *light = mScene->createLight("light");
 		/*
 		Plane plane(Vector3::UNIT_Y, 0);

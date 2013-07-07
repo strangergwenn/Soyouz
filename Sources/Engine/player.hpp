@@ -75,12 +75,6 @@ public:
 	 * @return true if continuing
 	 **/
 	virtual bool processJoystick(const FrameEvent& evt, OIS::JoyStick* j);
-	
-	void setLocation(Vector3 newPos);
-
-	void translate(Vector3 offset, bool bRelative = true);
-	
-	void rotate(Vector3 rotator);
 
 
 protected: 

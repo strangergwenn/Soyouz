@@ -101,6 +101,12 @@ public:
 	 * @return the scene entity
 	 **/
 	Entity* World::createWorldEntity(String name, String file);
+ 
+	/**
+	 * @brief Dump all scene nodes to the log file
+	 **/
+	void dumpAllNodes();
+
 
 protected:
 
@@ -133,6 +139,15 @@ protected:
 	 * @brief Setup the player
 	 **/
 	virtual void setupPlayer();
+	
+	/**
+	 * @brief Dump a node to a string stream
+	 * @param ss				Output stream
+	 * @param n					Node
+	 * @param leveln			Current recursion depth
+	 * @return the scene entity
+	 **/
+	void dumpNodes(std::stringstream &ss, Ogre::Node *n, int level);
 
 #ifdef USE_RTSHADER_SYSTEM
 

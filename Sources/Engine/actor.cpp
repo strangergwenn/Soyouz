@@ -23,7 +23,7 @@ Actor::Actor(World* w, String name)
 Actor::Actor(World* w, String name, String file)
 {
 	mNode = w->createWorldNode(name);
-	mMesh = w->createWorldEntity(name, file);
+	mMesh = w->createWorldEntity(name + "_mesh", file);
 	mNode->attachObject(mMesh);
 	mMesh->setCastShadows(true);
 }
@@ -32,7 +32,7 @@ Actor::Actor(World* w, String name, String file)
 Actor::Actor(World* w, String name, String file, String material)
 {
 	mNode = w->createWorldNode(name);
-	mMesh = w->createWorldEntity(name, file);
+	mMesh = w->createWorldEntity(name + "_mesh", file);
 	mNode->attachObject(mMesh);
 	mMesh->setCastShadows(true);
 	setMaterial(material);
@@ -48,15 +48,18 @@ Actor::~Actor()
 	Methods
 ----------------------------------------------*/
 
-Vector3 Actor::speed()
-{
-	return mSpeed;
-}
-
-
 void Actor::attachObject(MovableObject* obj)
 {
 	mNode->attachObject(obj);
+}
+
+
+void Actor::attachActor(Actor* obj)
+{
+	SceneNode* target = obj->getNode();
+	LogManager::getSingletonPtr()->logMessage("Actor::attachActor " + target->getName() + " to " + mNode->getName());
+	target->getParent()->removeChild(target);
+	mNode->addChild(target);
 }
 
 
@@ -83,4 +86,32 @@ void Actor::rotate(Vector3 rotator)
 void Actor::setMaterial(String name)
 {
 	mMesh->setMaterialName(name);
+}
+
+
+/*----------------------------------------------
+	Getters
+----------------------------------------------*/
+
+Vector3 Actor::location()
+{
+	return mNode->getPosition();
+}
+
+
+Vector3 Actor::rotation()
+{
+	return mNode->getOrientation() * Ogre::Vector3(0, 1, 0);
+}
+
+
+Vector3 Actor::speed()
+{
+	return mSpeed;
+}
+
+
+SceneNode* Actor::getNode()
+{
+	return mNode;
 }

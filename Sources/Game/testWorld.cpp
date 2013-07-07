@@ -8,9 +8,9 @@
 #include "Game/testWorld.hpp"
 #include "Game/testPlayer.hpp"
 
-#define SIZE 4
-#define RES Real(512)
-#define SCALE Real(0.01)
+#define SIZE 10
+#define RES Real(64)
+#define SCALE Real(0.05)
 
 
 /*----------------------------------------------
@@ -20,22 +20,23 @@
 void TestWorld::construct()
 {
 	mScene->setAmbientLight(Ogre::ColourValue(1, 1, 1));
-	Actor penguin = Actor(this, "penguin", "penguin.mesh");
+
+	Actor* penguin = new Actor(this, "penguin", "penguin.mesh");
+	penguin->translate(Vector3(0,0,-200));
+	penguin->rotate(Vector3(0, 180, 0));
+	mPlayer->attachActor(penguin);
 
 	for (int i = -SIZE; i < SIZE; i++)
 	{
 		for (int j = -SIZE; j < SIZE; j++)
 		{
-			for (int k = -SIZE; k < SIZE; k++)
-			{
-				std::ostringstream ss;
-				ss << "point" << i << "-" << j << "-" << k;
-				Entity* ent = mScene->createEntity(ss.str() , Ogre::SceneManager::PT_SPHERE);
-				SceneNode* node = mScene->getRootSceneNode()->createChildSceneNode();
-				node->setPosition(i * RES, j * RES, k * RES);
-				node->setScale(SCALE, SCALE, SCALE);
-				node->attachObject(ent);
-			}
+			std::ostringstream ss;
+			ss << "point" << i << "-" << j;
+			Entity* ent = mScene->createEntity(ss.str() , Ogre::SceneManager::PT_SPHERE);
+			SceneNode* node = mScene->getRootSceneNode()->createChildSceneNode();
+			node->setPosition(i * RES, 0, 4 * j * RES);
+			node->setScale(SCALE, SCALE, SCALE);
+			node->attachObject(ent);
 		}
 	}
 

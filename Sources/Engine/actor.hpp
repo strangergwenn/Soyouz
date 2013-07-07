@@ -52,16 +52,16 @@ public:
 	~Actor();
 	
 	/**
-	 * @brief Get the current speed
-	 * @return the speed
-	 **/
-	Vector3 speed();
-	
-	/**
 	 * @brief Attach something to this actor
 	 * @param obj			Attached object
 	 **/
 	void attachObject(MovableObject* obj);
+		
+	/**
+	 * @brief Attach an actor to this actor
+	 * @param obj			Attached actor
+	 **/
+	void attachActor(Actor* obj);
 
 	/**
 	 * @brief Set the the actor location in the world
@@ -87,6 +87,30 @@ public:
 	 * @param name			Material path
 	 **/
 	void setMaterial(String name);
+
+	/**
+	 * @brief Get the the actor location in the world
+	 * @return the location vector
+	 **/
+	Vector3 location();
+
+	/**
+	 * @brief Get the the actor rotation in the world
+	 * @return the rotation vector
+	 **/
+	Vector3 rotation();
+	
+	/**
+	 * @brief Get the current speed
+	 * @return the speed
+	 **/
+	Vector3 speed();
+	
+	/**
+	 * @brief Get the current node
+	 * @return the node
+	 **/
+	SceneNode* getNode();
 
 
 protected: 

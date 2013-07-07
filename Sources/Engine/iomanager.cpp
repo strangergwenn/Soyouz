@@ -127,7 +127,16 @@ bool IOManager::frameRenderingQueued(const FrameEvent& evt)
 	processShaderGeneratorInput();
 #endif
 	mPlayer->playerTick(evt);
-	mDebugText = StringConverter::toString(mPlayer->speed());
+
+	mDebugText = "LOC : ";
+	Vector3 loc = mPlayer->location();
+	mDebugText += StringConverter::toString(Vector3(Math::Floor(loc[0]), Math::Floor(loc[1]), Math::Floor(loc[2])));
+	mDebugText += " ROT : ";
+	loc = mPlayer->rotation();
+	mDebugText += StringConverter::toString(Vector3((loc[0]), (loc[1]), (loc[2])));
+	mDebugText += " SPEED : ";
+	loc = mPlayer->speed();
+	mDebugText += StringConverter::toString(Vector3((loc[0]), (loc[1]), (loc[2])));
 	return true;
 }
 

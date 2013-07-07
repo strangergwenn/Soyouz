@@ -86,9 +86,19 @@ Entity* World::createWorldEntity(String name, String file)
 }
 
 
+void World::dumpAllNodes()
+{
+	std::stringstream ss;
+	ss << std::endl << "World::dumpNodes" << std::endl;
+	dumpNodes(ss, mScene->getRootSceneNode(), 0);
+	LogManager::getSingletonPtr()->logMessage(ss.str().c_str());
+}
+
+ 
 /*----------------------------------------------
-	Private methods
+	Protected methods
 ----------------------------------------------*/
+
 
 bool World::setup()
 {
@@ -178,6 +188,34 @@ void World::setupRender()
 void World::setupPlayer()
 {
 	mPlayer = new Player(this, "LocalPlayer", mScene);
+}
+
+
+void World::dumpNodes(std::stringstream &ss, Ogre::Node* n, int level)
+{
+	for (int i = 0; i < level; i++)
+	{
+		ss << " ";
+	}
+	ss << "SceneNode: " << n->getName() << std::endl;
+ 
+	Ogre::SceneNode::ObjectIterator object_it = ((Ogre::SceneNode *)n)->getAttachedObjectIterator();
+	Ogre::Node::ChildNodeIterator node_it = n->getChildIterator();
+	Ogre::MovableObject *m;
+
+	while (object_it.hasMoreElements())
+	{
+		for (int i = 0; i < level + 2; i++)
+		{
+			ss << " ";
+		}
+		m = object_it.getNext();
+		ss << m->getMovableType() << ": " << m->getName() << std::endl;
+	}
+	while (node_it.hasMoreElements())
+	{
+		dumpNodes(ss, node_it.getNext(), level + 2);
+	}
 }
 
 
