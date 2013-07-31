@@ -10,7 +10,7 @@
 
 #include "Engine/game.hpp"
 
-class World;
+class Game;
 
 
 /*----------------------------------------------

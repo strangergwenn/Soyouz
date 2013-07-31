@@ -11,6 +11,7 @@
 #include "Engine/game.hpp"
 #include "Engine/actor.hpp"
 #include "Engine/player.hpp"
+#include "Engine/pointlight.hpp"
 
 
 /*----------------------------------------------
@@ -24,15 +25,25 @@ public:
 	
 	void construct()
 	{
-		// Airlock plane 1
 		Actor* act1 = new Actor(this, "DemoMesh1", "Airlock.mesh", "Material");
 		act1->translate(Vector3(-256,-128,0));
 		act1->rotate(Vector3(0, 90, 0));
-		
-		// Airlock plane 2
+
 		Actor* act2 = new Actor(this, "DemoMesh2", "Airlock.mesh", "Material");
 		act2->translate(Vector3(-256,128,0));
 		act2->rotate(Vector3(0, 90, 0));
+		
+		Actor* penguin = new Actor(this, "penguin", "penguin.mesh", "Penguin");
+		penguin->translate(Vector3(100,-100,-100));
+		
+		PointLight* light1 = new PointLight(this, "Light1", mScene, Vector3(0.2, 1.0, 0.6), 500);
+		light1->translate(Vector3(200, 100, -200));
+
+		PointLight* light2 = new PointLight(this, "Light2", mScene, Vector3(1.0, 0.6, 0.2), 500);
+		light2->translate(Vector3(-200, 100, -200));
+
+		PointLight* light3 = new PointLight(this, "Light3", mScene, Vector3(1.0, 1.0, 1.0), 500);
+		light3->translate(Vector3(0, 200, -0));
 
 		// Ground plane
 		Plane plane(Vector3::UNIT_Y, 0);
@@ -60,17 +71,7 @@ public:
 		mEntity->setMaterialName("Material");
 		mEntity->setCastShadows(true);
 		mSceneNode->attachObject(mEntity);
-		mSceneNode->setPosition(Ogre::Vector3(0,0,0));
-		
-		// Light
-		Light *light = mScene->createLight("light");
-		light->setDiffuseColour(1.0, 1.0, 1.0);
-		light->setSpecularColour(1.0, 1.0, 1.0);
-		light->setType(Light::LT_POINT);
-		light->setAttenuation(500, 1.0, 0.007, 0);
-		light->setCastShadows(true);
-		
-		mPlayer->attachObject(light);
+		mSceneNode->setPosition(Ogre::Vector3(-100,-100,-100));
 	}
 
 	void destruct(){}

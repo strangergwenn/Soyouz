@@ -11,6 +11,8 @@
 #include "Engine/game.hpp"
 #include "Engine/actor.hpp"
 
+class Game;
+
 
 /*----------------------------------------------
 	Class definitions

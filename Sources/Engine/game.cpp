@@ -108,8 +108,8 @@ void Game::Log(String text)
 
 bool Game::setup(bool bShowConfig)
 {
-	setupSystem("OpenGL");
 	setupResources();
+	setupSystem("OpenGL");
 	setupRender();
 
 	construct();
@@ -117,12 +117,10 @@ bool Game::setup(bool bShowConfig)
 }
 
 
-bool Game::setupSystem(const String desiredRenderer)
+void Game::setupResources()
 {
-    bool bRes = false;
-	String pluginsPath;
-	RenderSystemList rdrs;
-    RenderSystem* renderSystem;
+	ConfigFile cf;
+	String pluginsPath, secName, typeName, archName;
 	
 	// Plugins
 #ifndef OGRE_STATIC_LIB
@@ -133,6 +131,30 @@ bool Game::setupSystem(const String desiredRenderer)
 #ifdef OGRE_STATIC_LIB
 	mStaticPluginLoader.load();
 #endif
+
+	// Resources
+	cf.load(RESOURCES_CONF);
+	ConfigFile::SectionIterator seci = cf.getSectionIterator();
+	while (seci.hasMoreElements())
+	{
+		secName = seci.peekNextKey();
+		ConfigFile::SettingsMultiMap::iterator i;
+		ConfigFile::SettingsMultiMap *settings = seci.getNext();
+		for (i = settings->begin(); i != settings->end(); ++i)
+		{
+			typeName = i->first;
+			archName = i->second;
+			ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
+		}
+	}
+}
+
+
+bool Game::setupSystem(const String desiredRenderer)
+{
+    bool bRes = false;
+	RenderSystemList rdrs;
+    RenderSystem* renderSystem;
 	
 	// Render systems list
     rdrs = mRoot->getAvailableRenderers();
@@ -165,28 +187,6 @@ bool Game::setupSystem(const String desiredRenderer)
 }
 
 
-void Game::setupResources()
-{
-	ConfigFile cf;
-	String secName, typeName, archName;
-
-	cf.load(RESOURCES_CONF);
-	ConfigFile::SectionIterator seci = cf.getSectionIterator();
-	while (seci.hasMoreElements())
-	{
-		secName = seci.peekNextKey();
-		ConfigFile::SettingsMultiMap::iterator i;
-		ConfigFile::SettingsMultiMap *settings = seci.getNext();
-		for (i = settings->begin(); i != settings->end(); ++i)
-		{
-			typeName = i->first;
-			archName = i->second;
-			ResourceGroupManager::getSingleton().addResourceLocation(archName, typeName, secName);
-		}
-	}
-}
-
-
 void Game::setupRender()
 {
 	mWindow = mRoot->initialise(true);
@@ -204,12 +204,6 @@ void Game::setupRender()
 	mPlayer->setCameraRatio(Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
 	mScene->setAmbientLight(Ogre::ColourValue(0,0,0));
 	vp->setBackgroundColour(ColourValue(0,0,0));
-
-	// Shadows
-	mScene->setShadowTexturePixelFormat(Ogre::PF_FLOAT32_R);
-	mScene->setShadowTechnique(Ogre::SHADOWTYPE_TEXTURE_ADDITIVE);
-	mScene->setShadowTextureSelfShadow(true);
-	mScene->setShadowTextureSize(512);
 	
 	// Engine settings
 #ifdef USE_RTSHADER_SYSTEM
@@ -223,6 +217,12 @@ void Game::setupRender()
 	// IO manager
 	mIOManager = new IOManager(mWindow, mPlayer);
 	mRoot->addFrameListener(mIOManager);
+
+	// Shadows
+	mScene->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
+	mScene->setShadowTexturePixelFormat(Ogre::PF_FLOAT32_R);
+	mScene->setShadowTextureSelfShadow(false);
+	mScene->setShadowTextureSize(512);
 }
 
 

@@ -14,6 +14,7 @@
 
 class Actor;
 class Player;
+class PointLight;
 
 
 /*----------------------------------------------
