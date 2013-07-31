@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Sources\Engine\pointlight.cpp" />
     <ClCompile Include="Sources\Game\testPlayer.cpp" />
     <ClCompile Include="Sources\Engine\player.cpp" />
     <ClCompile Include="Sources\Engine\actor.cpp" />
@@ -139,6 +140,7 @@
     <ClCompile Include="Sources\Game\testWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Sources\Engine\pointlight.hpp" />
     <ClInclude Include="Sources\Game\demoWorld.hpp" />
     <ClInclude Include="Sources\Game\testPlayer.hpp" />
     <ClInclude Include="Sources\Engine\player.hpp" />
