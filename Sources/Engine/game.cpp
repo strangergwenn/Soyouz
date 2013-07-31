@@ -192,12 +192,6 @@ void Game::setupRender()
 	mWindow = mRoot->initialise(true);
 	mScene = mRoot->createSceneManager(ST_GENERIC, "GameScene");
 
-	// Shadows
-	mScene->setShadowTexturePixelFormat(Ogre::PF_FLOAT16_R);
-	mScene->setShadowTechnique(Ogre::SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED);
-	mScene->setShadowTextureSelfShadow(true);
-	mScene->setShadowTextureSize(512);
-
 	// Player
 	if (mOverlaySystem)
 	{
@@ -210,6 +204,12 @@ void Game::setupRender()
 	mPlayer->setCameraRatio(Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
 	mScene->setAmbientLight(Ogre::ColourValue(0,0,0));
 	vp->setBackgroundColour(ColourValue(0,0,0));
+
+	// Shadows
+	mScene->setShadowTexturePixelFormat(Ogre::PF_FLOAT32_R);
+	mScene->setShadowTechnique(Ogre::SHADOWTYPE_TEXTURE_ADDITIVE);
+	mScene->setShadowTextureSelfShadow(true);
+	mScene->setShadowTextureSize(512);
 	
 	// Engine settings
 #ifdef USE_RTSHADER_SYSTEM
