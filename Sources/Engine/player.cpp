@@ -6,14 +6,13 @@
 **/
 
 #include "Engine/player.hpp"
-#include "Engine/world.hpp"
 
 
 /*----------------------------------------------
 	Constructor & destructor
 ----------------------------------------------*/
 
-Player::Player(World* w, String name, SceneManager* scene) : Actor(w, name)
+Player::Player(Game* g, String name, SceneManager* scene) : Actor(g, name)
 {
 	mFOV = 90;
 	mRotFactor = Real(1.0);

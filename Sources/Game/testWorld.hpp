@@ -8,14 +8,14 @@
 #ifndef __TEST_H_
 #define __TEST_H_
 
-#include "Engine/world.hpp"
+#include "Engine/game.hpp"
 
 
 /*----------------------------------------------
 Class definitions
 ----------------------------------------------*/
 
-class TestWorld : public World
+class TestWorld : public Game
 {
 
 public:

@@ -20,7 +20,7 @@ class TestPlayer : public Player
 
 public:
 	
-	TestPlayer(World* w, String name, SceneManager* scene) : Player(w, name, scene){}
+	TestPlayer(Game* w, String name, SceneManager* scene) : Player(w, name, scene){}
 
 	bool processKey(const FrameEvent& evt, OIS::Keyboard* kb);
 

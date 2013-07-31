@@ -6,8 +6,8 @@
 **/
 
 
-#ifndef __WORLD_H_
-#define __WORLD_H_
+#ifndef __GAME_H_
+#define __GAME_H_
 
 #include "Engine/engine.hpp"
 #include "Engine/iomanager.hpp"
@@ -64,10 +64,10 @@ protected:
 
 
 /*----------------------------------------------
-	World class definition
+	Game class definition
 ----------------------------------------------*/
 
-class World
+class Game
 {
 
 public:
@@ -75,12 +75,12 @@ public:
 	/**
 	 * @brief Load the world
 	 **/
-	World();
+	Game();
 
 	/**
 	 * @brief Unload the world
 	 **/
-	virtual ~World();
+	virtual ~Game();
 
 	/**
 	 * @brief Run the level (blocking)
@@ -92,7 +92,7 @@ public:
 	 * @param name					Node name
 	 * @return the scene node
 	 **/
-	SceneNode* createWorldNode(String name);
+	SceneNode* createGameNode(String name);
 	
 	/**
 	 * @brief Run the level (blocking)
@@ -100,12 +100,18 @@ public:
 	 * @param name					File name
 	 * @return the scene entity
 	 **/
-	Entity* World::createWorldEntity(String name, String file);
+	Entity* Game::createGameEntity(String name, String file);
  
 	/**
 	 * @brief Dump all scene nodes to the log file
 	 **/
 	void dumpAllNodes();
+	
+	/**
+	 * @brief Write text to the log file
+	 * @param text				Input data
+	 **/
+	void Log(String text);
 
 
 protected:
@@ -123,12 +129,17 @@ protected:
 	/**
 	 * @brief Setup the level
 	 **/
-	virtual bool setup();
+	virtual bool setup(bool bShowConfig = true);
 
 	/**
 	 * @brief Setup resources
 	 **/
 	virtual void setupResources();
+	
+	/**
+	 * @brief Setup the render sytsem
+	 **/
+	virtual bool setupSystem(const String desiredRenderer);
 
 	/**
 	 * @brief Setup rendering methods
@@ -183,5 +194,5 @@ protected:
 
 };
 
-#endif /* __WORLD_H_ */
+#endif /* __GAME_H_ */
 

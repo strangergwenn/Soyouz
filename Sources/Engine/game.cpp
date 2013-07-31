@@ -5,7 +5,7 @@
 * @author Gwennaël ARBONA
 **/
 
-#include "Engine/world.hpp"
+#include "Engine/game.hpp"
 #include "Engine/actor.hpp"
 #include "Engine/player.hpp"
 
@@ -23,7 +23,7 @@
 	Constructor & destructor
 ----------------------------------------------*/
 
-World::World()
+Game::Game()
 {
 	mIOManager = 0;
 	mRoot = 0;
@@ -31,7 +31,7 @@ World::World()
 }
 
 
-World::~World()
+Game::~Game()
 {
 	if (mIOManager)
 	{
@@ -40,11 +40,11 @@ World::~World()
 	if (mOverlaySystem)
 	{
 		if(mScene) mScene->removeRenderQueueListener(mOverlaySystem);
-		OGRE_DELETE mOverlaySystem;
+		delete mOverlaySystem;
 	}
 	if (mRoot)
 	{
-		OGRE_DELETE mRoot;
+		delete mRoot;
 	}
 
 #ifdef OGRE_STATIC_LIB
@@ -57,9 +57,9 @@ World::~World()
 	Public methods
 ----------------------------------------------*/
 
-void World::run()
+void Game::run()
 {
-	setup();
+	setup(false);
 	mRoot->startRendering();
 
 	while (!mWindow->isClosed() && mRoot->renderOneFrame())
@@ -74,65 +74,102 @@ void World::run()
 }
 
 
-SceneNode* World::createWorldNode(String name)
+SceneNode* Game::createGameNode(String name)
 {
 	return mScene->getRootSceneNode()->createChildSceneNode(name);
 }
 
 
-Entity* World::createWorldEntity(String name, String file)
+Entity* Game::createGameEntity(String name, String file)
 {
 	return mScene->createEntity(name, file);
 }
 
 
-void World::dumpAllNodes()
+void Game::dumpAllNodes()
 {
 	std::stringstream ss;
-	ss << std::endl << "World::dumpNodes" << std::endl;
+	ss << std::endl << "Game::dumpNodes" << std::endl;
 	dumpNodes(ss, mScene->getRootSceneNode(), 0);
-	LogManager::getSingletonPtr()->logMessage(ss.str().c_str());
+	Log(ss.str());
 }
 
  
+void Game::Log(String text)
+{
+	LogManager::getSingletonPtr()->logMessage(text.c_str());
+}
+
+
 /*----------------------------------------------
 	Protected methods
 ----------------------------------------------*/
 
 
-bool World::setup()
+bool Game::setup(bool bShowConfig)
 {
+	setupSystem("OpenGL");
 	setupResources();
-	if (!mRoot->showConfigDialog())
-	{
-		return false;
-	}
 	setupRender();
 
 	construct();
-
-	mIOManager = new IOManager(mWindow, mPlayer);
-	mRoot->addFrameListener(mIOManager);
 	return true;
 }
 
 
-void World::setupResources()
+bool Game::setupSystem(const String desiredRenderer)
 {
-	ConfigFile cf;
-	String pluginsPath, secName, typeName, archName;
-
-	// Plugin loading
+    bool bRes = false;
+	String pluginsPath;
+	RenderSystemList rdrs;
+    RenderSystem* renderSystem;
+	
+	// Plugins
 #ifndef OGRE_STATIC_LIB
 	pluginsPath = PLUGINS_CONF;
 #endif	
-	mRoot = OGRE_NEW Root(pluginsPath, OGRE_CONF, LOGFILE_NAME);
-	mOverlaySystem = OGRE_NEW OverlaySystem();
+	mRoot = new Root(pluginsPath, OGRE_CONF, LOGFILE_NAME);
+	mOverlaySystem = new OverlaySystem();
 #ifdef OGRE_STATIC_LIB
 	mStaticPluginLoader.load();
 #endif
+	
+	// Render systems list
+    rdrs = mRoot->getAvailableRenderers();
+    if (rdrs.empty())
+	{
+        return false;
+	}
 
-	// Resource loading
+	// Search a correct render system
+    for (RenderSystemList::iterator it = rdrs.begin(); it != rdrs.end(); it++)
+    {
+        renderSystem = (*it);
+		Log(renderSystem->getName());
+        if (StringUtil::startsWith(renderSystem->getName(), desiredRenderer, false))
+        {
+            bRes = true;
+            break;
+        }
+    }
+
+	// Selection
+    if (!bRes)
+	{
+        renderSystem = *(rdrs.begin());
+    }
+    mRoot->setRenderSystem(renderSystem);
+    renderSystem->setConfigOption("Full Screen", "No");
+    renderSystem->setConfigOption("Video Mode", "1280 x 720");
+    return true;
+}
+
+
+void Game::setupResources()
+{
+	ConfigFile cf;
+	String secName, typeName, archName;
+
 	cf.load(RESOURCES_CONF);
 	ConfigFile::SectionIterator seci = cf.getSectionIterator();
 	while (seci.hasMoreElements())
@@ -150,10 +187,10 @@ void World::setupResources()
 }
 
 
-void World::setupRender()
+void Game::setupRender()
 {
 	mWindow = mRoot->initialise(true);
-	mScene = mRoot->createSceneManager(ST_GENERIC, "WorldScene");
+	mScene = mRoot->createSceneManager(ST_GENERIC, "GameScene");
 
 	// Shadows
 	mScene->setShadowTexturePixelFormat(Ogre::PF_FLOAT16_R);
@@ -182,16 +219,20 @@ void World::setupRender()
 	ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 	MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_ANISOTROPIC);
 	MaterialManager::getSingleton().setDefaultAnisotropy(8);
+
+	// IO manager
+	mIOManager = new IOManager(mWindow, mPlayer);
+	mRoot->addFrameListener(mIOManager);
 }
 
 
-void World::setupPlayer()
+void Game::setupPlayer()
 {
 	mPlayer = new Player(this, "LocalPlayer", mScene);
 }
 
 
-void World::dumpNodes(std::stringstream &ss, Ogre::Node* n, int level)
+void Game::dumpNodes(std::stringstream &ss, Ogre::Node* n, int level)
 {
 	for (int i = 0; i < level; i++)
 	{
@@ -221,7 +262,7 @@ void World::dumpNodes(std::stringstream &ss, Ogre::Node* n, int level)
 
 #ifdef USE_RTSHADER_SYSTEM
 
-bool World::setupShaderGenerator()
+bool Game::setupShaderGenerator()
 {	
 	if (RTShader::ShaderGenerator::initialize())
 	{
@@ -260,7 +301,7 @@ bool World::setupShaderGenerator()
 	return true;
 }
 
-void World::killShaderGenerator()
+void Game::killShaderGenerator()
 {
 	if (mMaterialMgrListener)
 	{			

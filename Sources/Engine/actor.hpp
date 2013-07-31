@@ -8,7 +8,7 @@
 #ifndef __ACTOR_H_
 #define __ACTOR_H_
 
-#include "Engine/engine.hpp"
+#include "Engine/game.hpp"
 
 class World;
 
@@ -24,27 +24,27 @@ public:
 	
 	/**
 	 * @brief Create an actor
-	 * @param w				World actor
+	 * @param g				Game actor
 	 * @param name			Unique name to set to the mesh
 	 **/
-	Actor(World* w, String name);
+	Actor(Game* g, String name);
 
 	/**
 	 * @brief Create an actor
-	 * @param w				World actor
+	 * @param g				Game actor
 	 * @param name			Unique name to set to the mesh
 	 * @param file			Mesh file to load
 	 **/
-	Actor(World* w, String name, String file);
+	Actor(Game* g, String name, String file);
 
 	/**
 	 * @brief Create an actor
-	 * @param w				World actor
+	 * @param g				Game actor
 	 * @param name			Unique name to set to the mesh
 	 * @param file			Mesh file to load
 	 * @param file			Material name to use
 	 **/
-	Actor(World* w, String name, String file, String material);
+	Actor(Game* g, String name, String file, String material);
 	
 	/**
 	 * @brief Delete an actor
@@ -87,6 +87,12 @@ public:
 	 * @param name			Material path
 	 **/
 	void setMaterial(String name);
+	
+	/**
+	 * @brief Write text to the log file
+	 * @param text				Input data
+	 **/
+	void Log(String text);
 
 	/**
 	 * @brief Get the the actor location in the world
@@ -117,7 +123,7 @@ protected:
 
 	Vector3 mSpeed;
 
-	World* world;
+	Game* mGame;
 	Entity* mMesh;
 	SceneNode* mNode;
 

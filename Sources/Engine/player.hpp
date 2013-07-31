@@ -8,7 +8,7 @@
 #ifndef __PLAYER_H_
 #define __PLAYER_H_
 
-#include "Engine/engine.hpp"
+#include "Engine/game.hpp"
 #include "Engine/actor.hpp"
 
 
@@ -23,11 +23,11 @@ public:
 	
 	/**
 	 * @brief Create a player
-	 * @param w				World data
+	 * @param g				Game data
 	 * @param name			Name
 	 * @param scene			Scene data
 	 **/
-	Player(World* w, String name, SceneManager* scene);
+	Player(Game* g, String name, SceneManager* scene);
 	
 	/**
 	 * @brief Delete a player

@@ -6,33 +6,35 @@
 **/
 
 #include "Engine/actor.hpp"
-#include "Engine/world.hpp"
 
 
 /*----------------------------------------------
 	Constructor & destructor
 ----------------------------------------------*/
 
-Actor::Actor(World* w, String name)
+Actor::Actor(Game* g, String name)
 	: mMesh(NULL)
 {
-	mNode = w->createWorldNode(name);
+	mGame = g;
+	mNode = g->createGameNode(name);
 }
 
 
-Actor::Actor(World* w, String name, String file)
+Actor::Actor(Game* g, String name, String file)
 {
-	mNode = w->createWorldNode(name);
-	mMesh = w->createWorldEntity(name + "_mesh", file);
+	mGame = g;
+	mNode = g->createGameNode(name);
+	mMesh = g->createGameEntity(name + "_mesh", file);
 	mNode->attachObject(mMesh);
 	mMesh->setCastShadows(true);
 }
 
 
-Actor::Actor(World* w, String name, String file, String material)
+Actor::Actor(Game* g, String name, String file, String material)
 {
-	mNode = w->createWorldNode(name);
-	mMesh = w->createWorldEntity(name + "_mesh", file);
+	mGame = g;
+	mNode = g->createGameNode(name);
+	mMesh = g->createGameEntity(name + "_mesh", file);
 	mNode->attachObject(mMesh);
 	mMesh->setCastShadows(true);
 	setMaterial(material);
@@ -57,7 +59,7 @@ void Actor::attachObject(MovableObject* obj)
 void Actor::attachActor(Actor* obj)
 {
 	SceneNode* target = obj->getNode();
-	LogManager::getSingletonPtr()->logMessage("Actor::attachActor " + target->getName() + " to " + mNode->getName());
+	Log("Actor::attachActor " + target->getName() + " to " + mNode->getName());
 	target->getParent()->removeChild(target);
 	mNode->addChild(target);
 }
@@ -86,6 +88,12 @@ void Actor::rotate(Vector3 rotator)
 void Actor::setMaterial(String name)
 {
 	mMesh->setMaterialName(name);
+}
+
+
+void Actor::Log(String text)
+{
+	mGame->Log(text);
 }
 
 

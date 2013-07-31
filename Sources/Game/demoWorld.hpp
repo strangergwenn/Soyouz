@@ -8,7 +8,7 @@
 #ifndef __DEMOWORLD_H_
 #define __DEMOWORLD_H_
 
-#include "Engine/world.hpp"
+#include "Engine/game.hpp"
 #include "Engine/actor.hpp"
 #include "Engine/player.hpp"
 
@@ -17,7 +17,7 @@
 Class definitions
 ----------------------------------------------*/
 
-class DemoWorld : public World
+class DemoWorld : public Game
 {
 
 public:
@@ -27,7 +27,7 @@ public:
 		Actor* act = new Actor(this, "DemoMesh", "Airlock.mesh", "MI_Airlock");
 		act->translate(Vector3(0,0,-200));
 
-		/*
+		
 		Plane plane(Vector3::UNIT_Y, 0);
 		MeshManager::getSingleton().createPlane("ground", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, 512, 512, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
 		Entity* entGround = mScene->createEntity("GroundEntity", "ground");
@@ -40,7 +40,7 @@ public:
 		Entity* entWall = mScene->createEntity("WallEntity", "wall");
 		SceneNode* wallNode = mScene->getRootSceneNode()->createChildSceneNode();
 		wallNode->attachObject(entWall);
-		wallNode->setPosition(0, 0, -128);*/
+		wallNode->setPosition(0, 0, -128);
 		
 		Light *light = mScene->createLight("light");
 		light->setDiffuseColour(1.0, 1.0, 1.0);
