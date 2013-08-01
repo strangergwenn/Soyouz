@@ -26,7 +26,7 @@ public:
 	void construct()
 	{
 		Actor* act2 = new Actor(this, "DemoMesh", "Airlock.mesh", "MI_Airlock");
-		act2->translate(Vector3(-256,128,0));
+		act2->translate(Vector3(-256,-128,0));
 		act2->rotate(Vector3(0, 90, 0));
 		
 		Actor* penguin = new Actor(this, "penguin", "penguin.mesh", "Penguin");
@@ -61,7 +61,7 @@ public:
 		// Sphere
 		Ogre::SceneNode* mSceneNode = mScene->getRootSceneNode()->createChildSceneNode();
 		Ogre::Entity* mEntity = mScene->createEntity("sphere1", Ogre::SceneManager::PT_SPHERE);
-		mEntity->setMaterialName("M_NormalGlossy");
+		mEntity->setMaterialName("MI_NormalGloss");
 		mEntity->setCastShadows(true);
 		mSceneNode->attachObject(mEntity);
 		mSceneNode->setPosition(Ogre::Vector3(-100,-100,-100));
@@ -69,7 +69,7 @@ public:
 		// Sphere
 		Ogre::SceneNode* mSceneNode2 = mScene->getRootSceneNode()->createChildSceneNode();
 		Ogre::Entity* mEntity2 = mScene->createEntity("sphere2", Ogre::SceneManager::PT_SPHERE);
-		mEntity2->setMaterialName("M_Glossy");
+		mEntity2->setMaterialName("MI_Gloss");
 		mEntity2->setCastShadows(true);
 		mSceneNode2->attachObject(mEntity2);
 		mSceneNode2->setPosition(Ogre::Vector3(-100,-100,10));

@@ -7,20 +7,13 @@ material MI_Crate : M_Master
 	{
 		pass perlight
 		{
-			texture_unit diffusemap
+			texture_unit diffuseMap
 			{
-				texture TX_Crate_D.png
+				texture TX_Crate_D.jpg
 			}
-			texture_unit normalmap
+			texture_unit normalMap
 			{
-				texture TX_Crate_N.png
-			}
-			texture_unit specmap
-			{
-			}
-			texture_unit envmap
-			{
-				texture cubemap.dds
+				texture TX_Crate_N.jpg
 			}
 		}
 	}

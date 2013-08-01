@@ -1,35 +1,10 @@
 
-vertex_program VS_Ambient glsl
-{
-	source VS_Ambient.glsl
-}
-
-fragment_program PS_Passthrough glsl
-{
-	source PS_Passthrough.glsl
-}
-
-vertex_program VS_BumpShadowReceiver glsl
-{
-	source VS_BumpShadowReceiver.glsl
-}
-
-fragment_program PS_BumpShadowReceiver glsl
-{
-	source PS_BumpShadowReceiver.glsl
-	default_params
-	{
-		param_named shadowMap int 0
-		param_named normalMap int 1
-	}
-}
-
-vertex_program VS_BumpMapSpecular glsl
+vertex_program VS_Master glsl
 {
 	source VS_Master.glsl
 }
 
-fragment_program PS_BumpMapSpecular glsl
+fragment_program PS_Master glsl
 {
 	source PS_Master.glsl
 	default_params
@@ -37,7 +12,8 @@ fragment_program PS_BumpMapSpecular glsl
 		param_named diffuseMap	int 0
 		param_named normalMap	int 1
 		param_named specMap		int 2
-		param_named envMap		int 3
+		param_named glowMap		int 3
+		param_named envMap		int 4
 	}
 }
 
@@ -45,68 +21,49 @@ material M_Master
 {
 	technique
 	{
-		pass ambient
-		{
-			ambient 1 1 1
-			diffuse 0 0 0 
-			specular 0 0 0 0 
-
-			vertex_program_ref VS_Ambient
-			{
-				param_named_auto ambient ambient_light_colour
-			}
-
-			fragment_program_ref PS_Passthrough
-			{
-			}
-		}
-
 		pass perlight
 		{
-			ambient 0 0 0 
-			iteration once_per_light
-			scene_blend add
-			
-			vertex_program_ref VS_BumpMapSpecular
+			lighting off
+				
+			vertex_program_ref VS_Master
 			{
-				param_named_auto LightPosition	light_position_object_space 0
-				param_named_auto EyePosition	camera_position_object_space
-				param_named_auto Projection		worldviewproj_matrix
+				param_named_auto lightPosition	light_position_object_space 0
+				param_named_auto eyePosition	camera_position_object_space
+				param_named_auto projection		worldviewproj_matrix
 			}
 
-			fragment_program_ref PS_BumpMapSpecular
+			fragment_program_ref PS_Master
 			{
-				param_named_auto LightDiffuse	light_diffuse_colour 0 
-				param_named_auto LightSpecular	light_specular_colour 0
-			}
-
-			shadow_receiver_vertex_program_ref VS_BumpShadowReceiver
-			{
-				param_named_auto lightPosition light_position_object_space 0
-				param_named_auto worldViewProj worldviewproj_matrix
-				param_named_auto worldMatrix world_matrix
-				param_named_auto texViewProj texture_viewproj_matrix
-			}
-
-			shadow_receiver_fragment_program_ref PS_BumpShadowReceiver
-			{
-				param_named_auto lightDiffuse light_diffuse_colour 0 
+				param_named normalStrength		float 1.0
+				param_named specularStrength	float 0.2
+				param_named specularPower		float 2.0
 			}
 			
-			texture_unit diffusemap
+			texture_unit diffuseMap
 			{
+				texture black.png
 			}
 			
-			texture_unit normalmap
+			texture_unit normalMap
 			{
+				texture black.png
 			}
 			
-			texture_unit specmap
+			texture_unit specMap
 			{
+				texture black.png
 			}
 			
-			texture_unit envmap
+			texture_unit glowMap
 			{
+				texture black.png
+			}
+			
+			texture_unit envMap
+			{
+				cubic_texture cubemap.dds combinedUVW
+				filtering linear linear linear
+				tex_address_mode clamp
 			}
 		}
 	}
