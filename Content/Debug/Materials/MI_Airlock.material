@@ -3,22 +3,7 @@ import * from "Core/Materials/M_Master.material"
 
 material MI_Airlock : M_Master
 {
-	technique shaders
-	{
-		pass lit
-		{
-			texture_unit diffuseMap
-			{
-				texture TX_Airlock_D.png
-			}
-			texture_unit normalMap
-			{
-				texture TX_Airlock_N.png
-			}
-			texture_unit specMap
-			{
-				texture TX_Airlock_S.png
-			}
-		}
-	}
+	set_texture_alias diffuseMap	TX_Airlock_D.png
+	set_texture_alias normalMap		TX_Airlock_N.png
+	set_texture_alias specMap		TX_Airlock_S.png
 }

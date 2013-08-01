@@ -3,21 +3,16 @@ import * from "Core/Materials/M_Master.material"
 
 material MI_Gloss : M_Master
 {
+	set_texture_alias normalMap		neutralnormal.png
+	set_texture_alias specMap		white.png
+
 	technique shaders
 	{
-		pass lit
+		pass
 		{
 			fragment_program_ref PS_Master
 			{
 				param_named specularStrength	float 1.0
-			}
-			texture_unit normalMap
-			{
-				texture neutralnormal.png
-			}
-			texture_unit specMap
-			{
-				texture white.png
 			}
 		}
 	}

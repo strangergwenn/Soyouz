@@ -3,22 +3,17 @@ import * from "Core/Materials/M_Master.material"
 
 material MI_Crate : M_Master
 {
+	set_texture_alias diffuseMap	TX_Crate_D.jpg
+	set_texture_alias normalMap		TX_Crate_N.jpg
+
 	technique shaders
 	{
-		pass lit
+		pass
 		{
 			fragment_program_ref PS_Master
 			{
 				param_named specularStrength	float 0.2
 				param_named normalStrength		float 50.0
-			}
-			texture_unit diffuseMap
-			{
-				texture TX_Crate_D.jpg
-			}
-			texture_unit normalMap
-			{
-				texture TX_Crate_N.jpg
 			}
 		}
 	}

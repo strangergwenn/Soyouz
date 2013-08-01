@@ -36,7 +36,7 @@ out vec4 pPixel;
 
 void main()
 {
-	float blurSize = 1 * invTexSize.y;
+	float blurSize = invTexSize.y;
 
 	pPixel += texture(input, vec2(vUv0.x - 4.0*blurSize, vUv0.y)) * 1.0/25.0;
 	pPixel += texture(input, vec2(vUv0.x - 3.0*blurSize, vUv0.y)) * 2.0/25.0;

@@ -37,10 +37,7 @@ material PostProcess/Blur
 	technique
 	{
 		pass
-		{
-			cull_hardware none
-			cull_software none
-			
+		{			
 			vertex_program_ref VS_Master
 			{
 				param_named_auto lightPosition	light_position_object_space 0
