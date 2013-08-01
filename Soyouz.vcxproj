@@ -151,6 +151,10 @@
     <ClInclude Include="Sources\Game\testWorld.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Dock\Archives\OgreSDK_vc11_v1-9-0unstable\media\materials\programs\GLSL150\Example_BumpMappingShadowRcvFp.glsl" />
+    <None Include="..\Dock\Archives\OgreSDK_vc11_v1-9-0unstable\media\materials\programs\GLSL150\Example_BumpMappingShadowRcvVp.glsl" />
+    <None Include="..\Dock\Archives\OgreSDK_vc11_v1-9-0unstable\media\materials\programs\GLSL150\Example_BumpMappingSpecularFp.glsl" />
+    <None Include="..\Dock\Archives\OgreSDK_vc11_v1-9-0unstable\media\materials\programs\GLSL150\Example_BumpMappingSpecularVp.glsl" />
     <None Include="Config\plugins.cfg" />
     <None Include="Config\plugins_d.cfg" />
     <None Include="Config\resources.cfg" />

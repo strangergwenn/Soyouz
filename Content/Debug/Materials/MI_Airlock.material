@@ -1,20 +1,23 @@
 
-import * from "Generic/Materials/M_Main.material"
+import * from "Core/Materials/M_Master.material"
 
-material MI_Airlock : M_Main
+material MI_Airlock : M_Master
 {
-	set_texture_alias DiffuseMap TX_Airlock_D.png
-	set_texture_alias NormalMap TX_Airlock_N.png
-	set_texture_alias SpecularMap TX_Airlock_S.png
-
 	technique
 	{
-		pass Diffuse
+		pass perlight
 		{
-			fragment_program_ref mainDiffusePixelHlsl
+			texture_unit normalmap
 			{
-				param_named mSpecularPower float 2.5
-				param_named mSpecularIntensity float 0.5
+				texture TX_Airlock_N.png
+			}
+		}
+		
+		pass decal
+		{
+			texture_unit decalmap
+			{
+				texture TX_Airlock_D.png
 			}
 		}
 	}
