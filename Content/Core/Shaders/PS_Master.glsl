@@ -15,10 +15,12 @@ uniform float		normalStrength;
 uniform float		specularStrength;
 uniform float		specularPower;
 
+uniform vec4		lightDiffuse;
+uniform vec4		lightSpecular;
+
 uniform sampler2D	diffuseMap;
 uniform sampler2D	normalMap;
 uniform sampler2D	specMap;
-uniform sampler2D	glowMap;
 uniform samplerCube envMap;
 
 
@@ -44,11 +46,11 @@ void main()
 	vec4 diffuseData = texture(diffuseMap, vUv0.xy);
 	vec3 normalData = normalStrength * texture(normalMap, vUv0.xy).xyz;
 	vec3 specData = texture(specMap, vUv0.xy).xyz;
-	vec3 glowData = texture(glowMap, vUv0.xy).xyz;
 
+	float lightFactor = clamp(dot(normalData, vLightDir), 0.0, 1.0);
 	float specFactor = specularStrength * pow(clamp(dot(normalData, vHalfAngle), 0.0, 1.0), specularPower);
 	vec3 reflectVec = reflect(-vEyeDir, vNormal + normalData / 5);
 
-	pPixel = diffuseData * clamp(dot(normalData, vLightDir), 0.0, 1.0);
-	pPixel += texture(envMap, reflectVec) * specFactor;
+	pPixel = diffuseData * lightFactor * lightDiffuse;
+	pPixel += texture(envMap, reflectVec) * specFactor * lightFactor * lightSpecular;
 }

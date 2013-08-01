@@ -3,9 +3,9 @@ import * from "Core/Materials/M_Master.material"
 
 material MI_Gloss : M_Master
 {
-	technique
+	technique shaders
 	{
-		pass perlight
+		pass lit
 		{
 			fragment_program_ref PS_Master
 			{

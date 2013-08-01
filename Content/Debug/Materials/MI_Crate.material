@@ -3,10 +3,15 @@ import * from "Core/Materials/M_Master.material"
 
 material MI_Crate : M_Master
 {
-	technique
+	technique shaders
 	{
-		pass perlight
+		pass lit
 		{
+			fragment_program_ref PS_Master
+			{
+				param_named specularStrength	float 0.2
+				param_named normalStrength		float 50.0
+			}
 			texture_unit diffuseMap
 			{
 				texture TX_Crate_D.jpg

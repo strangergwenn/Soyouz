@@ -35,8 +35,14 @@ public:
 		Actor* crate = new Actor(this, "crate", "crate.mesh", "MI_Crate");
 		crate->translate(Vector3(-100,-100,100));
 		
-		PointLight* light = new PointLight(this, "Light", mScene, Vector3(0.9, 0.9, 0.9), 500);
-		light->translate(Vector3(200, 200, -0));
+		PointLight* light = new PointLight(this, "Light", mScene, Vector3(0.2, 0.4, 0.9), 2000);
+		light->translate(Vector3(200, 200, 0));
+		
+		PointLight* light2 = new PointLight(this, "Light2", mScene, Vector3(0.9, 0.7, 0.2), 2000);
+		light2->translate(Vector3(0, 200, 200));
+		
+		PointLight* light3 = new PointLight(this, "Light3", mScene, Vector3(0.5, 0.5, 0.5), 2000);
+		light2->translate(Vector3(0, 0, 0));
 
 		// Ground plane
 		Plane plane(Vector3::UNIT_Y, 0);
@@ -65,11 +71,11 @@ public:
 		mEntity->setCastShadows(true);
 		mSceneNode->attachObject(mEntity);
 		mSceneNode->setPosition(Ogre::Vector3(-100,-100,-100));
-
-		// Sphere
+		
+		// zCrate
 		Ogre::SceneNode* mSceneNode2 = mScene->getRootSceneNode()->createChildSceneNode();
-		Ogre::Entity* mEntity2 = mScene->createEntity("sphere2", Ogre::SceneManager::PT_SPHERE);
-		mEntity2->setMaterialName("MI_Gloss");
+		Ogre::Entity* mEntity2 = mScene->createEntity("zcrate", Ogre::SceneManager::PT_CUBE);
+		mEntity2->setMaterialName("MI_zCrate");
 		mEntity2->setCastShadows(true);
 		mSceneNode2->attachObject(mEntity2);
 		mSceneNode2->setPosition(Ogre::Vector3(-100,-100,10));

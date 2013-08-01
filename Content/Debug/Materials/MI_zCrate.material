@@ -1,0 +1,36 @@
+
+import * from "Core/Materials/M_Master.material"
+
+material MI_zCrate : M_Master
+{
+	technique shaders
+	{
+		pass lit
+		{
+			fragment_program_ref PS_Master
+			{
+				param_named specularStrength	float 0.8
+			}
+			texture_unit diffuseMap
+			{
+				texture TX_zCrate_D.png
+			}
+			texture_unit normalMap
+			{
+				texture TX_zCrate_N.png
+			}
+			texture_unit specMap
+			{
+				texture TX_zCrate_S.png
+			}
+		}
+
+		pass unlit
+		{
+			texture_unit emissiveMap
+			{
+				texture TX_zCrate_E.png
+			}
+		}
+	}
+}

@@ -189,7 +189,7 @@ bool Game::setupSystem(const String desiredRenderer)
 
 void Game::setupRender()
 {
-	mWindow = mRoot->initialise(true);
+	mWindow = mRoot->initialise(true, "Soyouz");
 	mScene = mRoot->createSceneManager(ST_GENERIC, "GameScene");
 
 	// Player
