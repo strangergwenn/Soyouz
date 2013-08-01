@@ -18,53 +18,6 @@ class PointLight;
 
 
 /*----------------------------------------------
-	Shader generator definition
-----------------------------------------------*/
-
-#ifdef USE_RTSHADER_SYSTEM
-
-class ShaderGeneratorTechniqueResolverListener : public MaterialManager::Listener
-{
-public:
-
-	ShaderGeneratorTechniqueResolverListener(RTShader::ShaderGenerator* pShaderGenerator)
-	{
-		mShaderGenerator = pShaderGenerator;
-	}
-
-	virtual Technique* handleSchemeNotFound(unsigned short schemeIndex, 
-		const String& schemeName, Material* originalMaterial, unsigned short lodIndex, 
-		const Renderable* rend)
-	{
-		if (schemeName == RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME)
-		{
-			MaterialRegisterIterator itFind = mRegisteredMaterials.find(originalMaterial);
-			bool techniqueCreated = false;
-
-			if (itFind == mRegisteredMaterials.end())
-			{
-				techniqueCreated = mShaderGenerator->createShaderBasedTechnique(
-					originalMaterial->getName(), 
-					MaterialManager::DEFAULT_SCHEME_NAME, 
-					schemeName);				
-			}
-			mRegisteredMaterials[originalMaterial] = techniqueCreated;
-		}
-		return NULL;
-	}
-
-protected:
-	typedef std::map<Material*, bool>	MaterialRegisterMap;
-	typedef MaterialRegisterMap::iterator	MaterialRegisterIterator;
-
-	MaterialRegisterMap			mRegisteredMaterials;
-	RTShader::ShaderGenerator*		mShaderGenerator;
-};
-
-#endif
-
-
-/*----------------------------------------------
 	Game class definition
 ----------------------------------------------*/
 
@@ -161,22 +114,8 @@ protected:
 	 **/
 	void dumpNodes(std::stringstream &ss, Ogre::Node *n, int level);
 
-#ifdef USE_RTSHADER_SYSTEM
-
-	/**
-	 * @brief Start the shader generator
-	 **/
-	bool setupShaderGenerator();
-	
-	/**
-	 * @brief End the shader generator
-	 **/
-	void killShaderGenerator();
-
-#endif
 
 	Root *mRoot;
-	Camera* mCamera;
 	SceneManager* mScene;
 	RenderWindow* mWindow;
 	OverlaySystem* mOverlaySystem;
@@ -186,11 +125,6 @@ protected:
 
 #ifdef OGRE_STATIC_LIB
 	StaticPluginLoader mStaticPluginLoader;
-#endif
-
-#ifdef USE_RTSHADER_SYSTEM
-	RTShader::ShaderGenerator* mShaderGenerator;
-	ShaderGeneratorTechniqueResolverListener* mMaterialMgrListener;
 #endif
 
 };

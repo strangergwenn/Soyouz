@@ -92,13 +92,17 @@ material M_Master
 				tex_address_mode clamp
 			}
 		}
+	}
 
+	technique postprocess
+	{
+		scheme postprocess
 		pass unlit
 		{
             depth_bias 1
 			lighting off
             scene_blend add
-				
+			
 			vertex_program_ref VS_Master
 			{
 				param_named_auto lightPosition	light_position_object_space 0
@@ -108,7 +112,7 @@ material M_Master
 
 			fragment_program_ref PS_Emissive
 			{
-				param_named lightColor float4	1 0 1
+				param_named lightColor float4	1 1 1
 			}
 
 			texture_unit emissiveMap

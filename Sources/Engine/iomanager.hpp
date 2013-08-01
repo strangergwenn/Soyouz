@@ -65,12 +65,6 @@ protected:
 	 **/
 	bool frameEnded(const FrameEvent& evt);
 
-#ifdef USE_RTSHADER_SYSTEM
-	/**
-	 * @brief Input event
-	 **/
-	void processShaderGeneratorInput();
-#endif
 
 	String mDebugText;
 	RenderWindow* mWindow;

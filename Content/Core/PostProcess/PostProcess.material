@@ -1,0 +1,70 @@
+ //
+// This work is distributed under the General Public License,
+// see LICENSE for details
+//
+// @author Gwennaël ARBONA
+//
+
+//-----------------------------------------------
+//	Programs
+//-----------------------------------------------
+
+// Main vertex shader
+vertex_program VS_Master glsl
+{
+	source VS_Master.glsl
+}
+
+// Main pixel shader
+fragment_program PS_Blur glsl
+{
+	source PS_Blur.glsl
+	default_params
+	{
+		param_named_auto invTexSize inverse_texture_size 0
+		param_named scene	int 0
+		param_named input	int 1
+	}
+}
+ 
+
+//-----------------------------------------------
+//	Material
+//-----------------------------------------------
+
+material PostProcess/Blur
+{
+	technique
+	{
+		pass
+		{
+			cull_hardware none
+			cull_software none
+			
+			vertex_program_ref VS_Master
+			{
+				param_named_auto lightPosition	light_position_object_space 0
+				param_named_auto eyePosition	camera_position_object_space
+				param_named_auto projection		worldviewproj_matrix
+			}
+ 
+			fragment_program_ref PS_Blur
+			{
+			}
+ 
+			texture_unit scene
+			{
+				tex_coord_set 0
+				tex_address_mode clamp
+				filtering trilinear
+			}
+ 
+			texture_unit input
+			{
+				tex_coord_set 0
+				tex_address_mode clamp
+				filtering trilinear
+			}
+		}
+	}
+}

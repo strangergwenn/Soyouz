@@ -24,9 +24,17 @@ material MI_zCrate : M_Master
 				texture TX_zCrate_S.png
 			}
 		}
-
+	}
+	
+	technique postprocess
+	{
 		pass unlit
 		{
+			fragment_program_ref PS_Emissive
+			{
+				param_named lightColor float4	0.1 1 0.2
+			}
+
 			texture_unit emissiveMap
 			{
 				texture TX_zCrate_E.png

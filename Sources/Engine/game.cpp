@@ -67,10 +67,6 @@ void Game::run()
 	    WindowEventUtilities::messagePump();
 	}
 	destruct();
-
-#ifdef USE_RTSHADER_SYSTEM
-	killShaderGenerator();
-#endif
 }
 
 
@@ -198,17 +194,15 @@ void Game::setupRender()
 			mScene->addRenderQueueListener(mOverlaySystem);
 	}
 	setupPlayer();
+	Camera* cam = mPlayer->getCamera();
 
 	// Window
-	Viewport* vp = mWindow->addViewport(mPlayer->getCamera());
+	Viewport* vp = mWindow->addViewport(cam);
 	mPlayer->setCameraRatio(Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
 	mScene->setAmbientLight(Ogre::ColourValue(0,0,0));
 	vp->setBackgroundColour(ColourValue(0,0,0));
 	
 	// Engine settings
-#ifdef USE_RTSHADER_SYSTEM
-	setupShaderGenerator();
-#endif
 	TextureManager::getSingleton().setDefaultNumMipmaps(5);
 	ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 	MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_ANISOTROPIC);
@@ -223,6 +217,12 @@ void Game::setupRender()
 	mScene->setShadowTexturePixelFormat(Ogre::PF_FLOAT32_R);
 	mScene->setShadowTextureSelfShadow(false);
 	mScene->setShadowTextureSize(512);
+
+	// Post-processing	
+	CompositorManager::getSingleton().addCompositor(cam->getViewport(), "PostProcess");
+	CompositorManager::getSingleton().setCompositorEnabled(cam->getViewport(), "PostProcess", true);
+	PostProcessListener *gml = new PostProcessListener();
+	Ogre::MaterialManager::getSingleton().addListener(gml);
 }
 
 
@@ -259,61 +259,3 @@ void Game::dumpNodes(std::stringstream &ss, Ogre::Node* n, int level)
 	}
 }
 
-
-#ifdef USE_RTSHADER_SYSTEM
-
-bool Game::setupShaderGenerator()
-{	
-	if (RTShader::ShaderGenerator::initialize())
-	{
-		mShaderGenerator = RTShader::ShaderGenerator::getSingletonPtr();
-		mShaderGenerator->addSceneManager(mScene);
-
-		ResourceGroupManager::LocationList resLocationsList = ResourceGroupManager::getSingleton().getResourceLocationList("Popular");
-		ResourceGroupManager::LocationList::iterator it = resLocationsList.begin();
-		ResourceGroupManager::LocationList::iterator itEnd = resLocationsList.end();
-		String shaderCoreLibsPath;
-		String shaderCachePath;
-
-		shaderCachePath = "./";
-
-		for (; it != itEnd; ++it)
-		{
-
-			if ((*it)->archive->getName().find("RTShaderLib") != String::npos)
-			{
-				shaderCoreLibsPath = (*it)->archive->getName() + "/";
-				shaderCachePath    = shaderCoreLibsPath;
-				break;
-			}
-		}
-
-		if (shaderCoreLibsPath.empty())
-		{
-			return false;
-		}
-
-		ResourceGroupManager::getSingleton().addResourceLocation(shaderCoreLibsPath , "FileSystem");
-		mShaderGenerator->setShaderCachePath(shaderCachePath);
-		mMaterialMgrListener = new ShaderGeneratorTechniqueResolverListener(mShaderGenerator);	
-		MaterialManager::getSingleton().addListener(mMaterialMgrListener);
-	}
-	return true;
-}
-
-void Game::killShaderGenerator()
-{
-	if (mMaterialMgrListener)
-	{			
-		MaterialManager::getSingleton().removeListener(mMaterialMgrListener);
-		delete mMaterialMgrListener;
-		mMaterialMgrListener = NULL;
-	}
-	if (mShaderGenerator)
-	{
-		RTShader::ShaderGenerator::finalize();
-		mShaderGenerator = NULL;
-	}
-}
-
-#endif

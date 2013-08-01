@@ -123,9 +123,6 @@ bool IOManager::frameRenderingQueued(const FrameEvent& evt)
 		}
 	}
 	
-#ifdef USE_RTSHADER_SYSTEM
-	processShaderGeneratorInput();
-#endif
 	mPlayer->playerTick(evt);
 
 	mDebugText = "LOC : ";
@@ -179,50 +176,4 @@ bool IOManager::frameEnded(const FrameEvent& evt)
 	catch (...) {}
 	return true;
 }
-
-
-#ifdef USE_RTSHADER_SYSTEM
-
-void IOManager::processShaderGeneratorInput()
-{		
-	if (mKeyboard->isKeyDown(OIS::KC_F2))
-	{	
-		mCamera->getViewport()->setMaterialScheme(MaterialManager::DEFAULT_SCHEME_NAME);			
-		mDebugText = "Active Viewport Scheme: ";
-		mDebugText += MaterialManager::DEFAULT_SCHEME_NAME;						
-	}
-
-	if (mKeyboard->isKeyDown(OIS::KC_F3))
-	{
-		mCamera->getViewport()->setMaterialScheme(RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
-		mDebugText = "Active Viewport Scheme: ";
-		mDebugText += RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME;
-	}	
-
-	if (mKeyboard->isKeyDown(OIS::KC_F4))
-	{	
-		static bool userPerPixelLightModel = true;
-		RTShader::ShaderGenerator* shaderGenerator = RTShader::ShaderGenerator::getSingletonPtr();			
-		RTShader::RenderState* renderState = shaderGenerator->getRenderState(RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
-		renderState->reset();
-
-		if (userPerPixelLightModel)
-		{
-			RTShader::SubRenderState* perPixelLightModel = shaderGenerator->createSubRenderState(RTShader::PerPixelLighting::Type);
-			renderState->addTemplateSubRenderState(perPixelLightModel);
-
-			mDebugText = "Per pixel lighting model applied to shader generator default scheme";
-		}
-		else
-		{
-			mDebugText = "Per vertex lighting model applied to shader generator default scheme";
-		}
-
-		shaderGenerator->invalidateScheme(RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
-		userPerPixelLightModel = !userPerPixelLightModel;
-	}	
-	
-}
-
-#endif
 

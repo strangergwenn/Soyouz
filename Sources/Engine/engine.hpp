@@ -9,6 +9,10 @@
 #define __ENGINE_H_
 
 
+/*----------------------------------------------
+	Includes
+----------------------------------------------*/
+
 #include "Ogre.h"
 #include "OgreException.h"
 #include "OgreConfigFile.h"
@@ -38,16 +42,41 @@
 #endif
 
 
-#ifdef USE_RTSHADER_SYSTEM
-#include "RTShaderSystem/OgreRTShaderSystem.h"
-#endif
-
-
 #define OIS_DYNAMIC_LIB
 #include <OIS/OIS.h>
 
 
 using namespace Ogre;
+
+
+/*----------------------------------------------
+	Post-processing compositor
+----------------------------------------------*/
+
+class PostProcessListener : public Ogre::MaterialManager::Listener
+{
+protected:
+	Ogre::MaterialPtr mBlackMat;
+
+public:
+	PostProcessListener()
+	{
+		mBlackMat = Ogre::MaterialManager::getSingleton().create("mGlowBlack", "Internal");
+		mBlackMat->getTechnique(0)->getPass(0)->setDiffuse(0,0,0,0);
+		mBlackMat->getTechnique(0)->getPass(0)->setSpecular(0,0,0,0);
+		mBlackMat->getTechnique(0)->getPass(0)->setAmbient(0,0,0);
+		mBlackMat->getTechnique(0)->getPass(0)->setSelfIllumination(0,0,0);
+	}
+ 
+	Ogre::Technique *handleSchemeNotFound(unsigned short, const Ogre::String& schemeName, Ogre::Material*mat, unsigned short, const Ogre::Renderable*)
+	{
+		if (schemeName == "postprocess")
+		{
+			return mBlackMat->getTechnique(0);
+		}
+		return NULL;
+	}
+};
 
 
 #endif /* __ENGINE_H_ */
