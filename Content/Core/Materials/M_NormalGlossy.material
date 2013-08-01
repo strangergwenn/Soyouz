@@ -1,0 +1,48 @@
+
+vertex_program VS_NormalGlossy glsl
+{
+	source VS_NormalGlossy.glsl
+}
+
+fragment_program PS_NormalGlossy glsl
+{
+	source PS_NormalGlossy.glsl
+	default_params
+	{
+		param_named envmap		int 0
+		param_named normalmap	int 1
+	}
+}
+
+material M_NormalGlossy
+{
+	technique
+	{
+		pass perlight
+		{
+			lighting off
+			
+			vertex_program_ref VS_NormalGlossy
+			{
+				param_named_auto Projection worldviewproj_matrix
+				param_named_auto EyePosition camera_position_object_space
+			}
+
+			fragment_program_ref PS_NormalGlossy
+			{
+			}
+			
+			texture_unit envmap
+			{
+				cubic_texture cubemap.dds combinedUVW
+				filtering linear linear linear
+				tex_address_mode clamp
+			}
+			
+			texture_unit normalmap
+			{
+				texture detail.png
+			}
+		}
+	}
+}

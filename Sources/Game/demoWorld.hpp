@@ -25,25 +25,18 @@ public:
 	
 	void construct()
 	{
-		Actor* act1 = new Actor(this, "DemoMesh1", "Airlock.mesh", "MI_Airlock");
-		act1->translate(Vector3(-256,-128,0));
-		act1->rotate(Vector3(0, 90, 0));
-
-		Actor* act2 = new Actor(this, "DemoMesh2", "Airlock.mesh", "Material");
+		Actor* act2 = new Actor(this, "DemoMesh", "Airlock.mesh", "MI_Airlock");
 		act2->translate(Vector3(-256,128,0));
 		act2->rotate(Vector3(0, 90, 0));
 		
 		Actor* penguin = new Actor(this, "penguin", "penguin.mesh", "Penguin");
 		penguin->translate(Vector3(100,-100,-100));
 		
-		//PointLight* light1 = new PointLight(this, "Light1", mScene, Vector3(0.2, 1.0, 0.6), 100);
-		//light1->translate(Vector3(200, 100, -200));
-
-		//PointLight* light2 = new PointLight(this, "Light2", mScene, Vector3(1.0, 0.6, 0.2), 100);
-		//light2->translate(Vector3(-200, 100, -200));
-
-		PointLight* light3 = new PointLight(this, "Light3", mScene, Vector3(0.2, 0.2, 0.2), 1000);
-		light3->translate(Vector3(200, 200, -0));
+		Actor* crate = new Actor(this, "crate", "crate.mesh", "MI_Crate");
+		crate->translate(Vector3(-100,-100,100));
+		
+		PointLight* light = new PointLight(this, "Light", mScene, Vector3(0.9, 0.9, 0.9), 500);
+		light->translate(Vector3(200, 200, -0));
 
 		// Ground plane
 		Plane plane(Vector3::UNIT_Y, 0);
@@ -59,7 +52,7 @@ public:
 		Plane plane2(Vector3::UNIT_Z, 0);
 		MeshManager::getSingleton().createPlane("wall", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane2, 512, 512, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Y);
 		Entity* entWall = mScene->createEntity("WallEntity", "wall");
-		entWall->setMaterialName("MI_Airlock");
+		entWall->setMaterialName("Material");
 		entWall->setCastShadows(false);
 		SceneNode* wallNode = mScene->getRootSceneNode()->createChildSceneNode();
 		wallNode->attachObject(entWall);
@@ -67,11 +60,19 @@ public:
 
 		// Sphere
 		Ogre::SceneNode* mSceneNode = mScene->getRootSceneNode()->createChildSceneNode();
-		Ogre::Entity* mEntity = mScene->createEntity("sphere", Ogre::SceneManager::PT_SPHERE);
-		mEntity->setMaterialName("Material");
+		Ogre::Entity* mEntity = mScene->createEntity("sphere1", Ogre::SceneManager::PT_SPHERE);
+		mEntity->setMaterialName("M_NormalGlossy");
 		mEntity->setCastShadows(true);
 		mSceneNode->attachObject(mEntity);
 		mSceneNode->setPosition(Ogre::Vector3(-100,-100,-100));
+
+		// Sphere
+		Ogre::SceneNode* mSceneNode2 = mScene->getRootSceneNode()->createChildSceneNode();
+		Ogre::Entity* mEntity2 = mScene->createEntity("sphere2", Ogre::SceneManager::PT_SPHERE);
+		mEntity2->setMaterialName("M_Glossy");
+		mEntity2->setCastShadows(true);
+		mSceneNode2->attachObject(mEntity2);
+		mSceneNode2->setPosition(Ogre::Vector3(-100,-100,10));
 	}
 
 	void destruct(){}

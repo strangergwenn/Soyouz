@@ -1,7 +1,7 @@
 
 import * from "Core/Materials/M_Master.material"
 
-material MI_Airlock : M_Master
+material MI_Crate : M_Master
 {
 	technique
 	{
@@ -9,15 +9,14 @@ material MI_Airlock : M_Master
 		{
 			texture_unit diffusemap
 			{
-				texture TX_Airlock_D.png
+				texture TX_Crate_D.png
 			}
 			texture_unit normalmap
 			{
-				texture TX_Airlock_N.png
+				texture TX_Crate_N.png
 			}
 			texture_unit specmap
 			{
-				texture TX_Airlock_S.png
 			}
 			texture_unit envmap
 			{

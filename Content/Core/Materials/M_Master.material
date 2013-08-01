@@ -26,15 +26,18 @@ fragment_program PS_BumpShadowReceiver glsl
 
 vertex_program VS_BumpMapSpecular glsl
 {
-	source VS_BumpMapSpecular.glsl
+	source VS_Master.glsl
 }
 
 fragment_program PS_BumpMapSpecular glsl
 {
-	source PS_BumpMapSpecular.glsl
+	source PS_Master.glsl
 	default_params
 	{
-		param_named normalMap int 0
+		param_named diffuseMap	int 0
+		param_named normalMap	int 1
+		param_named specMap		int 2
+		param_named envMap		int 3
 	}
 }
 
@@ -66,15 +69,15 @@ material M_Master
 			
 			vertex_program_ref VS_BumpMapSpecular
 			{
-				param_named_auto lightPosition light_position_object_space 0
-				param_named_auto eyePosition camera_position_object_space
-				param_named_auto worldViewProj worldviewproj_matrix
+				param_named_auto LightPosition	light_position_object_space 0
+				param_named_auto EyePosition	camera_position_object_space
+				param_named_auto Projection		worldviewproj_matrix
 			}
 
 			fragment_program_ref PS_BumpMapSpecular
 			{
-				param_named_auto lightDiffuse light_diffuse_colour 0 
-				param_named_auto lightSpecular light_specular_colour 0
+				param_named_auto LightDiffuse	light_diffuse_colour 0 
+				param_named_auto LightSpecular	light_specular_colour 0
 			}
 
 			shadow_receiver_vertex_program_ref VS_BumpShadowReceiver
@@ -90,32 +93,21 @@ material M_Master
 				param_named_auto lightDiffuse light_diffuse_colour 0 
 			}
 			
-			texture_unit normalmap
+			texture_unit diffusemap
 			{
-				texture NMBumpsOut.png
-				colour_op replace
-			}
-		}
-		
-		pass decal
-		{
-			lighting off
-
-			vertex_program_ref VS_Ambient
-			{
-				param_named ambient float4 1 1 1 1
-			}
-
-			fragment_program_ref PS_Passthrough
-			{
-			}
-
-			scene_blend dest_colour zero
-			texture_unit decalmap
-			{
-				texture RustedMetal.jpg 
 			}
 			
+			texture_unit normalmap
+			{
+			}
+			
+			texture_unit specmap
+			{
+			}
+			
+			texture_unit envmap
+			{
+			}
 		}
 	}
 

@@ -1,0 +1,42 @@
+
+vertex_program VS_Glossy glsl
+{
+	source VS_Glossy.glsl
+}
+
+fragment_program PS_Glossy glsl
+{
+	source PS_Glossy.glsl
+	default_params
+	{
+		param_named envmap	int 0
+	}
+}
+
+material M_Glossy
+{
+	technique
+	{
+		pass perlight
+		{
+			lighting off
+			
+			vertex_program_ref VS_Glossy
+			{
+				param_named_auto Projection worldviewproj_matrix
+				param_named_auto EyePosition camera_position_object_space
+			}
+
+			fragment_program_ref PS_Glossy
+			{
+			}
+			
+			texture_unit envmap
+			{
+				cubic_texture cubemap.dds combinedUVW
+				filtering linear linear linear
+				tex_address_mode clamp
+			}
+		}
+	}
+}
