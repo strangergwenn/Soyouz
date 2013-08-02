@@ -11,9 +11,9 @@
 
 #version 150
 
-uniform vec4		lightColor;
+uniform vec4		textureColor;
 
-uniform sampler2D	emissiveMap;
+uniform sampler2D	textureMap;
 
 
 /*-------------------------------------------------
@@ -35,6 +35,6 @@ out vec4 pPixel;
 
 void main()
 {
-	vec4 diffuseData = texture(emissiveMap, vUv0.xy);
-	pPixel = diffuseData * lightColor;
+	vec4 data = texture(textureMap, vUv0.xy);
+	pPixel = data * textureColor;
 }

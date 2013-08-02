@@ -1,0 +1,18 @@
+
+import * from "Core/Materials/Glow.material"
+
+material MI_Exhaust : Glow
+{
+	set_texture_alias emissiveMap	smoke.png
+	technique postprocess
+	{
+		pass postprocess
+		{
+			fragment_program_ref PS_Glow
+			{
+				param_named panningX float			0.0
+				param_named panningY float			1.0
+			}
+		}
+	}
+}

@@ -1,6 +1,6 @@
 material Smoke
 {
-	technique
+	technique shaders
 	{
 		pass
 		{

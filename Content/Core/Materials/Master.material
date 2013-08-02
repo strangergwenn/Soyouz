@@ -5,57 +5,23 @@
 // @author Gwennaël ARBONA
 //
 
-//-----------------------------------------------
-//	Programs
-//-----------------------------------------------
-
-// Main vertex shader
-vertex_program VS_Master glsl
-{
-	source VS_Master.glsl
-}
-
-// Main pixel shader
-fragment_program PS_Master glsl
-{
-	source PS_Master.glsl
-	default_params
-	{
-		param_named normalStrength		float 1.0
-		param_named specularStrength	float 0.2
-		param_named specularPower		float 2.0
-		param_named diffuseMap			int 0
-		param_named normalMap			int 1
-		param_named specMap				int 2
-		param_named envMap				int 3
-	}
-}
-
-// Emissive pixel shader
-fragment_program PS_Emissive glsl
-{
-	source PS_Emissive.glsl
-	default_params
-	{
-		param_named emissiveMap			int 0
-	}
-}
-
-
-//-----------------------------------------------
-//	Material
-//-----------------------------------------------
-
 // Master material
 material Master
 {
 	technique shaders
 	{
-		pass
+		pass blank
+		{
+			lighting off
+			scene_blend zero zero
+		}
+
+		pass lit
 		{
 			lighting on
+			depth_bias 10
 			iteration once_per_light
-            scene_blend colour_blend
+			scene_blend colour_blend
 			
 			vertex_program_ref VS_Master
 			{
@@ -100,11 +66,16 @@ material Master
 
 	technique postprocess
 	{
-		pass
+		pass blank
 		{
-            depth_bias 1
 			lighting off
-            scene_blend add
+			scene_blend zero zero
+		}
+
+		pass postprocess
+		{
+			depth_bias 10
+			lighting off
 			
 			vertex_program_ref VS_Master
 			{
@@ -113,9 +84,9 @@ material Master
 				param_named_auto projection		worldviewproj_matrix
 			}
 
-			fragment_program_ref PS_Emissive
+			fragment_program_ref PS_Colormap
 			{
-				param_named lightColor			float4 1 1 1
+				param_named textureColor		float4 1 1 1
 			}
 
 			texture_unit

@@ -29,9 +29,6 @@ public:
 		act2->translate(Vector3(-256,-128,0));
 		act2->rotate(Vector3(0, 90, 0));
 		
-		Actor* penguin = new Actor(this, "penguin", "penguin.mesh", "Penguin");
-		penguin->translate(Vector3(100,-100,-100));
-		
 		Actor* crate = new Actor(this, "crate", "crate.mesh", "MI_Crate");
 		crate->translate(Vector3(-100,-100,100));
 		
@@ -44,9 +41,8 @@ public:
 		PointLight* light3 = new PointLight(this, "Light3", mScene, Vector3(0.5, 0.5, 0.5), 2000);
 		light2->translate(Vector3(0, 0, 0));
 		
-		ParticleSystem* ps;
-        ps = mScene->createParticleSystem("FX", "Smoke");
-		mScene->getRootSceneNode()->attachObject(ps);
+		//ParticleSystem* ps = mScene->createParticleSystem("FX", "Smoke");
+		//mScene->getRootSceneNode()->attachObject(ps);
 
 		// Ground plane
 		Plane plane(Vector3::UNIT_Y, 0);
@@ -57,16 +53,6 @@ public:
 		SceneNode* groundNode = mScene->getRootSceneNode()->createChildSceneNode();
 		groundNode->attachObject(entGround);
 		groundNode->setPosition(0, -256, 0);
-		
-		// Wall plane
-		Plane plane2(Vector3::UNIT_Z, 0);
-		MeshManager::getSingleton().createPlane("wall", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane2, 512, 512, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Y);
-		Entity* entWall = mScene->createEntity("WallEntity", "wall");
-		entWall->setMaterialName("Default");
-		entWall->setCastShadows(false);
-		SceneNode* wallNode = mScene->getRootSceneNode()->createChildSceneNode();
-		wallNode->attachObject(entWall);
-		wallNode->setPosition(0, 0,-256);
 
 		// Sphere
 		Ogre::SceneNode* mSceneNode = mScene->getRootSceneNode()->createChildSceneNode();
@@ -76,13 +62,31 @@ public:
 		mSceneNode->attachObject(mEntity);
 		mSceneNode->setPosition(Ogre::Vector3(-100,-100,-100));
 		
+		// Wall plane
+		Plane plane2(Vector3::UNIT_Z, 0);
+		MeshManager::getSingleton().createPlane("wall", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane2, 512, 512, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Y);
+		Entity* entWall = mScene->createEntity("WallEntity", "wall");
+		entWall->setMaterialName("MI_Exhaust");
+		entWall->setCastShadows(false);
+		SceneNode* wallNode = mScene->getRootSceneNode()->createChildSceneNode();
+		wallNode->attachObject(entWall);
+		wallNode->setPosition(0, 0,-256);
+		
+		// zCrate
+		Ogre::SceneNode* mSceneNode3 = mScene->getRootSceneNode()->createChildSceneNode();
+		Ogre::Entity* mEntity3 = mScene->createEntity("zcrate2", Ogre::SceneManager::PT_CUBE);
+		mEntity3->setMaterialName("MI_zCrate");
+		mEntity3->setCastShadows(true);
+		mSceneNode3->attachObject(mEntity3);
+		mSceneNode3->setPosition(Ogre::Vector3(100,-100,-100));
+		
 		// zCrate
 		Ogre::SceneNode* mSceneNode2 = mScene->getRootSceneNode()->createChildSceneNode();
 		Ogre::Entity* mEntity2 = mScene->createEntity("zcrate", Ogre::SceneManager::PT_CUBE);
 		mEntity2->setMaterialName("MI_zCrate");
 		mEntity2->setCastShadows(true);
 		mSceneNode2->attachObject(mEntity2);
-		mSceneNode2->setPosition(Ogre::Vector3(-100,-100,10));
+		mSceneNode2->setPosition(Ogre::Vector3(-100,-100,0));
 	}
 
 	void destruct(){}

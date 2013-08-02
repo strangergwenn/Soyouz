@@ -202,7 +202,7 @@ void Game::setupRender()
 	Viewport* vp = mWindow->addViewport(cam);
 	mPlayer->setCameraRatio(Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
 	mScene->setAmbientLight(Ogre::ColourValue(0,0,0));
-	vp->setBackgroundColour(ColourValue(0,0,0));
+	vp->setBackgroundColour(ColourValue(0.1, 0.1, 0.1));
 	
 	// Engine settings
 	TextureManager::getSingleton().setDefaultNumMipmaps(5);

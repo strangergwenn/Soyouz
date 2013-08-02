@@ -8,7 +8,7 @@ material MI_Gloss : Master
 
 	technique shaders
 	{
-		pass
+		pass lit
 		{
 			fragment_program_ref PS_Master
 			{

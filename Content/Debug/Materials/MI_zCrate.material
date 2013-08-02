@@ -10,7 +10,7 @@ material MI_zCrate : Master
 
 	technique shaders
 	{
-		pass
+		pass lit
 		{
 			fragment_program_ref PS_Master
 			{
@@ -22,11 +22,11 @@ material MI_zCrate : Master
 	technique postprocess
 	{
 		scheme postprocess
-		pass
+		pass postprocess
 		{
-			fragment_program_ref PS_Emissive
+			fragment_program_ref PS_Colormap
 			{
-				param_named lightColor float4	0.1 1 0.2
+				param_named textureColor float4	0.1 1 0.2
 			}
 		}
 	}
