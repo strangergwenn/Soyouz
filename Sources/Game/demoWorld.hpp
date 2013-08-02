@@ -80,12 +80,12 @@ public:
 		wallNode->setPosition(0, 0,-256);
 		
 		// Lights
-		PointLight* light = new PointLight(this, "Light", mScene, Vector3(0.2, 0.4, 0.9), 2000);
-		light->translate(Vector3(200, 0, 200));
-		PointLight* light2 = new PointLight(this, "Light2", mScene, Vector3(0.9, 0.7, 0.2), 2000);
-		light2->translate(Vector3(0, 0, 200));
-		PointLight* light3 = new PointLight(this, "Light3", mScene, Vector3(0.5, 0.5, 0.5), 2000);
-		light2->translate(Vector3(200, 0, 0));
+		PointLight* left = new PointLight(this, "left", mScene, Vector3(0.2, 0.4, 0.9), 2000);
+		left->translate(Vector3(-100, 100, 100));
+		PointLight* center = new PointLight(this, "center", mScene, Vector3(0.5, 0.5, 0.5), 2000);
+		center->translate(Vector3(0, 100, 100));
+		PointLight* right = new PointLight(this, "right", mScene, Vector3(0.9, 0.7, 0.2), 2000);
+		right->translate(Vector3(100, 100, 100));
 	}
 
 	void destruct(){}
