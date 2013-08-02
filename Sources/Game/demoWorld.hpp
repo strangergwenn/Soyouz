@@ -43,12 +43,16 @@ public:
 		
 		PointLight* light3 = new PointLight(this, "Light3", mScene, Vector3(0.5, 0.5, 0.5), 2000);
 		light2->translate(Vector3(0, 0, 0));
+		
+		ParticleSystem* ps;
+        ps = mScene->createParticleSystem("FX", "Smoke");
+		mScene->getRootSceneNode()->attachObject(ps);
 
 		// Ground plane
 		Plane plane(Vector3::UNIT_Y, 0);
 		MeshManager::getSingleton().createPlane("ground", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, 512, 512, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
 		Entity* entGround = mScene->createEntity("GroundEntity", "ground");
-		entGround->setMaterialName("Material");
+		entGround->setMaterialName("Default");
 		entGround->setCastShadows(false);
 		SceneNode* groundNode = mScene->getRootSceneNode()->createChildSceneNode();
 		groundNode->attachObject(entGround);
@@ -58,7 +62,7 @@ public:
 		Plane plane2(Vector3::UNIT_Z, 0);
 		MeshManager::getSingleton().createPlane("wall", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane2, 512, 512, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Y);
 		Entity* entWall = mScene->createEntity("WallEntity", "wall");
-		entWall->setMaterialName("Material");
+		entWall->setMaterialName("Default");
 		entWall->setCastShadows(false);
 		SceneNode* wallNode = mScene->getRootSceneNode()->createChildSceneNode();
 		wallNode->attachObject(entWall);

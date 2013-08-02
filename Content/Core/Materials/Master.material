@@ -47,7 +47,7 @@ fragment_program PS_Emissive glsl
 //-----------------------------------------------
 
 // Master material
-material M_Master
+material Master
 {
 	technique shaders
 	{

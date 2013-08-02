@@ -1,4 +1,4 @@
-material Material
+material Default
 {
     technique
     {

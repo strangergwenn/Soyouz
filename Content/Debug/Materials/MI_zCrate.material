@@ -1,7 +1,7 @@
 
-import * from "Core/Materials/M_Master.material"
+import * from "Core/Materials/Master.material"
 
-material MI_zCrate : M_Master
+material MI_zCrate : Master
 {
 	set_texture_alias diffuseMap	TX_zCrate_D.png
 	set_texture_alias normalMap		TX_zCrate_N.png

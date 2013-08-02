@@ -1,7 +1,7 @@
 
-import * from "Core/Materials/M_Master.material"
+import * from "Core/Materials/Master.material"
 
-material MI_NormalGloss : M_Master
+material MI_NormalGloss : Master
 {
 	set_texture_alias normalMap		detail.png
 	set_texture_alias specMap		white.png
