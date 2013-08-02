@@ -35,6 +35,6 @@ out vec4 pPixel;
 
 void main()
 {
-	vec4 data = texture(textureMap, vUv0.xy);
+	vec4 data = texture2D(textureMap, vUv0.xy);
 	pPixel = data * textureColor;
 }

@@ -71,8 +71,8 @@ fragment_program PS_Blur glsl
 	default_params
 	{
 		param_named_auto invTexSize inverse_texture_size 0
-		param_named scene	int 0
-		param_named input	int 1
+		param_named scene			int 0
+		param_named blurdata		int 1
 	}
 }
 
