@@ -41,6 +41,17 @@ Actor::Actor(Game* g, String name, String file, String material)
 }
 
 
+Actor::Actor(Game* g, String name, String file, String material, bool bCastShadows)
+{
+	mGame = g;
+	mNode = g->createGameNode(name);
+	mMesh = g->createGameEntity(name + "_mesh", file);
+	mNode->attachObject(mMesh);
+	mMesh->setCastShadows(bCastShadows);
+	setMaterial(material);
+}
+
+
 Actor::~Actor()
 {
 }
@@ -85,21 +96,45 @@ void Actor::rotate(Vector3 rotator)
 }
 
 
+/*----------------------------------------------
+	Materials
+----------------------------------------------*/
+
 void Actor::setMaterial(String name)
 {
 	mMesh->setMaterialName(name);
 }
 
 
-void Actor::Log(String text)
+void Actor::setMaterialParam(String name, Real val)
 {
-	mGame->Log(text);
+	Pass* pPass = mMesh->getSubEntity(0)->getMaterial()->getTechnique("main")->getPass("main");
+	pPass->getFragmentProgramParameters()->setNamedConstant(name, val);
+}
+
+
+void Actor::setMaterialParam(String name, Vector3 val)
+{
+	Pass* pPass = mMesh->getSubEntity(0)->getMaterial()->getTechnique("main")->getPass("main");
+	pPass->getFragmentProgramParameters()->setNamedConstant(name, val);
+}
+
+
+void Actor::setMaterialParam(String name, Vector4 val)
+{
+	Pass* pPass = mMesh->getSubEntity(0)->getMaterial()->getTechnique("main")->getPass("main");
+	pPass->getFragmentProgramParameters()->setNamedConstant(name, val);
 }
 
 
 /*----------------------------------------------
 	Getters
 ----------------------------------------------*/
+
+void Actor::Log(String text)
+{
+	mGame->Log(text);
+}
 
 Vector3 Actor::location()
 {

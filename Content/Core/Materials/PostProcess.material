@@ -8,9 +8,9 @@
 // Blur material
 material PostProcess/Blur
 {
-	technique
+	technique main
 	{
-		pass
+		pass main
 		{			
 			vertex_program_ref VS_Master
 			{

@@ -8,11 +8,11 @@
 // Exhaust material
 material Glow
 {
-	technique postprocess
+	technique main
 	{
 		scheme postprocess
 
-		pass postprocess
+		pass main
 		{
 			lighting off
             depth_write off
@@ -27,15 +27,26 @@ material Glow
 
 			fragment_program_ref PS_Glow
 			{
-				param_named emissiveStrength float	1.0
+				param_named baseStrength float		1.0
+				param_named basePower float			2.0
+				param_named baseAlpha float			1.0
+
 				param_named panningX float			0.0
 				param_named panningY float			0.0
+				param_named baseColor float3		0 0 0
+				param_named lightColor float3		1 1 1
 				param_named_auto time				time_0_x 1
 			}
 
 			texture_unit
 			{
-				texture_alias emissiveMap
+				texture_alias baseMap
+				texture white.png
+			}
+
+			texture_unit
+			{
+				texture_alias panningMap
 				texture white.png
 			}
 		}

@@ -52,7 +52,7 @@ public:
 	 * @brief Main tick event
 	 * @param evt			Frame event
 	 **/
-	virtual void playerTick(const FrameEvent& evt);
+	virtual void Tick(const FrameEvent& evt);
 	
 	/**
 	 * @brief Mouse event

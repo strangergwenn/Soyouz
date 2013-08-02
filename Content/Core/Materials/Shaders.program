@@ -54,7 +54,8 @@ fragment_program PS_Glow glsl
 	source PS_Glow.glsl
 	default_params
 	{
-		param_named emissiveMap			int 0
+		param_named baseMap				int 0
+		param_named panningMap			int 1
 	}
 }
 

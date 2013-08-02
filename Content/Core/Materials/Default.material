@@ -8,9 +8,9 @@
 // Default material
 material Default
 {
-    technique
+    technique main
     {
-        pass
+        pass main
         {
             diffuse 1.0 1.0 1.0
         }

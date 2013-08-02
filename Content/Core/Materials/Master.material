@@ -8,7 +8,7 @@
 // Master material
 material Master
 {
-	technique shaders
+	technique main
 	{
 		pass blank
 		{
@@ -16,7 +16,7 @@ material Master
 			scene_blend zero zero
 		}
 
-		pass lit
+		pass main
 		{
 			lighting on
 			depth_bias 10

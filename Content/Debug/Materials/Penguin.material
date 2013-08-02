@@ -1,8 +1,8 @@
 material Penguin
 {
-    technique
+    technique main
     {
-        pass
+        pass main
         {
 		    texture_unit
 			{

@@ -123,7 +123,7 @@ bool IOManager::frameRenderingQueued(const FrameEvent& evt)
 		}
 	}
 	
-	mPlayer->playerTick(evt);
+	mPlayer->Tick(evt);
 
 	mDebugText = "LOC : ";
 	Vector3 loc = mPlayer->location();

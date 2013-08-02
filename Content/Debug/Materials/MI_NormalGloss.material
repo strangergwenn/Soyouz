@@ -6,9 +6,9 @@ material MI_NormalGloss : Master
 	set_texture_alias normalMap		detail.png
 	set_texture_alias specMap		white.png
 
-	technique shaders
+	technique main
 	{
-		pass lit
+		pass main
 		{
 			fragment_program_ref PS_Master
 			{

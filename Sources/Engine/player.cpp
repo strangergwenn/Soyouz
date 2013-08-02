@@ -53,7 +53,7 @@ void Player::setCameraRatio(Real ratio)
 }
 
 
-void Player::playerTick(const FrameEvent& evt)
+void Player::Tick(const FrameEvent& evt)
 {
 	translate(mSpeed * evt.timeSinceLastFrame, true);
 }
@@ -62,7 +62,7 @@ void Player::playerTick(const FrameEvent& evt)
 bool Player::processMouse(const FrameEvent& evt, OIS::Mouse* m)
 {
 	const OIS::MouseState &ms = m->getMouseState();
-	rotate(Vector3(-ms.Y.rel, -ms.X.rel, 0) * mRotFactor * evt.timeSinceLastFrame);
+	rotate(Vector3(-Real(ms.Y.rel), -Real(ms.X.rel), Real(0)) * mRotFactor * evt.timeSinceLastFrame);
 	return true;
 }
 

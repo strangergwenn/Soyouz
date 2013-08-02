@@ -8,9 +8,9 @@ material MI_zCrate : Master
 	set_texture_alias specMap		TX_zCrate_S.png
 	set_texture_alias emissiveMap	TX_zCrate_E.png
 
-	technique shaders
+	technique main
 	{
-		pass lit
+		pass main
 		{
 			fragment_program_ref PS_Master
 			{

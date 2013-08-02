@@ -25,22 +25,37 @@ public:
 	
 	void construct()
 	{
+		// Airlock
 		Actor* act2 = new Actor(this, "DemoMesh", "Airlock.mesh", "MI_Airlock");
 		act2->translate(Vector3(-256,-128,0));
 		act2->rotate(Vector3(0, 90, 0));
 		
+		// zCrate
+		Ogre::SceneNode* mSceneNode2 = mScene->getRootSceneNode()->createChildSceneNode();
+		Ogre::Entity* mEntity2 = mScene->createEntity("zcrate", Ogre::SceneManager::PT_CUBE);
+		mEntity2->setMaterialName("MI_zCrate");
+		mEntity2->setCastShadows(true);
+		mSceneNode2->attachObject(mEntity2);
+		mSceneNode2->setPosition(Ogre::Vector3(-128, -64, -64));
+
+		// Glossy sphere
+		Ogre::SceneNode* mSceneNode = mScene->getRootSceneNode()->createChildSceneNode();
+		Ogre::Entity* mEntity = mScene->createEntity("sphere1", Ogre::SceneManager::PT_SPHERE);
+		mEntity->setMaterialName("MI_Gloss");
+		mEntity->setCastShadows(true);
+		mSceneNode->attachObject(mEntity);
+		mSceneNode->setPosition(Ogre::Vector3(0, -64, -64));
+		
+		// Wood crate
 		Actor* crate = new Actor(this, "crate", "crate.mesh", "MI_Crate");
-		crate->translate(Vector3(-100,-100,100));
+		crate->translate(Vector3(64, -96, -96));
 		
-		PointLight* light = new PointLight(this, "Light", mScene, Vector3(0.2, 0.4, 0.9), 2000);
-		light->translate(Vector3(200, 200, 0));
+		// Exhaust cone
+		Actor* cone = new Actor(this, "cone", "cone.mesh", "MI_Exhaust", false);
+		cone->setMaterialParam("baseAlpha", 1.0);
+		cone->translate(Vector3(256, -64, -64));
 		
-		PointLight* light2 = new PointLight(this, "Light2", mScene, Vector3(0.9, 0.7, 0.2), 2000);
-		light2->translate(Vector3(0, 200, 200));
-		
-		PointLight* light3 = new PointLight(this, "Light3", mScene, Vector3(0.5, 0.5, 0.5), 2000);
-		light2->translate(Vector3(0, 0, 0));
-		
+		// Smoke
 		//ParticleSystem* ps = mScene->createParticleSystem("FX", "Smoke");
 		//mScene->getRootSceneNode()->attachObject(ps);
 
@@ -53,40 +68,24 @@ public:
 		SceneNode* groundNode = mScene->getRootSceneNode()->createChildSceneNode();
 		groundNode->attachObject(entGround);
 		groundNode->setPosition(0, -256, 0);
-
-		// Sphere
-		Ogre::SceneNode* mSceneNode = mScene->getRootSceneNode()->createChildSceneNode();
-		Ogre::Entity* mEntity = mScene->createEntity("sphere1", Ogre::SceneManager::PT_SPHERE);
-		mEntity->setMaterialName("MI_NormalGloss");
-		mEntity->setCastShadows(true);
-		mSceneNode->attachObject(mEntity);
-		mSceneNode->setPosition(Ogre::Vector3(-100,-100,-100));
 		
 		// Wall plane
 		Plane plane2(Vector3::UNIT_Z, 0);
 		MeshManager::getSingleton().createPlane("wall", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane2, 512, 512, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Y);
 		Entity* entWall = mScene->createEntity("WallEntity", "wall");
-		entWall->setMaterialName("MI_Exhaust");
+		entWall->setMaterialName("Default");
 		entWall->setCastShadows(false);
 		SceneNode* wallNode = mScene->getRootSceneNode()->createChildSceneNode();
 		wallNode->attachObject(entWall);
 		wallNode->setPosition(0, 0,-256);
 		
-		// zCrate
-		Ogre::SceneNode* mSceneNode3 = mScene->getRootSceneNode()->createChildSceneNode();
-		Ogre::Entity* mEntity3 = mScene->createEntity("zcrate2", Ogre::SceneManager::PT_CUBE);
-		mEntity3->setMaterialName("MI_zCrate");
-		mEntity3->setCastShadows(true);
-		mSceneNode3->attachObject(mEntity3);
-		mSceneNode3->setPosition(Ogre::Vector3(100,-100,-100));
-		
-		// zCrate
-		Ogre::SceneNode* mSceneNode2 = mScene->getRootSceneNode()->createChildSceneNode();
-		Ogre::Entity* mEntity2 = mScene->createEntity("zcrate", Ogre::SceneManager::PT_CUBE);
-		mEntity2->setMaterialName("MI_zCrate");
-		mEntity2->setCastShadows(true);
-		mSceneNode2->attachObject(mEntity2);
-		mSceneNode2->setPosition(Ogre::Vector3(-100,-100,0));
+		// Lights
+		PointLight* light = new PointLight(this, "Light", mScene, Vector3(0.2, 0.4, 0.9), 2000);
+		light->translate(Vector3(200, 0, 200));
+		PointLight* light2 = new PointLight(this, "Light2", mScene, Vector3(0.9, 0.7, 0.2), 2000);
+		light2->translate(Vector3(0, 0, 200));
+		PointLight* light3 = new PointLight(this, "Light3", mScene, Vector3(0.5, 0.5, 0.5), 2000);
+		light2->translate(Vector3(200, 0, 0));
 	}
 
 	void destruct(){}

@@ -1,8 +1,8 @@
 material Smoke
 {
-	technique shaders
+	technique main
 	{
-		pass
+		pass main
 		{
 			lighting off
 			scene_blend alpha_blend
