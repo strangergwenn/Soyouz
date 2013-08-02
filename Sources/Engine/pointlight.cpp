@@ -20,7 +20,7 @@ PointLight::PointLight(Game* g, String name, SceneManager* scene, Vector3 color,
 		
 	mLight->setDiffuseColour(color[0], color[1], color[2]);
 	mLight->setSpecularColour(color[0], color[1], color[2]);
-	mLight->setAttenuation(range, 1.0, 0.007, 0);
+	mLight->setAttenuation(range, 0.5, 0.005, 0.00005);
 
 	attachObject(mLight);
 }

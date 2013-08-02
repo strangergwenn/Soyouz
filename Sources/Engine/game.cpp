@@ -217,7 +217,7 @@ void Game::setupRender()
 	// Shadows
 	mScene->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 	mScene->setShadowTexturePixelFormat(Ogre::PF_FLOAT32_R);
-	mScene->setShadowTextureSelfShadow(false);
+	mScene->setShadowTextureSelfShadow(true);
 	mScene->setShadowTextureSize(512);
 
 	// Post-processing	
