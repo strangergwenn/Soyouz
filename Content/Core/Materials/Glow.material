@@ -14,8 +14,7 @@ material Glow
 
 	technique main
 	{
-		scheme postprocess
-
+		scheme glow
 		pass main
 		{
 			lighting off

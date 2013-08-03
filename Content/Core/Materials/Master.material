@@ -59,7 +59,7 @@ material Master
 		}
 	}
 
-	technique postprocess
+	technique glow
 	{
 		pass blank
 		{
@@ -67,10 +67,10 @@ material Master
 			scene_blend zero zero
 		}
 
-		pass postprocess
+		pass glow
 		{
-			depth_bias 10
 			lighting off
+			depth_bias 10
 			
 			vertex_program_ref VS_Master
 			{

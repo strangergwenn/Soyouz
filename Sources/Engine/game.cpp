@@ -177,8 +177,8 @@ bool Game::setupSystem(const String desiredRenderer)
         renderSystem = *(rdrs.begin());
     }
     mRoot->setRenderSystem(renderSystem);
-	renderSystem->setConfigOption("FSAA", "8");
-	renderSystem->setConfigOption("VSync", "Yes");
+	renderSystem->setConfigOption("FSAA", "4");
+	renderSystem->setConfigOption("VSync", "No");
     renderSystem->setConfigOption("Full Screen", "No");
     renderSystem->setConfigOption("Video Mode", "1280 x 720");
     return true;

@@ -70,11 +70,7 @@ public:
  
 	Ogre::Technique *handleSchemeNotFound(unsigned short, const Ogre::String& schemeName, Ogre::Material*mat, unsigned short, const Ogre::Renderable*)
 	{
-		if (schemeName == "postprocess")
-		{
-			return mBlackMat->getTechnique(0);
-		}
-		return NULL;
+		return mBlackMat->getTechnique(0);
 	}
 };
 

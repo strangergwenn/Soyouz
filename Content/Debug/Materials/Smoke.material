@@ -1,13 +1,24 @@
+
 material Smoke
 {
+	technique void
+	{
+		pass void
+		{
+			colour_write off
+			depth_write off
+		}
+	}
+
 	technique main
 	{
+		scheme overlay
 		pass main
 		{
 			lighting off
-			scene_blend alpha_blend
+			depth_bias 10
 			depth_write off
-			diffuse vertexcolour
+			scene_blend alpha_blend
 
 			texture_unit
 			{

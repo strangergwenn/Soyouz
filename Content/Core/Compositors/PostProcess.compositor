@@ -13,18 +13,20 @@ compositor PostProcess
 {
 	technique
 	{
-		texture scene target_width target_height PF_A8R8G8B8
-		texture glow target_width target_height PF_A8R8G8B8
+		texture scene		target_width target_height PF_A8R8G8B8
+		texture input1		target_width target_height PF_A8R8G8B8
+		texture input2		target_width target_height PF_A8R8G8B8
+		texture temp		target_width target_height PF_A8R8G8B8
  
 		target scene
 		{
 			input previous
 		}
  
-		target glow
+		target input1
 		{
 			input none
-			material_scheme postprocess
+			material_scheme glow
  
 			pass clear
 			{
@@ -35,14 +37,39 @@ compositor PostProcess
 			}
 		}
  
-		target_output
+		target input2
+		{
+			input none
+			material_scheme overlay
+ 
+			pass clear
+			{
+			}
+ 
+			pass render_scene
+			{
+			}
+		}
+ 
+		target temp
 		{
 			input none
 			pass render_quad
 			{
 				material PostProcess/Blur
 				input 0 scene
-				input 1 glow
+				input 1 input1
+			}
+		}
+ 
+		target_output
+		{
+			input none
+			pass render_quad
+			{
+				material PostProcess/Add
+				input 0 temp
+				input 1 input2
 			}
 		}
 	}

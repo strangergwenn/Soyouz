@@ -19,10 +19,10 @@ material MI_zCrate : Master
 		}
 	}
 	
-	technique postprocess
+	technique glow
 	{
-		scheme postprocess
-		pass postprocess
+		scheme glow
+		pass glow
 		{
 			fragment_program_ref PS_Colormap
 			{
