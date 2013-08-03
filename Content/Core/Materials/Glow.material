@@ -8,6 +8,10 @@
 // Exhaust material
 material Glow
 {
+	technique void
+	{
+	}
+
 	technique main
 	{
 		scheme postprocess
@@ -15,8 +19,6 @@ material Glow
 		pass main
 		{
 			lighting off
-			ambient 0 0 0
-			depth_bias 10
             depth_write off
 			scene_blend alpha_blend
 			

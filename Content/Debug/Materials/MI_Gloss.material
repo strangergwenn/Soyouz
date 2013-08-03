@@ -12,7 +12,7 @@ material MI_Gloss : Master
 		{
 			fragment_program_ref PS_Master
 			{
-				param_named specularStrength	float 1.5
+				param_named specularStrength	float 1.8
 			}
 		}
 	}
