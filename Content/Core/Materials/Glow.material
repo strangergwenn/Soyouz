@@ -15,14 +15,14 @@ material Glow
 		pass main
 		{
 			lighting off
+			ambient 0 0 0
+			depth_bias 10
             depth_write off
 			scene_blend alpha_blend
 			
-			vertex_program_ref VS_Master
+			vertex_program_ref VS_UVMap
 			{
-				param_named_auto lightPosition	light_position_object_space 0
-				param_named_auto eyePosition	camera_position_object_space
-				param_named_auto projection		worldviewproj_matrix
+				param_named_auto projection			worldviewproj_matrix
 			}
 
 			fragment_program_ref PS_Glow

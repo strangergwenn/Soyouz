@@ -10,14 +10,9 @@ material Master
 {
 	technique main
 	{
-		pass blank
-		{
-			lighting off
-			scene_blend zero zero
-		}
-
 		pass main
 		{
+			ambient 0 0 0 
 			lighting on
 			depth_bias 10
 			iteration once_per_light

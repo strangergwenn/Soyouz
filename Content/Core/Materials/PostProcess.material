@@ -12,10 +12,8 @@ material PostProcess/Blur
 	{
 		pass main
 		{			
-			vertex_program_ref VS_Master
+			vertex_program_ref VS_UVMap
 			{
-				param_named_auto lightPosition	light_position_object_space 0
-				param_named_auto eyePosition	camera_position_object_space
 				param_named_auto projection		worldviewproj_matrix
 			}
  

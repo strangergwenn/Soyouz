@@ -6,8 +6,15 @@
 //
 
 //-----------------------------------------------
-//	Master shader
+//	Master shaders
 //-----------------------------------------------
+
+// Basic vertex shader
+vertex_program VS_UVMap glsl
+{
+	source VS_UVMap.glsl
+}
+
 
 // Main vertex shader
 vertex_program VS_Master glsl

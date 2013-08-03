@@ -22,10 +22,6 @@ uniform sampler2D	blurdata;
 /*-----------------------------------------------*/
 
 in vec4 vUv0;
-in vec3 vEyeDir;
-in vec3 vNormal;
-in vec3 vLightDir;
-in vec3 vHalfAngle;
 
 out vec4 pPixel;
 
