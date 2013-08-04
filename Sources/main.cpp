@@ -6,7 +6,6 @@
 **/
 
 #include "Game/demoWorld.hpp"
-#include "Game/testWorld.hpp"
 
 
 /*----------------------------------------------
@@ -23,7 +22,6 @@
 {
 
 	// Open the world
-	//TestWorld w;
 	DemoWorld w;
 	try {
 		w.run();

@@ -6,6 +6,7 @@
 **/
 
 #include "Engine/iomanager.hpp"
+#include "Engine/game.hpp"
 #include "Engine/actor.hpp"
 #include "Engine/player.hpp"
 
@@ -14,11 +15,13 @@
 	Constructor & destructor
 ----------------------------------------------*/
 
-IOManager::IOManager(RenderWindow* w, Player* p, bool bufferedKeys, bool bufferedMouse,  bool bufferedJoy) :
+IOManager::IOManager(RenderWindow* w, Player* p, Game* g) :
 	mDebugOverlay(NULL), mInputManager(NULL), mMouse(NULL), mKeyboard(NULL), mJoy(NULL)
 {
 	// Startup
+	mGame = g;
 	mPlayer = p;
+	bRunning = true;
 	OIS::ParamList pl;
 	size_t windowHnd = 0;
 	std::ostringstream windowHndStr;
@@ -32,13 +35,21 @@ IOManager::IOManager(RenderWindow* w, Player* p, bool bufferedKeys, bool buffere
 	mInputManager = OIS::InputManager::createInputSystem(pl);
 
 	// Input methods
-	mMouse = static_cast<OIS::Mouse*>(mInputManager->createInputObject(OIS::OISMouse, bufferedMouse));
-	mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject(OIS::OISKeyboard, bufferedKeys));
+	mMouse = static_cast<OIS::Mouse*>(mInputManager->createInputObject(OIS::OISMouse, true));
+	mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject(OIS::OISKeyboard, true));
 	try {
-		mJoy = static_cast<OIS::JoyStick*>(mInputManager->createInputObject(OIS::OISJoyStick, bufferedJoy));
+		mJoy = static_cast<OIS::JoyStick*>(mInputManager->createInputObject(OIS::OISJoyStick, true));
 	}
 	catch (...) {
 		mJoy = NULL;
+	}
+
+	// Callbacks
+	mMouse->setEventCallback(mPlayer);
+	mKeyboard->setEventCallback(mPlayer);
+	if (mJoy)
+	{
+		mJoy->setEventCallback(mPlayer);
 	}
 
 	// Events
@@ -55,8 +66,14 @@ IOManager::~IOManager()
 }
 
 
+void IOManager::quit()
+{
+	bRunning = false;
+}
+
+
 /*----------------------------------------------
-	IO Events
+	IO events
 ----------------------------------------------*/
 
 void IOManager::windowResized(RenderWindow* rw)
@@ -87,41 +104,21 @@ void IOManager::windowClosed(RenderWindow* rw)
 
 bool IOManager::frameRenderingQueued(const FrameEvent& evt)
 {
+	// Window check
 	if (mWindow->isClosed())
 	{
 		return false;
 	}
 	
+	// Peripheral capture
 	mMouse->capture();
 	mKeyboard->capture();
 	if (mJoy) mJoy->capture();
-
-	if (!mMouse->buffered())
-	{
-		if (mPlayer->processMouse(evt, mMouse) == false)
-		{
-			return false;
-		}
-	}
 	
-	if (!mKeyboard->buffered())
-	{
-		if (mPlayer->processKey(evt, mKeyboard) == false)
-		{
-			return false;
-		}
-	}
+	// World tick
+	mGame->tick(evt);
 
-	if (mJoy && !mJoy->buffered())
-	{
-		if (mPlayer->processJoystick(evt, mJoy) == false)
-		{
-			return false;
-		}
-	}
-	
-	mPlayer->Tick(evt);
-
+	// Debug
 	mDebugText = "LOC : ";
 	Vector3 loc = mPlayer->location();
 	mDebugText += StringConverter::toString(Vector3(Math::Floor(loc[0]), Math::Floor(loc[1]), Math::Floor(loc[2])));
@@ -131,7 +128,9 @@ bool IOManager::frameRenderingQueued(const FrameEvent& evt)
 	mDebugText += " SPEED : ";
 	loc = mPlayer->speed();
 	mDebugText += StringConverter::toString(Vector3((loc[0]), (loc[1]), (loc[2])));
-	return true;
+
+	// Return true to keep it running
+	return bRunning;
 }
 
 
@@ -173,4 +172,3 @@ bool IOManager::frameEnded(const FrameEvent& evt)
 	catch (...) {}
 	return true;
 }
-

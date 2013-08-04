@@ -35,35 +35,41 @@ public:
 	~Actor();
 	
 	/**
+	 * @brief Main tick event
+	 * @param evt			Frame event
+	 **/
+	virtual void tick(const FrameEvent& evt);
+	
+	/**
 	 * @brief Attach something to this actor
 	 * @param obj			Attached object
 	 **/
-	void attachObject(MovableObject* obj);
+	virtual void attachObject(MovableObject* obj);
 		
 	/**
 	 * @brief Attach an actor to this actor
 	 * @param obj			Attached actor
 	 **/
-	void attachActor(Actor* obj);
+	virtual void attachActor(Actor* obj);
 
 	/**
 	 * @brief Set the the actor location in the world
 	 * @param offset		Location vector
 	 **/
-	void setLocation(Vector3 newPos);
+	virtual void setLocation(Vector3 newPos);
 
 	/**
 	 * @brief Translate the actor in the world
 	 * @param offset		Movement vector
 	 * @param bRelative		true if relative to the node
 	 **/
-	void translate(Vector3 offset, bool bRelative = true);
+	virtual void translate(Vector3 offset, bool bRelative = true);
 	
 	/**
 	 * @brief Rotate the actor in the world
 	 * @param offset		Rotation vector (pitch, yaw, roll) in degrees
 	 **/
-	void rotate(Vector3 rotator);
+	virtual void rotate(Vector3 rotator);
 	
 	/**
 	 * @brief Write text to the log file

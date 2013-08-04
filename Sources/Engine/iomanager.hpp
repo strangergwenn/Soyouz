@@ -10,6 +10,7 @@
 
 #include "Engine/ogre.hpp"
 
+class Game;
 class Player;
 
 
@@ -26,16 +27,19 @@ public:
 	 * @brief Setup the IO manager
 	 * @param w					Window
 	 * @param cam				Target camera
-	 * @param bufferedKeys		Use buffering on the keyboard
-	 * @param bufferedMouse		Use buffering on the mouse
-	 * @param bufferedJoy		Use buffering on the joystick
+	 * @param cam				Current game
 	 **/
-	IOManager(RenderWindow* w, Player* p, bool bufferedKeys = false, bool bufferedMouse = false, bool bufferedJoy = false);
+	IOManager(RenderWindow* w, Player* p, Game* g);
 
 	/**
 	 * @brief Delete the IO manager
 	 **/
 	~IOManager();
+	
+	/**
+	 * @brief Quit the game
+	 **/
+	void quit();
 
 protected:
 
@@ -65,10 +69,13 @@ protected:
 	bool frameEnded(const FrameEvent& evt);
 
 
+	bool bRunning;
+
 	String mDebugText;
 	RenderWindow* mWindow;
 	Overlay* mDebugOverlay;
 
+	Game* mGame;
 	Player* mPlayer;
 
 	OIS::Mouse* mMouse;

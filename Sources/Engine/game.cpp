@@ -70,6 +70,29 @@ void Game::run()
 }
 
 
+void Game::tick(const FrameEvent& evt)
+{
+	Actor* ref;
+	for (list<Actor*>::iterator it = mAllActors.begin(); it != mAllActors.end(); it++)
+    {
+		ref = *it;
+        ref->tick(evt);
+    }
+}
+	
+
+void Game::registerActor(Actor* ref)
+{
+	mAllActors.push_back(ref);
+}
+	
+
+void Game::unregisterActor(Actor* ref)
+{
+	mAllActors.remove(ref);
+}
+
+
 SceneNode* Game::createGameNode(String name)
 {
 	return mScene->getRootSceneNode()->createChildSceneNode(name);
@@ -81,6 +104,12 @@ Entity* Game::createGameEntity(String name, String file)
 	return mScene->createEntity(name, file);
 }
 
+ 
+void Game::gameLog(String text)
+{
+	LogManager::getSingletonPtr()->logMessage(text.c_str());
+}
+
 
 void Game::dumpAllNodes()
 {
@@ -90,10 +119,10 @@ void Game::dumpAllNodes()
 	gameLog(ss.str());
 }
 
- 
-void Game::gameLog(String text)
+
+void Game::quit()
 {
-	LogManager::getSingletonPtr()->logMessage(text.c_str());
+	mIOManager->quit();
 }
 
 
@@ -106,7 +135,6 @@ SceneManager* Game::getScene()
 /*----------------------------------------------
 	Protected methods
 ----------------------------------------------*/
-
 
 bool Game::setup(bool bShowConfig)
 {
@@ -217,7 +245,7 @@ void Game::setupRender()
 	MaterialManager::getSingleton().setDefaultAnisotropy(8);
 
 	// IO manager
-	mIOManager = new IOManager(mWindow, mPlayer);
+	mIOManager = new IOManager(mWindow, mPlayer, this);
 	mRoot->addFrameListener(mIOManager);
 
 	// Shadows

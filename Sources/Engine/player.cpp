@@ -15,7 +15,7 @@
 Player::Player(Game* g, String name) : Actor(g, name)
 {
 	mFOV = 90;
-	mRotFactor = Real(1.0);
+	mRotFactor = Real(0.1);
 	mSpeedFactor = Real(5.0);
 	mSpeed = Vector3::ZERO;
 	mNode->setDirection(0,0,-1);
@@ -53,47 +53,91 @@ void Player::setCameraRatio(Real ratio)
 }
 
 
-void Player::Tick(const FrameEvent& evt)
-{
-	translate(mSpeed * evt.timeSinceLastFrame, true);
-}
+/*----------------------------------------------
+	Internal methods
+----------------------------------------------*/
 
-
-bool Player::processMouse(const FrameEvent& evt, OIS::Mouse* m)
+bool Player::mouseMoved(const OIS::MouseEvent &e)
 {
-	const OIS::MouseState &ms = m->getMouseState();
-	rotate(Vector3(-Real(ms.Y.rel), -Real(ms.X.rel), Real(0)) * mRotFactor * evt.timeSinceLastFrame);
+	rotate(Vector3(-Real(e.state.Y.rel), -Real(e.state.X.rel), Real(0)) * mRotFactor);
 	return true;
 }
 
 
-bool Player::processKey(const FrameEvent& evt, OIS::Keyboard* kb)
+bool Player::mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID id)
+{
+    return true;
+}
+
+
+bool Player::mouseReleased(const OIS::MouseEvent &e, OIS::MouseButtonID id)
+{
+    return true;
+}
+
+
+bool Player::keyPressed(const OIS::KeyEvent &e)
 {
 	float movementSpeed = 100;
-	if (kb->isKeyDown(OIS::KC_A))
-		mSpeed.x = -movementSpeed;
-	if (kb->isKeyDown(OIS::KC_D))
-		mSpeed.x = movementSpeed;
-	if (kb->isKeyDown(OIS::KC_W))
-		mSpeed.z = -movementSpeed;
-	if (kb->isKeyDown(OIS::KC_S))
-		mSpeed.z = movementSpeed;
-	if (kb->isKeyDown(OIS::KC_SPACE))
-		mSpeed.y = movementSpeed;
-	if (kb->isKeyDown(OIS::KC_LMENU))
-		mSpeed.y = -movementSpeed;
-	translate(mSpeed * evt.timeSinceLastFrame);
-	mSpeed = Vector3::ZERO;
+	mSpeed = Vector3(0,0,0);
 
-	if (kb->isKeyDown(OIS::KC_F1))
-		mCamera->setPolygonMode(PM_SOLID);
-	if (kb->isKeyDown(OIS::KC_F2))
-		mCamera->setPolygonMode(PM_WIREFRAME);
-	return (!kb->isKeyDown(OIS::KC_ESCAPE));
+	switch (e.key)
+	{
+		case OIS::KC_A:
+			mSpeed.x = -movementSpeed;
+			break;
+
+		case OIS::KC_D:
+			mSpeed.x = movementSpeed;
+			break;
+
+		case OIS::KC_W:
+			mSpeed.z = -movementSpeed;
+			break;
+
+		case OIS::KC_S:
+			mSpeed.z = movementSpeed;
+			break;
+
+		case OIS::KC_SPACE:
+			mSpeed.y = movementSpeed;
+			break;
+
+		case OIS::KC_LMENU:
+			mSpeed.y = -movementSpeed;
+			break;
+
+		case OIS::KC_ESCAPE:
+			mGame->quit();
+			break;
+
+		default:
+			break;
+	}
+
+    return true;
 }
 
 
-bool Player::processJoystick(const FrameEvent& evt, OIS::JoyStick* j)
+bool Player::keyReleased(const OIS::KeyEvent &e)
 {
-	return true;
+    return true;
+}
+
+
+bool Player::buttonPressed(const OIS::JoyStickEvent &, int id)
+{
+    return true;
+}
+
+
+bool Player::buttonReleased(const OIS::JoyStickEvent &, int id)
+{
+    return true;
+}
+
+
+bool Player::axisMoved(const OIS::JoyStickEvent &, int axis)
+{
+    return true;
 }

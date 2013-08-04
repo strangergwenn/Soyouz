@@ -66,6 +66,24 @@ public:
 	 * @brief Run the level (blocking)
 	 **/
 	virtual void run();
+	
+	/**
+	 * @brief Main tick event
+	 * @param evt			Frame event
+	 **/
+	void tick(const FrameEvent& evt);
+	
+	/**
+	 * @brief Register an actor to the world
+	 * @param ref				Actor reference
+	 **/
+	void registerActor(Actor* ref);
+	
+	/**
+	 * @brief Unregister an actor to the world
+	 * @param ref				Actor reference
+	 **/
+	void unregisterActor(Actor* ref);
 
 	/**
 	 * @brief Run the level (blocking)
@@ -81,6 +99,12 @@ public:
 	 * @return the scene entity
 	 **/
 	Entity* Game::createGameEntity(String name, String file);
+	
+	/**
+	 * @brief Write text to the log file
+	 * @param text				Input data
+	 **/
+	void gameLog(String text);
  
 	/**
 	 * @brief Dump all scene nodes to the log file
@@ -88,10 +112,9 @@ public:
 	void dumpAllNodes();
 	
 	/**
-	 * @brief Write text to the log file
-	 * @param text				Input data
+	 * @brief Quit the game
 	 **/
-	void gameLog(String text);
+	void quit();
 	
 	/**
 	 * @brief Get the current scene manager
@@ -147,13 +170,15 @@ protected:
 	void dumpNodes(std::stringstream &ss, Ogre::Node *n, int level);
 
 
-	Root *mRoot;
+	Root* mRoot;
 	SceneManager* mScene;
 	RenderWindow* mWindow;
 	OverlaySystem* mOverlaySystem;
 
 	Player* mPlayer;
 	IOManager* mIOManager;
+
+	list<Actor*>::type mAllActors;
 
 #ifdef OGRE_STATIC_LIB
 	StaticPluginLoader mStaticPluginLoader;

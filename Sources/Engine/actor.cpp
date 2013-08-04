@@ -14,19 +14,30 @@
 
 Actor::Actor(Game* g, String name)
 {
+	mSpeed = 0;
 	mGame = g;
 	mNode = g->createGameNode(name);
+	mGame->registerActor(this);
 }
 
 
 Actor::~Actor()
 {
+	mGame->unregisterActor(this);
+	//delete mNode;
+	//TODO when actors have a lifespan outside game constructor
 }
 
 
 /*----------------------------------------------
 	Methods
 ----------------------------------------------*/
+
+void Actor::tick(const FrameEvent& evt)
+{
+	translate(mSpeed * evt.timeSinceLastFrame, true);
+}
+
 
 void Actor::attachObject(MovableObject* obj)
 {
