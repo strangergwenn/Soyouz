@@ -87,13 +87,19 @@ void Game::dumpAllNodes()
 	std::stringstream ss;
 	ss << std::endl << "Game::dumpNodes" << std::endl;
 	dumpNodes(ss, mScene->getRootSceneNode(), 0);
-	Log(ss.str());
+	gameLog(ss.str());
 }
 
  
-void Game::Log(String text)
+void Game::gameLog(String text)
 {
 	LogManager::getSingletonPtr()->logMessage(text.c_str());
+}
+
+
+SceneManager* Game::getScene()
+{
+	return mScene;
 }
 
 
@@ -201,8 +207,8 @@ void Game::setupRender()
 	// Window
 	Viewport* vp = mWindow->addViewport(cam);
 	mPlayer->setCameraRatio(Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
-	mScene->setAmbientLight(Ogre::ColourValue(0,0,0));
-	vp->setBackgroundColour(ColourValue(0.1, 0.1, 0.1));
+	mScene->setAmbientLight(ColourValue(0,0,0));
+	vp->setBackgroundColour(ColourValue(0.1f, 0.1f, 0.1f));
 	
 	// Engine settings
 	TextureManager::getSingleton().setDefaultNumMipmaps(5);
@@ -215,8 +221,8 @@ void Game::setupRender()
 	mRoot->addFrameListener(mIOManager);
 
 	// Shadows
-	mScene->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
-	mScene->setShadowTexturePixelFormat(Ogre::PF_FLOAT32_R);
+	mScene->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
+	mScene->setShadowTexturePixelFormat(PF_FLOAT32_R);
 	mScene->setShadowTextureSelfShadow(true);
 	mScene->setShadowTextureSize(512);
 
@@ -230,7 +236,7 @@ void Game::setupRender()
 
 void Game::setupPlayer()
 {
-	mPlayer = new Player(this, "LocalPlayer", mScene);
+	mPlayer = new Player(this, "LocalPlayer");
 }
 
 

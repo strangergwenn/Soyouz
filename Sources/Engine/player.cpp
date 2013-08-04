@@ -12,7 +12,7 @@
 	Constructor & destructor
 ----------------------------------------------*/
 
-Player::Player(Game* g, String name, SceneManager* scene) : Actor(g, name)
+Player::Player(Game* g, String name) : Actor(g, name)
 {
 	mFOV = 90;
 	mRotFactor = Real(1.0);
@@ -20,7 +20,7 @@ Player::Player(Game* g, String name, SceneManager* scene) : Actor(g, name)
 	mSpeed = Vector3::ZERO;
 	mNode->setDirection(0,0,-1);
 
-	mCamera = scene->createCamera(name + "_camera");
+	mCamera = g->getScene()->createCamera(name + "_camera");
 	mCamera->setFarClipDistance(5000);
 	mCamera->setNearClipDistance(5);
 	mCamera->setPosition(Vector3(0,0,0));

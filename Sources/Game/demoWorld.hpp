@@ -8,10 +8,12 @@
 #ifndef __DEMOWORLD_H_
 #define __DEMOWORLD_H_
 
+#include "Engine/ogre.hpp"
 #include "Engine/game.hpp"
 #include "Engine/actor.hpp"
 #include "Engine/player.hpp"
-#include "Engine/pointlight.hpp"
+#include "Engine/meshactor.hpp"
+#include "Engine/lightactor.hpp"
 
 
 /*----------------------------------------------
@@ -26,7 +28,7 @@ public:
 	void construct()
 	{
 		// Airlock
-		Actor* act2 = new Actor(this, "DemoMesh", "Airlock.mesh", "MI_Airlock");
+		MeshActor* act2 = new MeshActor(this, "DemoMesh", "Airlock.mesh", "MI_Airlock");
 		act2->translate(Vector3(-256,-128,0));
 		act2->rotate(Vector3(0, 90, 0));
 		
@@ -47,11 +49,11 @@ public:
 		mSceneNode->setPosition(Ogre::Vector3(0, -64, -64));
 		
 		// Wood crate
-		Actor* crate = new Actor(this, "crate", "crate.mesh", "MI_Crate");
+		MeshActor* crate = new MeshActor(this, "crate", "crate.mesh", "MI_Crate");
 		crate->translate(Vector3(64, -96, -96));
 		
 		// Exhaust cone
-		Actor* cone = new Actor(this, "cone", "cone.mesh", "MI_Exhaust", false);
+		MeshActor* cone = new MeshActor(this, "cone", "cone.mesh", "MI_Exhaust", false);
 		cone->setMaterialParam("baseAlpha", 1.0);
 		cone->translate(Vector3(256, -64, -64));
 		
@@ -80,11 +82,11 @@ public:
 		wallNode->setPosition(0, 0,-256);
 		
 		// Lights
-		PointLight* left = new PointLight(this, "left", mScene, Vector3(0.2, 0.4, 0.9), 2000);
+		LightActor* left = new LightActor(this, "left", Vector3(0.2f, 0.4f, 0.9f), 2000);
 		left->translate(Vector3(-100, 100, 100));
-		PointLight* center = new PointLight(this, "center", mScene, Vector3(0.5, 0.5, 0.5), 2000);
+		LightActor* center = new LightActor(this, "center", Vector3(0.5f, 0.5f, 0.5f), 2000);
 		center->translate(Vector3(0, 100, 100));
-		PointLight* right = new PointLight(this, "right", mScene, Vector3(0.9, 0.7, 0.2), 2000);
+		LightActor* right = new LightActor(this, "right", Vector3(0.9f, 0.7f, 0.2f), 2000);
 		right->translate(Vector3(100, 100, 100));
 	}
 

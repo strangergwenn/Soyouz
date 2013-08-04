@@ -22,7 +22,6 @@ IOManager::IOManager(RenderWindow* w, Player* p, bool bufferedKeys, bool buffere
 	OIS::ParamList pl;
 	size_t windowHnd = 0;
 	std::ostringstream windowHndStr;
-	LogManager::getSingletonPtr()->logMessage("IOManager::IOManager");
 	mDebugOverlay = OverlayManager::getSingleton().getByName("Core/DebugOverlay");
 
 	// Window management
@@ -51,7 +50,6 @@ IOManager::IOManager(RenderWindow* w, Player* p, bool bufferedKeys, bool buffere
 
 IOManager::~IOManager()
 {
-	LogManager::getSingletonPtr()->logMessage("IOManager::~IOManager");
 	WindowEventUtilities::removeWindowEventListener(mWindow, this);
 	windowClosed(mWindow);
 }
@@ -78,7 +76,6 @@ void IOManager::windowClosed(RenderWindow* rw)
 {
 	if (rw == mWindow && mInputManager)
 	{
-		LogManager::getSingletonPtr()->logMessage("IOManager::windowClosed");
 		mInputManager->destroyInputObject(mMouse);
 		mInputManager->destroyInputObject(mKeyboard);
 		mInputManager->destroyInputObject(mJoy);

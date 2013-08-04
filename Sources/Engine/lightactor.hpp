@@ -5,8 +5,8 @@
 * @author Gwennaël ARBONA
 **/
 
-#ifndef __POINTLIGHT_H
-#define __POINTLIGHT_H
+#ifndef __LightActor_H
+#define __LightActor_H
 
 #include "Engine/game.hpp"
 #include "Engine/actor.hpp"
@@ -18,7 +18,7 @@ class Game;
 	Class definitions
 ----------------------------------------------*/
 
-class PointLight : public Actor
+class LightActor : public Actor
 {
 
 public:
@@ -30,12 +30,12 @@ public:
 	 * @param color			Light color
 	 * @param range			Light range
 	 **/
-	PointLight(Game* g, String name, SceneManager* scene, Vector3 color, float range);
+	LightActor(Game* g, String name, Vector3 color, float range);
 	
 	/**
 	 * @brief Delete a light
 	 **/
-	virtual ~PointLight();
+	virtual ~LightActor();
 
 
 protected:
@@ -44,5 +44,5 @@ protected:
 
 };
 
-#endif /* __POINTLIGHT_H */
+#endif /* __LightActor_H */
 

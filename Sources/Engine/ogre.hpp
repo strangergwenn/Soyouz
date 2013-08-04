@@ -5,12 +5,12 @@
 * @author Gwennaël ARBONA
 **/
 
-#ifndef __ENGINE_H_
-#define __ENGINE_H_
+#ifndef __OGREINC_H
+#define __OGREINC_H
 
 
 /*----------------------------------------------
-	Includes
+	Definitions and includes
 ----------------------------------------------*/
 
 #include "Ogre.h"
@@ -19,6 +19,7 @@
 #include "OgreSceneManager.h"
 #include "OgreOverlaySystem.h"
 #include "OgreStringConverter.h"
+#include <OgreWindowEventUtilities.h>
 
 
 #ifdef OGRE_STATIC_LIB
@@ -41,38 +42,9 @@
 #  include "OgreStaticPluginLoader.h"
 #endif
 
-
 #define OIS_DYNAMIC_LIB
 #include <OIS/OIS.h>
 
-
 using namespace Ogre;
 
-
-/*----------------------------------------------
-	Post-processing compositor
-----------------------------------------------*/
-
-class PostProcessListener : public Ogre::MaterialManager::Listener
-{
-protected:
-	Ogre::MaterialPtr mBlackMat;
-
-public:
-	PostProcessListener()
-	{
-		mBlackMat = Ogre::MaterialManager::getSingleton().create("mGlowBlack", "Internal");
-		mBlackMat->getTechnique(0)->getPass(0)->setDiffuse(0,0,0,0);
-		mBlackMat->getTechnique(0)->getPass(0)->setSpecular(0,0,0,0);
-		mBlackMat->getTechnique(0)->getPass(0)->setAmbient(0,0,0);
-		mBlackMat->getTechnique(0)->getPass(0)->setSelfIllumination(0,0,0);
-	}
- 
-	Ogre::Technique *handleSchemeNotFound(unsigned short, const Ogre::String& schemeName, Ogre::Material*mat, unsigned short, const Ogre::Renderable*)
-	{
-		return mBlackMat->getTechnique(0);
-	}
-};
-
-
-#endif /* __ENGINE_H_ */
+#endif /* __OGREINC_H */

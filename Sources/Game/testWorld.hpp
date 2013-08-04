@@ -9,6 +9,7 @@
 #define __TEST_H_
 
 #include "Engine/game.hpp"
+#include "Engine/meshactor.hpp"
 
 
 /*----------------------------------------------

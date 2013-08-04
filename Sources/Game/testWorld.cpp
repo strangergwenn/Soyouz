@@ -21,7 +21,7 @@ void TestWorld::construct()
 {
 	mScene->setAmbientLight(Ogre::ColourValue(1, 1, 1));
 
-	Actor* penguin = new Actor(this, "penguin", "penguin.mesh");
+	MeshActor* penguin = new MeshActor(this, "penguin", "penguin.mesh");
 	penguin->translate(Vector3(0,0,-200));
 	penguin->rotate(Vector3(0, 180, 0));
 	mPlayer->attachActor(penguin);
@@ -50,5 +50,5 @@ void TestWorld::destruct()
 
 void TestWorld::setupPlayer()
 {
-	mPlayer = new TestPlayer(this, "LocalPlayer", mScene);
+	mPlayer = new TestPlayer(this, "LocalPlayer");
 }

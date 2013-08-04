@@ -5,26 +5,27 @@
 * @author Gwennaël ARBONA
 **/
 
-#include "Engine/pointlight.hpp"
+#include "Engine/ogre.hpp"
+#include "Engine/lightactor.hpp"
 
 
 /*----------------------------------------------
 	Constructor & destructor
 ----------------------------------------------*/
 
-PointLight::PointLight(Game* g, String name, SceneManager* scene, Vector3 color, float range) : Actor(g, name)
+LightActor::LightActor(Game* g, String name, Vector3 color, float range) : Actor(g, name)
 {
-	mLight = scene->createLight(name);
+	mLight = g->getScene()->createLight(name);
 	mLight->setType(Light::LT_POINT);
 	mLight->setCastShadows(true);
 		
 	mLight->setDiffuseColour(color[0], color[1], color[2]);
 	mLight->setSpecularColour(color[0], color[1], color[2]);
-	mLight->setAttenuation(range, 0.5, 0.005, 0.00005);
+	mLight->setAttenuation(range, 0.5f, 0.005f, 0.00005f);
 
 	attachObject(mLight);
 }
 
-PointLight::~PointLight()
+LightActor::~LightActor()
 {
 }

@@ -8,9 +8,8 @@
 #ifndef __WINDOW_H_
 #define __WINDOW_H_
 
-#include "Engine/engine.hpp"
+#include "Engine/ogre.hpp"
 
-class World;
 class Player;
 
 
@@ -70,7 +69,6 @@ protected:
 	RenderWindow* mWindow;
 	Overlay* mDebugOverlay;
 
-	World* mWorld;
 	Player* mPlayer;
 
 	OIS::Mouse* mMouse;

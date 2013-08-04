@@ -27,9 +27,8 @@ public:
 	 * @brief Create a player
 	 * @param g				Game data
 	 * @param name			Name
-	 * @param scene			Scene data
 	 **/
-	Player(Game* g, String name, SceneManager* scene);
+	Player(Game* g, String name);
 	
 	/**
 	 * @brief Delete a player
