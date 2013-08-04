@@ -240,7 +240,9 @@ void Game::setupRender()
 	
 	// Engine settings
 	TextureManager::getSingleton().setDefaultNumMipmaps(5);
-	ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+	ResourceGroupManager::getSingleton().initialiseResourceGroup("Boot");
+	ResourceGroupManager::getSingleton().initialiseResourceGroup("Core");
+	ResourceGroupManager::getSingleton().initialiseResourceGroup("Game");
 	MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_ANISOTROPIC);
 	MaterialManager::getSingleton().setDefaultAnisotropy(8);
 
