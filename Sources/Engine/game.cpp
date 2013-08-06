@@ -25,9 +25,10 @@
 
 Game::Game()
 {
-	mIOManager = 0;
-	mRoot = 0;
-	mOverlaySystem=0;
+	mRoot = NULL;
+	mIOManager = NULL;
+	mPhysWorld = NULL;
+	mOverlaySystem = NULL;
 }
 
 
@@ -73,6 +74,14 @@ void Game::run()
 void Game::tick(const FrameEvent& evt)
 {
 	Actor* ref;
+	
+	// Physics tick
+	if (mPhysWorld)
+	{
+		mPhysWorld->stepSimulation(evt.timeSinceLastFrame);
+	}
+
+	// Actor tick
 	for (list<Actor*>::iterator it = mAllActors.begin(); it != mAllActors.end(); it++)
     {
 		ref = *it;
@@ -102,6 +111,12 @@ SceneNode* Game::createGameNode(String name)
 Entity* Game::createGameEntity(String name, String file)
 {
 	return mScene->createEntity(name, file);
+}
+
+
+void Game::addRigidBody(btRigidBody* body)
+{
+	mPhysWorld->addRigidBody(body);
 }
 
  
@@ -141,6 +156,7 @@ bool Game::setup(bool bShowConfig)
 	setupResources();
 	setupSystem("OpenGL");
 	setupRender();
+	setupPhysics();
 
 	construct();
 	return true;
@@ -261,6 +277,23 @@ void Game::setupRender()
 	CompositorManager::getSingleton().setCompositorEnabled(cam->getViewport(), "PostProcess", true);
 	PostProcessListener *gml = new PostProcessListener();
 	Ogre::MaterialManager::getSingleton().addListener(gml);
+}
+
+
+void Game::setupPhysics()
+{
+	mPhysCollisionConfiguration = new btDefaultCollisionConfiguration();
+	mPhysDispatcher = new btCollisionDispatcher(mPhysCollisionConfiguration);
+	mPhysBroadphase = new btDbvtBroadphase();
+	mPhysSequentialImpulseConstraintSolver = new btSequentialImpulseConstraintSolver;
+
+	mPhysWorld = new btDiscreteDynamicsWorld(
+		mPhysDispatcher,
+		mPhysBroadphase,
+		mPhysSequentialImpulseConstraintSolver,
+		mPhysCollisionConfiguration);
+
+	mPhysWorld->setGravity(btVector3(0,-10,0));
 }
 
 

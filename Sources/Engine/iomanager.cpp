@@ -125,9 +125,6 @@ bool IOManager::frameRenderingQueued(const FrameEvent& evt)
 	mDebugText += " ROT : ";
 	loc = mPlayer->rotation();
 	mDebugText += StringConverter::toString(Vector3((loc[0]), (loc[1]), (loc[2])));
-	mDebugText += " SPEED : ";
-	loc = mPlayer->speed();
-	mDebugText += StringConverter::toString(Vector3((loc[0]), (loc[1]), (loc[2])));
 
 	// Return true to keep it running
 	return bRunning;

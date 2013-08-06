@@ -14,7 +14,6 @@
 
 Actor::Actor(Game* g, String name)
 {
-	mSpeed = 0;
 	mGame = g;
 	mNode = g->createGameNode(name);
 	mGame->registerActor(this);
@@ -35,7 +34,6 @@ Actor::~Actor()
 
 void Actor::tick(const FrameEvent& evt)
 {
-	translate(mSpeed * evt.timeSinceLastFrame, true);
 }
 
 
@@ -92,12 +90,6 @@ Vector3 Actor::location()
 Vector3 Actor::rotation()
 {
 	return mNode->getOrientation() * Ogre::Vector3(0, 1, 0);
-}
-
-
-Vector3 Actor::speed()
-{
-	return mSpeed;
 }
 
 

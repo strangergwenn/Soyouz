@@ -39,6 +39,12 @@ Player::~Player()
 	Public methods
 ----------------------------------------------*/
 
+void Player::tick(const FrameEvent& evt)
+{
+	translate(mSpeed * evt.timeSinceLastFrame, true);
+}
+
+
 Camera* Player::getCamera()
 {
 	return mCamera;

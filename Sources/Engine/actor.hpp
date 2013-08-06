@@ -8,6 +8,7 @@
 #ifndef __ACTOR_H_
 #define __ACTOR_H_
 
+#include "btBulletDynamicsCommon.h"
 #include "Engine/game.hpp"
 
 class Game;
@@ -90,22 +91,16 @@ public:
 	Vector3 rotation();
 	
 	/**
-	 * @brief Get the current speed
-	 * @return the speed
-	 **/
-	Vector3 speed();
-	
-	/**
 	 * @brief Get the current node
 	 * @return the node
 	 **/
 	SceneNode* getNode();
 
 
-protected: 
+protected:
 
-	Vector3 mSpeed;
-
+	
+	// Render data
 	Game* mGame;
 	SceneNode* mNode;
 

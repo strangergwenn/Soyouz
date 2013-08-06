@@ -45,15 +45,32 @@ public:
 	 * @param g				Game actor
 	 * @param name			Unique name to set to the mesh
 	 * @param file			Mesh file to load
-	 * @param file			Material name to use
+	 * @param material		Material name to use
 	 * @param bCastShadows	Should cast shadows
 	 **/
 	MeshActor(Game* g, String name, String file, String material, bool bCastShadows);
 	
 	/**
+	 * @brief Create an actor
+	 * @param g				Game actor
+	 * @param name			Unique name to set to the mesh
+	 * @param file			Mesh file to load
+	 * @param material		Material name to use
+	 * @param bCastShadows	Should cast shadows
+	 * @param mass			Physics mass
+	 **/
+	MeshActor(Game* g, String name, String file, String material, bool bCastShadows, float mass);
+	
+	/**
 	 * @brief Delete an actor
 	 **/
 	~MeshActor();
+	
+	/**
+	 * @brief Main tick event
+	 * @param evt			Frame event
+	 **/
+	virtual void tick(const FrameEvent& evt);
 	
 	/**
 	 * @brief Set a material
@@ -85,6 +102,16 @@ public:
 
 protected: 
 
+	
+	// Physics data
+	btScalar mPhysMass;
+	btRigidBody* mPhysBody;
+	btScalar mPhysMatrix[16];
+	btTransform mPhysTransform;
+	btCollisionShape* mPhysShape;
+	btDefaultMotionState* mPhysMotionState;
+
+	// Game data
 	Entity* mMesh;
 
 };

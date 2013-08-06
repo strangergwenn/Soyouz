@@ -9,6 +9,7 @@
 #ifndef __GAME_H_
 #define __GAME_H_
 
+#include "btBulletDynamicsCommon.h"
 #include "Engine/ogre.hpp"
 #include "Engine/iomanager.hpp"
 
@@ -98,7 +99,13 @@ public:
 	 * @param name					File name
 	 * @return the scene entity
 	 **/
-	Entity* Game::createGameEntity(String name, String file);
+	Entity* createGameEntity(String name, String file);
+	
+	/**
+	 * @brief Register a rigid body to the scene
+	 * @param body					Rigid body
+	 **/
+	void addRigidBody(btRigidBody* body);
 	
 	/**
 	 * @brief Write text to the log file
@@ -159,6 +166,11 @@ protected:
 	 * @brief Setup the player
 	 **/
 	virtual void setupPlayer();
+
+	/**
+	 * @brief Setup the physics world
+	 **/
+	virtual void setupPhysics();
 	
 	/**
 	 * @brief Dump a node to a string stream
@@ -169,12 +181,21 @@ protected:
 	 **/
 	void dumpNodes(std::stringstream &ss, Ogre::Node *n, int level);
 
-
+	
+	// OGRE data
 	Root* mRoot;
 	SceneManager* mScene;
 	RenderWindow* mWindow;
 	OverlaySystem* mOverlaySystem;
 
+	// Bullet data
+	btDiscreteDynamicsWorld *mPhysWorld;
+	btBroadphaseInterface *mPhysBroadphase;
+	btCollisionDispatcher *mPhysDispatcher;
+	btDefaultCollisionConfiguration *mPhysCollisionConfiguration;
+	btSequentialImpulseConstraintSolver *mPhysSequentialImpulseConstraintSolver;
+
+	// Custom data
 	Player* mPlayer;
 	IOManager* mIOManager;
 

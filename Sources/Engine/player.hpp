@@ -37,6 +37,12 @@ public:
 	virtual ~Player();
 	
 	/**
+	 * @brief Main tick event
+	 * @param evt			Frame event
+	 **/
+	virtual void tick(const FrameEvent& evt);
+	
+	/**
 	 * @brief Get the camera data
 	 * @return camera data
 	 **/
@@ -113,10 +119,13 @@ protected:
 	virtual bool axisMoved(const OIS::JoyStickEvent &, int axis);
 
 	
-	int mFOV;
+	// Movement data
 	Real mRotFactor;
+	Vector3 mSpeed;
 	Real mSpeedFactor;
 
+	// Render data
+	int mFOV;
 	Camera* mCamera;
 
 };

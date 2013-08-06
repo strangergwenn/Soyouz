@@ -49,7 +49,7 @@ public:
 		mSceneNode->setPosition(Ogre::Vector3(0, -64, -64));
 		
 		// Wood crate
-		MeshActor* crate = new MeshActor(this, "crate", "crate.mesh", "MI_Crate");
+		MeshActor* crate = new MeshActor(this, "crate", "crate.mesh", "MI_Crate", true, 1.0f);
 		crate->translate(Vector3(64, -96, -96));
 		
 		// Exhaust cone
