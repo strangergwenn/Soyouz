@@ -10,6 +10,7 @@
 
 #include "Engine/game.hpp"
 #include "Engine/actor.hpp"
+#include "Engine/bullet.hpp"
 
 class Game;
 
@@ -71,6 +72,24 @@ public:
 	 * @param evt			Frame event
 	 **/
 	virtual void tick(const FrameEvent& evt);
+	/**
+	 * @brief Set the the actor location in the world
+	 * @param offset		Location vector
+	 **/
+	virtual void setLocation(Vector3 newPos);
+
+	/**
+	 * @brief Translate the actor in the world
+	 * @param offset		Movement vector
+	 * @param bRelative		true if relative to the node
+	 **/
+	virtual void translate(Vector3 offset, bool bRelative = true);
+	
+	/**
+	 * @brief Rotate the actor in the world
+	 * @param offset		Rotation vector (pitch, yaw, roll) in degrees
+	 **/
+	virtual void rotate(Vector3 rotator);
 	
 	/**
 	 * @brief Set a material

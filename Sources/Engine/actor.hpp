@@ -8,7 +8,6 @@
 #ifndef __ACTOR_H_
 #define __ACTOR_H_
 
-#include "btBulletDynamicsCommon.h"
 #include "Engine/game.hpp"
 
 class Game;

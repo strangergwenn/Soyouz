@@ -9,8 +9,8 @@
 #ifndef __GAME_H_
 #define __GAME_H_
 
-#include "btBulletDynamicsCommon.h"
 #include "Engine/ogre.hpp"
+#include "Engine/bullet.hpp"
 #include "Engine/iomanager.hpp"
 
 class Actor;
@@ -189,11 +189,12 @@ protected:
 	OverlaySystem* mOverlaySystem;
 
 	// Bullet data
-	btDiscreteDynamicsWorld *mPhysWorld;
-	btBroadphaseInterface *mPhysBroadphase;
-	btCollisionDispatcher *mPhysDispatcher;
-	btDefaultCollisionConfiguration *mPhysCollisionConfiguration;
-	btSequentialImpulseConstraintSolver *mPhysSequentialImpulseConstraintSolver;
+	DebugDrawer* mDebugDrawer;
+	btDiscreteDynamicsWorld* mPhysWorld;
+	btBroadphaseInterface* mPhysBroadphase;
+	btCollisionDispatcher* mPhysDispatcher;
+	btDefaultCollisionConfiguration* mPhysCollisionConfiguration;
+	btSequentialImpulseConstraintSolver* mPhysSequentialImpulseConstraintSolver;
 
 	// Custom data
 	Player* mPlayer;

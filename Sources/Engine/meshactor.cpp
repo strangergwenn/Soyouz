@@ -54,9 +54,9 @@ MeshActor::MeshActor(Game* g, String name, String file, String material, bool bC
 	setMaterial(material);
 
 	// Physics settings
-	mPhysShape = new btBoxShape(btVector3(1,1,1));
+	mPhysShape = new btBoxShape(btVector3(10,10,10));
 	mPhysTransform.setIdentity();
-	mPhysTransform.setOrigin(btVector3(10,5,0)); 
+	mPhysTransform.setOrigin(btVector3(0, 0, 0));
 	btVector3 localInertia(0,0,0);
 	mPhysMass = 0.5f;
 	
@@ -70,7 +70,6 @@ MeshActor::MeshActor(Game* g, String name, String file, String material, bool bC
 		localInertia);
 	mPhysBody = new btRigidBody(rbConstruct);
 	mGame->addRigidBody(mPhysBody);
-
 }
 
 
@@ -93,6 +92,50 @@ void MeshActor::tick(const FrameEvent& evt)
 		const btVector3 &origin = mPhysTransform.getOrigin();
 		mNode->setPosition(origin.getX(), origin.getY(), origin.getZ());
 	}
+}
+
+
+void MeshActor::setLocation(Vector3 newPos)
+{
+	Vector3 location;
+	btTransform trans;
+
+	Actor::setLocation(newPos);
+
+	if (mPhysBody)
+	{
+		location = mNode->getPosition();
+		mPhysBody->getMotionState()->getWorldTransform(trans);
+		mPhysBody->translate(btVector3(
+			location[0] - trans.getOrigin().getX(),
+			location[1] - trans.getOrigin().getY(),
+			location[2] - trans.getOrigin().getZ()));
+	}
+}
+
+
+void MeshActor::translate(Vector3 offset, bool bRelative)
+{
+	Vector3 location;
+	btTransform trans;
+
+	Actor::translate(offset, bRelative);
+	
+	if (mPhysBody)
+	{
+		location = mNode->getPosition();
+		mPhysBody->getMotionState()->getWorldTransform(trans);
+		mPhysBody->translate(btVector3(
+			location[0] - trans.getOrigin().getX(),
+			location[1] - trans.getOrigin().getY(),
+			location[2] - trans.getOrigin().getZ()));
+	}
+}
+
+
+void MeshActor::rotate(Vector3 rotator)
+{
+	Actor::rotate(rotator);
 }
 
 

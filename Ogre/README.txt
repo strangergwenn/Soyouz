@@ -1,1 +1,0 @@
-Extract Ogre contents here.

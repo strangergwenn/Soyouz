@@ -50,7 +50,7 @@ public:
 		
 		// Wood crate
 		MeshActor* crate = new MeshActor(this, "crate", "crate.mesh", "MI_Crate", true, 1.0f);
-		crate->translate(Vector3(64, -96, -96));
+		crate->setLocation(Vector3(64, -96, -96));
 		
 		// Exhaust cone
 		MeshActor* cone = new MeshActor(this, "cone", "cone.mesh", "MI_Exhaust", false);

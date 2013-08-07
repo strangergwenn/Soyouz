@@ -87,6 +87,9 @@ void Game::tick(const FrameEvent& evt)
 		ref = *it;
         ref->tick(evt);
     }
+
+	// Debug
+	mDebugDrawer->step();
 }
 	
 
@@ -294,6 +297,10 @@ void Game::setupPhysics()
 		mPhysCollisionConfiguration);
 
 	mPhysWorld->setGravity(btVector3(0,-10,0));
+
+	mDebugDrawer = new DebugDrawer(mScene, mScene->getRootSceneNode(), mPhysWorld);
+	mDebugDrawer->setDebugMode(1);
+	mPhysWorld->setDebugDrawer(mDebugDrawer);
 }
 
 
