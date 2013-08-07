@@ -121,13 +121,25 @@ public:
 
 protected: 
 
+	/**
+	 * @brief Setup the collision data
+	 * @param mass			Mass to set
+	 **/
+	void generateCollisions(float mass);
+
+	/**
+	 * @brief Generate a triangle mesh from the OGRE mesh
+	 * @return a triangle mesh for Bullet
+	 **/
+	btConvexTriangleMeshShape* getTrianglesFromMesh();
+	
 	
 	// Physics data
 	btScalar mPhysMass;
 	btRigidBody* mPhysBody;
 	btScalar mPhysMatrix[16];
 	btTransform mPhysTransform;
-	btCollisionShape* mPhysShape;
+	btConvexHullShape* mPhysShape;
 	btDefaultMotionState* mPhysMotionState;
 
 	// Game data
