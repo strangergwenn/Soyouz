@@ -291,14 +291,15 @@ void MeshActor::generateCollisions(float mass)
 }
 
 
-void MeshActor::getCollisionMesh()
+void MeshActor::getCollisionMesh(bool bOptimize)
 {
 	Vector3* vertices;
 	size_t vCount, iCount;
 	unsigned long* indices;
 	Mesh* origin = mMesh->getMesh().get();
-	btTriangleMesh* trimesh = new btTriangleMesh();
 
+	// Trimesh preparation
+	btTriangleMesh* trimesh = new btTriangleMesh();
 	getMeshInformation(origin, vCount, vertices, iCount, indices,
 		Vector3::ZERO, mNode->getOrientation(), mNode->getScale());
 
@@ -317,28 +318,24 @@ void MeshActor::getCollisionMesh()
          trimesh->addTriangle(vertexPos[0], vertexPos[1], vertexPos[2]);
 	}
 	gameLog("getCollisionMesh : t " + StringConverter::toString(trimesh->getNumTriangles()) + " tris");
+	btConvexTriangleMeshShape* trishape = new btConvexTriangleMeshShape(trimesh, true);
 	
 	// Collision hull generation
-	btConvexTriangleMeshShape* trishape = new btConvexTriangleMeshShape(trimesh);
-	btShapeHull* hull = new btShapeHull(trishape);
-	btScalar margin = trishape->getMargin();
-	hull->buildHull(margin);
-	gameLog("getCollisionMesh : h " + StringConverter::toString(hull->numTriangles()) + " tris");
-	gameLog("getCollisionMesh : h " + StringConverter::toString(hull->numVertices()) + " verts");
-	
-	// New hull : copy data
-	btConvexHullShape* result = new btConvexHullShape();
-	for (int i = 0; i < hull->numVertices(); i++)
+	if (bOptimize)
 	{
-			result->addPoint(hull->getVertexPointer()[i]);
-	}
-	result->recalcLocalAabb();
-	gameLog("getCollisionMesh : r " + StringConverter::toString(result->getNumVertices()) + " verts");
+		btShapeHull* hull = new btShapeHull(trishape);
+		btScalar margin = trishape->getMargin();
+		hull->buildHull(margin);
+		mPhysShape = new btConvexHullShape((btScalar*)hull->getVertexPointer(), hull->numVertices());
 
-	// The end
-	//delete trishape;
-	delete hull;
-	mPhysShape = trishape;
+		gameLog("getCollisionMesh : h " + StringConverter::toString(hull->numTriangles()) + " tris");
+		delete trishape;
+		delete hull;
+	}
+	else
+	{
+		mPhysShape = trishape;
+	}
 }
 
 

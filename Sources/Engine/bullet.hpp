@@ -15,7 +15,7 @@
 
 
 /*----------------------------------------------
-	Class definitions
+	Debug drawer
 ----------------------------------------------*/
 
 class DebugDrawer : public btIDebugDraw
@@ -64,7 +64,7 @@ public:
 		if (mDebugOn)
 		{
 			mLineDrawer->clear();
-			mLineDrawer->begin("DebugMaterial", Ogre::RenderOperation::OT_LINE_LIST); 
+			mLineDrawer->begin("DebugMaterial", RenderOperation::OT_LINE_LIST); 
 			mWorld->debugDrawWorld();
 			mLineDrawer->end(); 
 			mNode->needUpdate();
@@ -104,7 +104,7 @@ public:
 	 **/
 	void reportErrorWarning(const char* warningString)
 	{
-		Ogre::LogManager::getSingleton().logMessage(warningString);
+		LogManager::getSingleton().logMessage(warningString);
 	}
  
 	/**

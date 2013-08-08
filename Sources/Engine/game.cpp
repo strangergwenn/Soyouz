@@ -159,7 +159,7 @@ bool Game::setup(bool bShowConfig)
 	setupResources();
 	setupSystem("OpenGL");
 	setupRender(true);
-	setupPhysics(true);
+	setupPhysics(false);
 
 	construct();
 	return true;

@@ -135,9 +135,10 @@ protected:
 
 	/**
 	 * @brief Generate a hull mesh from the OGRE mesh
+	 * @param bOptimize		Set to true to enable hull reduction
 	 * @return a hull mesh for Bullet
 	 **/
-	void getCollisionMesh();
+	void getCollisionMesh(bool bOptimize = false);
 	
 	
 	// Physics data
