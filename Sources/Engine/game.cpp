@@ -60,9 +60,8 @@ Game::~Game()
 
 void Game::run()
 {
-	setup(false);
+	setup();
 	mRoot->startRendering();
-
 	while (!mWindow->isClosed() && mRoot->renderOneFrame())
 	{
 	    WindowEventUtilities::messagePump();
@@ -154,13 +153,12 @@ SceneManager* Game::getScene()
 	Protected methods
 ----------------------------------------------*/
 
-bool Game::setup(bool bShowConfig)
+bool Game::setup()
 {
 	setupResources();
 	setupSystem("OpenGL");
 	setupRender(true);
-	setupPhysics(false);
-
+	setupPhysics(Vector3(0, -9.81f, 0), false);
 	construct();
 	return true;
 }
@@ -283,7 +281,7 @@ void Game::setupRender(bool bShowPostProcess)
 }
 
 
-void Game::setupPhysics(bool bDrawDebug)
+void Game::setupPhysics(Vector3 gravity, bool bDrawDebug)
 {
 	mPhysCollisionConfiguration = new btDefaultCollisionConfiguration();
 	mPhysDispatcher = new btCollisionDispatcher(mPhysCollisionConfiguration);
@@ -296,7 +294,7 @@ void Game::setupPhysics(bool bDrawDebug)
 		mPhysSequentialImpulseConstraintSolver,
 		mPhysCollisionConfiguration);
 
-	mPhysWorld->setGravity(btVector3(0,-10,0));
+	mPhysWorld->setGravity(btVector3(gravity[0], gravity[1], gravity[2]));
 
 	mDebugDrawer = new DebugDrawer(mScene, mScene->getRootSceneNode(), mPhysWorld);
 	mDebugDrawer->setDebugMode(bDrawDebug ? 1:0);

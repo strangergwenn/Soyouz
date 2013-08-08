@@ -71,18 +71,6 @@ fragment_program PS_Glow glsl
 //	Post-processing shaders
 //-----------------------------------------------
 
-// Add pixel shader
-fragment_program PS_Add glsl
-{
-	source PS_Add.glsl
-	default_params
-	{
-		param_named_auto invTexSize inverse_texture_size 0
-		param_named scene			int 0
-		param_named overlay			int 1
-	}
-}
-
 // Blur pixel shader
 fragment_program PS_Blur glsl
 {

@@ -12,7 +12,7 @@ material Smoke
 
 	technique main
 	{
-		scheme overlay
+		scheme glow
 		pass main
 		{
 			lighting off

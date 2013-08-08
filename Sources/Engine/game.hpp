@@ -72,7 +72,7 @@ public:
 	 * @brief Main tick event
 	 * @param evt			Frame event
 	 **/
-	void tick(const FrameEvent& evt);
+	virtual void tick(const FrameEvent& evt);
 	
 	/**
 	 * @brief Register an actor to the world
@@ -111,7 +111,7 @@ public:
 	 * @brief Write text to the log file
 	 * @param text				Input data
 	 **/
-	void gameLog(String text);
+	virtual void gameLog(String text);
  
 	/**
 	 * @brief Dump all scene nodes to the log file
@@ -121,7 +121,7 @@ public:
 	/**
 	 * @brief Quit the game
 	 **/
-	void quit();
+	virtual void quit();
 	
 	/**
 	 * @brief Get the current scene manager
@@ -145,7 +145,7 @@ protected:
 	/**
 	 * @brief Setup the level
 	 **/
-	virtual bool setup(bool bShowConfig = true);
+	virtual bool setup();
 
 	/**
 	 * @brief Setup resources
@@ -154,11 +154,13 @@ protected:
 	
 	/**
 	 * @brief Setup the render sytsem
+	 * @param desiredRenderer	Render system to use
 	 **/
 	virtual bool setupSystem(const String desiredRenderer);
 
 	/**
 	 * @brief Setup rendering methods
+	 * @param bShowPostProcess	Should show post processing
 	 **/
 	virtual void setupRender(bool bShowPostProcess = true);
 	
@@ -169,8 +171,10 @@ protected:
 
 	/**
 	 * @brief Setup the physics world
+	 * @param gravity			Gravity vector
+	 * @param bDrawDebug		Should display hulls
 	 **/
-	virtual void setupPhysics(bool bDrawDebug = false);
+	virtual void setupPhysics(Vector3 gravity, bool bDrawDebug = false);
 	
 	/**
 	 * @brief Dump a node to a string stream

@@ -48,9 +48,11 @@ public:
 		mSceneNode->attachObject(mEntity);
 		mSceneNode->setPosition(Ogre::Vector3(0, -64, -64));
 		
-		// Wood crate
-		MeshActor* crate = new MeshActor(this, "crate", "crate.mesh", "MI_Crate", true, 1.0f);
-		crate->setLocation(Vector3(64, -96, -96));
+		// Wood crates
+		MeshActor* crate = new MeshActor(this, "crate", "crate.mesh", "MI_Crate", true, 100.0f);
+		crate->setLocation(Vector3(92, 64, -96));
+		MeshActor* crate2 = new MeshActor(this, "crate2", "crate.mesh", "MI_Crate", true, 0.0f);
+		crate2->setLocation(Vector3(64, -64, -96));
 		
 		// Exhaust cone
 		MeshActor* cone = new MeshActor(this, "cone", "cone.mesh", "MI_Exhaust", false);
@@ -58,8 +60,8 @@ public:
 		cone->translate(Vector3(256, -64, -64));
 		
 		// Smoke
-		//ParticleSystem* ps = mScene->createParticleSystem("FX", "Smoke");
-		//mScene->getRootSceneNode()->attachObject(ps);
+		ParticleSystem* ps = mScene->createParticleSystem("FX", "Smoke");
+		mScene->getRootSceneNode()->attachObject(ps);
 
 		// Ground plane
 		Plane plane(Vector3::UNIT_Y, 0);
