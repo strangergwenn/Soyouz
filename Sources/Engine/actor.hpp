@@ -59,6 +59,12 @@ public:
 	virtual void setLocation(Vector3 newPos);
 
 	/**
+	 * @brief Set the the actor rotation in the world
+	 * @param offset		Rotation vector
+	 **/
+	virtual void setRotation(Vector3 newRot);
+
+	/**
 	 * @brief Translate the actor in the world
 	 * @param offset		Movement vector
 	 * @param bRelative		true if relative to the node

@@ -57,6 +57,12 @@ void Actor::setLocation(Vector3 newPos)
 }
 
 
+void Actor::setRotation(Vector3 newRot)
+{
+	mNode->setOrientation(0, newRot[0], newRot[1], newRot[2]);
+}
+
+
 void Actor::translate(Vector3 offset, bool bRelative)
 {
 	mNode->translate(offset[0], offset[1], offset[2], bRelative ? Node::TS_LOCAL : Node::TS_WORLD);

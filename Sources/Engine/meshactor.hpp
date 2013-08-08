@@ -79,6 +79,12 @@ public:
 	virtual void setLocation(Vector3 newPos);
 
 	/**
+	 * @brief Set the the actor rotation in the world
+	 * @param offset		Rotation vector
+	 **/
+	virtual void setRotation(Vector3 newRot);
+
+	/**
 	 * @brief Translate the actor in the world
 	 * @param offset		Movement vector
 	 * @param bRelative		true if relative to the node
@@ -128,10 +134,10 @@ protected:
 	void generateCollisions(float mass);
 
 	/**
-	 * @brief Generate a triangle mesh from the OGRE mesh
-	 * @return a triangle mesh for Bullet
+	 * @brief Generate a hull mesh from the OGRE mesh
+	 * @return a hull mesh for Bullet
 	 **/
-	btConvexTriangleMeshShape* getTrianglesFromMesh();
+	btConvexHullShape* getCollisionMesh();
 	
 	
 	// Physics data

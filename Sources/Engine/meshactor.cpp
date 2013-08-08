@@ -70,7 +70,7 @@ void MeshActor::tick(const FrameEvent& evt)
 	{
 		mPhysBody->getMotionState()->getWorldTransform(mPhysTransform);
 		btQuaternion rotation(mPhysTransform.getRotation());
-		mNode->setOrientation(rotation.getW(), rotation.getX(), rotation.getY(), rotation.getZ());
+		mNode->setOrientation(rotation.getW(), -rotation.getX(), rotation.getY(), rotation.getZ());
 		const btVector3 &origin = mPhysTransform.getOrigin();
 		mNode->setPosition(origin.getX(), origin.getY(), origin.getZ());
 	}
@@ -82,8 +82,6 @@ void MeshActor::setLocation(Vector3 newPos)
 	Vector3 location;
 	btTransform trans;
 
-	Actor::setLocation(newPos);
-
 	if (mPhysBody)
 	{
 		location = mNode->getPosition();
@@ -93,6 +91,28 @@ void MeshActor::setLocation(Vector3 newPos)
 			location[1] - trans.getOrigin().getY(),
 			location[2] - trans.getOrigin().getZ()));
 	}
+	else
+	{
+		Actor::setLocation(newPos);
+	}
+}
+
+
+void MeshActor::setRotation(Vector3 newRot)
+{
+	if (mPhysBody)
+	{
+		btTransform tr;
+		tr.setIdentity();
+		btQuaternion quat;
+		quat.setEuler(newRot[1], newRot[0], newRot[2]);
+		tr.setRotation(quat);
+		mPhysBody->setWorldTransform(tr);
+	}
+	else
+	{
+		Actor::setRotation(newRot);
+	}
 }
 
 
@@ -100,8 +120,6 @@ void MeshActor::translate(Vector3 offset, bool bRelative)
 {
 	Vector3 location;
 	btTransform trans;
-
-	Actor::translate(offset, bRelative);
 	
 	if (mPhysBody)
 	{
@@ -112,12 +130,29 @@ void MeshActor::translate(Vector3 offset, bool bRelative)
 			location[1] - trans.getOrigin().getY(),
 			location[2] - trans.getOrigin().getZ()));
 	}
+	else
+	{
+		Actor::translate(offset, bRelative);
+	}
 }
 
 
 void MeshActor::rotate(Vector3 rotator)
 {
-	Actor::rotate(rotator);
+	btTransform tr;
+
+	if (mPhysBody)
+	{
+		tr.setIdentity();
+		btQuaternion quat(mPhysTransform.getRotation());
+		quat.setEuler(rotator[1], rotator[0], rotator[2]);
+		tr.setRotation(quat);
+		mPhysBody->setWorldTransform(tr);
+	}
+	else
+	{
+		Actor::rotate(rotator);
+	}
 }
 
 
@@ -239,24 +274,8 @@ void getMeshInformation(const Mesh* const mesh,
 
 void MeshActor::generateCollisions(float mass)
 {
-	// Collision hull generation
-	btConvexShape* tmpShape = getTrianglesFromMesh();
-    btShapeHull* hull = new btShapeHull(tmpShape);
-    btScalar margin = tmpShape->getMargin();
-    hull->buildHull(margin);
-    tmpShape->setUserPointer(hull);
-
-	// New hull : copy data
-    mPhysShape = new btConvexHullShape();
-    for (int i = 0; i < hull->numVertices(); i++)
-    {
-            mPhysShape->addPoint(hull->getVertexPointer()[i]);    
-    }
-    mPhysShape->recalcLocalAabb();
-	delete tmpShape;
-	delete hull;
-	
 	// Physics settings
+	mPhysShape = getCollisionMesh();
 	mPhysTransform.setIdentity();
 	mPhysTransform.setOrigin(btVector3(0, 0, 0));
 	btVector3 localInertia(0,0,0);
@@ -277,7 +296,7 @@ void MeshActor::generateCollisions(float mass)
 }
 
 
-btConvexTriangleMeshShape* MeshActor::getTrianglesFromMesh()
+btConvexHullShape* MeshActor::getCollisionMesh()
 {
 	Vector3* vertices;
 	size_t vCount, iCount;
@@ -288,6 +307,7 @@ btConvexTriangleMeshShape* MeshActor::getTrianglesFromMesh()
 	getMeshInformation(origin, vCount, vertices, iCount, indices,
 		Vector3::ZERO, mNode->getOrientation(), mNode->getScale());
 
+	// Triangle copy
     btVector3 vertexPos[3];
 	for (size_t n = 0; n < iCount / 3; n++)
 	{
@@ -301,8 +321,28 @@ btConvexTriangleMeshShape* MeshActor::getTrianglesFromMesh()
          }
          trimesh->addTriangle(vertexPos[0], vertexPos[1], vertexPos[2]);
 	}
+	gameLog("getCollisionMesh : t " + StringConverter::toString(trimesh->getNumTriangles()) + " tris");
+	
+	// Collision hull generation
+	btConvexTriangleMeshShape* trishape = new btConvexTriangleMeshShape(trimesh);
+	btShapeHull* hull = new btShapeHull(trishape);
+	btScalar margin = trishape->getMargin();
+	hull->buildHull(margin);
+	gameLog("getCollisionMesh : h " + StringConverter::toString(hull->numTriangles()) + " tris");
+	gameLog("getCollisionMesh : h " + StringConverter::toString(hull->numVertices()) + " verts");
+	
+	// New hull : copy data
+	btConvexHullShape* result = new btConvexHullShape();
+	for (int i = 0; i < hull->numVertices(); i++)
+	{
+			result->addPoint(hull->getVertexPointer()[i]);
+	}
+	result->recalcLocalAabb();
+	gameLog("getCollisionMesh : r " + StringConverter::toString(result->getNumVertices()) + " verts");
 
-	btConvexTriangleMeshShape* result = new btConvexTriangleMeshShape(trimesh);
+	// The end
+	delete trishape;
+	delete hull;
 	return result;
 }
 
