@@ -158,8 +158,8 @@ bool Game::setup(bool bShowConfig)
 {
 	setupResources();
 	setupSystem("OpenGL");
-	setupRender();
-	setupPhysics();
+	setupRender(true);
+	setupPhysics(true);
 
 	construct();
 	return true;
@@ -238,7 +238,7 @@ bool Game::setupSystem(const String desiredRenderer)
 }
 
 
-void Game::setupRender()
+void Game::setupRender(bool bShowPostProcess)
 {
 	mWindow = mRoot->initialise(true, "Soyouz");
 	mScene = mRoot->createSceneManager(ST_GENERIC, "GameScene");
@@ -277,13 +277,13 @@ void Game::setupRender()
 
 	// Post-processing	
 	CompositorManager::getSingleton().addCompositor(cam->getViewport(), "PostProcess");
-	CompositorManager::getSingleton().setCompositorEnabled(cam->getViewport(), "PostProcess", true);
+	CompositorManager::getSingleton().setCompositorEnabled(cam->getViewport(), "PostProcess", bShowPostProcess);
 	PostProcessListener *gml = new PostProcessListener();
 	Ogre::MaterialManager::getSingleton().addListener(gml);
 }
 
 
-void Game::setupPhysics()
+void Game::setupPhysics(bool bDrawDebug)
 {
 	mPhysCollisionConfiguration = new btDefaultCollisionConfiguration();
 	mPhysDispatcher = new btCollisionDispatcher(mPhysCollisionConfiguration);
@@ -299,7 +299,7 @@ void Game::setupPhysics()
 	mPhysWorld->setGravity(btVector3(0,-10,0));
 
 	mDebugDrawer = new DebugDrawer(mScene, mScene->getRootSceneNode(), mPhysWorld);
-	mDebugDrawer->setDebugMode(1);
+	mDebugDrawer->setDebugMode(bDrawDebug ? 1:0);
 	mPhysWorld->setDebugDrawer(mDebugDrawer);
 }
 

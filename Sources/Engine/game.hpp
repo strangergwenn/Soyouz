@@ -160,7 +160,7 @@ protected:
 	/**
 	 * @brief Setup rendering methods
 	 **/
-	virtual void setupRender();
+	virtual void setupRender(bool bShowPostProcess = true);
 	
 	/**
 	 * @brief Setup the player
@@ -170,7 +170,7 @@ protected:
 	/**
 	 * @brief Setup the physics world
 	 **/
-	virtual void setupPhysics();
+	virtual void setupPhysics(bool bDrawDebug = false);
 	
 	/**
 	 * @brief Dump a node to a string stream

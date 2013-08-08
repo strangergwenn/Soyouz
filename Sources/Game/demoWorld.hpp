@@ -30,7 +30,7 @@ public:
 		// Airlock
 		MeshActor* act2 = new MeshActor(this, "DemoMesh", "Airlock.mesh", "MI_Airlock", true, 0.0f);
 		act2->setLocation(Vector3(-256,-128,0));
-		//act2->setRotation(Vector3(0,90,0));
+		act2->setRotation(Vector3(0,90,0));
 		
 		// zCrate
 		Ogre::SceneNode* mSceneNode2 = mScene->getRootSceneNode()->createChildSceneNode();

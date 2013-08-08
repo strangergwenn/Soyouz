@@ -68,9 +68,9 @@ void MeshActor::tick(const FrameEvent& evt)
 {
 	if (mPhysBody)
 	{
-		mPhysBody->getMotionState()->getWorldTransform(mPhysTransform);
+		mPhysTransform = mPhysBody->getWorldTransform();
 		btQuaternion rotation(mPhysTransform.getRotation());
-		mNode->setOrientation(rotation.getW(), -rotation.getX(), rotation.getY(), rotation.getZ());
+		mNode->setOrientation(rotation.getW(), rotation.getX(), rotation.getY(), rotation.getZ());
 		const btVector3 &origin = mPhysTransform.getOrigin();
 		mNode->setPosition(origin.getX(), origin.getY(), origin.getZ());
 	}
@@ -79,17 +79,13 @@ void MeshActor::tick(const FrameEvent& evt)
 
 void MeshActor::setLocation(Vector3 newPos)
 {
-	Vector3 location;
-	btTransform trans;
-
 	if (mPhysBody)
 	{
-		location = mNode->getPosition();
-		mPhysBody->getMotionState()->getWorldTransform(trans);
-		mPhysBody->translate(btVector3(
-			location[0] - trans.getOrigin().getX(),
-			location[1] - trans.getOrigin().getY(),
-			location[2] - trans.getOrigin().getZ()));
+		mPhysTransform.setOrigin(btVector3(
+			newPos[0],
+			newPos[1],
+			newPos[2]));
+		mPhysBody->setWorldTransform(mPhysTransform);
 	}
 	else
 	{
@@ -102,12 +98,13 @@ void MeshActor::setRotation(Vector3 newRot)
 {
 	if (mPhysBody)
 	{
-		btTransform tr;
-		tr.setIdentity();
 		btQuaternion quat;
-		quat.setEuler(newRot[1], newRot[0], newRot[2]);
-		tr.setRotation(quat);
-		mPhysBody->setWorldTransform(tr);
+		quat.setEuler(
+			Degree::Degree(newRot[1]).valueRadians(),
+			Degree::Degree(newRot[0]).valueRadians(),
+			Degree::Degree(newRot[2]).valueRadians());
+		mPhysTransform.setRotation(quat);
+		mPhysBody->setWorldTransform(mPhysTransform);
 	}
 	else
 	{
@@ -118,17 +115,14 @@ void MeshActor::setRotation(Vector3 newRot)
 
 void MeshActor::translate(Vector3 offset, bool bRelative)
 {
-	Vector3 location;
-	btTransform trans;
-	
 	if (mPhysBody)
 	{
-		location = mNode->getPosition();
-		mPhysBody->getMotionState()->getWorldTransform(trans);
-		mPhysBody->translate(btVector3(
-			location[0] - trans.getOrigin().getX(),
-			location[1] - trans.getOrigin().getY(),
-			location[2] - trans.getOrigin().getZ()));
+		btVector3 base = mPhysTransform.getOrigin();
+		mPhysTransform.setOrigin(btVector3(
+			base[0] + offset[0],
+			base[1] + offset[1],
+			base[2] + offset[2]));
+		mPhysBody->setWorldTransform(mPhysTransform);
 	}
 	else
 	{
@@ -139,15 +133,16 @@ void MeshActor::translate(Vector3 offset, bool bRelative)
 
 void MeshActor::rotate(Vector3 rotator)
 {
-	btTransform tr;
 
 	if (mPhysBody)
 	{
-		tr.setIdentity();
 		btQuaternion quat(mPhysTransform.getRotation());
-		quat.setEuler(rotator[1], rotator[0], rotator[2]);
-		tr.setRotation(quat);
-		mPhysBody->setWorldTransform(tr);
+		quat.setEuler(
+			Degree::Degree(rotator[1]).valueRadians(),
+			Degree::Degree(rotator[0]).valueRadians(),
+			Degree::Degree(rotator[2]).valueRadians());
+		mPhysTransform.setRotation(quat);
+		mPhysBody->getMotionState()->setWorldTransform(mPhysTransform);
 	}
 	else
 	{
@@ -275,11 +270,11 @@ void getMeshInformation(const Mesh* const mesh,
 void MeshActor::generateCollisions(float mass)
 {
 	// Physics settings
-	mPhysShape = getCollisionMesh();
+	getCollisionMesh();
 	mPhysTransform.setIdentity();
 	mPhysTransform.setOrigin(btVector3(0, 0, 0));
 	btVector3 localInertia(0,0,0);
-	mPhysMass = 0.5f;
+	mPhysMass = mass;
 	
 	// Physics setup
 	mPhysShape->calculateLocalInertia(mass, localInertia);
@@ -296,7 +291,7 @@ void MeshActor::generateCollisions(float mass)
 }
 
 
-btConvexHullShape* MeshActor::getCollisionMesh()
+void MeshActor::getCollisionMesh()
 {
 	Vector3* vertices;
 	size_t vCount, iCount;
@@ -341,9 +336,9 @@ btConvexHullShape* MeshActor::getCollisionMesh()
 	gameLog("getCollisionMesh : r " + StringConverter::toString(result->getNumVertices()) + " verts");
 
 	// The end
-	delete trishape;
+	//delete trishape;
 	delete hull;
-	return result;
+	mPhysShape = trishape;
 }
 
 

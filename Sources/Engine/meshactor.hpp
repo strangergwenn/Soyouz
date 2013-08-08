@@ -137,15 +137,14 @@ protected:
 	 * @brief Generate a hull mesh from the OGRE mesh
 	 * @return a hull mesh for Bullet
 	 **/
-	btConvexHullShape* getCollisionMesh();
+	void getCollisionMesh();
 	
 	
 	// Physics data
 	btScalar mPhysMass;
 	btRigidBody* mPhysBody;
-	btScalar mPhysMatrix[16];
 	btTransform mPhysTransform;
-	btConvexHullShape* mPhysShape;
+	btConvexShape* mPhysShape;
 	btDefaultMotionState* mPhysMotionState;
 
 	// Game data
