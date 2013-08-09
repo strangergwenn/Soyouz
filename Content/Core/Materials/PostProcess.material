@@ -5,39 +5,6 @@
 // @author Gwennaël ARBONA
 //
 
-// Add material
-material PostProcess/Add
-{
-	technique main
-	{
-		pass main
-		{			
-			vertex_program_ref VS_UVMap
-			{
-				param_named_auto projection		worldviewproj_matrix
-			}
- 
-			fragment_program_ref PS_Add
-			{
-			}
- 
-			texture_unit scene
-			{
-				tex_coord_set 0
-				tex_address_mode clamp
-				filtering trilinear
-			}
- 
-			texture_unit input
-			{
-				tex_coord_set 0
-				tex_address_mode clamp
-				filtering trilinear
-			}
-		}
-	}
-}
-
 // Blur material
 material PostProcess/Blur
 {

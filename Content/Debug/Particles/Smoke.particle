@@ -1,7 +1,7 @@
 
 particle_system Smoke
 {
-	material        	Smoke
+	material        	MI_Smoke
 	particle_width  	35
 	particle_height 	35
 	cull_each       	true
