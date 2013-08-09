@@ -15,9 +15,12 @@
 MeshActor::MeshActor(Game* g, String name, String file)
 	: Actor(g, name)
 {
-	mMesh = g->createGameEntity(name + "_mesh", file);
-	mMesh->setCastShadows(true);
-	mNode->attachObject(mMesh);
+	if (file.length() > 0)
+	{
+		mMesh = g->createGameEntity(name + "_mesh", file);
+		mMesh->setCastShadows(true);
+		mNode->attachObject(mMesh);
+	}
 	mPhysBody = NULL;
 }
 
@@ -25,10 +28,13 @@ MeshActor::MeshActor(Game* g, String name, String file)
 MeshActor::MeshActor(Game* g, String name, String file, String material)
 	: Actor(g, name)
 {
-	mMesh = g->createGameEntity(name + "_mesh", file);
-	mMesh->setCastShadows(true);
-	mNode->attachObject(mMesh);
-	setMaterial(material);
+	if (file.length() > 0)
+	{
+		mMesh = g->createGameEntity(name + "_mesh", file);
+		mMesh->setCastShadows(true);
+		mNode->attachObject(mMesh);
+		setMaterial(material);
+	}
 	mPhysBody = NULL;
 }
 
@@ -36,10 +42,13 @@ MeshActor::MeshActor(Game* g, String name, String file, String material)
 MeshActor::MeshActor(Game* g, String name, String file, String material, bool bCastShadows)
 	: Actor(g, name)
 {
-	mMesh = g->createGameEntity(name + "_mesh", file);
-	mMesh->setCastShadows(bCastShadows);
-	mNode->attachObject(mMesh);
-	setMaterial(material);
+	if (file.length() > 0)
+	{
+		mMesh = g->createGameEntity(name + "_mesh", file);
+		mMesh->setCastShadows(bCastShadows);
+		mNode->attachObject(mMesh);
+		setMaterial(material);
+	}
 	mPhysBody = NULL;
 }
 
@@ -133,7 +142,6 @@ void MeshActor::translate(Vector3 offset, bool bRelative)
 
 void MeshActor::rotate(Vector3 rotator)
 {
-
 	if (mPhysBody)
 	{
 		btQuaternion quat(mPhysTransform.getRotation());
@@ -148,6 +156,27 @@ void MeshActor::rotate(Vector3 rotator)
 	{
 		Actor::rotate(rotator);
 	}
+}
+
+
+void MeshActor::applyForce(Vector3 force, Vector3 location)
+{
+	mPhysBody->setActivationState(DISABLE_DEACTIVATION);
+	btVector3 f = btVector3(force[0], force[1], force[2]);
+	btVector3 p = btVector3(location[0], location[1], location[2]);
+	
+	mPhysBody->applyForce(f, p);
+	/*mPhysBody->applyCentralForce(f);
+	btTransform rotate_with_body;
+	rotate_with_body.setIdentity();
+	rotate_with_body.setRotation(mPhysBody->getCenterOfMassTransform().getRotation());
+	mPhysBody->applyTorque(rotate_with_body(p).cross(f) * mPhysBody->getAngularFactor());*/
+}
+
+
+void MeshActor::clearForces()
+{
+	mPhysBody->clearForces();
 }
 
 

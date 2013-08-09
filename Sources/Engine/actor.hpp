@@ -35,6 +35,12 @@ public:
 	~Actor();
 	
 	/**
+	 * @brief Pre-tick event
+	 * @param evt			Frame event
+	 **/
+	virtual void preTick(const FrameEvent& evt);
+	
+	/**
 	 * @brief Main tick event
 	 * @param evt			Frame event
 	 **/
@@ -53,16 +59,22 @@ public:
 	virtual void attachActor(Actor* obj);
 
 	/**
-	 * @brief Set the the actor location in the world
+	 * @brief Set the actor location in the world
 	 * @param offset		Location vector
 	 **/
 	virtual void setLocation(Vector3 newPos);
 
 	/**
-	 * @brief Set the the actor rotation in the world
+	 * @brief Set the actor rotation in the world
 	 * @param offset		Rotation vector
 	 **/
 	virtual void setRotation(Vector3 newRot);
+
+	/**
+	 * @brief Set the actor scale
+	 * @param scale			New scale
+	 **/
+	virtual void setScale(float scale);
 
 	/**
 	 * @brief Translate the actor in the world

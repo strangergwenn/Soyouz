@@ -73,12 +73,13 @@ void Game::run()
 void Game::tick(const FrameEvent& evt)
 {
 	Actor* ref;
-	
-	// Physics tick
-	if (mPhysWorld)
-	{
-		mPhysWorld->stepSimulation(evt.timeSinceLastFrame);
-	}
+
+	// Actor pre-tick
+	for (list<Actor*>::iterator it = mAllActors.begin(); it != mAllActors.end(); it++)
+    {
+		ref = *it;
+        ref->preTick(evt);
+    }
 
 	// Actor tick
 	for (list<Actor*>::iterator it = mAllActors.begin(); it != mAllActors.end(); it++)
@@ -86,8 +87,14 @@ void Game::tick(const FrameEvent& evt)
 		ref = *it;
         ref->tick(evt);
     }
+	
+	// Physics tick
+	if (mPhysWorld)
+	{
+		mPhysWorld->stepSimulation(evt.timeSinceLastFrame);
+	}
 
-	// Debug
+	// Debug physics
 	mDebugDrawer->step();
 }
 	
@@ -157,8 +164,8 @@ bool Game::setup()
 {
 	setupResources();
 	setupSystem("OpenGL");
+	setupPhysics(Vector3(0, 0, 0), false);
 	setupRender(true);
-	setupPhysics(Vector3(0, -9.81f, 0), false);
 	construct();
 	return true;
 }
@@ -232,14 +239,18 @@ bool Game::setupSystem(const String desiredRenderer)
 	renderSystem->setConfigOption("VSync", "No");
     renderSystem->setConfigOption("Full Screen", "No");
     renderSystem->setConfigOption("Video Mode", "1280 x 720");
+	mWindow = mRoot->initialise(true, "Soyouz");
+	mScene = mRoot->createSceneManager(ST_GENERIC, "GameScene");
     return true;
 }
 
 
 void Game::setupRender(bool bShowPostProcess)
 {
-	mWindow = mRoot->initialise(true, "Soyouz");
-	mScene = mRoot->createSceneManager(ST_GENERIC, "GameScene");
+	// Render resources
+	ResourceGroupManager::getSingleton().initialiseResourceGroup("Boot");
+	ResourceGroupManager::getSingleton().initialiseResourceGroup("Core");
+	ResourceGroupManager::getSingleton().initialiseResourceGroup("Game");
 
 	// Player
 	if (mOverlaySystem)
@@ -257,9 +268,6 @@ void Game::setupRender(bool bShowPostProcess)
 	
 	// Engine settings
 	TextureManager::getSingleton().setDefaultNumMipmaps(5);
-	ResourceGroupManager::getSingleton().initialiseResourceGroup("Boot");
-	ResourceGroupManager::getSingleton().initialiseResourceGroup("Core");
-	ResourceGroupManager::getSingleton().initialiseResourceGroup("Game");
 	MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_ANISOTROPIC);
 	MaterialManager::getSingleton().setDefaultAnisotropy(8);
 

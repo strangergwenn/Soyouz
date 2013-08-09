@@ -467,6 +467,9 @@
     <ClInclude Include="Sources\Engine\actor.hpp" />
     <ClInclude Include="Sources\Engine\iomanager.hpp" />
     <ClInclude Include="Sources\Engine\game.hpp" />
+    <ClInclude Include="Sources\Game\demoPlayer.hpp" />
+    <ClInclude Include="Sources\Game\engine.hpp" />
+    <ClInclude Include="Sources\Game\ship.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\plugins.cfg" />

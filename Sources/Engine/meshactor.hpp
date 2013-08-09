@@ -98,6 +98,18 @@ public:
 	virtual void rotate(Vector3 rotator);
 	
 	/**
+	 * @brief Apply a physical force
+	 * @param force			Force data
+	 * @param location		Force relative location
+	 **/
+	void applyForce(Vector3 force, Vector3 location);
+	
+	/**
+	 * @brief Remove all physical forces
+	 **/
+	void clearForces();
+	
+	/**
 	 * @brief Set a material
 	 * @param name			Material path
 	 **/

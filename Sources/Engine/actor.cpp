@@ -31,6 +31,11 @@ Actor::~Actor()
 	Methods
 ----------------------------------------------*/
 
+void Actor::preTick(const FrameEvent& evt)
+{
+}
+
+
 void Actor::tick(const FrameEvent& evt)
 {
 }
@@ -60,6 +65,12 @@ void Actor::setLocation(Vector3 newPos)
 void Actor::setRotation(Vector3 newRot)
 {
 	mNode->setOrientation(0, newRot[0], newRot[1], newRot[2]);
+}
+
+
+void Actor::setScale(float scale)
+{
+	mNode->setScale(scale, scale, scale);
 }
 
 
