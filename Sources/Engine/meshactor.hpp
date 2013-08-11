@@ -117,24 +117,24 @@ public:
 	
 	/**
 	 * @brief Set a material parameter
-	 * @param name			Parameter name
+	 * @param index			Parameter index
 	 * @param val			Parameter value
 	 **/
-	void setMaterialParam(String name, Real val);
+	void setMaterialParam(int index, Real val);
 	
 	/**
 	 * @brief Set a material parameter
-	 * @param name			Parameter name
+	 * @param index			Parameter index
 	 * @param val			Parameter value
 	 **/
-	void setMaterialParam(String name, Vector3 val);
+	void setMaterialParam(int index, Vector3 val);
 	
 	/**
 	 * @brief Set a material parameter
-	 * @param name			Parameter name
+	 * @param index			Parameter index
 	 * @param val			Parameter value
 	 **/
-	void setMaterialParam(String name, Vector4 val);
+	void setMaterialParam(int index, Vector4 val);
 
 
 protected: 
@@ -161,6 +161,7 @@ protected:
 	btDefaultMotionState* mPhysMotionState;
 
 	// Game data
+	String mMaterialName;
 	Entity* mMesh;
 
 };

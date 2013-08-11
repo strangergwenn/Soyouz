@@ -13,7 +13,7 @@
 
 uniform float		baseStrength;
 uniform float		basePower;
-uniform float		baseAlpha;
+uniform vec4		baseAlpha;
 
 uniform float		panningX;
 uniform float		panningY;
@@ -51,5 +51,5 @@ void main()
 	vec4 base = vec4(baseColor, 1 - alpha) * (1 - basePowerData);
 
 	pPixel = (base + light) * panningData * baseStrength;
-	pPixel.w = alpha * baseAlpha;
+	pPixel.w = alpha * baseAlpha.x;
 }

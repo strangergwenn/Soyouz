@@ -51,7 +51,7 @@ public:
 	void setEngineStrength(float alpha)
 	{
 		mAlpha = alpha;
-		setMaterialParam("baseAlpha", alpha);
+		setMaterialParam(1, alpha);
 	}
 
 

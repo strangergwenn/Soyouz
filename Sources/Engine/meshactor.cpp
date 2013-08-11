@@ -374,26 +374,36 @@ void MeshActor::getCollisionMesh(bool bOptimize)
 
 void MeshActor::setMaterial(String name)
 {
-	mMesh->setMaterialName(name);
+	mMaterialName = name;
+	mMesh->setMaterialName(mMaterialName);
 }
 
 
-void MeshActor::setMaterialParam(String name, Real val)
+void MeshActor::setMaterialParam(int index, Real val)
 {
-	Pass* pPass = mMesh->getSubEntity(0)->getMaterial()->getTechnique("main")->getPass("main");
-	pPass->getFragmentProgramParameters()->setNamedConstant(name, val);
+	int numSubEnt = mMesh->getNumSubEntities();
+	for (int i = 0; i < numSubEnt; i++)
+	{
+		mMesh->getSubEntity(i)->setCustomParameter(index, Vector4(val, val, val, val));
+	}
 }
 
 
-void MeshActor::setMaterialParam(String name, Vector3 val)
+void MeshActor::setMaterialParam(int index, Vector3 val)
 {
-	Pass* pPass = mMesh->getSubEntity(0)->getMaterial()->getTechnique("main")->getPass("main");
-	pPass->getFragmentProgramParameters()->setNamedConstant(name, val);
+	int numSubEnt = mMesh->getNumSubEntities();
+	for (int i = 0; i < numSubEnt; i++)
+	{
+		mMesh->getSubEntity(i)->setCustomParameter(index, Vector4(val[0], val[1], val[2], 0));
+	}
 }
 
 
-void MeshActor::setMaterialParam(String name, Vector4 val)
+void MeshActor::setMaterialParam(int index, Vector4 val)
 {
-	Pass* pPass = mMesh->getSubEntity(0)->getMaterial()->getTechnique("main")->getPass("main");
-	pPass->getFragmentProgramParameters()->setNamedConstant(name, val);
+	int numSubEnt = mMesh->getNumSubEntities();
+	for (int i = 0; i < numSubEnt; i++)
+	{
+		mMesh->getSubEntity(i)->setCustomParameter(index, val);
+	}
 }

@@ -14,7 +14,6 @@ material MI_Exhaust : Glow
 			{
 				param_named baseStrength float		2.1
 				param_named basePower float			4.0
-				param_named baseAlpha float			1.0
 
 				param_named panningY float			5.0
 				param_named baseColor float3		0.1 0.1 0.7
