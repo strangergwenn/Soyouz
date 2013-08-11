@@ -35,17 +35,55 @@ protected:
 
 	bool mouseMoved(const OIS::MouseEvent &e)
 	{
+		float resX = mCamera->getViewport()->getActualWidth();
+		float resY = mCamera->getViewport()->getActualHeight();
+		float max = 0.9f * resY;
+
+		float x = Math::Clamp((float)e.state.X.abs - (resX / 2), -max, max) / max;
+		float y = Math::Clamp((float)e.state.Y.abs - (resY / 2), -max, max) / max;
+		mShip->setSteer(x, -y);
 		return true;
 	}
 	
  
 	bool keyPressed(const OIS::KeyEvent &e)
 	{
+		switch (e.key)
+		{
+			case OIS::KC_A:
+				break;
+
+			case OIS::KC_D:
+				break;
+
+			case OIS::KC_W:
+				mShip->setSpeed(1.0f);
+				break;
+
+			case OIS::KC_S:
+				mShip->setSpeed(0.0f);
+				break;
+
+			case OIS::KC_Q:
+				mShip->setRoll(1.0f);
+				break;
+
+			case OIS::KC_E:
+				mShip->setRoll(-1.0f);
+				break;
+
+			case OIS::KC_ESCAPE:
+				mGame->quit();
+				break;
+
+			default:
+				break;
+		}
 		return true;
 	}
 
 
-	MeshActor* mShip;
+	Ship* mShip;
 
 };
 

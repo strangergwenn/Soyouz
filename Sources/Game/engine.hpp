@@ -38,7 +38,7 @@ public:
 		
 		// Engine customization
 		setMaterial("MI_Exhaust");
-		mEngineStrength = 1000;
+		mEngineStrength = 50;
 	}
 
 	void tick(const FrameEvent& evt)
@@ -50,6 +50,7 @@ public:
 
 	void setEngineStrength(float alpha)
 	{
+		alpha = Math::Clamp(alpha, 0.f, 1.f);
 		mAlpha = alpha;
 		setMaterialParam(1, alpha);
 	}

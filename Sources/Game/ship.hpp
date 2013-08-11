@@ -31,10 +31,15 @@ public:
 		mEngBottom =	new Engine(g, name + "_mEngBottom",	this, Vector3(0, -1.2f, 1.5f), Vector3(0, 0, 0));
 		mEngUp =		new Engine(g, name + "_mEngUp",		this, Vector3(0, +1.2f, 1.5f), Vector3(0, 0, 0));
 		
-		mEngLeft->setEngineStrength(0.1);
-		mEngRight->setEngineStrength(0.1);
-		mEngBottom->setEngineStrength(0.9);
-		mEngUp->setEngineStrength(1.0);
+		mEngLeft->setEngineStrength(0);
+		mEngRight->setEngineStrength(0);
+		mEngBottom->setEngineStrength(0);
+		mEngUp->setEngineStrength(0);
+
+		mSteerX = 0;
+		mSteerY = 0;
+		mSteerRoll = 0;
+		mSpeed = 0;
 	}
 
 	void preTick(const FrameEvent& evt)
@@ -42,9 +47,72 @@ public:
 		clearForces();
 	}
 
+	void tick(const FrameEvent& evt)
+	{
+		float speedLeft, speedRight, speedBottom, speedUp;
+		speedLeft = mSpeed;
+		speedRight = mSpeed;
+		speedBottom = mSpeed;
+		speedUp = mSpeed;
+		
+		// X steering
+		if (mSteerX > 0)
+		{
+			speedRight -= Math::Abs(mSteerX);
+		}
+		else
+		{
+			speedLeft -= Math::Abs(mSteerX);
+		}
+
+		// Y steering
+		if (mSteerY > 0)
+		{
+			speedUp -= Math::Abs(mSteerY);
+		}
+		else
+		{
+			speedBottom -= Math::Abs(mSteerY);
+		}
+
+		// Control execution
+		mEngLeft->setEngineStrength(speedLeft);
+		mEngRight->setEngineStrength(speedRight);
+		mEngBottom->setEngineStrength(speedBottom);
+		mEngUp->setEngineStrength(speedUp);
+		MeshActor::tick(evt);
+	}
+
+
+	void setSpeed(float speed)
+	{
+		mSpeed = Math::Clamp(speed, 0.f, 1.f);
+	}
+
+
+	void setSteer(float x, float y)
+	{
+		mSteerX = Math::Clamp(x, -1.f, 1.f);
+		mSteerY = Math::Clamp(y, -1.f, 1.f);
+	}
+
+
+	void setRoll(float roll)
+	{
+		mSteerRoll = Math::Clamp(roll, -1.f, 1.f);
+	}
+
 
 protected:
 	
+	
+	// Current speed control
+	float mSteerX;
+	float mSteerY;
+	float mSteerRoll;
+	float mSpeed;
+
+	// Engines
 	Engine* mEngLeft;
 	Engine* mEngRight;
 	Engine* mEngBottom;
