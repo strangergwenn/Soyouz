@@ -26,6 +26,8 @@ class DemoWorld : public Game
 	
 	void construct()
 	{
+		mScene->setSkyBox(true, "Skybox");
+
 		// Airlock
 		MeshActor* act2 = new MeshActor(this, "DemoMesh", "Airlock.mesh", "MI_Airlock", true, 0.0f);
 		act2->setLocation(Vector3(-256,-128,0));
