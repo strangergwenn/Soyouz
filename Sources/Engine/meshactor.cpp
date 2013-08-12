@@ -164,13 +164,7 @@ void MeshActor::applyForce(Vector3 force, Vector3 location)
 	mPhysBody->setActivationState(DISABLE_DEACTIVATION);
 	btVector3 f = btVector3(force[0], force[1], force[2]);
 	btVector3 p = btVector3(location[0], location[1], location[2]);
-	
 	mPhysBody->applyForce(f, p);
-	/*mPhysBody->applyCentralForce(f);
-	btTransform rotate_with_body;
-	rotate_with_body.setIdentity();
-	rotate_with_body.setRotation(mPhysBody->getCenterOfMassTransform().getRotation());
-	mPhysBody->applyTorque(rotate_with_body(p).cross(f) * mPhysBody->getAngularFactor());*/
 }
 
 

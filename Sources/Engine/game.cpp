@@ -87,15 +87,15 @@ void Game::tick(const FrameEvent& evt)
 		ref = *it;
         ref->tick(evt);
     }
+
+	// Debug physics
+	mDebugDrawer->step();
 	
 	// Physics tick
 	if (mPhysWorld)
 	{
 		mPhysWorld->stepSimulation(evt.timeSinceLastFrame);
 	}
-
-	// Debug physics
-	mDebugDrawer->step();
 }
 	
 

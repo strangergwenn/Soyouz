@@ -53,6 +53,14 @@ public:
 	 * @param width			Screen ratio
 	 **/
 	void setCameraRatio(Real ratio);
+	
+	/**
+	 * @brief Set the camera position around a sphere centered on the player node
+	 * @param distance		Circle radius
+	 * @param horiz			Circle horizontal angle
+	 * @param vert			Circle vertiocal angle
+	 **/
+	void setCameraSpheric(float distance, Degree horiz = Degree(0), Degree vert = Degree(0));
 
 
 protected:

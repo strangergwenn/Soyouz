@@ -59,6 +59,23 @@ void Player::setCameraRatio(Real ratio)
 }
 
 
+void Player::setCameraSpheric(float distance, Degree horiz, Degree vert)
+{
+	Quaternion qH, qV;
+	Radian alphaH = Radian(horiz.valueRadians());
+	Radian alphaV = Radian(vert.valueRadians());
+	
+	qH.FromAngleAxis(alphaH, Vector3::UNIT_Y);
+	qV.FromAngleAxis(alphaV, Vector3::UNIT_X);
+	
+	mNode->setOrientation(qH * qV);
+	setLocation(Vector3(
+		distance * Math::Sin(alphaH) * Math::Cos(alphaV),
+		-distance * Math::Sin(alphaV),
+		distance * Math::Cos(alphaH) * Math::Cos(alphaV)));
+}
+
+
 /*----------------------------------------------
 	Internal methods
 ----------------------------------------------*/

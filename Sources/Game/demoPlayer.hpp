@@ -23,11 +23,20 @@ public:
 	
 	DemoPlayer(Game* g, String name) : Player(g, name)
 	{
+		// Data
+		stepDistance = 4;
+		distance = 8;
+		horizAngle = Degree(0);
+		vertAngle = Degree(0);
+		stepAngle = Degree(15);
+
 		// Ship mesh
-		mShip = new Ship(g, "Ship", "SM_Soyouz.mesh", "Default", 100.0f);
-		setLocation(Vector3(0, 0, 8));
+		mShip = new Ship(g, "Ship", "SM_Soyouz.mesh", "MI_Gloss", 100.0f);
 		mShip->attachActor(this);
 		mShip->setLocation(Vector3(0, 0, 300));
+
+		// Camera setup
+		setCameraSpheric(distance, Degree(0), Degree (0));
 	}
 
 
@@ -72,6 +81,35 @@ protected:
 				mShip->setRoll(-1.0f);
 				break;
 
+			case OIS::KC_NUMPAD5:
+				horizAngle = 0;
+				vertAngle = 0;
+				break;
+
+			case OIS::KC_NUMPAD4:
+				horizAngle -= stepAngle;
+				break;
+
+			case OIS::KC_NUMPAD6:
+				horizAngle += stepAngle;
+				break;
+
+			case OIS::KC_NUMPAD2:
+				vertAngle += stepAngle;
+				break;
+
+			case OIS::KC_NUMPAD8:
+				vertAngle -= stepAngle;
+				break;
+
+			case OIS::KC_ADD:
+				distance -= stepDistance;
+				break;
+
+			case OIS::KC_SUBTRACT:
+				distance += stepDistance;
+				break;
+
 			case OIS::KC_ESCAPE:
 				mGame->quit();
 				break;
@@ -79,10 +117,18 @@ protected:
 			default:
 				break;
 		}
+
+		setCameraSpheric(distance, Degree(horizAngle), Degree (vertAngle));
 		return true;
 	}
 
 
+	// Game data
+	float distance;
+	float stepDistance;
+	Degree horizAngle;
+	Degree vertAngle;
+	Degree stepAngle;
 	Ship* mShip;
 
 };

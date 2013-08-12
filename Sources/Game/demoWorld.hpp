@@ -26,8 +26,27 @@ class DemoWorld : public Game
 	
 	void construct()
 	{
+		// Sun & space
 		mScene->setSkyBox(true, "Skybox");
+		Light* sun = mScene->createLight("Sun");
+		sun->setType(Light::LT_DIRECTIONAL);
+		sun->setDirection(Vector3(0, 0, -1));
+		sun->setDiffuseColour(ColourValue(.25, .25, 0));
+		sun->setSpecularColour(ColourValue(.25, .25, 0));
 
+		// Collision crate
+		MeshActor* crate = new MeshActor(this, "crate", "crate.mesh", "MI_Crate", true, 1.0f);
+		crate->setLocation(Vector3(0, 0, -50));
+
+		/*
+		LightActor* left = new LightActor(this, "left", Vector3(0.2f, 0.4f, 0.9f), 2000);
+		left->translate(Vector3(-100, 100, 100));
+		LightActor* center = new LightActor(this, "center", Vector3(0.5f, 0.5f, 0.5f), 2000);
+		center->translate(Vector3(0, 100, 100));
+		LightActor* right = new LightActor(this, "right", Vector3(0.9f, 0.7f, 0.2f), 2000);
+		right->translate(Vector3(100, 100, 100));*/
+		
+		/*
 		// Airlock
 		MeshActor* act2 = new MeshActor(this, "DemoMesh", "Airlock.mesh", "MI_Airlock", true, 0.0f);
 		act2->setLocation(Vector3(-256,-128,0));
@@ -77,15 +96,7 @@ class DemoWorld : public Game
 		entWall->setCastShadows(false);
 		SceneNode* wallNode = mScene->getRootSceneNode()->createChildSceneNode();
 		wallNode->attachObject(entWall);
-		wallNode->setPosition(0, 0,-256);
-		
-		// Lights
-		LightActor* left = new LightActor(this, "left", Vector3(0.2f, 0.4f, 0.9f), 2000);
-		left->translate(Vector3(-100, 100, 100));
-		LightActor* center = new LightActor(this, "center", Vector3(0.5f, 0.5f, 0.5f), 2000);
-		center->translate(Vector3(0, 100, 100));
-		LightActor* right = new LightActor(this, "right", Vector3(0.9f, 0.7f, 0.2f), 2000);
-		right->translate(Vector3(100, 100, 100));
+		wallNode->setPosition(0, 0,-256);*/
 	}
 
 	void destruct(){}
