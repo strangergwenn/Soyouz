@@ -38,6 +38,11 @@ public:
 		// Camera setup
 		setCameraSpheric(distance, Degree(0), Degree (0));
 	}
+	
+	String debugText()
+	{
+		return StringConverter::toString(mShip->rotation().z + 180);
+	}
 
 
 protected:
@@ -74,11 +79,11 @@ protected:
 				break;
 
 			case OIS::KC_Q:
-				mShip->setRoll(1.0f);
+				mShip->addRoll(10.0f);
 				break;
 
 			case OIS::KC_E:
-				mShip->setRoll(-1.0f);
+				mShip->addRoll(-10.0f);
 				break;
 
 			case OIS::KC_NUMPAD5:

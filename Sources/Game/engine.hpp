@@ -38,7 +38,7 @@ public:
 		
 		// Engine customization
 		setMaterial("MI_Exhaust");
-		mEngineStrength = 50;
+		mEngineStrength = 100;
 	}
 
 	void tick(const FrameEvent& evt)

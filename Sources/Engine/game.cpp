@@ -164,7 +164,7 @@ bool Game::setup()
 {
 	setupResources();
 	setupSystem("OpenGL");
-	setupPhysics(Vector3(0, 0, 0), false);
+	setupPhysics(Vector3(0, 0, 0), true);
 	setupRender(true);
 	construct();
 	return true;

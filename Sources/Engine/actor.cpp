@@ -105,7 +105,11 @@ Vector3 Actor::location()
 
 Vector3 Actor::rotation()
 {
-	return mNode->getOrientation() * Ogre::Vector3(0, 1, 0);
+	Quaternion rot = mNode->getOrientation();
+	return Vector3(
+		Radian::Radian(rot.getPitch()).valueDegrees(),
+		Radian::Radian(rot.getYaw()).valueDegrees(),
+		Radian::Radian(rot.getRoll()).valueDegrees());
 }
 
 

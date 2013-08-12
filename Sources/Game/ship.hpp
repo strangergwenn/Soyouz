@@ -40,6 +40,12 @@ public:
 		mSteerY = 0;
 		mSteerRoll = 0;
 		mSpeed = 0;
+		mMaxAngularSpeed = 1;
+
+		mRollControlMax = 500;
+		mRollControlKP = 500;
+		mRollControlKD = 100;
+		mRollControlThreshold = 5;
 	}
 
 	void preTick(const FrameEvent& evt)
@@ -54,6 +60,10 @@ public:
 		speedRight = mSpeed;
 		speedBottom = mSpeed;
 		speedUp = mSpeed;
+		
+		// Speed measures
+		mRollControlValue = rotation().z;
+		mAngularSpeed = mPhysBody->getAngularVelocity();
 		
 		// X steering
 		if (mSteerX > 0)
@@ -74,6 +84,29 @@ public:
 		{
 			speedBottom -= Math::Abs(mSteerY);
 		}
+
+		// Roll steering
+		float diff = mSteerRoll - mRollControlValue;
+		if (Math::Abs(diff) > mRollControlThreshold)
+		{
+			if (Math::Abs(diff) > 180.0f)
+			{
+				diff *= -1;
+			}
+			float power = mRollControlKP * (diff)
+						+ mRollControlKD * (mRollControlPrevious - mRollControlValue) / evt.timeSinceLastFrame;
+			//mPhysBody->applyTorque(btVector3(0, 0, Math::Clamp(power, -mRollControlMax, mRollControlMax)));
+		}
+		else
+		{
+			//mAngularSpeed.setZ(0.0f);
+		}
+		mRollControlPrevious = mRollControlValue;
+
+		// Angular speed limits
+		//mAngularSpeed.setX(Math::Clamp(mAngularSpeed.getX(), -mMaxAngularSpeed, mMaxAngularSpeed));
+		//mAngularSpeed.setY(Math::Clamp(mAngularSpeed.getY(), -mMaxAngularSpeed, mMaxAngularSpeed));
+		mPhysBody->setAngularVelocity(mAngularSpeed);
 
 		// Control execution
 		mEngLeft->setEngineStrength(speedLeft);
@@ -97,20 +130,32 @@ public:
 	}
 
 
-	void setRoll(float roll)
+	void addRoll(float roll)
 	{
-		mSteerRoll = Math::Clamp(roll, -1.f, 1.f);
+		mSteerRoll = Math::Clamp(mSteerRoll + roll, -180.0f, 180.0f);
 	}
 
 
 protected:
 	
 	
-	// Current speed control
+	// Steering
 	float mSteerX;
 	float mSteerY;
 	float mSteerRoll;
 	float mSpeed;
+
+	// Roll control
+	float mRollControlMax;
+	float mRollControlKP;
+	float mRollControlKD;
+	float mRollControlValue;
+	float mRollControlPrevious;
+	float mRollControlThreshold;
+
+	// Speed limiter
+	float mMaxAngularSpeed;
+	btVector3 mAngularSpeed;
 
 	// Engines
 	Engine* mEngLeft;

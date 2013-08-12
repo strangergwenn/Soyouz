@@ -76,6 +76,12 @@ void Player::setCameraSpheric(float distance, Degree horiz, Degree vert)
 }
 
 
+String Player::debugText()
+{
+	return "";
+}
+
+
 /*----------------------------------------------
 	Internal methods
 ----------------------------------------------*/

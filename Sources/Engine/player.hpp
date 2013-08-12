@@ -61,6 +61,12 @@ public:
 	 * @param vert			Circle vertiocal angle
 	 **/
 	void setCameraSpheric(float distance, Degree horiz = Degree(0), Degree vert = Degree(0));
+	
+	/**
+	 * @brief Get a debug string
+	 * @return text
+	 **/
+	virtual String debugText();
 
 
 protected:
