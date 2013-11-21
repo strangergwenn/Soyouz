@@ -49,8 +49,8 @@ protected:
 
 	bool mouseMoved(const OIS::MouseEvent &e)
 	{
-		float resX = mCamera->getViewport()->getActualWidth();
-		float resY = mCamera->getViewport()->getActualHeight();
+		float resX = (float)mCamera->getViewport()->getActualWidth();
+		float resY = (float)mCamera->getViewport()->getActualHeight();
 		float max = 0.9f * resY;
 
 		float x = Math::Clamp((float)e.state.X.abs - (resX / 2), -max, max) / max;
@@ -71,11 +71,13 @@ protected:
 				break;
 
 			case OIS::KC_W:
-				mShip->setSpeed(1.0f);
 				break;
 
 			case OIS::KC_S:
-				mShip->setSpeed(0.0f);
+				break;
+
+			case OIS::KC_TAB:
+				mShip->setSpeed(1.0f);
 				break;
 
 			case OIS::KC_Q:
@@ -124,6 +126,18 @@ protected:
 		}
 
 		setCameraSpheric(distance, Degree(horizAngle), Degree (vertAngle));
+		return true;
+	}
+
+	
+	bool keyReleased(const OIS::KeyEvent &e)
+	{
+		switch (e.key)
+		{
+			case OIS::KC_TAB:
+				mShip->setSpeed(0.0f);
+				break;
+		}
 		return true;
 	}
 
