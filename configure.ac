@@ -127,7 +127,7 @@ CXXFLAGS="${CXXFLAGS} -W -Wall ${CFLAGSTMP}"
 LDFLAGS="${LDFLAGS} -no-undefined"
 CPPFLAGS="${CPPFLAGS} ${includeflags}"
 
-OGRE_LIBS="-L${OGRE_PATH}/lib -lOgreMain -lpthread  -lboost_system -lOgreTerrain -lOgrePaging -lOgreRTShaderSystem -lOgreProperty ${OGRE_PATH}/lib/OGRE/Plugin_PCZSceneManager.so ${OGRE_PATH}/lib/OGRE/Plugin_OctreeZone.so ${OGRE_PATH}/lib/OGRE/RenderSystem_GL.so -lOgreOverlay,-Wl,-rpath ${OGRE_PATH}/lib/OGRE/ ${OGRE_PATH}/lib/"
+OGRE_LIBS="-L${OGRE_PATH}/lib -lOgreMain -lpthread  -lboost_system -lOgreTerrain -lOgrePaging -lOgreRTShaderSystem -lOgreProperty ${OGRE_PATH}/lib/OGRE/Plugin_PCZSceneManager.so ${OGRE_PATH}/lib/OGRE/Plugin_OctreeZone.so ${OGRE_PATH}/lib/OGRE/RenderSystem_GL.so -lOgreOverlay -Wl,-rpath ./${OGRE_PATH}/lib/OGRE/ -Wl,-rpath ./${OGRE_PATH}/lib/"
 OGRE_CFLAGS="-pthread -I${OGRE_PATH}/include/OGRE/Property -I${OGRE_PATH}/include/OGRE/Plugins/PCZSceneManager -I${OGRE_PATH}/include/OGRE/Plugins/OctreeZone -I${OGRE_PATH}/include/OGRE/Terrain -I${OGRE_PATH}/include/OGRE/Paging -I${OGRE_PATH}/include/OGRE/RTShaderSystem -I${OGRE_PATH}/include/OGRE -I${OGRE_PATH}/include/OGRE/Overlay/"
 AC_SUBST(OGRE_LIBS)
 AC_SUBST(OGRE_CFLAGS)
