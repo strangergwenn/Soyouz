@@ -21,7 +21,6 @@ IOManager::IOManager(RenderWindow* w, Player* p, Game* g) :
 	// Startup
 	mGame = g;
 	mPlayer = p;
-	bRunning = true;
 	OIS::ParamList pl;
 	size_t windowHnd = 0;
 	std::ostringstream windowHndStr;
@@ -66,57 +65,24 @@ IOManager::~IOManager()
 }
 
 
-void IOManager::quit()
-{
-	bRunning = false;
-}
-
-
 /*----------------------------------------------
 	IO events
 ----------------------------------------------*/
 
-void IOManager::windowResized(RenderWindow* rw)
-{
-	int left, top;
-	unsigned int width, height, depth;
 
-	const OIS::MouseState &ms = mMouse->getMouseState();
-	rw->getMetrics(width, height, depth, left, top);
-
-	ms.width = width;
-	ms.height = height;
-}
-
-
-void IOManager::windowClosed(RenderWindow* rw)
-{
-	if (rw == mWindow && mInputManager)
-	{
-		mInputManager->destroyInputObject(mMouse);
-		mInputManager->destroyInputObject(mKeyboard);
-		mInputManager->destroyInputObject(mJoy);
-		OIS::InputManager::destroyInputSystem(mInputManager);
-		mInputManager = NULL;
-	}
-}
-
-
-bool IOManager::frameRenderingQueued(const FrameEvent& evt)
+void IOManager::prerender(const FrameEvent& evt)
 {
 	// Window check
 	if (mWindow->isClosed())
 	{
-		return false;
+		mGame->quit();
+		return;
 	}
 	
 	// Peripheral capture
 	mMouse->capture();
 	mKeyboard->capture();
 	if (mJoy) mJoy->capture();
-	
-	// World tick
-	mGame->tick(evt);
 
 	// Debug
 	mDebugText = "LOC : ";
@@ -126,13 +92,10 @@ bool IOManager::frameRenderingQueued(const FrameEvent& evt)
 	loc = mPlayer->rotation();
 	mDebugText += StringConverter::toString(Vector3((loc[0]), (loc[1]), (loc[2])));
 	mDebugText += " > " + mPlayer->debugText();
-
-	// Return true to keep it running
-	return bRunning;
 }
 
 
-bool IOManager::frameEnded(const FrameEvent& evt)
+void IOManager::postrender(const FrameEvent& evt)
 {
 	static String currFps = "Current FPS: ";
 	static String avgFps = "Average FPS: ";
@@ -168,5 +131,30 @@ bool IOManager::frameEnded(const FrameEvent& evt)
 		guiDbg->setCaption(mDebugText);
 	}
 	catch (...) {}
-	return true;
+}
+
+
+void IOManager::windowResized(RenderWindow* rw)
+{
+	int left, top;
+	unsigned int width, height, depth;
+
+	const OIS::MouseState &ms = mMouse->getMouseState();
+	rw->getMetrics(width, height, depth, left, top);
+
+	ms.width = width;
+	ms.height = height;
+}
+
+
+void IOManager::windowClosed(RenderWindow* rw)
+{
+	if (rw == mWindow && mInputManager)
+	{
+		mInputManager->destroyInputObject(mMouse);
+		mInputManager->destroyInputObject(mKeyboard);
+		mInputManager->destroyInputObject(mJoy);
+		OIS::InputManager::destroyInputSystem(mInputManager);
+		mInputManager = NULL;
+	}
 }

@@ -146,13 +146,31 @@ void Game::dumpAllNodes()
 
 void Game::quit()
 {
-	mIOManager->quit();
+	bRunning = false;
 }
 
 
 SceneManager* Game::getScene()
 {
 	return mScene;
+}
+
+/*----------------------------------------------
+	Events
+----------------------------------------------*/
+
+bool Game::frameRenderingQueued(const FrameEvent& evt)
+{
+	tick(evt);
+	mIOManager->prerender(evt);
+	return bRunning;
+}
+
+
+bool Game::frameEnded(const FrameEvent& evt)
+{
+	mIOManager->postrender(evt);
+	return bRunning;
 }
 
 
@@ -164,7 +182,7 @@ bool Game::setup()
 {
 	setupResources();
 	setupSystem("OpenGL");
-	setupPhysics(Vector3(0, 0, 0), true);
+	setupPhysics(Vector3(0, 0, 0), false);
 	setupRender(true);
 	construct();
 	return true;
@@ -273,7 +291,7 @@ void Game::setupRender(bool bShowPostProcess)
 
 	// IO manager
 	mIOManager = new IOManager(mWindow, mPlayer, this);
-	mRoot->addFrameListener(mIOManager);
+	mRoot->addFrameListener(this);
 
 	// Shadows
 	mScene->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);

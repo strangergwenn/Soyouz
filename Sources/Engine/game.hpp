@@ -48,7 +48,7 @@ public:
 	Game class definition
 ----------------------------------------------*/
 
-class Game
+class Game : public FrameListener
 {
 
 public:
@@ -143,6 +143,16 @@ protected:
 	virtual void destruct() = 0;
 	
 	/**
+	 * @brief Frame start event
+	 **/
+	bool frameRenderingQueued(const FrameEvent& evt);
+	
+	/**
+	 * @brief Frame stop event
+	 **/
+	bool Game::frameEnded(const FrameEvent& evt);
+	
+	/**
 	 * @brief Setup the level
 	 **/
 	virtual bool setup();
@@ -184,7 +194,10 @@ protected:
 	 * @return the scene entity
 	 **/
 	void dumpNodes(std::stringstream &ss, Ogre::Node *n, int level);
+	
 
+	// Is it running ?
+	bool bRunning;
 	
 	// OGRE data
 	Root* mRoot;
