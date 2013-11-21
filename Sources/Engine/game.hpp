@@ -150,7 +150,7 @@ protected:
 	/**
 	 * @brief Frame stop event
 	 **/
-	bool Game::frameEnded(const FrameEvent& evt);
+	bool frameEnded(const FrameEvent& evt);
 	
 	/**
 	 * @brief Setup the level
