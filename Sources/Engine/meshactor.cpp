@@ -109,9 +109,9 @@ void MeshActor::setRotation(Vector3 newRot)
 	{
 		btQuaternion quat;
 		quat.setEuler(
-			Degree::Degree(newRot[1]).valueRadians(),
-			Degree::Degree(newRot[0]).valueRadians(),
-			Degree::Degree(newRot[2]).valueRadians());
+			Degree(newRot[1]).valueRadians(),
+			Degree(newRot[0]).valueRadians(),
+			Degree(newRot[2]).valueRadians());
 		mPhysTransform.setRotation(quat);
 		mPhysBody->setWorldTransform(mPhysTransform);
 	}
@@ -146,9 +146,9 @@ void MeshActor::rotate(Vector3 rotator)
 	{
 		btQuaternion quat(mPhysTransform.getRotation());
 		quat.setEuler(
-			Degree::Degree(rotator[1]).valueRadians(),
-			Degree::Degree(rotator[0]).valueRadians(),
-			Degree::Degree(rotator[2]).valueRadians());
+			Degree(rotator[1]).valueRadians(),
+			Degree(rotator[0]).valueRadians(),
+			Degree(rotator[2]).valueRadians());
 		mPhysTransform.setRotation(quat);
 		mPhysBody->getMotionState()->setWorldTransform(mPhysTransform);
 	}

@@ -17,7 +17,7 @@
 #include "OgreException.h"
 #include "OgreConfigFile.h"
 #include "OgreSceneManager.h"
-#include "OgreOverlaySystem.h"
+#include <Overlay/OgreOverlaySystem.h>
 #include "OgreStringConverter.h"
 #include <OgreWindowEventUtilities.h>
 
