@@ -75,7 +75,7 @@
     <IncludePath>$(SolutionDir)Sources;$(SolutionDir)External\Ogre\boost;$(SolutionDir)External\Ogre\include;$(SolutionDir)External\Ogre\include\OGRE;$(SolutionDir)External\Ogre\include\Ogre\Overlay;$(SolutionDir)External\Ogre\include\Ogre\RenderSystems;$(SolutionDir)External\Bullet\src\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)External\Ogre\boost\lib;$(SolutionDir)External\Ogre\lib\$(Configuration);$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)</OutDir>
-    <IntDir>$(SolutionDir)\Build\$(Configuration)</IntDir>
+    <IntDir>$(SolutionDir)\Build\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(SolutionDir)Sources;$(SolutionDir)External\Ogre\boost;$(SolutionDir)External\Ogre\include;$(SolutionDir)External\Ogre\include\OGRE;$(SolutionDir)External\Ogre\include\Ogre\Overlay;$(SolutionDir)External\Ogre\include\Ogre\RenderSystems;$(SolutionDir)External\Bullet\src\;$(IncludePath)</IncludePath>

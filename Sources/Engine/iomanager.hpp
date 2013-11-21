@@ -18,7 +18,7 @@ class Player;
 	Class definitions
 ----------------------------------------------*/
 
-class IOManager: public FrameListener, public WindowEventListener
+class IOManager: public WindowEventListener
 {
 
 public:
@@ -35,11 +35,21 @@ public:
 	 * @brief Delete the IO manager
 	 **/
 	~IOManager();
-	
+
 	/**
-	 * @brief Quit the game
+	 * @brief Rendering starting
+	 * @param evt			Frame event
+	 * @return true if continuing
 	 **/
-	void quit();
+	void prerender(const FrameEvent& evt);
+
+	/**
+	 * @brief Rendering done
+	 * @param evt			Frame event
+	 * @return true if continuing
+	 **/
+	void postrender(const FrameEvent& evt);
+
 
 protected:
 
@@ -55,21 +65,6 @@ protected:
 	 **/
 	void windowClosed(RenderWindow* rw);
 
-	/**
-	 * @brief Renderign computed
-	 * @param evt			Frame event
-	 **/
-	bool frameRenderingQueued(const FrameEvent& evt);
-
-	/**
-	 * @brief Rendering done
-	 * @param evt			Frame event
-	 * @return true if continuing
-	 **/
-	bool frameEnded(const FrameEvent& evt);
-
-
-	bool bRunning;
 
 	String mDebugText;
 	RenderWindow* mWindow;
