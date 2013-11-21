@@ -9,14 +9,14 @@
 #include "Engine/actor.hpp"
 #include "Engine/player.hpp"
 
-#define OGRE_CONF			"../../Config/soyouz.cfg"
+#define OGRE_CONF			"Config/soyouz.cfg"
 #if OGRE_DEBUG_MODE
-#  define PLUGINS_CONF		"../../Config/plugins_d.cfg"
+#  define PLUGINS_CONF		"Config/plugins_d.cfg"
 #else
-#  define PLUGINS_CONF		"../../Config/plugins.cfg"
+#  define PLUGINS_CONF		"Config/plugins.cfg"
 #endif
-#define RESOURCES_CONF		"../../Config/resources.cfg"
-#define LOGFILE_NAME		"../../Config/soyouz.log"
+#define RESOURCES_CONF		"Config/resources.cfg"
+#define LOGFILE_NAME		"Config/soyouz.log"
 
 
 /*----------------------------------------------

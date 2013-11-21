@@ -107,9 +107,9 @@ Vector3 Actor::rotation()
 {
 	Quaternion rot = mNode->getOrientation();
 	return Vector3(
-		Radian::Radian(rot.getPitch()).valueDegrees(),
-		Radian::Radian(rot.getYaw()).valueDegrees(),
-		Radian::Radian(rot.getRoll()).valueDegrees());
+		Radian(rot.getPitch()).valueDegrees(),
+		Radian(rot.getYaw()).valueDegrees(),
+		Radian(rot.getRoll()).valueDegrees());
 }
 
 

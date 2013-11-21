@@ -135,12 +135,12 @@ protected:
 	/**
 	 * @brief Level construction
 	 **/
-	virtual void construct() = NULL;
+	virtual void construct() = 0;
 
 	/**
 	 * @brief Level destruction
 	 **/
-	virtual void destruct() = NULL;
+	virtual void destruct() = 0;
 	
 	/**
 	 * @brief Setup the level
