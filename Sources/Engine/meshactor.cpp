@@ -7,7 +7,6 @@
 
 #include "Engine/meshactor.hpp"
 
-
 /*----------------------------------------------
 	Constructor & destructor
 ----------------------------------------------*/
@@ -73,7 +72,7 @@ MeshActor::~MeshActor()
 	Methods
 ----------------------------------------------*/
 
-void MeshActor::tick(const FrameEvent& evt)
+void MeshActor::tick(const Ogre::FrameEvent& evt)
 {
 	if (mPhysBody)
 	{
@@ -104,15 +103,11 @@ void MeshActor::setLocation(Vector3 newPos)
 }
 
 
-void MeshActor::setRotation(Vector3 newRot)
+void MeshActor::setRotation(Quaternion newRot)
 {
 	if (mPhysBody)
 	{
-		btQuaternion quat;
-		quat.setEuler(
-			Degree(newRot[1]).valueRadians(),
-			Degree(newRot[0]).valueRadians(),
-			Degree(newRot[2]).valueRadians());
+		btQuaternion quat(newRot.x, newRot.y, newRot.z, newRot.w);
 		mPhysTransform.setRotation(quat);
 		mPhysBody->setWorldTransform(mPhysTransform);
 	}
@@ -141,16 +136,12 @@ void MeshActor::translate(Vector3 offset, bool bRelative)
 }
 
 
-void MeshActor::rotate(Vector3 rotator)
+void MeshActor::rotate(Quaternion rotator)
 {
 	if (mPhysBody)
 	{
-		btQuaternion quat(mPhysTransform.getRotation());
-		quat.setEuler(
-			Degree(rotator[1]).valueRadians(),
-			Degree(rotator[0]).valueRadians(),
-			Degree(rotator[2]).valueRadians());
-		mPhysTransform.setRotation(quat);
+		btQuaternion quat(rotator.x, rotator.y, rotator.z, rotator.w);
+		mPhysTransform.setRotation( mPhysTransform.getRotation() * quat);
 		mPhysBody->getMotionState()->setWorldTransform(mPhysTransform);
 	}
 	else
@@ -201,7 +192,7 @@ void MeshActor::clearForces()
  * @param orient		Mesh orientation offset
  * @param scale			Mesh scale offset
  **/
-void getMeshInformation(const Mesh* const mesh,
+void getMeshInformation(const Ogre::Mesh* const mesh,
                         size_t &vertex_count,
                         Vector3* &vertices,
                         size_t &index_count,
@@ -220,7 +211,7 @@ void getMeshInformation(const Mesh* const mesh,
  
     for (unsigned short i = 0; i < mesh->getNumSubMeshes(); ++i)
     {
-        SubMesh* submesh = mesh->getSubMesh(i);
+        Ogre::SubMesh* submesh = mesh->getSubMesh(i);
         if(submesh->useSharedVertices)
         {
             if(!added_shared )
@@ -242,8 +233,8 @@ void getMeshInformation(const Mesh* const mesh,
  
     for (unsigned short i = 0; i < mesh->getNumSubMeshes(); ++i)
     {
-        SubMesh* submesh = mesh->getSubMesh(i);
-        VertexData* vertex_data = submesh->useSharedVertices ? mesh->sharedVertexData : submesh->vertexData;
+        Ogre::SubMesh* submesh = mesh->getSubMesh(i);
+        Ogre::VertexData* vertex_data = submesh->useSharedVertices ? mesh->sharedVertexData : submesh->vertexData;
  
         if ((!submesh->useSharedVertices) || (submesh->useSharedVertices && !added_shared))
         {
@@ -253,9 +244,9 @@ void getMeshInformation(const Mesh* const mesh,
                 shared_offset = current_offset;
             }
  
-            const VertexElement* posElem = vertex_data->vertexDeclaration->findElementBySemantic(VES_POSITION);
-            HardwareVertexBufferSharedPtr vbuf = vertex_data->vertexBufferBinding->getBuffer(posElem->getSource());
-            unsigned char* vertex = static_cast<unsigned char*>(vbuf->lock(HardwareBuffer::HBL_READ_ONLY)); 
+            const Ogre::VertexElement* posElem = vertex_data->vertexDeclaration->findElementBySemantic(Ogre::VES_POSITION);
+            Ogre::HardwareVertexBufferSharedPtr vbuf = vertex_data->vertexBufferBinding->getBuffer(posElem->getSource());
+            unsigned char* vertex = static_cast<unsigned char*>(vbuf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY)); 
             float* pReal;
  
             for(size_t j = 0; j < vertex_data->vertexCount; ++j, vertex += vbuf->getVertexSize())
@@ -269,12 +260,12 @@ void getMeshInformation(const Mesh* const mesh,
             next_offset += vertex_data->vertexCount;
         }
  
-        IndexData* index_data = submesh->indexData;
+        Ogre::IndexData* index_data = submesh->indexData;
         size_t numTris = index_data->indexCount / 3;
-        HardwareIndexBufferSharedPtr ibuf = index_data->indexBuffer;
+        Ogre::HardwareIndexBufferSharedPtr ibuf = index_data->indexBuffer;
  
-        bool use32bitindexes = (ibuf->getType() == HardwareIndexBuffer::IT_32BIT);
-        unsigned long* pLong = static_cast<unsigned long*>(ibuf->lock(HardwareBuffer::HBL_READ_ONLY));
+        bool use32bitindexes = (ibuf->getType() == Ogre::HardwareIndexBuffer::IT_32BIT);
+        unsigned long* pLong = static_cast<unsigned long*>(ibuf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY));
         unsigned short* pShort = reinterpret_cast<unsigned short*>(pLong);
         size_t offset = (submesh->useSharedVertices)? shared_offset : current_offset;
  
@@ -329,7 +320,7 @@ void MeshActor::getCollisionMesh(bool bOptimize)
 	Vector3* vertices;
 	size_t vCount, iCount;
 	unsigned long* indices;
-	Mesh* origin = mMesh->getMesh().get();
+	Ogre::Mesh* origin = mMesh->getMesh().get();
 
 	// Trimesh preparation
 	btTriangleMesh* trimesh = new btTriangleMesh();

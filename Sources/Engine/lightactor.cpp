@@ -16,7 +16,7 @@
 LightActor::LightActor(Game* g, String name, Vector3 color, float range) : Actor(g, name)
 {
 	mLight = g->getScene()->createLight(name);
-	mLight->setType(Light::LT_POINT);
+	mLight->setType(Ogre::Light::LT_POINT);
 	mLight->setCastShadows(true);
 		
 	mLight->setDiffuseColour(color[0], color[1], color[2]);

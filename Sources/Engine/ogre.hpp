@@ -45,6 +45,5 @@
 #define OIS_DYNAMIC_LIB
 #include <OIS/OIS.h>
 
-using namespace Ogre;
 
 #endif /* __OGREINC_H */

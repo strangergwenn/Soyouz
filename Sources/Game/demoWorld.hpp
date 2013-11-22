@@ -28,11 +28,11 @@ class DemoWorld : public Game
 	{
 		// Sun & space
 		mScene->setSkyBox(true, "Skybox");
-		Light* sun = mScene->createLight("Sun");
-		sun->setType(Light::LT_DIRECTIONAL);
+		Ogre::Light* sun = mScene->createLight("Sun");
+		sun->setType(Ogre::Light::LT_DIRECTIONAL);
 		sun->setDirection(Vector3(0, 0, -1));
-		sun->setDiffuseColour(ColourValue(.25, .25, 0));
-		sun->setSpecularColour(ColourValue(.25, .25, 0));
+		sun->setDiffuseColour(Ogre::ColourValue(.25, .25, 0));
+		sun->setSpecularColour(Ogre::ColourValue(.25, .25, 0));
 
 		// Collision crate
 		MeshActor* crate = new MeshActor(this, "crate", "crate.mesh", "MI_Crate", true, 1.0f);
@@ -58,7 +58,7 @@ class DemoWorld : public Game
 		mEntity2->setMaterialName("MI_zCrate");
 		mEntity2->setCastShadows(true);
 		mSceneNode2->attachObject(mEntity2);
-		mSceneNode2->setPosition(Ogre::Vector3(-128, -64, -64));
+		mSceneNode2->setPosition(Vector3(-128, -64, -64));
 
 		// Glossy sphere
 		Ogre::SceneNode* mSceneNode = mScene->getRootSceneNode()->createChildSceneNode();
@@ -66,7 +66,7 @@ class DemoWorld : public Game
 		mEntity->setMaterialName("MI_Gloss");
 		mEntity->setCastShadows(true);
 		mSceneNode->attachObject(mEntity);
-		mSceneNode->setPosition(Ogre::Vector3(0, -64, -64));
+		mSceneNode->setPosition(Vector3(0, -64, -64));
 		
 		// Wood crates
 		MeshActor* crate = new MeshActor(this, "crate", "crate.mesh", "MI_Crate", true, 1.0f);
@@ -80,7 +80,7 @@ class DemoWorld : public Game
 
 		// Ground plane
 		Plane plane(Vector3::UNIT_Y, 0);
-		MeshManager::getSingleton().createPlane("ground", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, 512, 512, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Z);
+		MeshManager::getSingleton().createPlane("ground", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, 512, 512, 20, 20, true, 1, 5, 5, Vector3::UNIT_Z);
 		Entity* entGround = mScene->createEntity("GroundEntity", "ground");
 		entGround->setMaterialName("Default");
 		entGround->setCastShadows(false);
@@ -90,7 +90,7 @@ class DemoWorld : public Game
 		
 		// Wall plane
 		Plane plane2(Vector3::UNIT_Z, 0);
-		MeshManager::getSingleton().createPlane("wall", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane2, 512, 512, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Y);
+		MeshManager::getSingleton().createPlane("wall", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane2, 512, 512, 20, 20, true, 1, 5, 5, Vector3::UNIT_Y);
 		Entity* entWall = mScene->createEntity("WallEntity", "wall");
 		entWall->setMaterialName("Default");
 		entWall->setCastShadows(false);

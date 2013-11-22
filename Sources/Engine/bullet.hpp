@@ -12,6 +12,7 @@
 #include "btBulletDynamicsCommon.h"
 #include "BulletCollision/CollisionShapes/btShapeHull.h"
 #include "Engine/ogre.hpp"
+#include "Engine/game_types.hpp"
 
 
 /*----------------------------------------------
@@ -28,11 +29,11 @@ public:
 	 * @param node				Scene node
 	 * @param world				Bullet world
 	 **/
-	DebugDrawer(SceneManager* mgr, SceneNode *node, btDynamicsWorld *world)
+	DebugDrawer(Ogre::SceneManager* mgr, Ogre::SceneNode *node, btDynamicsWorld *world)
 		: mNode(node), mWorld(world), mDebugOn(true)
 	{
 		mLineDrawer = mgr->createManualObject("DebugLines");
-		SceneNode* myManualObjectNode = mgr->getRootSceneNode()->createChildSceneNode("DebugLinesNode");
+		Ogre::SceneNode* myManualObjectNode = mgr->getRootSceneNode()->createChildSceneNode("DebugLinesNode");
 		mNode->attachObject(mLineDrawer);
 	}
  
@@ -52,7 +53,7 @@ public:
 		if (mDebugOn)
 		{
 			mLineDrawer->clear();
-			mLineDrawer->begin("Green", RenderOperation::OT_LINE_LIST); 
+			mLineDrawer->begin("Green", Ogre::RenderOperation::OT_LINE_LIST); 
 			mWorld->debugDrawWorld();
 			mLineDrawer->end(); 
 			mNode->needUpdate();
@@ -92,7 +93,7 @@ public:
 	 **/
 	void reportErrorWarning(const char* warningString)
 	{
-		LogManager::getSingleton().logMessage(warningString);
+		Ogre::LogManager::getSingleton().logMessage(warningString);
 	}
  
 	/**
@@ -128,9 +129,9 @@ protected:
 
 	// Render data
 	bool mDebugOn;
-	SceneNode* mNode;
+	Ogre::SceneNode* mNode;
 	btDynamicsWorld* mWorld;
-	ManualObject* mLineDrawer;
+	Ogre::ManualObject* mLineDrawer;
 
 };
 

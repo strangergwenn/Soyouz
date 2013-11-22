@@ -26,10 +26,10 @@ public:
 	Ship(Game* g, String name, String file, String material, float mass)
 		: MeshActor(g, name, file, material, true, mass)
 	{
-		mEngLeft =		new Engine(g, name + "_mEngLeft",	this, Vector3(-1.2f, 0, 1.5f), Vector3(0, 0, 0));
-		mEngRight =		new Engine(g, name + "_mEngRight",	this, Vector3(+1.2f, 0, 1.5f), Vector3(0, 0, 0));
-		mEngBottom =	new Engine(g, name + "_mEngBottom",	this, Vector3(0, -1.2f, 1.5f), Vector3(0, 0, 0));
-		mEngUp =		new Engine(g, name + "_mEngUp",		this, Vector3(0, +1.2f, 1.5f), Vector3(0, 0, 0));
+		mEngLeft =		new Engine(g, name + "_mEngLeft",	this, Vector3(-1.2f, 0, 1.5f), Quaternion());
+		mEngRight =		new Engine(g, name + "_mEngRight",	this, Vector3(+1.2f, 0, 1.5f), Quaternion());
+		mEngBottom =	new Engine(g, name + "_mEngBottom",	this, Vector3(0, -1.2f, 1.5f), Quaternion());
+		mEngUp =		new Engine(g, name + "_mEngUp",		this, Vector3(0, +1.2f, 1.5f), Quaternion());
 		
 		mEngLeft->setEngineStrength(0);
 		mEngRight->setEngineStrength(0);
@@ -50,12 +50,12 @@ public:
 		create3DHelper();
 	}
 
-	void preTick(const FrameEvent& evt)
+	void preTick(const Ogre::FrameEvent& evt)
 	{
 		clearForces();
 	}
 
-	void tick(const FrameEvent& evt)
+	void tick(const Ogre::FrameEvent& evt)
 	{
 		float speedLeft, speedRight, speedBottom, speedUp;
 		speedLeft = mSpeed;

@@ -40,7 +40,7 @@ public:
 
 protected:
 
-	Light* mLight;
+	Ogre::Light* mLight;
 
 };
 

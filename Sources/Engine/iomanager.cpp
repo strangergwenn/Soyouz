@@ -15,7 +15,7 @@
 	Constructor & destructor
 ----------------------------------------------*/
 
-IOManager::IOManager(RenderWindow* w, Player* p, Game* g) :
+IOManager::IOManager(Ogre::RenderWindow* w, Player* p, Game* g) :
 	mDebugOverlay(NULL), mInputManager(NULL), mMouse(NULL), mKeyboard(NULL), mJoy(NULL)
 {
 	// Startup
@@ -24,7 +24,7 @@ IOManager::IOManager(RenderWindow* w, Player* p, Game* g) :
 	OIS::ParamList pl;
 	size_t windowHnd = 0;
 	std::ostringstream windowHndStr;
-	mDebugOverlay = OverlayManager::getSingleton().getByName("Core/DebugOverlay");
+	mDebugOverlay = Ogre::OverlayManager::getSingleton().getByName("Core/DebugOverlay");
 
 	// Window management
 	mWindow = w;
@@ -54,13 +54,13 @@ IOManager::IOManager(RenderWindow* w, Player* p, Game* g) :
 	// Events
 	windowResized(mWindow);
 	mDebugOverlay->show();
-	WindowEventUtilities::addWindowEventListener(mWindow, this);		
+	Ogre::WindowEventUtilities::addWindowEventListener(mWindow, this);
 }
 
 
 IOManager::~IOManager()
 {
-	WindowEventUtilities::removeWindowEventListener(mWindow, this);
+	Ogre::WindowEventUtilities::removeWindowEventListener(mWindow, this);
 	windowClosed(mWindow);
 }
 
@@ -70,7 +70,7 @@ IOManager::~IOManager()
 ----------------------------------------------*/
 
 
-void IOManager::prerender(const FrameEvent& evt)
+void IOManager::prerender(const Ogre::FrameEvent& evt)
 {
 	// Window check
 	if (mWindow->isClosed())
@@ -89,13 +89,13 @@ void IOManager::prerender(const FrameEvent& evt)
 	Vector3 loc = mPlayer->location();
 	mDebugText += StringConverter::toString(Vector3(Math::Floor(loc[0]), Math::Floor(loc[1]), Math::Floor(loc[2])));
 	mDebugText += " ROT : ";
-	loc = mPlayer->rotation();
-	mDebugText += StringConverter::toString(Vector3((loc[0]), (loc[1]), (loc[2])));
+	Quaternion rot = mPlayer->rotation();
+	mDebugText += "roll=" + StringConverter::toString(rot.getRoll()) + " pitch=" + StringConverter::toString(rot.getPitch()) + " yaw=" + StringConverter::toString(rot.getYaw());
 	mDebugText += " > " + mPlayer->debugText();
 }
 
 
-void IOManager::postrender(const FrameEvent& evt)
+void IOManager::postrender(const Ogre::FrameEvent& evt)
 {
 	static String currFps = "Current FPS: ";
 	static String avgFps = "Average FPS: ";
@@ -105,36 +105,36 @@ void IOManager::postrender(const FrameEvent& evt)
 	static String batches = "Batch Count: ";
 
 	try {
-		const RenderTarget::FrameStats& stats = mWindow->getStatistics();
+		const Ogre::RenderTarget::FrameStats& stats = mWindow->getStatistics();
 
-		OverlayElement* guiAvg = OverlayManager::getSingleton().getOverlayElement("Core/AverageFps");
+		Ogre::OverlayElement* guiAvg = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/AverageFps");
 		guiAvg->setCaption(avgFps + StringConverter::toString(stats.avgFPS));
 
-		OverlayElement* guiCurr = OverlayManager::getSingleton().getOverlayElement("Core/CurrFps");
+		Ogre::OverlayElement* guiCurr = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/CurrFps");
 		guiCurr->setCaption(currFps + StringConverter::toString(stats.lastFPS));
 
-		OverlayElement* guiBest = OverlayManager::getSingleton().getOverlayElement("Core/BestFps");
+		Ogre::OverlayElement* guiBest = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/BestFps");
 		guiBest->setCaption(bestFps + StringConverter::toString(stats.bestFPS)
 			+" "+StringConverter::toString(stats.bestFrameTime)+" ms");
 
-		OverlayElement* guiWorst = OverlayManager::getSingleton().getOverlayElement("Core/WorstFps");
+		Ogre::OverlayElement* guiWorst = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/WorstFps");
 		guiWorst->setCaption(worstFps + StringConverter::toString(stats.worstFPS)
 			+" "+StringConverter::toString(stats.worstFrameTime)+" ms");
 
-		OverlayElement* guiTris = OverlayManager::getSingleton().getOverlayElement("Core/NumTris");
+		Ogre::OverlayElement* guiTris = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/NumTris");
 		guiTris->setCaption(tris + StringConverter::toString(stats.triangleCount));
 
-		OverlayElement* guiBatches = OverlayManager::getSingleton().getOverlayElement("Core/NumBatches");
+		Ogre::OverlayElement* guiBatches = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/NumBatches");
 		guiBatches->setCaption(batches + StringConverter::toString(stats.batchCount));
 
-		OverlayElement* guiDbg = OverlayManager::getSingleton().getOverlayElement("Core/DebugText");
+		Ogre::OverlayElement* guiDbg = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/DebugText");
 		guiDbg->setCaption(mDebugText);
 	}
 	catch (...) {}
 }
 
 
-void IOManager::windowResized(RenderWindow* rw)
+void IOManager::windowResized(Ogre::RenderWindow* rw)
 {
 	int left, top;
 	unsigned int width, height, depth;
@@ -147,7 +147,7 @@ void IOManager::windowResized(RenderWindow* rw)
 }
 
 
-void IOManager::windowClosed(RenderWindow* rw)
+void IOManager::windowClosed(Ogre::RenderWindow* rw)
 {
 	if (rw == mWindow && mInputManager)
 	{

@@ -11,6 +11,7 @@
 #include "Engine/game.hpp"
 #include "Engine/actor.hpp"
 #include "Engine/bullet.hpp"
+#include "Engine/game_types.hpp"
 
 class Game;
 
@@ -71,7 +72,7 @@ public:
 	 * @brief Main tick event
 	 * @param evt			Frame event
 	 **/
-	virtual void tick(const FrameEvent& evt);
+	virtual void tick(const Ogre::FrameEvent& evt);
 	/**
 	 * @brief Set the the actor location in the world
 	 * @param offset		Location vector
@@ -82,7 +83,7 @@ public:
 	 * @brief Set the the actor rotation in the world
 	 * @param offset		Rotation vector
 	 **/
-	virtual void setRotation(Vector3 newRot);
+	virtual void setRotation(Quaternion newRot);
 
 	/**
 	 * @brief Translate the actor in the world
@@ -95,7 +96,7 @@ public:
 	 * @brief Rotate the actor in the world
 	 * @param offset		Rotation vector (pitch, yaw, roll) in degrees
 	 **/
-	virtual void rotate(Vector3 rotator);
+	virtual void rotate(Quaternion rotator);
 	
 	/**
 	 * @brief Apply a physical force
@@ -169,7 +170,7 @@ protected:
 
 	// Game data
 	String mMaterialName;
-	Entity* mMesh;
+	Ogre::Entity* mMesh;
 
 };
 

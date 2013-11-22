@@ -22,7 +22,7 @@ class Engine : public MeshActor
 
 public:
 	
-	Engine(Game* g, String name, MeshActor* parent, Vector3 location, Vector3 rotation)
+	Engine(Game* g, String name, MeshActor* parent, Vector3 location, Quaternion rotation)
 		: MeshActor(g, name, "", "")
 	{
 		// Creation
@@ -41,7 +41,7 @@ public:
 		mEngineStrength = 100;
 	}
 
-	void tick(const FrameEvent& evt)
+	void tick(const Ogre::FrameEvent& evt)
 	{
 		Vector3 direction = mNode->getOrientation() * Vector3(0, 0, -1);
 		mShip->applyLocalForce(mAlpha * mEngineStrength * direction, mRelPosition);

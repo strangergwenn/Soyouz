@@ -9,6 +9,7 @@
 #define __WINDOW_H_
 
 #include "Engine/ogre.hpp"
+#include "Engine/game_types.hpp"
 
 class Game;
 class Player;
@@ -18,7 +19,7 @@ class Player;
 	Class definitions
 ----------------------------------------------*/
 
-class IOManager: public WindowEventListener
+class IOManager: public Ogre::WindowEventListener
 {
 
 public:
@@ -29,7 +30,7 @@ public:
 	 * @param cam				Target camera
 	 * @param cam				Current game
 	 **/
-	IOManager(RenderWindow* w, Player* p, Game* g);
+	IOManager(Ogre::RenderWindow* w, Player* p, Game* g);
 
 	/**
 	 * @brief Delete the IO manager
@@ -41,14 +42,14 @@ public:
 	 * @param evt			Frame event
 	 * @return true if continuing
 	 **/
-	void prerender(const FrameEvent& evt);
+	void prerender(const Ogre::FrameEvent& evt);
 
 	/**
 	 * @brief Rendering done
 	 * @param evt			Frame event
 	 * @return true if continuing
 	 **/
-	void postrender(const FrameEvent& evt);
+	void postrender(const Ogre::FrameEvent& evt);
 
 
 protected:
@@ -57,18 +58,18 @@ protected:
 	 * @brief Resized event
 	 * @param rw			Window data
 	 **/
-	void windowResized(RenderWindow* rw);
+	void windowResized(Ogre::RenderWindow* rw);
 
 	/**
 	 * @brief Close event
 	 * @param rw			Window data
 	 **/
-	void windowClosed(RenderWindow* rw);
+	void windowClosed(Ogre::RenderWindow* rw);
 
 
 	String mDebugText;
-	RenderWindow* mWindow;
-	Overlay* mDebugOverlay;
+	Ogre::RenderWindow* mWindow;
+	Ogre::Overlay* mDebugOverlay;
 
 	Game* mGame;
 	Player* mPlayer;

@@ -32,17 +32,17 @@ Actor::~Actor()
 	Methods
 ----------------------------------------------*/
 
-void Actor::preTick(const FrameEvent& evt)
+void Actor::preTick(const Ogre::FrameEvent& evt)
 {
 }
 
 
-void Actor::tick(const FrameEvent& evt)
+void Actor::tick(const Ogre::FrameEvent& evt)
 {
 }
 
 
-void Actor::attachObject(MovableObject* obj)
+void Actor::attachObject(Ogre::MovableObject* obj)
 {
 	mNode->attachObject(obj);
 }
@@ -50,7 +50,7 @@ void Actor::attachObject(MovableObject* obj)
 
 void Actor::attachActor(Actor* obj)
 {
-	SceneNode* target = obj->getNode();
+	Ogre::SceneNode* target = obj->getNode();
 	gameLog("Actor::attachActor " + target->getName() + " to " + mNode->getName());
 	target->getParent()->removeChild(target);
 	mNode->addChild(target);
@@ -63,9 +63,9 @@ void Actor::setLocation(Vector3 newPos)
 }
 
 
-void Actor::setRotation(Vector3 newRot)
+void Actor::setRotation(Quaternion newRot)
 {
-	mNode->setOrientation(0, newRot[0], newRot[1], newRot[2]);
+	mNode->setOrientation(newRot);
 }
 
 
@@ -77,11 +77,11 @@ void Actor::setScale(float scale)
 
 void Actor::translate(Vector3 offset, bool bRelative)
 {
-	mNode->translate(offset[0], offset[1], offset[2], bRelative ? Node::TS_LOCAL : Node::TS_WORLD);
+	mNode->translate(offset[0], offset[1], offset[2], bRelative ? Ogre::Node::TS_LOCAL : Ogre::Node::TS_WORLD);
 }
 
 
-void Actor::rotate(Vector3 rotator)
+void Actor::rotate(Quaternion rotator)
 {
 	mNode->pitch(Degree(rotator[0]));
 	mNode->yaw(Degree(rotator[1]));
@@ -99,17 +99,13 @@ Vector3 Actor::location()
 }
 
 
-Vector3 Actor::rotation()
+Quaternion Actor::rotation()
 {
-	Quaternion rot = mNode->getOrientation();
-	return Vector3(
-		Radian(rot.getPitch()).valueDegrees(),
-		Radian(rot.getYaw()).valueDegrees(),
-		Radian(rot.getRoll()).valueDegrees());
+	return mNode->getOrientation();
 }
 
 
-SceneNode* Actor::getNode()
+Ogre::SceneNode* Actor::getNode()
 {
 	return mNode;
 }

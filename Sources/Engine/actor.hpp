@@ -9,6 +9,7 @@
 #define __ACTOR_H_
 
 #include "Engine/game.hpp"
+#include "Engine/game_types.hpp"
 
 class Game;
 
@@ -38,19 +39,19 @@ public:
 	 * @brief Pre-tick event
 	 * @param evt			Frame event
 	 **/
-	virtual void preTick(const FrameEvent& evt);
+	virtual void preTick(const Ogre::FrameEvent& evt);
 	
 	/**
 	 * @brief Main tick event
 	 * @param evt			Frame event
 	 **/
-	virtual void tick(const FrameEvent& evt);
+	virtual void tick(const Ogre::FrameEvent& evt);
 	
 	/**
 	 * @brief Attach something to this actor
 	 * @param obj			Attached object
 	 **/
-	virtual void attachObject(MovableObject* obj);
+	virtual void attachObject(Ogre::MovableObject* obj);
 		
 	/**
 	 * @brief Attach an actor to this actor
@@ -68,7 +69,7 @@ public:
 	 * @brief Set the actor rotation in the world
 	 * @param offset		Rotation vector
 	 **/
-	virtual void setRotation(Vector3 newRot);
+	virtual void setRotation(Quaternion newRot);
 
 	/**
 	 * @brief Set the actor scale
@@ -87,7 +88,7 @@ public:
 	 * @brief Rotate the actor in the world
 	 * @param offset		Rotation vector (pitch, yaw, roll) in degrees
 	 **/
-	virtual void rotate(Vector3 rotator);
+	virtual void rotate(Quaternion rotator);
 
 	/**
 	 * @brief Get the the actor location in the world
@@ -99,13 +100,13 @@ public:
 	 * @brief Get the the actor rotation in the world
 	 * @return the rotation vector
 	 **/
-	Vector3 rotation();
+	Quaternion rotation();
 	
 	/**
 	 * @brief Get the current node
 	 * @return the node
 	 **/
-	SceneNode* getNode();
+	Ogre::SceneNode* getNode();
 	
 	/**
 	 * @brief Write text to the log file
@@ -125,7 +126,7 @@ protected:
 	// Render data
 	String mName;
 	Game* mGame;
-	SceneNode* mNode;
+	Ogre::SceneNode* mNode;
 
 };
 

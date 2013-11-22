@@ -48,7 +48,7 @@ public:
 	Game class definition
 ----------------------------------------------*/
 
-class Game : public FrameListener
+class Game : public Ogre::FrameListener
 {
 
 public:
@@ -72,7 +72,7 @@ public:
 	 * @brief Main tick event
 	 * @param evt			Frame event
 	 **/
-	virtual void tick(const FrameEvent& evt);
+	virtual void tick(const Ogre::FrameEvent& evt);
 	
 	/**
 	 * @brief Register an actor to the world
@@ -91,7 +91,7 @@ public:
 	 * @param name					Node name
 	 * @return the scene node
 	 **/
-	SceneNode* createGameNode(String name);
+	Ogre::SceneNode* createGameNode(String name);
 	
 	/**
 	 * @brief Run the level (blocking)
@@ -99,7 +99,7 @@ public:
 	 * @param name					File name
 	 * @return the scene entity
 	 **/
-	Entity* createGameEntity(String name, String file);
+	Ogre::Entity* createGameEntity(String name, String file);
 	
 	/**
 	 * @brief Register a rigid body to the scene
@@ -116,7 +116,7 @@ public:
 	 * @brief Get the current scene manager
 	 * @return the scene
 	 **/
-	SceneManager* getScene();
+	Ogre::SceneManager* getScene();
 	
 	/**
 	 * @brief Write text to the log file
@@ -160,12 +160,12 @@ protected:
 	/**
 	 * @brief Frame start event
 	 **/
-	bool frameRenderingQueued(const FrameEvent& evt);
+	bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 	
 	/**
 	 * @brief Frame stop event
 	 **/
-	bool frameEnded(const FrameEvent& evt);
+	bool frameEnded(const Ogre::FrameEvent& evt);
 	
 	/**
 	 * @brief Setup the level
@@ -215,10 +215,10 @@ protected:
 	bool bRunning;
 	
 	// OGRE data
-	Root* mRoot;
-	SceneManager* mScene;
-	RenderWindow* mWindow;
-	OverlaySystem* mOverlaySystem;
+	Ogre::Root* mRoot;
+	Ogre::SceneManager* mScene;
+	Ogre::RenderWindow* mWindow;
+	Ogre::OverlaySystem* mOverlaySystem;
 
 	// Bullet data
 	DebugDrawer* mPhysDrawer;
@@ -232,7 +232,7 @@ protected:
 	Player* mPlayer;
 	IOManager* mIOManager;
 
-	list<Actor*>::type mAllActors;
+	Ogre::list<Actor*>::type mAllActors;
 
 #ifdef OGRE_STATIC_LIB
 	StaticPluginLoader mStaticPluginLoader;

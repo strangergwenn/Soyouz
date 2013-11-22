@@ -40,13 +40,13 @@ public:
 	 * @brief Main tick event
 	 * @param evt			Frame event
 	 **/
-	virtual void tick(const FrameEvent& evt);
+	virtual void tick(const Ogre::FrameEvent& evt);
 	
 	/**
 	 * @brief Get the camera data
 	 * @return camera data
 	 **/
-	Camera* getCamera();
+	Ogre::Camera* getCamera();
 
 	/**
 	 * @brief Set the camera format
@@ -146,7 +146,7 @@ protected:
 
 	// Render data
 	int mFOV;
-	Camera* mCamera;
+	Ogre::Camera* mCamera;
 
 };
 

@@ -39,13 +39,13 @@ Player::~Player()
 	Public methods
 ----------------------------------------------*/
 
-void Player::tick(const FrameEvent& evt)
+void Player::tick(const Ogre::FrameEvent& evt)
 {
 	translate(mSpeed * evt.timeSinceLastFrame, true);
 }
 
 
-Camera* Player::getCamera()
+Ogre::Camera* Player::getCamera()
 {
 	return mCamera;
 }
@@ -61,7 +61,7 @@ void Player::setCameraRatio(Real ratio)
 
 void Player::setCameraSpheric(float distance, Degree horiz, Degree vert)
 {
-	Quaternion qH, qV;
+	Ogre::Quaternion qH, qV;
 	Radian alphaH = Radian(horiz.valueRadians());
 	Radian alphaV = Radian(vert.valueRadians());
 	
@@ -88,7 +88,7 @@ String Player::debugText()
 
 void Player::setWireframe(bool bWire)
 {
-	mCamera->setPolygonMode(bWire ? PM_WIREFRAME : PM_SOLID);
+	mCamera->setPolygonMode(bWire ? Ogre::PM_WIREFRAME : Ogre::PM_SOLID);
 }
 
 
@@ -98,7 +98,8 @@ void Player::setWireframe(bool bWire)
 
 bool Player::mouseMoved(const OIS::MouseEvent &e)
 {
-	rotate(Vector3(-Real(e.state.Y.rel), -Real(e.state.X.rel), Real(0)) * mRotFactor);
+	Quaternion rot;
+	//TODO FIX : rotate(Vector3(-Real(e.state.Y.rel), -Real(e.state.X.rel), Real(0)) * mRotFactor);
 	return true;
 }
 
