@@ -68,21 +68,21 @@ public:
 		// X steering
 		if (mSteerX > 0)
 		{
-			speedRight -= Math::Abs(mSteerX);
+			speedRight -= Math::Abs(mSteerX/2);
 		}
 		else
 		{
-			speedLeft -= Math::Abs(mSteerX);
+			speedLeft -= Math::Abs(mSteerX/2);
 		}
 
 		// Y steering
 		if (mSteerY > 0)
 		{
-			speedUp -= Math::Abs(mSteerY);
+			speedUp -= Math::Abs(mSteerY/2);
 		}
 		else
 		{
-			speedBottom -= Math::Abs(mSteerY);
+			speedBottom -= Math::Abs(mSteerY/2);
 		}
 
 		// Roll steering

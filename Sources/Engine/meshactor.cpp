@@ -167,6 +167,15 @@ void MeshActor::applyForce(Vector3 force, Vector3 location)
 	mPhysBody->applyForce(f, p);
 }
 
+void MeshActor::applyLocalForce(Vector3 force, Vector3 location)
+{
+	mPhysBody->setActivationState(DISABLE_DEACTIVATION);
+	btVector3 f = btVector3(force[0], force[1], force[2]);
+	btVector3 p = btVector3(location[0], location[1], location[2]);
+	f = mPhysTransform.getBasis() * f;
+	p = mPhysTransform.getBasis() * p;
+	mPhysBody->applyForce(f, p);
+}
 
 void MeshActor::clearForces()
 {

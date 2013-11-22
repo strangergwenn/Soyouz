@@ -103,6 +103,13 @@ public:
 	 * @param location		Force relative location
 	 **/
 	void applyForce(Vector3 force, Vector3 location);
+
+	/**
+	 * @brief Apply a physical force in the local referencial
+	 * @param force			Force data
+	 * @param location		Force relative location
+	 **/
+	void applyLocalForce(Vector3 force, Vector3 location);
 	
 	/**
 	 * @brief Remove all physical forces

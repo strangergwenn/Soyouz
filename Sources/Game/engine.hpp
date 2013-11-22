@@ -44,7 +44,7 @@ public:
 	void tick(const FrameEvent& evt)
 	{
 		Vector3 direction = mNode->getOrientation() * Vector3(0, 0, -1);
-		mShip->applyForce(mAlpha * mEngineStrength * direction, mRelPosition);
+		mShip->applyLocalForce(mAlpha * mEngineStrength * direction, mRelPosition);
 		MeshActor::tick(evt);
 	}
 
