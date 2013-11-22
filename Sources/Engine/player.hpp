@@ -67,6 +67,12 @@ public:
 	 * @return text
 	 **/
 	virtual String debugText();
+	
+	/**
+	 * @brief Toggle the camera wireframe
+	 * @param bWire			Wireframe status
+	 **/
+	void setWireframe(bool bWire);
 
 
 protected:

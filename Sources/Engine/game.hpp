@@ -108,17 +108,6 @@ public:
 	void addRigidBody(btRigidBody* body);
 	
 	/**
-	 * @brief Write text to the log file
-	 * @param text				Input data
-	 **/
-	virtual void gameLog(String text);
- 
-	/**
-	 * @brief Dump all scene nodes to the log file
-	 **/
-	void dumpAllNodes();
-	
-	/**
 	 * @brief Quit the game
 	 **/
 	virtual void quit();
@@ -128,6 +117,23 @@ public:
 	 * @return the scene
 	 **/
 	SceneManager* getScene();
+	
+	/**
+	 * @brief Write text to the log file
+	 * @param text				Input data
+	 **/
+	virtual void gameLog(String text);
+ 
+	/**
+	 * @brief Set the scene debug status
+	 * @param newStatus			New state
+	 **/
+	virtual void setDebugMode(int newStatus);
+
+	/**
+	 * @brief Dump all scene nodes to the log file
+	 **/
+	void dumpAllNodes();
 
 
 protected:
@@ -206,7 +212,7 @@ protected:
 	OverlaySystem* mOverlaySystem;
 
 	// Bullet data
-	DebugDrawer* mDebugDrawer;
+	DebugDrawer* mPhysDrawer;
 	btDiscreteDynamicsWorld* mPhysWorld;
 	btBroadphaseInterface* mPhysBroadphase;
 	btCollisionDispatcher* mPhysDispatcher;

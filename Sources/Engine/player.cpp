@@ -76,9 +76,19 @@ void Player::setCameraSpheric(float distance, Degree horiz, Degree vert)
 }
 
 
+/*----------------------------------------------
+	Debug facilities
+----------------------------------------------*/
+
 String Player::debugText()
 {
 	return "";
+}
+
+
+void Player::setWireframe(bool bWire)
+{
+	mCamera->setPolygonMode(bWire ? PM_WIREFRAME : PM_SOLID);
 }
 
 

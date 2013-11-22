@@ -32,18 +32,7 @@ public:
 		: mNode(node), mWorld(world), mDebugOn(true)
 	{
 		mLineDrawer = mgr->createManualObject("DebugLines");
-		SceneNode* myManualObjectNode = mgr->getRootSceneNode()->createChildSceneNode("DebugLinesNode"); 
- 
-		if (!MaterialManager::getSingleton().resourceExists("DebugMaterial"))
-		{
-			MaterialPtr mat = MaterialManager::getSingleton().create("DebugMaterial","Core"); 
-			mat->setReceiveShadows(false); 
-			mat->getTechnique(0)->setLightingEnabled(true); 
-			mat->getTechnique(0)->getPass(0)->setDiffuse(0,1,0,0); 
-			mat->getTechnique(0)->getPass(0)->setAmbient(0,1,0); 
-			mat->getTechnique(0)->getPass(0)->setSelfIllumination(0,1,0); 
-		}
-
+		SceneNode* myManualObjectNode = mgr->getRootSceneNode()->createChildSceneNode("DebugLinesNode");
 		mNode->attachObject(mLineDrawer);
 	}
  
@@ -52,7 +41,6 @@ public:
 	 **/
 	~DebugDrawer()
 	{
-		MaterialManager::getSingleton().remove("DebugMaterial");
 		delete mLineDrawer;
 	}
  
@@ -64,7 +52,7 @@ public:
 		if (mDebugOn)
 		{
 			mLineDrawer->clear();
-			mLineDrawer->begin("DebugMaterial", RenderOperation::OT_LINE_LIST); 
+			mLineDrawer->begin("Green", RenderOperation::OT_LINE_LIST); 
 			mWorld->debugDrawWorld();
 			mLineDrawer->end(); 
 			mNode->needUpdate();

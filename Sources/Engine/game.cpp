@@ -89,7 +89,7 @@ void Game::tick(const FrameEvent& evt)
     }
 
 	// Debug physics
-	mDebugDrawer->step();
+	mPhysDrawer->step();
 	
 	// Physics tick
 	if (mPhysWorld)
@@ -128,21 +128,6 @@ void Game::addRigidBody(btRigidBody* body)
 	mPhysWorld->addRigidBody(body);
 }
 
- 
-void Game::gameLog(String text)
-{
-	LogManager::getSingletonPtr()->logMessage(text.c_str());
-}
-
-
-void Game::dumpAllNodes()
-{
-	std::stringstream ss;
-	ss << std::endl << "Game::dumpNodes" << std::endl;
-	dumpNodes(ss, mScene->getRootSceneNode(), 0);
-	gameLog(ss.str());
-}
-
 
 void Game::quit()
 {
@@ -154,6 +139,7 @@ SceneManager* Game::getScene()
 {
 	return mScene;
 }
+
 
 /*----------------------------------------------
 	Events
@@ -171,6 +157,56 @@ bool Game::frameEnded(const FrameEvent& evt)
 {
 	mIOManager->postrender(evt);
 	return bRunning;
+}
+
+
+/*----------------------------------------------
+	Debug utility
+----------------------------------------------*/
+ 
+void Game::gameLog(String text)
+{
+	LogManager::getSingletonPtr()->logMessage(text.c_str());
+}
+
+
+void Game::setDebugMode(int newStatus)
+{
+	// Deactivate all drawers
+	mPhysDrawer->setDebugMode(0);
+	mPlayer->setWireframe(false);
+
+	// Then... 
+	switch (newStatus)
+	{
+	case 0:
+		break;
+
+	case 1:
+		mPlayer->setWireframe(true);
+		break;
+
+	case 2:
+		mPhysDrawer->setDebugMode(1);
+		break;
+
+	case 3:
+		mPlayer->setWireframe(true);
+		mPhysDrawer->setDebugMode(1);
+		break;
+
+	default:
+		break;
+	}
+}
+
+
+void Game::dumpAllNodes()
+{
+	std::stringstream ss;
+	ss << std::endl << "Game::dumpNodes" << std::endl;
+	dumpNodes(ss, mScene->getRootSceneNode(), 0);
+	gameLog(ss.str());
 }
 
 
@@ -322,9 +358,9 @@ void Game::setupPhysics(Vector3 gravity, bool bDrawDebug)
 
 	mPhysWorld->setGravity(btVector3(gravity[0], gravity[1], gravity[2]));
 
-	mDebugDrawer = new DebugDrawer(mScene, mScene->getRootSceneNode(), mPhysWorld);
-	mDebugDrawer->setDebugMode(bDrawDebug ? 1:0);
-	mPhysWorld->setDebugDrawer(mDebugDrawer);
+	mPhysDrawer = new DebugDrawer(mScene, mScene->getRootSceneNode(), mPhysWorld);
+	mPhysDrawer->setDebugMode(bDrawDebug ? 1:0);
+	mPhysWorld->setDebugDrawer(mPhysDrawer);
 }
 
 

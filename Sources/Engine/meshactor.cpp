@@ -302,7 +302,7 @@ void getMeshInformation(const Mesh* const mesh,
 void MeshActor::generateCollisions(float mass)
 {
 	// Physics settings
-	getCollisionMesh();
+	getCollisionMesh(true);
 	mPhysTransform.setIdentity();
 	mPhysTransform.setOrigin(btVector3(0, 0, 0));
 	btVector3 localInertia(0,0,0);

@@ -116,6 +116,22 @@ protected:
 			case OIS::KC_SUBTRACT:
 				distance += stepDistance;
 				break;
+				
+			case OIS::KC_F1:
+				mGame->setDebugMode(0);
+				break;
+
+			case OIS::KC_F2:
+				mGame->setDebugMode(1);
+				break;
+
+			case OIS::KC_F3:
+				mGame->setDebugMode(2);
+				break;
+
+			case OIS::KC_F4:
+				mGame->setDebugMode(3);
+				break;
 
 			case OIS::KC_ESCAPE:
 				mGame->quit();

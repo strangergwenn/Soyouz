@@ -16,3 +16,46 @@ material Default
         }
     }
 }
+
+// Red
+material Red
+{
+    technique main
+    {
+        pass main
+        {
+            diffuse  1.0 0.0 0.0
+            ambient  1.0 0.0 0.0
+            emissive 1.0 0.0 0.0
+        }
+    }
+}
+
+// Green
+material Green
+{
+    technique main
+    {
+        pass main
+        {
+            diffuse  0.0 1.0 0.0
+            ambient  0.0 1.0 0.0
+            emissive 0.0 1.0 0.0
+        }
+    }
+}
+
+// Blue
+material Blue
+{
+    technique main
+    {
+        pass main
+        {
+            diffuse  0.0 0.0 1.0
+            ambient  0.0 0.0 1.0
+            emissive 0.0 0.0 1.0
+        }
+    }
+}
+	
