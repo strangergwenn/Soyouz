@@ -9,7 +9,7 @@
 #define __WINDOW_H_
 
 #include "Engine/ogre.hpp"
-#include "Engine/game_types.hpp"
+#include "Engine/gametypes.hpp"
 
 class Game;
 class Player;

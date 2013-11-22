@@ -11,7 +11,7 @@
 #include "Engine/game.hpp"
 #include "Engine/actor.hpp"
 #include "Engine/bullet.hpp"
-#include "Engine/game_types.hpp"
+#include "Engine/gametypes.hpp"
 
 class Game;
 

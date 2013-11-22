@@ -12,7 +12,7 @@
 #include "btBulletDynamicsCommon.h"
 #include "BulletCollision/CollisionShapes/btShapeHull.h"
 #include "Engine/ogre.hpp"
-#include "Engine/game_types.hpp"
+#include "Engine/gametypes.hpp"
 
 
 /*----------------------------------------------

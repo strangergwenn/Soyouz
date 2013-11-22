@@ -9,7 +9,7 @@
 #define __ACTOR_H_
 
 #include "Engine/game.hpp"
-#include "Engine/game_types.hpp"
+#include "Engine/gametypes.hpp"
 
 class Game;
 
