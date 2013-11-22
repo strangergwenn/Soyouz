@@ -15,6 +15,7 @@
 Actor::Actor(Game* g, String name)
 {
 	mGame = g;
+	mName = name;
 	mNode = g->createGameNode(name);
 	mGame->registerActor(this);
 }
@@ -92,11 +93,6 @@ void Actor::rotate(Vector3 rotator)
 	Getters
 ----------------------------------------------*/
 
-void Actor::gameLog(String text)
-{
-	mGame->gameLog(text);
-}
-
 Vector3 Actor::location()
 {
 	return mNode->getPosition();
@@ -116,4 +112,25 @@ Vector3 Actor::rotation()
 SceneNode* Actor::getNode()
 {
 	return mNode;
+}
+
+
+/*----------------------------------------------
+	Debug facilities
+----------------------------------------------*/
+
+void Actor::gameLog(String text)
+{
+	mGame->gameLog(text);
+}
+
+
+void Actor::create3DHelper(void)
+{
+	Ogre::ManualObject* lineX = mGame->getDebugLine(Vector3(5,0,0), mName + "_DBGX", "Red");
+	Ogre::ManualObject* lineY = mGame->getDebugLine(Vector3(0,5,0), mName + "_DBGY", "Green");
+	Ogre::ManualObject* lineZ = mGame->getDebugLine(Vector3(0,0,5), mName + "_DBGZ", "Blue");
+	mNode->attachObject(lineX);
+	mNode->attachObject(lineY);
+	mNode->attachObject(lineZ);
 }

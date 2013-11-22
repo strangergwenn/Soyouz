@@ -46,6 +46,8 @@ public:
 		mRollControlKP = 500;
 		mRollControlKD = 100;
 		mRollControlThreshold = 5;
+
+		create3DHelper();
 	}
 
 	void preTick(const FrameEvent& evt)

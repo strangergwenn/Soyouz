@@ -129,6 +129,15 @@ public:
 	 * @param newStatus			New state
 	 **/
 	virtual void setDebugMode(int newStatus);
+	
+	/**
+	 * @brief Get a debug line to use for debugging
+	 * @param line				Line vector
+	 * @param name				Object unique name
+	 * @param material			Material name
+	 * @return a debug object
+	 **/
+	Ogre::ManualObject* getDebugLine(Vector3 line, String name, String material);
 
 	/**
 	 * @brief Dump all scene nodes to the log file

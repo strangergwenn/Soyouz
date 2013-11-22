@@ -201,6 +201,17 @@ void Game::setDebugMode(int newStatus)
 }
 
 
+Ogre::ManualObject* Game::getDebugLine(Vector3 line, String name, String material)
+{
+	Ogre::ManualObject* tmp = mScene->createManualObject(name); 
+	tmp->begin(material, Ogre::RenderOperation::OT_LINE_LIST); 
+	tmp->position(0, 0, 0); 
+	tmp->position(line.x, line.y, line.z); 
+	tmp->end(); 
+	return tmp;
+}
+
+
 void Game::dumpAllNodes()
 {
 	std::stringstream ss;

@@ -83,6 +83,7 @@ void MeshActor::tick(const FrameEvent& evt)
 		const btVector3 &origin = mPhysTransform.getOrigin();
 		mNode->setPosition(origin.getX(), origin.getY(), origin.getZ());
 	}
+	Actor::tick(evt);
 }
 
 

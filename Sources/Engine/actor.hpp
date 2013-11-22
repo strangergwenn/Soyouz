@@ -88,12 +88,6 @@ public:
 	 * @param offset		Rotation vector (pitch, yaw, roll) in degrees
 	 **/
 	virtual void rotate(Vector3 rotator);
-	
-	/**
-	 * @brief Write text to the log file
-	 * @param text				Input data
-	 **/
-	void gameLog(String text);
 
 	/**
 	 * @brief Get the the actor location in the world
@@ -112,12 +106,24 @@ public:
 	 * @return the node
 	 **/
 	SceneNode* getNode();
+	
+	/**
+	 * @brief Write text to the log file
+	 * @param text				Input data
+	 **/
+	void gameLog(String text);
+	
+	/**
+	 * @brief Create a 3D helper and attach it to the actor node
+	 **/
+	void create3DHelper(void);
 
 
 protected:
 
 	
 	// Render data
+	String mName;
 	Game* mGame;
 	SceneNode* mNode;
 
