@@ -64,7 +64,7 @@ void Ship::tick(const Ogre::FrameEvent& evt)
 	
 	float softModeLimit = 0.1;
 	float softModeLinearLimit = 5;
-	float maxLinearSpeed = -100.0;
+	float maxLinearSpeed = -75.0;
 	float speedX = 0.0;
 	float speedY = 0.0;
 	
@@ -120,15 +120,8 @@ void Ship::tick(const Ogre::FrameEvent& evt)
 		mCommandVector.y =  - (1.0 / softModeLinearLimit) * (getLocalSpeed().y - (speedY * maxLinearSpeed));
 	}
 	
-	
-	//gameLog(String("mSpeed=") + StringConverter::toString(mSpeed));
 	gameLog(String("getLocalSpeed()") + StringConverter::toString(getLocalSpeed()));
 	gameLog(String("mCommandVector=") + StringConverter::toString(mCommandVector));
-	
-		
-	
-	
-	
 
 	MeshActor::tick(evt);
 }

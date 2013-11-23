@@ -34,6 +34,7 @@ public:
 		mVertAngle = Degree(0);
 		mStepAngle = Degree(15);
 		mControlDirection = false;
+		mFastControlDirection = false;
 		mTargetSpeed = 0;
 
 		// Ship mesh
@@ -53,7 +54,19 @@ public:
 
 protected:
 
+	bool mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID id)
+	{
+		mFastControlDirection = true;
+		updateDirection();
+		return true;
+	}
 
+	bool mouseReleased(const OIS::MouseEvent &e, OIS::MouseButtonID id)
+	{
+		mFastControlDirection = false;
+		updateDirection();
+		return true;
+	}
 
 	bool mouseMoved(const OIS::MouseEvent &e)
 	{
@@ -73,7 +86,7 @@ protected:
 	}
 	
 	void updateDirection() {
-		if(mControlDirection) {
+		if(mControlDirection || mFastControlDirection) {
 			float resX = (float)mCamera->getViewport()->getActualWidth();
 			float resY = (float)mCamera->getViewport()->getActualHeight();
 			float max = 0.9f * resY;
@@ -210,6 +223,7 @@ protected:
 	Ship* mShip;
 	OIS::MouseState mMouseState;
 	bool mControlDirection;
+	bool mFastControlDirection;
 
 };
 
