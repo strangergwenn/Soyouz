@@ -13,6 +13,8 @@ bin_PROGRAMS=Soyouz
 
 SoyouzCPPFiles= \
 	Sources/main.cpp \
+	Sources/Game/ship.cpp \
+	Sources/Game/engine.cpp \
 	Sources/Engine/actor.cpp \
 	Sources/Engine/meshactor.cpp \
 	Sources/Engine/game.cpp \
