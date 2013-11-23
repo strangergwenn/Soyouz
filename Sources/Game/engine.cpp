@@ -48,21 +48,21 @@ void Engine::tick(const Ogre::FrameEvent& evt)
 	float output = 0;
 
 	// Rotation manager
-	if (rotAxis.x != 0)
+	if (fabs(rotAxis.x) > 0.001)
 	{
 		output += aim.x * (rotAxis.x > 0 ? 1: -1);
 	}
-	if (rotAxis.y != 0)
+	if (fabs(rotAxis.y) > 0.001)
 	{
 		output += aim.y * (rotAxis.y > 0 ? 1: -1);
 	}
-	if (rotAxis.z != 0)
+	if (fabs(rotAxis.z) > 0.001)
 	{
 		output += aim.z * (rotAxis.z > 0 ? 1: -1);
 	}
 	output *= 0.1f;
 	output += colinearity;
-	if (colinearity != 0)
+	if (fabs(colinearity) > 0.001)
 	{
 		output += target.length() * (colinearity > 0 ? 1 : -1);
 	}
