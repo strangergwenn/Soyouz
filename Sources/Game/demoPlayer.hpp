@@ -81,11 +81,11 @@ protected:
 				break;
 
 			case OIS::KC_Q:
-				mShip->addRoll(10.0f);
+				mShip->setRoll(1.0f);
 				break;
 
 			case OIS::KC_E:
-				mShip->addRoll(-10.0f);
+				mShip->setRoll(-1.0f);
 				break;
 
 			case OIS::KC_NUMPAD5:

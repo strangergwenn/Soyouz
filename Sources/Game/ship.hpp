@@ -62,7 +62,7 @@ public:
 	 * @brief Set the ship roll target
 	 * @param roll			Roll command
 	 **/
-	void addRoll(float roll);
+	void setRoll(float roll);
 	
 	/**
 	 * @brief Get the current direction target

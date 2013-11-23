@@ -30,7 +30,7 @@ Engine::Engine(Game* g, String name, MeshActor* parent, Vector3 location, Quater
 		
 	// Engine customization
 	setMaterial("MI_Exhaust");
-	setStrength(50);
+	setStrength(500);
 
 	// Debug
 	Ogre::ManualObject* dir = mGame->getDebugLine(Vector3(0, 0, 1), mName + "_DBG", "White");
@@ -45,51 +45,30 @@ void Engine::tick(const Ogre::FrameEvent& evt)
 	Vector3 target = mShip->getDirectionCommand();
 	Vector3 aim = mShip->getRotationCommand();
 	float colinearity = target.dotProduct(direction);
-	
-	// Speed limiter data
-	Vector3 angularSpeed = mShip->getAngularSpeed();
-	Vector3 linearSpeed = mShip->getSpeed();
+	float output = 0;
 
-	// Speed limiter
-	float limiter = 1.0;
-
-
-	if (rotAxis.length() != 0)
+	// Rotation manager
+	if (rotAxis.x != 0)
 	{
-		if (aim.x * rotAxis.x > 0)
-		{
-			setAlpha(1.0);
-		}
-		if (aim.y * rotAxis.y > 0)
-		{
-			setAlpha(1.0);
-		}
-		if (aim.z * rotAxis.z > 0)
-		{
-			setAlpha(1.0);
-		}
+		output += aim.x * (rotAxis.x > 0 ? 1: -1);
+	}
+	if (rotAxis.y != 0)
+	{
+		output += aim.y * (rotAxis.y > 0 ? 1: -1);
+	}
+	if (rotAxis.z != 0)
+	{
+		output += aim.z * (rotAxis.z > 0 ? 1: -1);
+	}
+	output *= 0.1f;
+	output += colinearity;
+	if (colinearity != 0)
+	{
+		output += target.length() * (colinearity > 0 ? 1 : -1);
 	}
 
-
-	// 1. déterminer sur quels axes ce moteur peut induire de la vitesse angulaire
-	//		par exemple un moteur en (1, 1, 0) de direction (1, 0, 0) produit une rotation sur l'axe Z
-	// 2. si la vitesse angulaire est supérieure à mShip->getMaxAngularSpeed(), déterminer le ratio d'erreur et l'appliquer à limiter
-	// 3. même process sur la vitesse linéaire
-	// La vitesse angulaire est affichée sur le hud en bas à droite après le ">", format X Y Z
-
-	//gameLog(mName + "DEBUG : " + StringConverter::toString(direction) + " " + StringConverter::toString(angularSpeed));
-
-	// Set the current command (aka alpha)
-	//if (colinearity > 0.1)
-	//{
-	//	setAlpha(colinearity * limiter);
-	//}
-	//else
-	//{
-	//	setAlpha(0);
-	//}
-
-	// Physics
+	// Output
+	setAlpha(output);
 	mShip->applyLocalForce(mAlpha * mStrength * direction, mRelPosition);
 	MeshActor::tick(evt);
 }
