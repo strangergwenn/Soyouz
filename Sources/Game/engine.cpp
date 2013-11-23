@@ -23,14 +23,15 @@ Engine::Engine(Game* g, String name, MeshActor* parent, Vector3 location, Quater
 	mNode->attachObject(mMesh);
 	mRelPosition = location;
 	mShip = (Ship*)parent;
-	mAlpha = 0.0f;
 	rotate(rotation);
 	setLocation(location);
 	parent->attachActor(this);
 		
 	// Engine customization
 	setMaterial("MI_Exhaust");
+	setAlpha(0.0f);
 	setStrength(500);
+	setRotationRatio(0.2f);
 
 	// Debug
 	Ogre::ManualObject* dir = mGame->getDebugLine(Vector3(0, 0, 1), mName + "_DBG", "White");
@@ -60,7 +61,9 @@ void Engine::tick(const Ogre::FrameEvent& evt)
 	{
 		output += aim.z * (rotAxis.z > 0 ? 1: -1);
 	}
-	output *= 0.1f;
+
+	// Final output calculation
+	output *= mRotationRatio;
 	output += colinearity;
 	if (fabs(colinearity) > 0.001)
 	{
@@ -85,4 +88,10 @@ void Engine::setAlpha(float alpha)
 void Engine::setStrength(float strength)
 {
 	mStrength = strength;
+}
+
+
+void Engine::setRotationRatio(float strength)
+{
+	mRotationRatio = strength;
 }

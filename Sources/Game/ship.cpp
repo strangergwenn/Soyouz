@@ -62,34 +62,31 @@ void Ship::tick(const Ogre::FrameEvent& evt)
 	
 	float softModeLimit = 0.1;
 	
-	if(getLocalAngularSpeed().y - (mSteerX * -2) < -softModeLimit ) {
+	if (getLocalAngularSpeed().y - (mSteerX * -2) < -softModeLimit ) {
 		mCommandRotator.y = 1;
-	} else if(getLocalAngularSpeed().y - (mSteerX * -2) > softModeLimit ) {
+	} else if (getLocalAngularSpeed().y - (mSteerX * -2) > softModeLimit ) {
 		mCommandRotator.y = -1;
 	} else {
 		mCommandRotator.y = - (1.0 / softModeLimit) * (getLocalAngularSpeed().y - (mSteerX * -2));
 	}
 	
-	if(getLocalAngularSpeed().x - (mSteerY * 2) < -softModeLimit ) {
+	if (getLocalAngularSpeed().x - (mSteerY * 2) < -softModeLimit ) {
 		mCommandRotator.x = 1;
-	} else if(getLocalAngularSpeed().x - (mSteerY * 2) > softModeLimit ) {
+	} else if (getLocalAngularSpeed().x - (mSteerY * 2) > softModeLimit ) {
 		mCommandRotator.x = -1;
 	} else {
 		mCommandRotator.x =  - (1.0 / softModeLimit) * (getLocalAngularSpeed().x - (mSteerY * 2));
 	}
 	
-	if(getLocalAngularSpeed().z - (mSteerRoll * 2) < -softModeLimit ) {
+	if (getLocalAngularSpeed().z - (mSteerRoll * 2) < -softModeLimit ) {
 		mCommandRotator.z = 1;
-	} else if(getLocalAngularSpeed().z - (mSteerRoll * 2) > softModeLimit ) {
+	} else if (getLocalAngularSpeed().z - (mSteerRoll * 2) > softModeLimit ) {
 		mCommandRotator.z = -1;
 	} else {
 		mCommandRotator.z =  - (1.0 / softModeLimit) * (getLocalAngularSpeed().z - (mSteerRoll * 2));
 	}
 	
-	mCommandVector = mSpeed * 
-		 ((Vector3(0, 0, -1))
-		+ (Vector3(+1, 0, 0) * mSteerX)
-		+ (Vector3(0, +1, 0) * mSteerY)) / 3;
+	mCommandVector = mSpeed * Vector3(0, 0, -1);
 
 	MeshActor::tick(evt);
 }

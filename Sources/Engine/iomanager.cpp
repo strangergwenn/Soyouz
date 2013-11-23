@@ -56,9 +56,8 @@ IOManager::IOManager(Ogre::RenderWindow* w, Player* p, Game* g) :
 	mDebugOverlay->show();
 	Ogre::WindowEventUtilities::addWindowEventListener(mWindow, this);
 
-
-	Ogre::OverlayManager& overlayManager = Ogre::OverlayManager::getSingleton();
 	// Create an overlay
+	Ogre::OverlayManager& overlayManager = Ogre::OverlayManager::getSingleton();
 	Ogre::Overlay* overlay = overlayManager.create( "BeautifulCursor" );
 
 	// Create a panel
@@ -68,10 +67,8 @@ IOManager::IOManager(Ogre::RenderWindow* w, Player* p, Game* g) :
 	cursor->setDimensions( 3, 3 );
 	cursor->setMaterialName( "BaseWhite" );
 
-	// Add the panel to the overlay
+	// Add the panel to the overlay and show it
 	overlay->add2D( cursor );
-
-	// Show the overlay
 	overlay->show();
 }
 

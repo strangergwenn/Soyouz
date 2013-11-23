@@ -50,12 +50,20 @@ public:
 	 * @param strength		New maximum output
 	 **/
 	void setStrength(float strength);
-
+	
+	/**
+	 * @brief Set the current engine acceleration factor
+	 * @param strength		Rotation ratio, relative to the acceleration ratio
+	 **/
+	void setRotationRatio(float strength);
 
 protected:
 
 	Ship* mShip;
+	
 	Vector3 mRelPosition;
+	float mRotationRatio;
+
 	float mStrength;
 	float mAlpha;
 
