@@ -83,9 +83,7 @@ void Actor::translate(Vector3 offset, bool bRelative)
 
 void Actor::rotate(Quaternion rotator)
 {
-	mNode->pitch(Degree(rotator[0]));
-	mNode->yaw(Degree(rotator[1]));
-	mNode->roll(Degree(rotator[2]));
+	mNode->rotate(rotator);
 }
 
 

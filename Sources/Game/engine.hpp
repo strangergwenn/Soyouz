@@ -39,11 +39,15 @@ public:
 		// Engine customization
 		setMaterial("MI_Exhaust");
 		mEngineStrength = 100;
+
+		// Debug
+		Ogre::ManualObject* dir = mGame->getDebugLine(Vector3(0, 0, 1), mName + "_DBG", "White");
+		mNode->attachObject(dir);
 	}
 
 	void tick(const Ogre::FrameEvent& evt)
 	{
-		Vector3 direction = mNode->getOrientation() * Vector3(0, 0, -1);
+		Vector3 direction = mNode->getOrientation() * Vector3(0, 0, 1);
 		mShip->applyLocalForce(mAlpha * mEngineStrength * direction, mRelPosition);
 		MeshActor::tick(evt);
 	}

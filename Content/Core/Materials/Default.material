@@ -17,6 +17,20 @@ material Default
     }
 }
 
+// White
+material White
+{
+    technique main
+    {
+        pass main
+        {
+            diffuse  1.0 1.0 1.0
+            ambient  1.0 1.0 1.0
+            emissive 1.0 1.0 1.0
+        }
+    }
+}
+
 // Red
 material Red
 {

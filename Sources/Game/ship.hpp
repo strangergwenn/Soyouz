@@ -26,28 +26,23 @@ public:
 	Ship(Game* g, String name, String file, String material, float mass)
 		: MeshActor(g, name, file, material, true, mass)
 	{
-		mEngLeft =		new Engine(g, name + "_mEngLeft",	this, Vector3(-1.2f, 0, 1.5f), Quaternion());
-		mEngRight =		new Engine(g, name + "_mEngRight",	this, Vector3(+1.2f, 0, 1.5f), Quaternion());
-		mEngBottom =	new Engine(g, name + "_mEngBottom",	this, Vector3(0, -1.2f, 1.5f), Quaternion());
-		mEngUp =		new Engine(g, name + "_mEngUp",		this, Vector3(0, +1.2f, 1.5f), Quaternion());
+		//mEngLeft =		new Engine(g, name + "_mEngLeft",	this, Vector3(-1.2f, 0, 1.5f), Quaternion());
 		
-		mEngLeft->setEngineStrength(0);
-		mEngRight->setEngineStrength(0);
-		mEngBottom->setEngineStrength(0);
-		mEngUp->setEngineStrength(0);
-
+		mEngineXPos =	new Engine(g, name + "_XP",	this, Vector3(+3, 0, 0), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(0,1,0)));
+		mEngineXNeg =	new Engine(g, name + "_XN",	this, Vector3(-3, 0, 0), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
+		mEngineYPos =	new Engine(g, name + "_YP",	this, Vector3(0, +3, 0), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(1,0,0)));
+		mEngineYNeg =	new Engine(g, name + "_YN",	this, Vector3(0, -3, 0), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(1,0,0)));
+		//mEngineZPos =	new Engine(g, name + "_ZP",	this, Vector3(0, 0, +3), Quaternion(Radian(Degree(0).valueRadians()), Vector3(0,1,0)));
+		//mEngineZNeg =	new Engine(g, name + "_ZN",	this, Vector3(0, 0, -3), Quaternion(Radian(Degree(180).valueRadians()), Vector3(0,1,0)));
+		
 		mSteerX = 0;
 		mSteerY = 0;
 		mSteerRoll = 0;
 		mSpeed = 0;
+		mMaxSpeed = 1000;
 		mMaxAngularSpeed = 1;
 
-		mRollControlMax = 500;
-		mRollControlKP = 500;
-		mRollControlKD = 100;
-		mRollControlThreshold = 5;
-
-		create3DHelper();
+		//create3DHelper();
 	}
 
 	void preTick(const Ogre::FrameEvent& evt)
@@ -56,65 +51,15 @@ public:
 	}
 
 	void tick(const Ogre::FrameEvent& evt)
-	{
-		float speedLeft, speedRight, speedBottom, speedUp;
-		speedLeft = mSpeed;
-		speedRight = mSpeed;
-		speedBottom = mSpeed;
-		speedUp = mSpeed;
-		
+	{		
 		// Speed measures
-		mRollControlValue = rotation().z;
-		mAngularSpeed = mPhysBody->getAngularVelocity();
-		
-		// X steering
-		if (mSteerX > 0)
-		{
-			speedRight -= Math::Abs(mSteerX/2);
-		}
-		else
-		{
-			speedLeft -= Math::Abs(mSteerX/2);
-		}
-
-		// Y steering
-		if (mSteerY > 0)
-		{
-			speedUp -= Math::Abs(mSteerY/2);
-		}
-		else
-		{
-			speedBottom -= Math::Abs(mSteerY/2);
-		}
-
-		// Roll steering
-		float diff = mSteerRoll - mRollControlValue;
-		if (Math::Abs(diff) > mRollControlThreshold)
-		{
-			if (Math::Abs(diff) > 180.0f)
-			{
-				diff *= -1;
-			}
-			float power = mRollControlKP * (diff)
-						+ mRollControlKD * (mRollControlPrevious - mRollControlValue) / evt.timeSinceLastFrame;
-			//mPhysBody->applyTorque(btVector3(0, 0, Math::Clamp(power, -mRollControlMax, mRollControlMax)));
-		}
-		else
-		{
-			//mAngularSpeed.setZ(0.0f);
-		}
-		mRollControlPrevious = mRollControlValue;
-
-		// Angular speed limits
-		//mAngularSpeed.setX(Math::Clamp(mAngularSpeed.getX(), -mMaxAngularSpeed, mMaxAngularSpeed));
-		//mAngularSpeed.setY(Math::Clamp(mAngularSpeed.getY(), -mMaxAngularSpeed, mMaxAngularSpeed));
-		mPhysBody->setAngularVelocity(mAngularSpeed);
-
+		btVector3 mAngularSpeed = mPhysBody->getAngularVelocity();
+				
 		// Control execution
-		mEngLeft->setEngineStrength(speedLeft);
-		mEngRight->setEngineStrength(speedRight);
-		mEngBottom->setEngineStrength(speedBottom);
-		mEngUp->setEngineStrength(speedUp);
+		mEngineXNeg->setEngineStrength(+Math::Clamp(mSteerX, 0.0f, mMaxSpeed));
+		mEngineXPos->setEngineStrength(-Math::Clamp(mSteerX, -mMaxSpeed, 0.0f));
+		mEngineYNeg->setEngineStrength(+Math::Clamp(mSteerY, 0.0f, mMaxSpeed));
+		mEngineYPos->setEngineStrength(-Math::Clamp(mSteerY, -mMaxSpeed, 0.0f));
 		MeshActor::tick(evt);
 	}
 
@@ -147,23 +92,22 @@ protected:
 	float mSteerRoll;
 	float mSpeed;
 
-	// Roll control
-	float mRollControlMax;
-	float mRollControlKP;
-	float mRollControlKD;
-	float mRollControlValue;
-	float mRollControlPrevious;
-	float mRollControlThreshold;
-
 	// Speed limiter
+	float mMaxSpeed;
 	float mMaxAngularSpeed;
-	btVector3 mAngularSpeed;
 
 	// Engines
-	Engine* mEngLeft;
-	Engine* mEngRight;
-	Engine* mEngBottom;
-	Engine* mEngUp;
+	//Engine* mEngLeft;
+	//Engine* mEngRight;
+	//Engine* mEngBottom;
+	//Engine* mEngUp;
+	
+	Engine* mEngineXPos;
+	Engine* mEngineXNeg;
+	Engine* mEngineYPos;
+	Engine* mEngineYNeg;
+	Engine* mEngineZPos;
+	Engine* mEngineZNeg;
 
 };
 

@@ -609,6 +609,7 @@
     <ClInclude Include="External\Bullet\src\vectormath\sse\vec_aos.h" />
     <ClInclude Include="External\Bullet\src\vectormath\vmInclude.h" />
     <ClInclude Include="Sources\Engine\bullet.hpp" />
+    <ClInclude Include="Sources\Engine\gametypes.hpp" />
     <ClInclude Include="Sources\Engine\meshactor.hpp" />
     <ClInclude Include="Sources\Engine\ogre.hpp" />
     <ClInclude Include="Sources\Engine\lightactor.hpp" />
