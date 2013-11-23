@@ -181,6 +181,11 @@ Vector3 MeshActor::getSpeed(void)
 	return Vector3(speed[0], speed[1], speed[2]);
 }
 
+Vector3 MeshActor::getLocalSpeed(void)
+{
+	btVector3 speed = mPhysBody->getLinearVelocity() * mPhysTransform.getBasis();
+	return Vector3(speed[0], speed[1], speed[2]);
+}
 
 Vector3 MeshActor::getAngularSpeed(void)
 {

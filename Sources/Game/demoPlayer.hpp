@@ -16,6 +16,10 @@
 	Class definitions
 ----------------------------------------------*/
 
+const float MAX_TARGET_SPEED = 1.0;
+const float MIN_TARGET_SPEED = -0.1;
+const float TARGET_SPEED_INCREMENT = 0.1;
+
 class DemoPlayer : public Player
 {
 
@@ -24,12 +28,13 @@ public:
 	DemoPlayer(Game* g, String name) : Player(g, name)
 	{
 		// Data
-		stepDistance = 4;
-		distance = 10;
-		horizAngle = Degree(0);
-		vertAngle = Degree(0);
-		stepAngle = Degree(15);
-		controlDirection = false;
+		mStepDistance = 4;
+		mDistance = 10;
+		mHorizAngle = Degree(0);
+		mVertAngle = Degree(0);
+		mStepAngle = Degree(15);
+		mControlDirection = false;
+		mTargetSpeed = 0;
 
 		// Ship mesh
 		mShip = new Ship(g, "Ship", "SM_Soyouz.mesh", "MI_Gloss", 100.0f);
@@ -37,7 +42,7 @@ public:
 		mShip->setLocation(Vector3(0, 0, 300));
 
 		// Camera setup
-		setCameraSpheric(distance, Degree(0), Degree (0));
+		setCameraSpheric(mDistance, Degree(0), Degree (0));
 	}
 	
 	String debugText()
@@ -48,25 +53,41 @@ public:
 
 protected:
 
+
+
 	bool mouseMoved(const OIS::MouseEvent &e)
 	{
-		mouseState = e.state;
+		if(e.state.Z.rel > 0) {
+			mTargetSpeed += TARGET_SPEED_INCREMENT;
+			updateSpeed();
+		}
+		
+		if(e.state.Z.rel < 0) {
+			mTargetSpeed -= TARGET_SPEED_INCREMENT;
+			updateSpeed();
+		}
+		
+		mMouseState = e.state;
 		updateDirection();
 		return true;
 	}
 	
 	void updateDirection() {
-		if(controlDirection) {
+		if(mControlDirection) {
 			float resX = (float)mCamera->getViewport()->getActualWidth();
 			float resY = (float)mCamera->getViewport()->getActualHeight();
 			float max = 0.9f * resY;
 
-			float x = Math::Clamp((float)mouseState.X.abs - (resX / 2), -max, max) / max;
-			float y = Math::Clamp((float)mouseState.Y.abs - (resY / 2), -max, max) / max;
+			float x = Math::Clamp((float)mMouseState.X.abs - (resX / 2), -max, max) / max;
+			float y = Math::Clamp((float)mMouseState.Y.abs - (resY / 2), -max, max) / max;
 			mShip->setSteer(x, -y);
 		} else {
 			mShip->setSteer(0, 0);
 		}
+	}
+	
+	void updateSpeed() {
+		mShip->setSpeed(mTargetSpeed);
 	}
  
 	bool keyPressed(const OIS::KeyEvent &e)
@@ -86,7 +107,7 @@ protected:
 				break;
 
 			case OIS::KC_SPACE:
-				controlDirection = !controlDirection;
+				mControlDirection = !mControlDirection;
 				updateDirection();
 				break;
 
@@ -103,32 +124,32 @@ protected:
 				break;
 
 			case OIS::KC_NUMPAD5:
-				horizAngle = 0;
-				vertAngle = 0;
+				mHorizAngle = 0;
+				mVertAngle = 0;
 				break;
 
 			case OIS::KC_NUMPAD4:
-				horizAngle -= stepAngle;
+				mHorizAngle -= mStepAngle;
 				break;
 
 			case OIS::KC_NUMPAD6:
-				horizAngle += stepAngle;
+				mHorizAngle += mStepAngle;
 				break;
 
 			case OIS::KC_NUMPAD2:
-				vertAngle += stepAngle;
+				mVertAngle += mStepAngle;
 				break;
 
 			case OIS::KC_NUMPAD8:
-				vertAngle -= stepAngle;
+				mVertAngle -= mStepAngle;
 				break;
 
 			case OIS::KC_ADD:
-				distance -= stepDistance;
+				mDistance -= mStepDistance;
 				break;
 
 			case OIS::KC_SUBTRACT:
-				distance += stepDistance;
+				mDistance += mStepDistance;
 				break;
 				
 			case OIS::KC_F1:
@@ -155,7 +176,7 @@ protected:
 				break;
 		}
 
-		setCameraSpheric(distance, Degree(horizAngle), Degree (vertAngle));
+		setCameraSpheric(mDistance, Degree(mHorizAngle), Degree (mVertAngle));
 		return true;
 	}
 
@@ -165,7 +186,8 @@ protected:
 		switch (e.key)
 		{
 			case OIS::KC_TAB:
-				mShip->setSpeed(0.0f);
+				mTargetSpeed = 1.0;
+				updateSpeed();
 				break;
 		}
 		return true;
@@ -173,14 +195,15 @@ protected:
 
 
 	// Game data
-	float distance;
-	float stepDistance;
-	Degree horizAngle;
-	Degree vertAngle;
-	Degree stepAngle;
+	float mDistance;
+	float mStepDistance;
+	float mTargetSpeed;
+	Degree mHorizAngle;
+	Degree mVertAngle;
+	Degree mStepAngle;
 	Ship* mShip;
-	OIS::MouseState mouseState;
-	bool controlDirection;
+	OIS::MouseState mMouseState;
+	bool mControlDirection;
 
 };
 

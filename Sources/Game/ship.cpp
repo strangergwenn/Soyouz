@@ -8,6 +8,8 @@
 #include "Game/ship.hpp"
 #include "Engine/game.hpp"
 
+const float MAX_SPEED = 1.0f;
+const float MIN_SPEED = -1.0f;
 
 /*----------------------------------------------
 	Constructor
@@ -61,6 +63,11 @@ void Ship::tick(const Ogre::FrameEvent& evt)
 	mCommandRotator = Vector3(0, 0, 0);
 	
 	float softModeLimit = 0.1;
+	float softModeLinearLimit = 20;
+	float maxLinearSpeed = -50.0;
+	float speedX = 0.0;
+	float speedY = 0.0;
+	
 	
 	if (getLocalAngularSpeed().y - (mSteerX * -2) < -softModeLimit ) {
 		mCommandRotator.y = 1;
@@ -86,7 +93,42 @@ void Ship::tick(const Ogre::FrameEvent& evt)
 		mCommandRotator.z =  - (1.0 / softModeLimit) * (getLocalAngularSpeed().z - (mSteerRoll * 2));
 	}
 	
-	mCommandVector = mSpeed * Vector3(0, 0, -1);
+	
+	mCommandVector  = Vector3(0, 0, 0);
+	
+	if (getLocalSpeed().z - (mSpeed * maxLinearSpeed) < -softModeLinearLimit ) {
+		mCommandVector.z = 1;
+	} else if (getLocalSpeed().z - (mSpeed * maxLinearSpeed) > softModeLinearLimit ) {
+		mCommandVector.z = -1;
+	} else {
+		mCommandVector.z =  - (1.0 / softModeLinearLimit) * (getLocalSpeed().z - (mSpeed * maxLinearSpeed));
+	}
+	
+	if (getLocalSpeed().x - (speedX * maxLinearSpeed) < -softModeLinearLimit ) {
+		mCommandVector.x = 1;
+	} else if (getLocalSpeed().x - (speedX * maxLinearSpeed) > softModeLinearLimit ) {
+		mCommandVector.x = -1;
+	} else {
+		mCommandVector.x =  - (1.0 / softModeLinearLimit) * (getLocalSpeed().x - (speedX * maxLinearSpeed));
+	}
+	
+	if (getLocalSpeed().y - (speedY * maxLinearSpeed) < -softModeLinearLimit ) {
+		mCommandVector.y = 1;
+	} else if (getLocalSpeed().y - (speedY * maxLinearSpeed) > softModeLinearLimit ) {
+		mCommandVector.y = -1;
+	} else {
+		mCommandVector.y =  - (1.0 / softModeLinearLimit) * (getLocalSpeed().y - (speedY * maxLinearSpeed));
+	}
+	
+	
+	//gameLog(String("mSpeed=") + StringConverter::toString(mSpeed));
+	gameLog(String("getLocalSpeed()") + StringConverter::toString(getLocalSpeed()));
+	gameLog(String("mCommandVector=") + StringConverter::toString(mCommandVector));
+	
+		
+	
+	
+	
 
 	MeshActor::tick(evt);
 }
@@ -94,7 +136,7 @@ void Ship::tick(const Ogre::FrameEvent& evt)
 
 void Ship::setSpeed(float speed)
 {
-	mSpeed = Math::Clamp(speed, 0.f, 1.f);
+	mSpeed = Math::Clamp(speed, MIN_SPEED, MAX_SPEED);
 }
 
 

@@ -122,6 +122,12 @@ public:
 	 * @return a vector materializing the speeds along X, Y, Z
 	 **/
 	Vector3 getSpeed(void);
+	
+	/**
+	 * @brief Get the current speed in local reference
+	 * @return a vector materializing the speeds along X, Y, Z
+	 **/
+	Vector3 getLocalSpeed(void);
 
 	/**
 	 * @brief Get the current angular speed
