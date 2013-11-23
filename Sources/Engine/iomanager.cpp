@@ -58,17 +58,17 @@ IOManager::IOManager(Ogre::RenderWindow* w, Player* p, Game* g) :
 
 	// Create an overlay
 	Ogre::OverlayManager& overlayManager = Ogre::OverlayManager::getSingleton();
-	Ogre::Overlay* overlay = overlayManager.create( "BeautifulCursor" );
+	Ogre::Overlay* overlay = overlayManager.create("BeautifulCursor");
 
 	// Create a panel
-	cursor = static_cast<Ogre::OverlayContainer*>( overlayManager.createOverlayElement( "Panel", "PanelName" ) );
+	cursor = static_cast<Ogre::OverlayContainer*>(overlayManager.createOverlayElement("Panel", "PanelName"));
 	cursor->setMetricsMode(Ogre::GMM_PIXELS);
-	cursor->setPosition( 0.0, 0.0 );
-	cursor->setDimensions( 3, 3 );
-	cursor->setMaterialName( "BaseWhite" );
+	cursor->setPosition(0.0, 0.0);
+	cursor->setDimensions(3, 3);
+	cursor->setMaterialName("BaseWhite");
 
 	// Add the panel to the overlay and show it
-	overlay->add2D( cursor );
+	overlay->add2D(cursor);
 	overlay->show();
 }
 
