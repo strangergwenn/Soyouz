@@ -11,6 +11,7 @@
 #include "Engine/meshactor.hpp"
 
 class Game;
+class Ship;
 
 
 /*----------------------------------------------
@@ -22,49 +23,40 @@ class Engine : public MeshActor
 
 public:
 	
-	Engine(Game* g, String name, MeshActor* parent, Vector3 location, Quaternion rotation)
-		: MeshActor(g, name, "", "")
-	{
-		// Creation
-		mMesh = g->createGameEntity(name + "_mesh", "SM_Exhaust.mesh");
-		mMesh->setCastShadows(false);
-		mNode->attachObject(mMesh);
-		mRelPosition = location;
-		mShip = parent;
-		mAlpha = 0.0f;
-		rotate(rotation);
-		setLocation(location);
-		parent->attachActor(this);
-		
-		// Engine customization
-		setMaterial("MI_Exhaust");
-		mEngineStrength = 100;
-
-		// Debug
-		Ogre::ManualObject* dir = mGame->getDebugLine(Vector3(0, 0, 1), mName + "_DBG", "White");
-		mNode->attachObject(dir);
-	}
-
-	void tick(const Ogre::FrameEvent& evt)
-	{
-		Vector3 direction = mNode->getOrientation() * Vector3(0, 0, 1);
-		mShip->applyLocalForce(mAlpha * mEngineStrength * direction, mRelPosition);
-		MeshActor::tick(evt);
-	}
-
-	void setEngineStrength(float alpha)
-	{
-		alpha = Math::Clamp(alpha, 0.f, 1.f);
-		mAlpha = alpha;
-		setMaterialParam(1, alpha);
-	}
+	/**
+	 * @brief Create an engine
+	 * @param g				Game actor
+	 * @param name			Unique name to set to the mesh
+	 * @param parent		Ship to attach to
+	 * @param location		Engine position
+	 * @param rotation		Engine rotation
+	 **/
+	Engine(Game* g, String name, MeshActor* parent, Vector3 location, Quaternion rotation);
+	
+	/**
+	 * @brief Main tick event
+	 * @param evt			Frame event
+	 **/
+	void tick(const Ogre::FrameEvent& evt);
+	
+	/**
+	 * @brief Set the current engine output ratio
+	 * @param alpha			Ratio (0 - 1)
+	 **/
+	void setAlpha(float alpha);
+	
+	/**
+	 * @brief Set the current engine output strength
+	 * @param strength		New maximum output
+	 **/
+	void setStrength(float strength);
 
 
 protected:
 
-	MeshActor* mShip;
+	Ship* mShip;
 	Vector3 mRelPosition;
-	float mEngineStrength;
+	float mStrength;
 	float mAlpha;
 
 };

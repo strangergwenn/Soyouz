@@ -25,7 +25,7 @@ public:
 	{
 		// Data
 		stepDistance = 4;
-		distance = 8;
+		distance = 10;
 		horizAngle = Degree(0);
 		vertAngle = Degree(0);
 		stepAngle = Degree(15);
@@ -41,7 +41,7 @@ public:
 	
 	String debugText()
 	{
-		return StringConverter::toString(mShip->rotation().z + 180);
+		return StringConverter::toString(mShip->getAngularSpeed());
 	}
 
 

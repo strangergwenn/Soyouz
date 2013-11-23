@@ -310,6 +310,8 @@
     <ClCompile Include="Sources\Engine\player.cpp" />
     <ClCompile Include="Sources\Engine\actor.cpp" />
     <ClCompile Include="Sources\Engine\iomanager.cpp" />
+    <ClCompile Include="Sources\Game\ship.cpp" />
+    <ClCompile Include="Sources\Game\engine.cpp" />
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\Engine\game.cpp" />
   </ItemGroup>

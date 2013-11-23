@@ -118,6 +118,18 @@ public:
 	void clearForces();
 	
 	/**
+	 * @brief Get the current speed
+	 * @return a vector materializing the speeds along X, Y, Z
+	 **/
+	Vector3 getSpeed(void);
+
+	/**
+	 * @brief Get the current angular speed
+	 * @return a vector materializing the angular speeds along X, Y, Z
+	 **/
+	Vector3 getAngularSpeed(void);
+	
+	/**
 	 * @brief Set a material
 	 * @param name			Material path
 	 **/

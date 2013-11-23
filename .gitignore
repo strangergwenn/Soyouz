@@ -2,10 +2,24 @@
 *.slo
 *.lo
 *.o
+*.exe
 
 # Compiled Dynamic libraries
 *.so
 *.dylib
+*.dll
+
+# Visual
+*.log
+*.pdb
+*.ilk
+*.sdf
+*.lastbuildstate
+*.suo
+*.opensdf
+
+# Other
+OpenGL Rendering Subsystem
 
 # Compiled Static libraries
 *.lai

@@ -175,6 +175,20 @@ void MeshActor::clearForces()
 }
 
 
+Vector3 MeshActor::getSpeed(void)
+{
+	btVector3 speed = mPhysBody->getLinearVelocity();
+	return Vector3(speed[0], speed[1], speed[2]);
+}
+
+
+Vector3 MeshActor::getAngularSpeed(void)
+{
+	btVector3 angularSpeed = mPhysBody->getAngularVelocity();
+	return Vector3(angularSpeed[0], angularSpeed[1], angularSpeed[2]);
+}
+
+
 /*----------------------------------------------
 	Collisions
 ----------------------------------------------*/

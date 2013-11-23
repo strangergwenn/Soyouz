@@ -23,85 +23,82 @@ class Ship : public MeshActor
 
 public:
 	
-	Ship(Game* g, String name, String file, String material, float mass)
-		: MeshActor(g, name, file, material, true, mass)
-	{
-		//mEngLeft =		new Engine(g, name + "_mEngLeft",	this, Vector3(-1.2f, 0, 1.5f), Quaternion());
-		
-		mEngineXPos =	new Engine(g, name + "_XP",	this, Vector3(+3, 0, 0), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(0,1,0)));
-		mEngineXNeg =	new Engine(g, name + "_XN",	this, Vector3(-3, 0, 0), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
-		mEngineYPos =	new Engine(g, name + "_YP",	this, Vector3(0, +3, 0), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(1,0,0)));
-		mEngineYNeg =	new Engine(g, name + "_YN",	this, Vector3(0, -3, 0), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(1,0,0)));
-		//mEngineZPos =	new Engine(g, name + "_ZP",	this, Vector3(0, 0, +3), Quaternion(Radian(Degree(0).valueRadians()), Vector3(0,1,0)));
-		//mEngineZNeg =	new Engine(g, name + "_ZN",	this, Vector3(0, 0, -3), Quaternion(Radian(Degree(180).valueRadians()), Vector3(0,1,0)));
-		
-		mSteerX = 0;
-		mSteerY = 0;
-		mSteerRoll = 0;
-		mSpeed = 0;
-		mMaxSpeed = 1000;
-		mMaxAngularSpeed = 1;
+	/**
+	 * @brief Create a ship
+	 * @param g				Game actor
+	 * @param name			Unique name to set to the mesh
+	 * @param file			Ship file
+	 * @param material		Ship material
+	 * @param mass			Ship mass
+	 **/
+	Ship(Game* g, String name, String file, String material, float mass);
+	
+	/**
+	 * @brief Pre-tick event
+	 * @param evt			Frame event
+	 **/
+	void preTick(const Ogre::FrameEvent& evt);
+	
+	/**
+	 * @brief Main tick event
+	 * @param evt			Frame event
+	 **/
+	void tick(const Ogre::FrameEvent& evt);
+	
+	/**
+	 * @brief Set the ship speed target
+	 * @param speed			Speed setting
+	 **/
+	void setSpeed(float speed);
+	
+	/**
+	 * @brief Set the ship steer target
+	 * @param x				X command (-1 - 1)
+	 * @param y				Y command (-1 - 1)
+	 **/
+	void setSteer(float x, float y);
+	
+	/**
+	 * @brief Set the ship roll target
+	 * @param roll			Roll command
+	 **/
+	void addRoll(float roll);
+	
+	/**
+	 * @brief Get the current direction target
+	 * @return a vector materializing the travel direction
+	 **/
+	Vector3 getDirectionCommand(void);
 
-		//create3DHelper();
-	}
-
-	void preTick(const Ogre::FrameEvent& evt)
-	{
-		clearForces();
-	}
-
-	void tick(const Ogre::FrameEvent& evt)
-	{		
-		// Speed measures
-		btVector3 mAngularSpeed = mPhysBody->getAngularVelocity();
-				
-		// Control execution
-		mEngineXNeg->setEngineStrength(+Math::Clamp(mSteerX, 0.0f, mMaxSpeed));
-		mEngineXPos->setEngineStrength(-Math::Clamp(mSteerX, -mMaxSpeed, 0.0f));
-		mEngineYNeg->setEngineStrength(+Math::Clamp(mSteerY, 0.0f, mMaxSpeed));
-		mEngineYPos->setEngineStrength(-Math::Clamp(mSteerY, -mMaxSpeed, 0.0f));
-		MeshActor::tick(evt);
-	}
-
-
-	void setSpeed(float speed)
-	{
-		mSpeed = Math::Clamp(speed, 0.f, 1.f);
-	}
-
-
-	void setSteer(float x, float y)
-	{
-		mSteerX = Math::Clamp(x, -1.f, 1.f);
-		mSteerY = Math::Clamp(y, -1.f, 1.f);
-	}
-
-
-	void addRoll(float roll)
-	{
-		mSteerRoll = Math::Clamp(mSteerRoll + roll, -180.0f, 180.0f);
-	}
+	/**
+	 * @brief Get the current max linear speed
+	 * @return speed
+	 **/
+	float getMaxSpeed(void);
+	
+	/**
+	 * @brief Get the current max angular speed
+	 * @return speed
+	 **/
+	float getMaxAngularSpeed(void);
 
 
 protected:
-	
 	
 	// Steering
 	float mSteerX;
 	float mSteerY;
 	float mSteerRoll;
 	float mSpeed;
+	Vector3 mAngularSpeed;
+	Vector3 mCommandVector;
 
-	// Speed limiter
+	// Speed characteristics
+	float mSteerFactor;
 	float mMaxSpeed;
 	float mMaxAngularSpeed;
 
-	// Engines
-	//Engine* mEngLeft;
-	//Engine* mEngRight;
-	//Engine* mEngBottom;
-	//Engine* mEngUp;
-	
+	// Engines	
 	Engine* mEngineXPos;
 	Engine* mEngineXNeg;
 	Engine* mEngineYPos;
