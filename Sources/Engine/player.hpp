@@ -139,11 +139,6 @@ protected:
 	virtual bool axisMoved(const OIS::JoyStickEvent &, int axis);
 
 	
-	// Movement data
-	Real mRotFactor;
-	Vector3 mSpeed;
-	Real mSpeedFactor;
-
 	// Render data
 	int mFOV;
 	Ogre::Camera* mCamera;

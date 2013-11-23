@@ -15,9 +15,6 @@
 Player::Player(Game* g, String name) : Actor(g, name)
 {
 	mFOV = 90;
-	mRotFactor = Real(0.1);
-	mSpeedFactor = Real(5.0);
-	mSpeed = Vector3::ZERO;
 	mNode->setDirection(0,0,-1);
 
 	mCamera = g->getScene()->createCamera(name + "_camera");
@@ -41,7 +38,6 @@ Player::~Player()
 
 void Player::tick(const Ogre::FrameEvent& evt)
 {
-	translate(mSpeed * evt.timeSinceLastFrame, true);
 }
 
 
@@ -98,8 +94,6 @@ void Player::setWireframe(bool bWire)
 
 bool Player::mouseMoved(const OIS::MouseEvent &e)
 {
-	Quaternion rot;
-	//TODO FIX : rotate(Vector3(-Real(e.state.Y.rel), -Real(e.state.X.rel), Real(0)) * mRotFactor);
 	return true;
 }
 
@@ -118,35 +112,8 @@ bool Player::mouseReleased(const OIS::MouseEvent &e, OIS::MouseButtonID id)
 
 bool Player::keyPressed(const OIS::KeyEvent &e)
 {
-	float movementSpeed = 100;
-	mSpeed = Vector3(0,0,0);
-
 	switch (e.key)
 	{
-		case OIS::KC_A:
-			mSpeed.x = -movementSpeed;
-			break;
-
-		case OIS::KC_D:
-			mSpeed.x = movementSpeed;
-			break;
-
-		case OIS::KC_W:
-			mSpeed.z = -movementSpeed;
-			break;
-
-		case OIS::KC_S:
-			mSpeed.z = movementSpeed;
-			break;
-
-		case OIS::KC_SPACE:
-			mSpeed.y = movementSpeed;
-			break;
-
-		case OIS::KC_LMENU:
-			mSpeed.y = -movementSpeed;
-			break;
-
 		case OIS::KC_ESCAPE:
 			mGame->quit();
 			break;
