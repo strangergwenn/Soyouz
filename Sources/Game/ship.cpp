@@ -26,13 +26,13 @@ Ship::Ship(Game* g, String name, String file, String material, float mass)
 	mEngineYPos2 =	new Engine(g, name + "_YP2",	this, Vector3(0, +3, 3), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(1,0,0)));
 	mEngineYNeg2 =	new Engine(g, name + "_YN2",	this, Vector3(0, -3, 3), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(1,0,0)));
 	
-	mEngineRollUpLeft =	new Engine(g, name + "_R1L", this, Vector3(-3, +3, 0), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
-	mEngineRollUpRight = new Engine(g, name + "_R1R", this, Vector3(3, +3, 0), Quaternion(Radian(Degree(90).valueRadians()), Vector3(0,1,0)));
-	mEngineRollDownLeft = new Engine(g, name + "_R2L", this, Vector3(-3, -3, 0), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
-	mEngineRollDownRight = new Engine(g, name + "_R2R", this, Vector3(3, -3, 0), Quaternion(Radian(Degree(90).valueRadians()), Vector3(0,1,0)));
+	//mEngineRollUpLeft =	new Engine(g, name + "_R1L", this, Vector3(-3, +3, 0), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
+	//mEngineRollUpRight = new Engine(g, name + "_R1R", this, Vector3(3, +3, 0), Quaternion(Radian(Degree(90).valueRadians()), Vector3(0,1,0)));
+	//mEngineRollDownLeft = new Engine(g, name + "_R2L", this, Vector3(-3, -3, 0), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
+	//mEngineRollDownRight = new Engine(g, name + "_R2R", this, Vector3(3, -3, 0), Quaternion(Radian(Degree(90).valueRadians()), Vector3(0,1,0)));
 
-	mEngineZPos =	new Engine(g, name + "_ZP",	this, Vector3(0, 0, +3), Quaternion(Radian(Degree(0).valueRadians()), Vector3(0,1,0)));
-	mEngineZNeg =	new Engine(g, name + "_ZN",	this, Vector3(0, 0, -3), Quaternion(Radian(Degree(180).valueRadians()), Vector3(0,1,0)));
+	//mEngineZPos =	new Engine(g, name + "_ZP",	this, Vector3(0, 0, +3), Quaternion(Radian(Degree(0).valueRadians()), Vector3(0,1,0)));
+	//mEngineZNeg =	new Engine(g, name + "_ZN",	this, Vector3(0, 0, -3), Quaternion(Radian(Degree(180).valueRadians()), Vector3(0,1,0)));
 	
 	mSteerX = 0;
 	mSteerY = 0;
@@ -58,10 +58,12 @@ void Ship::preTick(const Ogre::FrameEvent& evt)
 
 void Ship::tick(const Ogre::FrameEvent& evt)
 {	
-	mCommandVector = mSpeed * 
+	mCommandVector = 0 * mSpeed * 
 		 ((Vector3(0, 0, -1))
 		+ (Vector3(+1, 0, 0) * mSteerX)
 		+ (Vector3(0, +1, 0) * mSteerY));
+
+	mCommandRotator = Vector3(mSteerY, mSteerX, mSteerRoll);
 
 	MeshActor::tick(evt);
 }

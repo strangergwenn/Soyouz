@@ -30,7 +30,7 @@ Engine::Engine(Game* g, String name, MeshActor* parent, Vector3 location, Quater
 		
 	// Engine customization
 	setMaterial("MI_Exhaust");
-	setStrength(500);
+	setStrength(50);
 
 	// Debug
 	Ogre::ManualObject* dir = mGame->getDebugLine(Vector3(0, 0, 1), mName + "_DBG", "White");
@@ -41,7 +41,9 @@ void Engine::tick(const Ogre::FrameEvent& evt)
 {
 	// Basic data
 	Vector3 direction = mNode->getOrientation() * Vector3(0, 0, -1);
+	Vector3 rotAxis = mRelPosition.crossProduct(direction);
 	Vector3 target = mShip->getDirectionCommand();
+	Vector3 aim = mShip->getRotationCommand();
 	float colinearity = target.dotProduct(direction);
 	
 	// Speed limiter data
@@ -50,6 +52,25 @@ void Engine::tick(const Ogre::FrameEvent& evt)
 
 	// Speed limiter
 	float limiter = 1.0;
+
+
+	if (rotAxis.length() != 0)
+	{
+		if (aim.x * rotAxis.x > 0)
+		{
+			setAlpha(1.0);
+		}
+		if (aim.y * rotAxis.y > 0)
+		{
+			setAlpha(1.0);
+		}
+		if (aim.z * rotAxis.z > 0)
+		{
+			setAlpha(1.0);
+		}
+	}
+
+
 	// 1. déterminer sur quels axes ce moteur peut induire de la vitesse angulaire
 	//		par exemple un moteur en (1, 1, 0) de direction (1, 0, 0) produit une rotation sur l'axe Z
 	// 2. si la vitesse angulaire est supérieure à mShip->getMaxAngularSpeed(), déterminer le ratio d'erreur et l'appliquer à limiter
@@ -59,14 +80,14 @@ void Engine::tick(const Ogre::FrameEvent& evt)
 	//gameLog(mName + "DEBUG : " + StringConverter::toString(direction) + " " + StringConverter::toString(angularSpeed));
 
 	// Set the current command (aka alpha)
-	if (colinearity > 0.1)
-	{
-		setAlpha(colinearity * limiter);
-	}
-	else
-	{
-		setAlpha(0);
-	}
+	//if (colinearity > 0.1)
+	//{
+	//	setAlpha(colinearity * limiter);
+	//}
+	//else
+	//{
+	//	setAlpha(0);
+	//}
 
 	// Physics
 	mShip->applyLocalForce(mAlpha * mStrength * direction, mRelPosition);
