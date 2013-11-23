@@ -29,6 +29,7 @@ public:
 		horizAngle = Degree(0);
 		vertAngle = Degree(0);
 		stepAngle = Degree(15);
+		controlDirection = false;
 
 		// Ship mesh
 		mShip = new Ship(g, "Ship", "SM_Soyouz.mesh", "MI_Gloss", 100.0f);
@@ -49,16 +50,24 @@ protected:
 
 	bool mouseMoved(const OIS::MouseEvent &e)
 	{
-		float resX = (float)mCamera->getViewport()->getActualWidth();
-		float resY = (float)mCamera->getViewport()->getActualHeight();
-		float max = 0.9f * resY;
-
-		float x = Math::Clamp((float)e.state.X.abs - (resX / 2), -max, max) / max;
-		float y = Math::Clamp((float)e.state.Y.abs - (resY / 2), -max, max) / max;
-		mShip->setSteer(x, -y);
+		mouseState = e.state;
+		updateDirection();
 		return true;
 	}
 	
+	void updateDirection() {
+		if(controlDirection) {
+			float resX = (float)mCamera->getViewport()->getActualWidth();
+			float resY = (float)mCamera->getViewport()->getActualHeight();
+			float max = 0.9f * resY;
+
+			float x = Math::Clamp((float)mouseState.X.abs - (resX / 2), -max, max) / max;
+			float y = Math::Clamp((float)mouseState.Y.abs - (resY / 2), -max, max) / max;
+			mShip->setSteer(x, -y);
+		} else {
+			mShip->setSteer(0, 0);
+		}
+	}
  
 	bool keyPressed(const OIS::KeyEvent &e)
 	{
@@ -74,6 +83,11 @@ protected:
 				break;
 
 			case OIS::KC_S:
+				break;
+
+			case OIS::KC_SPACE:
+				controlDirection = !controlDirection;
+				updateDirection();
 				break;
 
 			case OIS::KC_TAB:
@@ -165,6 +179,8 @@ protected:
 	Degree vertAngle;
 	Degree stepAngle;
 	Ship* mShip;
+	OIS::MouseState mouseState;
+	bool controlDirection;
 
 };
 

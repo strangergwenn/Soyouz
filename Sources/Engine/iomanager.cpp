@@ -55,6 +55,24 @@ IOManager::IOManager(Ogre::RenderWindow* w, Player* p, Game* g) :
 	windowResized(mWindow);
 	mDebugOverlay->show();
 	Ogre::WindowEventUtilities::addWindowEventListener(mWindow, this);
+
+
+	Ogre::OverlayManager& overlayManager = Ogre::OverlayManager::getSingleton();
+	// Create an overlay
+	Ogre::Overlay* overlay = overlayManager.create( "BeautifulCursor" );
+
+	// Create a panel
+	cursor = static_cast<Ogre::OverlayContainer*>( overlayManager.createOverlayElement( "Panel", "PanelName" ) );
+	cursor->setMetricsMode(Ogre::GMM_PIXELS);
+	cursor->setPosition( 0.0, 0.0 );
+	cursor->setDimensions( 3, 3 );
+	cursor->setMaterialName( "BaseWhite" );
+
+	// Add the panel to the overlay
+	overlay->add2D( cursor );
+
+	// Show the overlay
+	overlay->show();
 }
 
 
@@ -92,6 +110,8 @@ void IOManager::prerender(const Ogre::FrameEvent& evt)
 	Quaternion rot = mPlayer->rotation();
 	mDebugText += "roll=" + StringConverter::toString(rot.getRoll()) + " pitch=" + StringConverter::toString(rot.getPitch()) + " yaw=" + StringConverter::toString(rot.getYaw());
 	mDebugText += " > " + mPlayer->debugText();
+
+	cursor->setPosition( mMouse->getMouseState().X.abs - 1, mMouse->getMouseState().Y.abs -1);
 }
 
 

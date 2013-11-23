@@ -70,6 +70,7 @@ protected:
 	String mDebugText;
 	Ogre::RenderWindow* mWindow;
 	Ogre::Overlay* mDebugOverlay;
+	Ogre::OverlayContainer* cursor;
 
 	Game* mGame;
 	Player* mPlayer;
