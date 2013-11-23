@@ -63,8 +63,8 @@ void Ship::tick(const Ogre::FrameEvent& evt)
 	mCommandRotator = Vector3(0, 0, 0);
 	
 	float softModeLimit = 0.1;
-	float softModeLinearLimit = 20;
-	float maxLinearSpeed = -50.0;
+	float softModeLinearLimit = 5;
+	float maxLinearSpeed = -100.0;
 	float speedX = 0.0;
 	float speedY = 0.0;
 	

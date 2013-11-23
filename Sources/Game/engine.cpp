@@ -65,10 +65,6 @@ void Engine::tick(const Ogre::FrameEvent& evt)
 	// Final output calculation
 	output *= mRotationRatio;
 	output += colinearity;
-	if (fabs(colinearity) > 0.001)
-	{
-		output += target.length() * (colinearity > 0 ? 1 : -1);
-	}
 
 	// Output
 	setAlpha(output);
