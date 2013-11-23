@@ -185,10 +185,16 @@ protected:
 	{
 		switch (e.key)
 		{
+			case OIS::KC_Q:
+			case OIS::KC_E:
+				mShip->setRoll(0.0f);
+				break;
 			case OIS::KC_TAB:
 				mTargetSpeed = 1.0;
 				updateSpeed();
 				break;
+			default:
+			break;
 		}
 		return true;
 	}
