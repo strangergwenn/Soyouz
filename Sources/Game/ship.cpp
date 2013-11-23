@@ -58,50 +58,38 @@ void Ship::preTick(const Ogre::FrameEvent& evt)
 
 void Ship::tick(const Ogre::FrameEvent& evt)
 {	
-	
 	mCommandRotator = Vector3(0, 0, 0);
-	
-	gameLog(String("angular velocity ") + StringConverter::toString(this->getAngularSpeed()));
-	//gameLog(String("mSteerX= ") + StringConverter::toString(mSteerX));
 	
 	float softModeLimit = 0.1;
 	
-	if(getAngularSpeed().y - (mSteerX * -2) < -softModeLimit ) {
+	if(getLocalAngularSpeed().y - (mSteerX * -2) < -softModeLimit ) {
 		mCommandRotator.y = 1;
-	} else if(getAngularSpeed().y - (mSteerX * -2) > softModeLimit ) {
+	} else if(getLocalAngularSpeed().y - (mSteerX * -2) > softModeLimit ) {
 		mCommandRotator.y = -1;
 	} else {
-		mCommandRotator.y = - (1.0 / softModeLimit) * (getAngularSpeed().y - (mSteerX * -2));
+		mCommandRotator.y = - (1.0 / softModeLimit) * (getLocalAngularSpeed().y - (mSteerX * -2));
 	}
 	
-	if(getAngularSpeed().x - (mSteerY * 2) < -softModeLimit ) {
+	if(getLocalAngularSpeed().x - (mSteerY * 2) < -softModeLimit ) {
 		mCommandRotator.x = 1;
-	} else if(getAngularSpeed().x - (mSteerY * 2) > softModeLimit ) {
+	} else if(getLocalAngularSpeed().x - (mSteerY * 2) > softModeLimit ) {
 		mCommandRotator.x = -1;
 	} else {
-		mCommandRotator.x =  - (1.0 / softModeLimit) * (getAngularSpeed().x - (mSteerY * 2));
+		mCommandRotator.x =  - (1.0 / softModeLimit) * (getLocalAngularSpeed().x - (mSteerY * 2));
 	}
 	
-	if(getAngularSpeed().z - (mSteerRoll * 2) < -softModeLimit ) {
+	if(getLocalAngularSpeed().z - (mSteerRoll * 2) < -softModeLimit ) {
 		mCommandRotator.z = 1;
-	} else if(getAngularSpeed().z - (mSteerRoll * 2) > softModeLimit ) {
+	} else if(getLocalAngularSpeed().z - (mSteerRoll * 2) > softModeLimit ) {
 		mCommandRotator.z = -1;
 	} else {
-		mCommandRotator.z =  - (1.0 / softModeLimit) * (getAngularSpeed().z - (mSteerRoll * 2));
+		mCommandRotator.z =  - (1.0 / softModeLimit) * (getLocalAngularSpeed().z - (mSteerRoll * 2));
 	}
-	
-	
-	//gameLog(String("mCommandRotator.y ") + StringConverter::toString(mCommandRotator.y));
-	
-
-	
 	
 	mCommandVector = mSpeed * 
 		 ((Vector3(0, 0, -1))
 		+ (Vector3(+1, 0, 0) * mSteerX)
 		+ (Vector3(0, +1, 0) * mSteerY)) / 3;
-
-	//mCommandRotator = Vector3(mSteerY, -mSteerX, mSteerRoll);
 
 	MeshActor::tick(evt);
 }

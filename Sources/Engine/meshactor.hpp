@@ -130,6 +130,12 @@ public:
 	Vector3 getAngularSpeed(void);
 	
 	/**
+	 * @brief Get the current angular speed in local reference
+	 * @return a vector materializing the angular speeds along X, Y, Z
+	 **/
+	Vector3 getLocalAngularSpeed(void);
+	
+	/**
 	 * @brief Set a material
 	 * @param name			Material path
 	 **/
