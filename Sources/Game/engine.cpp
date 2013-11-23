@@ -30,7 +30,7 @@ Engine::Engine(Game* g, String name, MeshActor* parent, Vector3 location, Quater
 		
 	// Engine customization
 	setMaterial("MI_Exhaust");
-	setStrength(100);
+	setStrength(500);
 
 	// Debug
 	Ogre::ManualObject* dir = mGame->getDebugLine(Vector3(0, 0, 1), mName + "_DBG", "White");

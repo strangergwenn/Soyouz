@@ -69,6 +69,12 @@ public:
 	 * @return a vector materializing the travel direction
 	 **/
 	Vector3 getDirectionCommand(void);
+	
+	/**
+	 * @brief Get the current angular rotation speed
+	 * @return a vector materializing the angular speed
+	 **/
+	Vector3 getRotationCommand(void);
 
 	/**
 	 * @brief Get the current max linear speed
@@ -92,6 +98,7 @@ protected:
 	float mSpeed;
 	Vector3 mAngularSpeed;
 	Vector3 mCommandVector;
+	Vector3 mCommandRotator;
 
 	// Speed characteristics
 	float mSteerFactor;
@@ -99,10 +106,21 @@ protected:
 	float mMaxAngularSpeed;
 
 	// Engines	
-	Engine* mEngineXPos;
-	Engine* mEngineXNeg;
-	Engine* mEngineYPos;
-	Engine* mEngineYNeg;
+	Engine* mEngineXPos1;
+	Engine* mEngineXNeg1;
+	Engine* mEngineYPos1;
+	Engine* mEngineYNeg1;
+
+	Engine* mEngineXPos2;
+	Engine* mEngineXNeg2;
+	Engine* mEngineYPos2;
+	Engine* mEngineYNeg2;
+	
+	Engine* mEngineRollUpLeft;
+	Engine* mEngineRollUpRight;
+	Engine* mEngineRollDownLeft;
+	Engine* mEngineRollDownRight;
+
 	Engine* mEngineZPos;
 	Engine* mEngineZNeg;
 
