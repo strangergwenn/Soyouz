@@ -32,26 +32,26 @@ Ship::Ship(Game* g, String name, String file, String material, float mass)
 	: MeshActor(g, name, file, material, true, mass)
 {
 	// Foward RCS ring
-	addEngine(Vector3(+3, 0, -3), RIGHT);
-	addEngine(Vector3(-3, 0, -3), LEFT);
-	addEngine(Vector3(0, +3, -3), TOP);
-	addEngine(Vector3(0, -3, -3), BOTTOM);
+	addThruster(Vector3(+3, 0, -3), RIGHT);
+	addThruster(Vector3(-3, 0, -3), LEFT);
+	addThruster(Vector3(0, +3, -3), TOP);
+	addThruster(Vector3(0, -3, -3), BOTTOM);
 	
 	// Roll ring
-	addEngine(Vector3(0, +3, 0), LEFT);
-	addEngine(Vector3(0, +3, 0), RIGHT);
-	addEngine(Vector3(0, -3, 0), LEFT);
-	addEngine(Vector3(0, -3, 0), RIGHT);
+	addThruster(Vector3(0, +3, 0), LEFT);
+	addThruster(Vector3(0, +3, 0), RIGHT);
+	addThruster(Vector3(0, -3, 0), LEFT);
+	addThruster(Vector3(0, -3, 0), RIGHT);
 
 	// Back RCS ring
-	addEngine(Vector3(+3, 0, 3), RIGHT);
-	addEngine(Vector3(-3, 0, 3), LEFT);
-	addEngine(Vector3(0, +3, 3), TOP);
-	addEngine(Vector3(0, -3, 3), BOTTOM);
+	addThruster(Vector3(+3, 0, 3), RIGHT);
+	addThruster(Vector3(-3, 0, 3), LEFT);
+	addThruster(Vector3(0, +3, 3), TOP);
+	addThruster(Vector3(0, -3, 3), BOTTOM);
 
 	// Main thrusters
-	addEngine(Vector3(0, 0, -3), FORWARD);
-	addEngine(Vector3(0, 0, +3), BACK);
+	addThruster(Vector3(0, 0, -3), FORWARD);
+	addThruster(Vector3(0, 0, +3), BACK);
 	
 	// Steering controls
 	mSteerX = 0;
@@ -141,10 +141,10 @@ float Ship::computeSoftAngularCommand(float measure, float command)
 }
 
 
-void Ship::addEngine(Vector3 location, Quaternion rotation)
+void Ship::addThruster(Vector3 location, Quaternion rotation)
 {
-	Engine* engine = new Engine(mGame, mName + "_Eng" + StringConverter::toString(mEngines.size()), this, location, rotation);
-	mEngines.push_back(engine);
+	Thruster* engine = new Thruster(mGame, mName + "_Eng" + StringConverter::toString(mThrusters.size()), this, location, rotation);
+	mThrusters.push_back(engine);
 }
 
 

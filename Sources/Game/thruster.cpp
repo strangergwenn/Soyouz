@@ -5,16 +5,16 @@
 * @author Gwennaël ARBONA
 **/
 
-#include "Game/engine.hpp"
-#include "Game/ship.hpp"
 #include "Engine/game.hpp"
+#include "Game/thruster.hpp"
+#include "Game/ship.hpp"
 
 
 /*----------------------------------------------
 	Class definitions
 ----------------------------------------------*/
 	
-Engine::Engine(Game* g, String name, MeshActor* parent, Vector3 location, Quaternion rotation)
+Thruster::Thruster(Game* g, String name, MeshActor* parent, Vector3 location, Quaternion rotation)
 	: MeshActor(g, name, "", "")
 {
 	// Creation
@@ -40,7 +40,7 @@ Engine::Engine(Game* g, String name, MeshActor* parent, Vector3 location, Quater
 	//mNode->attachObject(dir);
 }
 
-void Engine::tick(const Ogre::FrameEvent& evt)
+void Thruster::tick(const Ogre::FrameEvent& evt)
 {
 	// Basic data
 	Vector3 direction = mNode->getOrientation() * Vector3(0, 0, -1);
@@ -74,7 +74,7 @@ void Engine::tick(const Ogre::FrameEvent& evt)
 }
 
 
-void Engine::setAlpha(float alpha)
+void Thruster::setAlpha(float alpha)
 {
 	alpha = Math::Clamp(alpha, 0.f, 1.f);
 	mAlpha = alpha;
@@ -82,13 +82,13 @@ void Engine::setAlpha(float alpha)
 }
 
 
-void Engine::setStrength(float strength)
+void Thruster::setStrength(float strength)
 {
 	mStrength = strength;
 }
 
 
-void Engine::setRotationRatio(float strength)
+void Thruster::setRotationRatio(float strength)
 {
 	mRotationRatio = strength;
 }

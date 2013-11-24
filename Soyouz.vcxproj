@@ -72,7 +72,7 @@
     <IntDir>$(SolutionDir)Build\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Sources;$(SolutionDir)External\Ogre\boost;$(SolutionDir)External\Ogre\include;$(SolutionDir)External\Ogre\include\OGRE;$(SolutionDir)External\Ogre\include\Ogre\Overlay;$(SolutionDir)External\Ogre\include\Ogre\RenderSystems;$(SolutionDir)External\Bullet\src\;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Sources;$(SolutionDir)External\Ogre\boost;$(SolutionDir)External\Ogre\include;$(SolutionDir)External\Ogre\include\OGRE;$(SolutionDir)External\Ogre\include\Ogre\Overlay;$(SolutionDir)External\Ogre\include\Ogre\RenderSystems;$(SolutionDir)External\Bullet\src\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)External\Ogre\boost\lib;$(SolutionDir)External\Ogre\lib\$(Configuration);$(DXSDK_DIR)\Lib\x64;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)</OutDir>
     <IntDir>$(SolutionDir)\Build\$(Configuration)\</IntDir>
@@ -311,8 +311,7 @@
     <ClCompile Include="Sources\Engine\actor.cpp" />
     <ClCompile Include="Sources\Engine\iomanager.cpp" />
     <ClCompile Include="Sources\Game\ship.cpp" />
-    <ClCompile Include="Sources\Game\engine.cpp" />
-    <ClCompile Include="Sources\Engine\dirlightactor.cpp" />
+    <ClCompile Include="Sources\Game\thruster.cpp" />
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\Engine\game.cpp" />
   </ItemGroup>
@@ -622,9 +621,8 @@
     <ClInclude Include="Sources\Engine\iomanager.hpp" />
     <ClInclude Include="Sources\Engine\game.hpp" />
     <ClInclude Include="Sources\Game\demoPlayer.hpp" />
-    <ClInclude Include="Sources\Game\engine.hpp" />
+    <ClInclude Include="Sources\Game\thruster.hpp" />
     <ClInclude Include="Sources\Game\ship.hpp" />
-    <ClInclude Include="Sources\Engine\dirlightactor.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\plugins.cfg" />

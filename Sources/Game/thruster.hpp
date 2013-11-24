@@ -18,7 +18,7 @@ class Ship;
 	Class definitions
 ----------------------------------------------*/
 
-class Engine : public MeshActor
+class Thruster : public MeshActor
 {
 
 public:
@@ -28,10 +28,10 @@ public:
 	 * @param g				Game actor
 	 * @param name			Unique name to set to the mesh
 	 * @param parent		Ship to attach to
-	 * @param location		Engine position
-	 * @param rotation		Engine rotation
+	 * @param location		Thruster position
+	 * @param rotation		Thruster rotation
 	 **/
-	Engine(Game* g, String name, MeshActor* parent, Vector3 location, Quaternion rotation);
+	Thruster(Game* g, String name, MeshActor* parent, Vector3 location, Quaternion rotation);
 	
 	/**
 	 * @brief Main tick event

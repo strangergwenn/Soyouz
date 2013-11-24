@@ -9,7 +9,7 @@
 #define __SHIP_H_
 
 #include "Engine/meshactor.hpp"
-#include "Game/engine.hpp"
+#include "Game/thruster.hpp"
 
 class Game;
 
@@ -63,10 +63,10 @@ public:
 	
 	/**
 	 * @brief Add an engine to the ship
-	 * @param location		Engine relative location
-	 * @param rotation		Engine rotation
+	 * @param location		Thruster relative location
+	 * @param rotation		Thruster rotation
 	 **/
-	void addEngine(Vector3 location, Quaternion rotation);
+	void addThruster(Vector3 location, Quaternion rotation);
 	
 	/**
 	 * @brief Set the ship speed target
@@ -130,8 +130,8 @@ protected:
 	float mSoftModeLimit;
 	float mSoftModeAngularLimit;
 
-	// Engines	
-	Ogre::list<Engine*>::type mEngines;
+	// Thrusters	
+	Ogre::list<Thruster*>::type mThrusters;
 
 };
 
