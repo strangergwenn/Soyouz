@@ -16,9 +16,10 @@
 	Class definitions
 ----------------------------------------------*/
 
-const float MAX_TARGET_SPEED = 1.0;
-const float MIN_TARGET_SPEED = -0.1;
-const float TARGET_SPEED_INCREMENT = 0.1;
+const float MAX_TARGET_SPEED = 1.0f;
+const float MIN_TARGET_SPEED = -0.1f;
+const float TARGET_SPEED_INCREMENT = 0.1f;
+
 
 class DemoPlayer : public Player
 {

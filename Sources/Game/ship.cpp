@@ -62,11 +62,11 @@ void Ship::tick(const Ogre::FrameEvent& evt)
 {	
 	mCommandRotator = Vector3(0, 0, 0);
 	
-	float softModeLimit = 0.1;
-	float softModeLinearLimit = 5;
-	float maxLinearSpeed = -75.0;
-	float speedX = 0.0;
-	float speedY = 0.0;
+	float softModeLimit = 0.1f;
+	float softModeLinearLimit = 5.0f;
+	float maxLinearSpeed = -75.0f;
+	float speedX = 0.0f;
+	float speedY = 0.0f;
 	
 	
 	if (getLocalAngularSpeed().y - (mSteerX * -2) < -softModeLimit ) {
@@ -74,7 +74,7 @@ void Ship::tick(const Ogre::FrameEvent& evt)
 	} else if (getLocalAngularSpeed().y - (mSteerX * -2) > softModeLimit ) {
 		mCommandRotator.y = -1;
 	} else {
-		mCommandRotator.y = - (1.0 / softModeLimit) * (getLocalAngularSpeed().y - (mSteerX * -2));
+		mCommandRotator.y = - (1.0f / softModeLimit) * (getLocalAngularSpeed().y - (mSteerX * -2));
 	}
 	
 	if (getLocalAngularSpeed().x - (mSteerY * 2) < -softModeLimit ) {
@@ -82,7 +82,7 @@ void Ship::tick(const Ogre::FrameEvent& evt)
 	} else if (getLocalAngularSpeed().x - (mSteerY * 2) > softModeLimit ) {
 		mCommandRotator.x = -1;
 	} else {
-		mCommandRotator.x =  - (1.0 / softModeLimit) * (getLocalAngularSpeed().x - (mSteerY * 2));
+		mCommandRotator.x =  - (1.0f / softModeLimit) * (getLocalAngularSpeed().x - (mSteerY * 2));
 	}
 	
 	if (getLocalAngularSpeed().z - (mSteerRoll * 2) < -softModeLimit ) {
@@ -90,7 +90,7 @@ void Ship::tick(const Ogre::FrameEvent& evt)
 	} else if (getLocalAngularSpeed().z - (mSteerRoll * 2) > softModeLimit ) {
 		mCommandRotator.z = -1;
 	} else {
-		mCommandRotator.z =  - (1.0 / softModeLimit) * (getLocalAngularSpeed().z - (mSteerRoll * 2));
+		mCommandRotator.z =  - (1.0f/ softModeLimit) * (getLocalAngularSpeed().z - (mSteerRoll * 2));
 	}
 	
 	
@@ -101,7 +101,7 @@ void Ship::tick(const Ogre::FrameEvent& evt)
 	} else if (getLocalSpeed().z - (mSpeed * maxLinearSpeed) > softModeLinearLimit ) {
 		mCommandVector.z = -1;
 	} else {
-		mCommandVector.z =  - (1.0 / softModeLinearLimit) * (getLocalSpeed().z - (mSpeed * maxLinearSpeed));
+		mCommandVector.z =  - (1.0f / softModeLinearLimit) * (getLocalSpeed().z - (mSpeed * maxLinearSpeed));
 	}
 	
 	if (getLocalSpeed().x - (speedX * maxLinearSpeed) < -softModeLinearLimit ) {
@@ -109,7 +109,7 @@ void Ship::tick(const Ogre::FrameEvent& evt)
 	} else if (getLocalSpeed().x - (speedX * maxLinearSpeed) > softModeLinearLimit ) {
 		mCommandVector.x = -1;
 	} else {
-		mCommandVector.x =  - (1.0 / softModeLinearLimit) * (getLocalSpeed().x - (speedX * maxLinearSpeed));
+		mCommandVector.x =  - (1.0f / softModeLinearLimit) * (getLocalSpeed().x - (speedX * maxLinearSpeed));
 	}
 	
 	if (getLocalSpeed().y - (speedY * maxLinearSpeed) < -softModeLinearLimit ) {
@@ -117,7 +117,7 @@ void Ship::tick(const Ogre::FrameEvent& evt)
 	} else if (getLocalSpeed().y - (speedY * maxLinearSpeed) > softModeLinearLimit ) {
 		mCommandVector.y = -1;
 	} else {
-		mCommandVector.y =  - (1.0 / softModeLinearLimit) * (getLocalSpeed().y - (speedY * maxLinearSpeed));
+		mCommandVector.y =  - (1.0f / softModeLinearLimit) * (getLocalSpeed().y - (speedY * maxLinearSpeed));
 	}
 	
 	gameLog(String("getLocalSpeed()") + StringConverter::toString(getLocalSpeed()));
