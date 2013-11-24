@@ -8,8 +8,21 @@
 #include "Game/ship.hpp"
 #include "Engine/game.hpp"
 
-const float MAX_SPEED = 1.0f;
-const float MIN_SPEED = -1.0f;
+
+/*----------------------------------------------
+	Definitions
+----------------------------------------------*/
+
+const float MAX_SPEED_RATIO =	+1.0f;
+const float MIN_SPEED_RATIO =	-1.0f;
+
+const Quaternion LEFT =			Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0));
+const Quaternion RIGHT =		Quaternion(Radian(Degree(+90).valueRadians()), Vector3(0,1,0));
+const Quaternion TOP =			Quaternion(Radian(Degree(-90).valueRadians()), Vector3(1,0,0));
+const Quaternion BOTTOM =		Quaternion(Radian(Degree(+90).valueRadians()), Vector3(1,0,0));
+const Quaternion FORWARD =		Quaternion(Radian(Degree(180).valueRadians()), Vector3(0,1,0));
+const Quaternion BACK =			Quaternion(Radian(Degree(  0).valueRadians()), Vector3(0,1,0));
+
 
 /*----------------------------------------------
 	Constructor
@@ -18,27 +31,27 @@ const float MIN_SPEED = -1.0f;
 Ship::Ship(Game* g, String name, String file, String material, float mass)
 	: MeshActor(g, name, file, material, true, mass)
 {
-	// RCS ring 1
-	addEngine(Vector3(+3, 0, -3), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(0,1,0)));
-	addEngine(Vector3(-3, 0, -3), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
-	addEngine(Vector3(0, +3, -3), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(1,0,0)));
-	addEngine(Vector3(0, -3, -3), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(1,0,0)));
-
-	// RCS ring 2
-	addEngine( Vector3(+3, 0, 3), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(0,1,0)));
-	addEngine(Vector3(-3, 0, 3), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
-	addEngine(Vector3(0, +3, 3), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(1,0,0)));
-	addEngine(Vector3(0, -3, 3), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(1,0,0)));
+	// Foward RCS ring
+	addEngine(Vector3(+3, 0, -3), RIGHT);
+	addEngine(Vector3(-3, 0, -3), LEFT);
+	addEngine(Vector3(0, +3, -3), TOP);
+	addEngine(Vector3(0, -3, -3), BOTTOM);
 	
 	// Roll ring
-	addEngine(Vector3(-3, +3, 0), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
-	addEngine(Vector3(3, +3, 0), Quaternion(Radian(Degree(90).valueRadians()), Vector3(0,1,0)));
-	addEngine(Vector3(-3, -3, 0), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
-	addEngine(Vector3(3, -3, 0), Quaternion(Radian(Degree(90).valueRadians()), Vector3(0,1,0)));
+	addEngine(Vector3(0, +3, 0), LEFT);
+	addEngine(Vector3(0, +3, 0), RIGHT);
+	addEngine(Vector3(0, -3, 0), LEFT);
+	addEngine(Vector3(0, -3, 0), RIGHT);
+
+	// Back RCS ring
+	addEngine(Vector3(+3, 0, 3), RIGHT);
+	addEngine(Vector3(-3, 0, 3), LEFT);
+	addEngine(Vector3(0, +3, 3), TOP);
+	addEngine(Vector3(0, -3, 3), BOTTOM);
 
 	// Main thrusters
-	addEngine(Vector3(0, 0, +3), Quaternion(Radian(Degree(0).valueRadians()), Vector3(0,1,0)));
-	addEngine(Vector3(0, 0, -3), Quaternion(Radian(Degree(180).valueRadians()), Vector3(0,1,0)));
+	addEngine(Vector3(0, 0, -3), FORWARD);
+	addEngine(Vector3(0, 0, +3), BACK);
 	
 	// Steering controls
 	mSteerX = 0;
@@ -141,7 +154,7 @@ void Ship::addEngine(Vector3 location, Quaternion rotation)
 
 void Ship::setSpeed(float speed)
 {
-	mSpeed = Math::Clamp(speed, MIN_SPEED, MAX_SPEED);
+	mSpeed = Math::Clamp(speed, MIN_SPEED_RATIO, MAX_SPEED_RATIO);
 }
 
 

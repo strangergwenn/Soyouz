@@ -23,15 +23,17 @@ Engine::Engine(Game* g, String name, MeshActor* parent, Vector3 location, Quater
 	mNode->attachObject(mMesh);
 	mRelPosition = location;
 	mShip = (Ship*)parent;
+
+	// Position
 	rotate(rotation);
 	setLocation(location);
 	parent->attachActor(this);
 		
-	// Engine customization
-	setMaterial("MI_Exhaust");
+	// Customization
 	setAlpha(0.0f);
 	setStrength(1000);
 	setRotationRatio(0.1f);
+	setMaterial("MI_Exhaust");
 
 	// Debug
 	//Ogre::ManualObject* dir = mGame->getDebugLine(Vector3(0, 0, 1), mName + "_DBG", "White");
@@ -45,7 +47,6 @@ void Engine::tick(const Ogre::FrameEvent& evt)
 	Vector3 rotAxis = mRelPosition.crossProduct(direction);
 	Vector3 target = mShip->getDirectionCommand();
 	Vector3 aim = mShip->getRotationCommand();
-	float colinearity = target.dotProduct(direction);
 	float output = 0;
 
 	// Rotation manager
@@ -64,7 +65,7 @@ void Engine::tick(const Ogre::FrameEvent& evt)
 
 	// Final output calculation
 	output *= mRotationRatio;
-	output += colinearity;
+	output += target.dotProduct(direction);
 
 	// Output
 	setAlpha(output);
