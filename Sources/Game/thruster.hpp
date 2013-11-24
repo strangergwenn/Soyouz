@@ -40,22 +40,19 @@ public:
 	void tick(const Ogre::FrameEvent& evt);
 	
 	/**
-	 * @brief Set the current engine output ratio
-	 * @param alpha			Ratio (0 - 1)
+	 * @brief Customize the thruster parameters
+	 * @param strength		Maximum force that is applied
+	 * @param scale			Exhaust 3D scale
+	 * @param rotRatio		Fraction of the full power to use for rotations
 	 **/
-	void setAlpha(float alpha);
-	
+	void customize(float strength, float scale, float rotRatio = 0.1f);
+
 	/**
-	 * @brief Set the current engine output strength
-	 * @param strength		New maximum output
+	 * @brief Customize the thruster exhaust model
+	 * @param scale			Exhaust model
 	 **/
-	void setStrength(float strength);
-	
-	/**
-	 * @brief Set the current engine acceleration factor
-	 * @param strength		Rotation ratio, relative to the acceleration ratio
-	 **/
-	void setRotationRatio(float strength);
+	void setModel(String file);
+
 
 protected:
 
@@ -63,9 +60,7 @@ protected:
 	
 	Vector3 mRelPosition;
 	float mRotationRatio;
-
 	float mStrength;
-	float mAlpha;
 
 };
 

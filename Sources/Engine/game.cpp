@@ -123,6 +123,12 @@ Ogre::Entity* Game::createGameEntity(String name, String file)
 }
 
 
+void Game::deleteGameEntity(Ogre::Entity* entity)
+{
+	mScene->destroyEntity(entity);
+}
+
+
 void Game::addRigidBody(btRigidBody* body)
 {
 	mPhysWorld->addRigidBody(body);

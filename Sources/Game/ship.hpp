@@ -46,29 +46,6 @@ public:
 	void tick(const Ogre::FrameEvent& evt);
 	
 	/**
-	 * @brief Compute a steering component for linear control
-	 * @param measure		Input measure
-	 * @param command		Input command
-	 * @return the soft steering
-	 **/
-	float computeSoftLinearCommand(float measure, float command);
-	
-	/**
-	 * @brief Compute a steering component for angular control
-	 * @param measure		Input measure
-	 * @param command		Input command
-	 * @return the soft steering
-	 **/
-	float computeSoftAngularCommand(float measure, float command);
-	
-	/**
-	 * @brief Add an engine to the ship
-	 * @param location		Thruster relative location
-	 * @param rotation		Thruster rotation
-	 **/
-	void addThruster(Vector3 location, Quaternion rotation);
-	
-	/**
 	 * @brief Set the ship speed target
 	 * @param speed			Speed setting
 	 **/
@@ -113,6 +90,30 @@ public:
 
 
 protected:
+	
+	/**
+	 * @brief Compute a steering component for linear control
+	 * @param measure		Input measure
+	 * @param command		Input command
+	 * @return the soft steering
+	 **/
+	float computeSoftLinearCommand(float measure, float command);
+	
+	/**
+	 * @brief Compute a steering component for angular control
+	 * @param measure		Input measure
+	 * @param command		Input command
+	 * @return the soft steering
+	 **/
+	float computeSoftAngularCommand(float measure, float command);
+	
+	/**
+	 * @brief Add an engine to the ship
+	 * @param location		Thruster relative location
+	 * @param rotation		Thruster rotation
+	 **/
+	void addThruster(Vector3 location, Quaternion rotation);
+
 	
 	// Steering controls for the player
 	float mSteerX;

@@ -108,7 +108,7 @@ void IOManager::prerender(const Ogre::FrameEvent& evt)
 	mDebugText += "roll=" + StringConverter::toString(rot.getRoll()) + " pitch=" + StringConverter::toString(rot.getPitch()) + " yaw=" + StringConverter::toString(rot.getYaw());
 	mDebugText += " > " + mPlayer->debugText();
 
-	cursor->setPosition( mMouse->getMouseState().X.abs - 1, mMouse->getMouseState().Y.abs -1);
+	cursor->setPosition( mMouse->getMouseState().X.abs - 1.0f, mMouse->getMouseState().Y.abs - 1.0f);
 }
 
 

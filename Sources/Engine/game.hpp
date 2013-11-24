@@ -94,12 +94,18 @@ public:
 	Ogre::SceneNode* createGameNode(String name);
 	
 	/**
-	 * @brief Run the level (blocking)
+	 * @brief Create en entity
 	 * @param name					Node name
-	 * @param name					File name
+	 * @param file					File name
 	 * @return the scene entity
 	 **/
 	Ogre::Entity* createGameEntity(String name, String file);
+	
+	/**
+	 * @brief Remove an entity
+	 * @param entity				Enrity reference
+	 **/
+	void deleteGameEntity(Ogre::Entity* entity);
 	
 	/**
 	 * @brief Register a rigid body to the scene

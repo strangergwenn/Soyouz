@@ -305,6 +305,7 @@
     <ClCompile Include="External\Bullet\src\MiniCL\MiniCL.cpp" />
     <ClCompile Include="External\Bullet\src\MiniCL\MiniCLTaskScheduler.cpp" />
     <ClCompile Include="External\Bullet\src\MiniCL\MiniCLTask\MiniCLTask.cpp" />
+    <ClCompile Include="Sources\Engine\dirlightactor.cpp" />
     <ClCompile Include="Sources\Engine\lightactor.cpp" />
     <ClCompile Include="Sources\Engine\meshactor.cpp" />
     <ClCompile Include="Sources\Engine\player.cpp" />
@@ -611,6 +612,7 @@
     <ClInclude Include="External\Bullet\src\vectormath\sse\vec_aos.h" />
     <ClInclude Include="External\Bullet\src\vectormath\vmInclude.h" />
     <ClInclude Include="Sources\Engine\bullet.hpp" />
+    <ClInclude Include="Sources\Engine\dirlightactor.hpp" />
     <ClInclude Include="Sources\Engine\gametypes.hpp" />
     <ClInclude Include="Sources\Engine\meshactor.hpp" />
     <ClInclude Include="Sources\Engine\ogre.hpp" />

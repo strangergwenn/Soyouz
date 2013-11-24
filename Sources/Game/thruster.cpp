@@ -17,28 +17,20 @@
 Thruster::Thruster(Game* g, String name, MeshActor* parent, Vector3 location, Quaternion rotation)
 	: MeshActor(g, name, "", "")
 {
-	// Creation
-	mMesh = g->createGameEntity(name + "_mesh", "SM_Exhaust.mesh");
-	mMesh->setCastShadows(false);
-	mNode->attachObject(mMesh);
-	mRelPosition = location;
-	mShip = (Ship*)parent;
+	// Customization
+	mMesh = NULL;
+	setModel("SM_Exhaust.mesh");
+	setMaterial("MI_Exhaust");
+	customize(1000, 1.0, 0.1f);
 
 	// Position
+	mRelPosition = location;
+	mShip = (Ship*)parent;
 	rotate(rotation);
 	setLocation(location);
 	parent->attachActor(this);
-		
-	// Customization
-	setAlpha(0.0f);
-	setStrength(1000);
-	setRotationRatio(0.1f);
-	setMaterial("MI_Exhaust");
-
-	// Debug
-	//Ogre::ManualObject* dir = mGame->getDebugLine(Vector3(0, 0, 1), mName + "_DBG", "White");
-	//mNode->attachObject(dir);
 }
+
 
 void Thruster::tick(const Ogre::FrameEvent& evt)
 {
@@ -47,48 +39,50 @@ void Thruster::tick(const Ogre::FrameEvent& evt)
 	Vector3 rotAxis = mRelPosition.crossProduct(direction);
 	Vector3 target = mShip->getDirectionCommand();
 	Vector3 aim = mShip->getRotationCommand();
-	float output = 0;
+	float alpha = 0;
 
 	// Rotation manager
 	if (fabs(rotAxis.x) > 0.001)
 	{
-		output += aim.x * (rotAxis.x > 0 ? 1: -1);
+		alpha += aim.x * (rotAxis.x > 0 ? 1: -1);
 	}
 	if (fabs(rotAxis.y) > 0.001)
 	{
-		output += aim.y * (rotAxis.y > 0 ? 1: -1);
+		alpha += aim.y * (rotAxis.y > 0 ? 1: -1);
 	}
 	if (fabs(rotAxis.z) > 0.001)
 	{
-		output += aim.z * (rotAxis.z > 0 ? 1: -1);
+		alpha += aim.z * (rotAxis.z > 0 ? 1: -1);
 	}
 
 	// Final output calculation
-	output *= mRotationRatio;
-	output += target.dotProduct(direction);
+	alpha *= mRotationRatio;
+	alpha += target.dotProduct(direction);
+	alpha = Math::Clamp(alpha, 0.0f, 1.0f);
 
 	// Output
-	setAlpha(output);
-	mShip->applyLocalForce(mAlpha * mStrength * direction, mRelPosition);
+	setMaterialParam(1, alpha);
+	mShip->applyLocalForce(alpha * mStrength * direction, mRelPosition);
 	MeshActor::tick(evt);
 }
 
 
-void Thruster::setAlpha(float alpha)
-{
-	alpha = Math::Clamp(alpha, 0.f, 1.f);
-	mAlpha = alpha;
-	setMaterialParam(1, alpha);
-}
-
-
-void Thruster::setStrength(float strength)
+void Thruster::customize(float strength, float scale, float rotRatio)
 {
 	mStrength = strength;
+	mRotationRatio = rotRatio;
+	mNode->setScale(scale, scale, scale);
 }
 
 
-void Thruster::setRotationRatio(float strength)
+void Thruster::setModel(String file)
 {
-	mRotationRatio = strength;
+	if (mMesh)
+	{
+		mGame->deleteGameEntity(mMesh);
+		mMesh = NULL;
+	}
+	mMesh = mGame->createGameEntity(mName + "_mesh", file);
+	mMesh->setCastShadows(false);
+	mNode->attachObject(mMesh);
 }

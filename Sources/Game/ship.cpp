@@ -70,7 +70,6 @@ Ship::Ship(Game* g, String name, String file, String material, float mass)
 /*----------------------------------------------
 	Events
 ----------------------------------------------*/
-	
 
 void Ship::preTick(const Ogre::FrameEvent& evt)
 {
