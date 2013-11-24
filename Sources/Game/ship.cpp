@@ -32,26 +32,26 @@ Ship::Ship(Game* g, String name, String file, String material, float mass)
 	: MeshActor(g, name, file, material, true, mass)
 {
 	// Foward RCS ring
-	addThruster(Vector3(+3, 0, -3), RIGHT);
-	addThruster(Vector3(-3, 0, -3), LEFT);
-	addThruster(Vector3(0, +3, -3), TOP);
-	addThruster(Vector3(0, -3, -3), BOTTOM);
+	addThruster(Vector3(+2, 0, -2.5), RIGHT);
+	addThruster(Vector3(-2, 0, -2.5), LEFT);
+	addThruster(Vector3(0, +1.5, -2.5), TOP);
+	addThruster(Vector3(0, -1.5, -2.5), BOTTOM);
 	
 	// Roll ring
-	addThruster(Vector3(0, +3, 0), LEFT);
-	addThruster(Vector3(0, +3, 0), RIGHT);
-	addThruster(Vector3(0, -3, 0), LEFT);
-	addThruster(Vector3(0, -3, 0), RIGHT);
+	addThruster(Vector3(-1.8, +0.15, 0), TOP);
+	addThruster(Vector3(-1.8, -0.15, 0), BOTTOM);
+	addThruster(Vector3(+1.8, +0.15, 0), TOP);
+	addThruster(Vector3(+1.8, -0.15, 0), BOTTOM);
 
 	// Back RCS ring
-	addThruster(Vector3(+3, 0, 3), RIGHT);
-	addThruster(Vector3(-3, 0, 3), LEFT);
-	addThruster(Vector3(0, +3, 3), TOP);
-	addThruster(Vector3(0, -3, 3), BOTTOM);
+	addThruster(Vector3(+2, 0, 2.5), RIGHT);
+	addThruster(Vector3(-2, 0, 2.5), LEFT);
+	addThruster(Vector3(0, +1.5, 2.5), TOP);
+	addThruster(Vector3(0, -1.5, 2.5), BOTTOM);
 
 	// Main thrusters
-	addThruster(Vector3(0, 0, -3), FORWARD);
-	addThruster(Vector3(0, 0, +3), BACK);
+	addThruster(Vector3(0, 0, -4), FORWARD);
+	addThruster(Vector3(0, 0, +4), BACK);
 	
 	// Steering controls
 	mSteerX = 0;
