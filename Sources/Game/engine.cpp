@@ -34,8 +34,8 @@ Engine::Engine(Game* g, String name, MeshActor* parent, Vector3 location, Quater
 	setRotationRatio(0.1f);
 
 	// Debug
-	Ogre::ManualObject* dir = mGame->getDebugLine(Vector3(0, 0, 1), mName + "_DBG", "White");
-	mNode->attachObject(dir);
+	//Ogre::ManualObject* dir = mGame->getDebugLine(Vector3(0, 0, 1), mName + "_DBG", "White");
+	//mNode->attachObject(dir);
 }
 
 void Engine::tick(const Ogre::FrameEvent& evt)

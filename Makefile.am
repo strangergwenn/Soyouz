@@ -19,6 +19,7 @@ SoyouzCPPFiles= \
 	Sources/Engine/meshactor.cpp \
 	Sources/Engine/game.cpp \
 	Sources/Engine/lightactor.cpp \
+	Sources/Engine/dirlightactor.cpp \
 	Sources/Engine/iomanager.cpp \
 	Sources/Engine/player.cpp
 	

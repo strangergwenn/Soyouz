@@ -6,18 +6,18 @@
 **/
 
 #include "Engine/ogre.hpp"
-#include "Engine/lightactor.hpp"
+#include "Engine/dirlightactor.hpp"
 
 
 /*----------------------------------------------
 	Constructor & destructor
 ----------------------------------------------*/
 
-LightActor::LightActor(Game* g, String name, Vector3 color, float range)
+DirLightActor::DirLightActor(Game* g, String name, Vector3 color, float range)
 	: Actor(g, name)
 {
 	mLight = g->getScene()->createLight(name);
-	mLight->setType(Ogre::Light::LT_POINT);
+	mLight->setType(Ogre::Light::LT_DIRECTIONAL);
 	mLight->setCastShadows(true);
 		
 	mLight->setDiffuseColour(color[0], color[1], color[2]);
@@ -27,6 +27,6 @@ LightActor::LightActor(Game* g, String name, Vector3 color, float range)
 	attachObject(mLight);
 }
 
-LightActor::~LightActor()
+DirLightActor::~DirLightActor()
 {
 }

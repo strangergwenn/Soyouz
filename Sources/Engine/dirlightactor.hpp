@@ -5,8 +5,8 @@
 * @author Gwennaël ARBONA
 **/
 
-#ifndef __LightActor_H
-#define __LightActor_H
+#ifndef __DirLightActor_H
+#define __DirLightActor_H
 
 #include "Engine/actor.hpp"
 
@@ -17,24 +17,24 @@ class Game;
 	Class definitions
 ----------------------------------------------*/
 
-class LightActor : public Actor
+class DirLightActor : public Actor
 {
 
 public:
 	
 	/**
-	 * @brief Create a light
+	 * @brief Create a directional light
 	 * @param g				Game data
 	 * @param name			Name
 	 * @param color			Light color
 	 * @param range			Light range
 	 **/
-	LightActor(Game* g, String name, Vector3 color, float range);
+	DirLightActor(Game* g, String name, Vector3 color, float range);
 	
 	/**
 	 * @brief Delete a light
 	 **/
-	virtual ~LightActor();
+	virtual ~DirLightActor();
 
 
 protected:
@@ -43,5 +43,5 @@ protected:
 
 };
 
-#endif /* __LightActor_H */
+#endif /* __DirLightActor_H */
 

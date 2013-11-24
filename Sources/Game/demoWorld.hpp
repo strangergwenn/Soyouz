@@ -30,9 +30,16 @@ class DemoWorld : public Game
 		mScene->setSkyBox(true, "Skybox");
 		Ogre::Light* sun = mScene->createLight("Sun");
 		sun->setType(Ogre::Light::LT_DIRECTIONAL);
-		sun->setDirection(Vector3(0, 0, -1));
-		sun->setDiffuseColour(Ogre::ColourValue(.25, .25, 0));
-		sun->setSpecularColour(Ogre::ColourValue(.25, .25, 0));
+		sun->setDirection(Vector3(-0.2, 0.1, -1));
+		sun->setDiffuseColour(Ogre::ColourValue(.40, .30, .10));
+		sun->setSpecularColour(Ogre::ColourValue(.40, .30, .10));
+		
+		// Back sun
+		Ogre::Light* sun2 = mScene->createLight("Sun2");
+		sun2->setType(Ogre::Light::LT_DIRECTIONAL);
+		sun2->setDirection(Vector3(0.2, -0.1, 1));
+		sun2->setDiffuseColour(Ogre::ColourValue(.10, .10, .20));
+		sun2->setSpecularColour(Ogre::ColourValue(.20, .20, .20));
 
 		// Collision crate
 		MeshActor* crate = new MeshActor(this, "crate", "crate.mesh", "MI_Crate", true, 1.0f);
