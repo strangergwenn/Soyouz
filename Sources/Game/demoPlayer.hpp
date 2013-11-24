@@ -39,7 +39,7 @@ public:
 		mTargetSpeed = 0;
 
 		// Ship mesh
-		mShip = new Ship(g, "Ship", "SM_Soyouz.mesh", "MI_Gloss", 100.0f);
+		mShip = new Ship(g, "Ship", "SM_APC.mesh", "MI_Gloss", 100.0f);
 		mShip->attachActor(this);
 		mShip->setLocation(Vector3(0, 0, 300));
 
