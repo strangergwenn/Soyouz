@@ -18,32 +18,40 @@ const float MIN_SPEED = -1.0f;
 Ship::Ship(Game* g, String name, String file, String material, float mass)
 	: MeshActor(g, name, file, material, true, mass)
 {
-	mEngineXPos1 =	new Engine(g, name + "_XP1",	this, Vector3(+3, 0, -3), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(0,1,0)));
-	mEngineXNeg1 =	new Engine(g, name + "_XN1",	this, Vector3(-3, 0, -3), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
-	mEngineYPos1 =	new Engine(g, name + "_YP1",	this, Vector3(0, +3, -3), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(1,0,0)));
-	mEngineYNeg1 =	new Engine(g, name + "_YN1",	this, Vector3(0, -3, -3), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(1,0,0)));
+	// RCS ring 1
+	addEngine(Vector3(+3, 0, -3), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(0,1,0)));
+	addEngine(Vector3(+3, 0, -3), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(0,1,0)));
+	addEngine(Vector3(-3, 0, -3), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
+	addEngine(Vector3(0, +3, -3), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(1,0,0)));
+	addEngine(Vector3(0, -3, -3), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(1,0,0)));
 
-	mEngineXPos2 =	new Engine(g, name + "_XP2",	this, Vector3(+3, 0, 3), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(0,1,0)));
-	mEngineXNeg2 =	new Engine(g, name + "_XN2",	this, Vector3(-3, 0, 3), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
-	mEngineYPos2 =	new Engine(g, name + "_YP2",	this, Vector3(0, +3, 3), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(1,0,0)));
-	mEngineYNeg2 =	new Engine(g, name + "_YN2",	this, Vector3(0, -3, 3), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(1,0,0)));
+	// RCS ring 2
+	addEngine( Vector3(+3, 0, 3), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(0,1,0)));
+	addEngine(Vector3(-3, 0, 3), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
+	addEngine(Vector3(0, +3, 3), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(1,0,0)));
+	addEngine(Vector3(0, -3, 3), Quaternion(Radian(Degree(+90).valueRadians()), Vector3(1,0,0)));
 	
-	mEngineRollUpLeft =	new Engine(g, name + "_R1L", this, Vector3(-3, +3, 0), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
-	mEngineRollUpRight = new Engine(g, name + "_R1R", this, Vector3(3, +3, 0), Quaternion(Radian(Degree(90).valueRadians()), Vector3(0,1,0)));
-	mEngineRollDownLeft = new Engine(g, name + "_R2L", this, Vector3(-3, -3, 0), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
-	mEngineRollDownRight = new Engine(g, name + "_R2R", this, Vector3(3, -3, 0), Quaternion(Radian(Degree(90).valueRadians()), Vector3(0,1,0)));
+	// Roll ring
+	addEngine(Vector3(-3, +3, 0), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
+	addEngine(Vector3(3, +3, 0), Quaternion(Radian(Degree(90).valueRadians()), Vector3(0,1,0)));
+	addEngine(Vector3(-3, -3, 0), Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0)));
+	addEngine(Vector3(3, -3, 0), Quaternion(Radian(Degree(90).valueRadians()), Vector3(0,1,0)));
 
-	mEngineZPos =	new Engine(g, name + "_ZP",	this, Vector3(0, 0, +3), Quaternion(Radian(Degree(0).valueRadians()), Vector3(0,1,0)));
-	mEngineZNeg =	new Engine(g, name + "_ZN",	this, Vector3(0, 0, -3), Quaternion(Radian(Degree(180).valueRadians()), Vector3(0,1,0)));
+	// Main thrusters
+	addEngine(Vector3(0, 0, +3), Quaternion(Radian(Degree(0).valueRadians()), Vector3(0,1,0)));
+	addEngine(Vector3(0, 0, -3), Quaternion(Radian(Degree(180).valueRadians()), Vector3(0,1,0)));
 	
+	// Steering controls
 	mSteerX = 0;
 	mSteerY = 0;
 	mSteerRoll = 0;
 	mSpeed = 0;
 
-	mSteerFactor = 1;
-	mMaxSpeed = 1000;
-	mMaxAngularSpeed = 1;
+	// Ship characteristics
+	mMaxSpeed = 75;
+	mMaxAngularSpeed = 2;
+	mSoftModeLimit = 5;
+	mSoftModeAngularLimit = 0.1f;
 }
 
 
@@ -59,73 +67,78 @@ void Ship::preTick(const Ogre::FrameEvent& evt)
 
 
 void Ship::tick(const Ogre::FrameEvent& evt)
-{	
-	mCommandRotator = Vector3(0, 0, 0);
-	
-	float softModeLimit = 0.1f;
-	float softModeLinearLimit = 5.0f;
-	float maxLinearSpeed = -75.0f;
-	float speedX = 0.0f;
-	float speedY = 0.0f;
-	
-	
-	if (getLocalAngularSpeed().y - (mSteerX * -2) < -softModeLimit ) {
-		mCommandRotator.y = 1;
-	} else if (getLocalAngularSpeed().y - (mSteerX * -2) > softModeLimit ) {
-		mCommandRotator.y = -1;
-	} else {
-		mCommandRotator.y = - (1.0f / softModeLimit) * (getLocalAngularSpeed().y - (mSteerX * -2));
-	}
-	
-	if (getLocalAngularSpeed().x - (mSteerY * 2) < -softModeLimit ) {
-		mCommandRotator.x = 1;
-	} else if (getLocalAngularSpeed().x - (mSteerY * 2) > softModeLimit ) {
-		mCommandRotator.x = -1;
-	} else {
-		mCommandRotator.x =  - (1.0f / softModeLimit) * (getLocalAngularSpeed().x - (mSteerY * 2));
-	}
-	
-	if (getLocalAngularSpeed().z - (mSteerRoll * 2) < -softModeLimit ) {
-		mCommandRotator.z = 1;
-	} else if (getLocalAngularSpeed().z - (mSteerRoll * 2) > softModeLimit ) {
-		mCommandRotator.z = -1;
-	} else {
-		mCommandRotator.z =  - (1.0f/ softModeLimit) * (getLocalAngularSpeed().z - (mSteerRoll * 2));
-	}
-	
-	
-	mCommandVector  = Vector3(0, 0, 0);
-	
-	if (getLocalSpeed().z - (mSpeed * maxLinearSpeed) < -softModeLinearLimit ) {
-		mCommandVector.z = 1;
-	} else if (getLocalSpeed().z - (mSpeed * maxLinearSpeed) > softModeLinearLimit ) {
-		mCommandVector.z = -1;
-	} else {
-		mCommandVector.z =  - (1.0f / softModeLinearLimit) * (getLocalSpeed().z - (mSpeed * maxLinearSpeed));
-	}
-	
-	if (getLocalSpeed().x - (speedX * maxLinearSpeed) < -softModeLinearLimit ) {
-		mCommandVector.x = 1;
-	} else if (getLocalSpeed().x - (speedX * maxLinearSpeed) > softModeLinearLimit ) {
-		mCommandVector.x = -1;
-	} else {
-		mCommandVector.x =  - (1.0f / softModeLinearLimit) * (getLocalSpeed().x - (speedX * maxLinearSpeed));
-	}
-	
-	if (getLocalSpeed().y - (speedY * maxLinearSpeed) < -softModeLinearLimit ) {
-		mCommandVector.y = 1;
-	} else if (getLocalSpeed().y - (speedY * maxLinearSpeed) > softModeLinearLimit ) {
-		mCommandVector.y = -1;
-	} else {
-		mCommandVector.y =  - (1.0f / softModeLinearLimit) * (getLocalSpeed().y - (speedY * maxLinearSpeed));
-	}
-	
-	gameLog(String("getLocalSpeed()") + StringConverter::toString(getLocalSpeed()));
-	gameLog(String("mCommandVector=") + StringConverter::toString(mCommandVector));
+{
+	Vector3 localSpeed = getLocalSpeed();
+	Vector3 localAngularSpeed = getLocalAngularSpeed();
+
+	mCommandRotator.x = computeSoftAngularCommand(localAngularSpeed.x, mSteerY);
+	mCommandRotator.y = computeSoftAngularCommand(localAngularSpeed.y, -mSteerX);
+	mCommandRotator.z = computeSoftAngularCommand(localAngularSpeed.z, mSteerRoll);
+
+	mCommandVector.x = computeSoftLinearCommand(localSpeed.x, 0.0f);
+	mCommandVector.y = computeSoftLinearCommand(localSpeed.y, 0.0f);
+	mCommandVector.z = computeSoftLinearCommand(localSpeed.z, mSpeed);
 
 	MeshActor::tick(evt);
 }
 
+
+/*----------------------------------------------
+	Steering
+----------------------------------------------*/
+
+float Ship::computeSoftLinearCommand(float measure, float command)
+{
+	float result;
+	
+	if (measure + (command * mMaxSpeed) < -mSoftModeLimit)
+	{
+		result = 1;
+	}
+	else if (measure + (command * mMaxSpeed) > mSoftModeLimit )
+	{
+		result = -1;
+	}
+	else
+	{
+		result =  - (1.0f / mSoftModeLimit) * (measure + (command * mMaxSpeed));
+	}
+
+	return result;
+}
+
+
+float Ship::computeSoftAngularCommand(float measure, float command)
+{
+	float result;
+
+	if (measure - (command * mMaxAngularSpeed) < -mSoftModeAngularLimit)
+	{
+		result = 1;
+	}
+	else if (measure - (command * mMaxAngularSpeed) > mSoftModeAngularLimit)
+	{
+		result = -1;
+	}
+	else
+	{
+		result = - (1.0f / mSoftModeAngularLimit) * (measure - (command * mMaxAngularSpeed));
+	}
+
+	return result;
+}
+
+
+void Ship::addEngine(Vector3 location, Quaternion rotation)
+{
+	Engine* engine = new Engine(mGame, mName + "_Eng" + StringConverter::toString(mEngines.size()), this, location, rotation);
+	mEngines.push_back(engine);
+}
+
+
+/*----------------------------------------------
+	Getters / Setters
+----------------------------------------------*/
 
 void Ship::setSpeed(float speed)
 {

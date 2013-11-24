@@ -46,6 +46,29 @@ public:
 	void tick(const Ogre::FrameEvent& evt);
 	
 	/**
+	 * @brief Compute a steering component for linear control
+	 * @param measure		Input measure
+	 * @param command		Input command
+	 * @return the soft steering
+	 **/
+	float computeSoftLinearCommand(float measure, float command);
+	
+	/**
+	 * @brief Compute a steering component for angular control
+	 * @param measure		Input measure
+	 * @param command		Input command
+	 * @return the soft steering
+	 **/
+	float computeSoftAngularCommand(float measure, float command);
+	
+	/**
+	 * @brief Add an engine to the ship
+	 * @param location		Engine relative location
+	 * @param rotation		Engine rotation
+	 **/
+	void addEngine(Vector3 location, Quaternion rotation);
+	
+	/**
 	 * @brief Set the ship speed target
 	 * @param speed			Speed setting
 	 **/
@@ -91,38 +114,24 @@ public:
 
 protected:
 	
-	// Steering
+	// Steering controls for the player
 	float mSteerX;
 	float mSteerY;
 	float mSteerRoll;
 	float mSpeed;
-	Vector3 mAngularSpeed;
+
+	// Steering commands for engines
 	Vector3 mCommandVector;
 	Vector3 mCommandRotator;
 
-	// Speed characteristics
-	float mSteerFactor;
+	// Steering characteristics
 	float mMaxSpeed;
 	float mMaxAngularSpeed;
+	float mSoftModeLimit;
+	float mSoftModeAngularLimit;
 
 	// Engines	
-	Engine* mEngineXPos1;
-	Engine* mEngineXNeg1;
-	Engine* mEngineYPos1;
-	Engine* mEngineYNeg1;
-
-	Engine* mEngineXPos2;
-	Engine* mEngineXNeg2;
-	Engine* mEngineYPos2;
-	Engine* mEngineYNeg2;
-	
-	Engine* mEngineRollUpLeft;
-	Engine* mEngineRollUpRight;
-	Engine* mEngineRollDownLeft;
-	Engine* mEngineRollDownRight;
-
-	Engine* mEngineZPos;
-	Engine* mEngineZNeg;
+	Ogre::list<Engine*>::type mEngines;
 
 };
 
