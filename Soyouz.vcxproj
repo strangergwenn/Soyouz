@@ -66,20 +66,26 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)Sources;$(SolutionDir)External\Ogre\boost;$(SolutionDir)External\Ogre\include;$(SolutionDir)External\Ogre\include\OGRE;$(SolutionDir)External\Ogre\include\Ogre\Overlay;$(SolutionDir)External\Ogre\include\Ogre\RenderSystems;$(SolutionDir)External\Bullet\src\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Sources;$(SolutionDir)External\Ogre\boost;$(SolutionDir)External\Ogre\include;$(SolutionDir)External\Ogre\include\OGRE;$(SolutionDir)External\Ogre\include\Ogre\Overlay;$(SolutionDir)External\Ogre\include\Ogre\RenderSystems;$(DXSDK_DIR)\Include;$(SolutionDir)External\Bullet\src\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)External\Ogre\boost\lib;$(SolutionDir)External\Ogre\lib\$(Configuration);$(DXSDK_DIR)\Lib\x86;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)</OutDir>
     <IntDir>$(SolutionDir)Build\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Sources;$(SolutionDir)External\Ogre\boost;$(SolutionDir)External\Ogre\include;$(SolutionDir)External\Ogre\include\OGRE;$(SolutionDir)External\Ogre\include\Ogre\Overlay;$(SolutionDir)External\Ogre\include\Ogre\RenderSystems;$(SolutionDir)External\Bullet\src\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Sources;$(SolutionDir)External\Ogre\boost;$(SolutionDir)External\Ogre\include;$(SolutionDir)External\Ogre\include\OGRE;$(SolutionDir)External\Ogre\include\Ogre\Overlay;$(SolutionDir)External\Ogre\include\Ogre\RenderSystems;$(DXSDK_DIR)\Include;$(SolutionDir)External\Bullet\src\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)External\Ogre\boost\lib;$(SolutionDir)External\Ogre\lib\$(Configuration);$(DXSDK_DIR)\Lib\x64;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)</OutDir>
     <IntDir>$(SolutionDir)\Build\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)Sources;$(SolutionDir)External\Ogre\boost;$(SolutionDir)External\Ogre\include;$(SolutionDir)External\Ogre\include\OGRE;$(SolutionDir)External\Ogre\include\Ogre\Overlay;$(SolutionDir)External\Ogre\include\Ogre\RenderSystems;$(SolutionDir)External\Bullet\src\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Sources;$(SolutionDir)External\Ogre\boost;$(SolutionDir)External\Ogre\include;$(SolutionDir)External\Ogre\include\OGRE;$(SolutionDir)External\Ogre\include\Ogre\Overlay;$(SolutionDir)External\Ogre\include\Ogre\RenderSystems;$(DXSDK_DIR)\Include;$(SolutionDir)External\Bullet\src\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)External\Ogre\boost\lib;$(SolutionDir)External\Ogre\lib\$(Configuration);$(DXSDK_DIR)\Lib\x86;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)</OutDir>
+    <IntDir>$(SolutionDir)Build\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)Sources;$(SolutionDir)External\Ogre\boost;$(SolutionDir)External\Ogre\include;$(SolutionDir)External\Ogre\include\OGRE;$(SolutionDir)External\Ogre\include\Ogre\Overlay;$(SolutionDir)External\Ogre\include\Ogre\RenderSystems;$(DXSDK_DIR)\Include;$(SolutionDir)External\Bullet\src\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)External\Ogre\boost\lib;$(SolutionDir)External\Ogre\lib\$(Configuration);$(DXSDK_DIR)\Lib\x64;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)</OutDir>
     <IntDir>$(SolutionDir)Build\$(Configuration)\</IntDir>
   </PropertyGroup>

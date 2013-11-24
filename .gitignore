@@ -20,6 +20,11 @@
 
 # Other
 OpenGL Rendering Subsystem
+*.blend1
+*.blend2
+*.blend3
+*.mesh.xml
+*.scene
 
 # Compiled Static libraries
 *.lai
