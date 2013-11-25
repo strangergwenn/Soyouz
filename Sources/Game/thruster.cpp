@@ -21,7 +21,7 @@ Thruster::Thruster(Game* g, String name, MeshActor* parent, Vector3 location, Qu
 	mMesh = NULL;
 	setModel("SM_Exhaust.mesh");
 	setMaterial("MI_Exhaust");
-	customize(1000, 1.0, 0.1f);
+	customize(1000, 2.0, 0.1f);
 
 	// Position
 	mRelPosition = location;
