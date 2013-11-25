@@ -29,11 +29,11 @@ public:
 	DemoPlayer(Game* g, String name) : Player(g, name)
 	{
 		// Data
-		mStepDistance = 4;
-		mDistance = 10;
+		mStepDistance = 5;
+		mDistance = 20;
 		mHorizAngle = Degree(0);
 		mVertAngle = Degree(0);
-		mStepAngle = Degree(15);
+		mStepAngle = Degree(10);
 		mControlDirection = false;
 		mFastControlDirection = false;
 		mTargetSpeed = 0;
