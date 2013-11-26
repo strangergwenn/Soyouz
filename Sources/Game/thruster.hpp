@@ -5,8 +5,8 @@
 * @author Gwennaël ARBONA
 **/
 
-#ifndef __ENGINE_H_
-#define __ENGINE_H_
+#ifndef __THRUSTER_H_
+#define __THRUSTER_H_
 
 #include "Engine/meshactor.hpp"
 
@@ -64,4 +64,4 @@ protected:
 
 };
 
-#endif /* __ENGINE_H_ */
+#endif /* __THRUSTER_H_ */
