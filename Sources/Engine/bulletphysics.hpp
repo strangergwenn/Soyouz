@@ -6,8 +6,8 @@
 **/
 
 
-#ifndef __BULLET_H_
-#define __BULLET_H_
+#ifndef __BULLET_PHYSICS_H_
+#define __BULLET_PHYSICS_H_
 
 #include "btBulletDynamicsCommon.h"
 #include "BulletCollision/CollisionShapes/btShapeHull.h"
@@ -135,4 +135,4 @@ protected:
 
 };
 
-#endif /* __BULLET_H_ */
+#endif /* __BULLET_PHYSICS_H_ */

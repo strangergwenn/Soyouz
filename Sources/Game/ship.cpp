@@ -7,6 +7,8 @@
 
 #include "Game/ship.hpp"
 #include "Engine/game.hpp"
+#include "Game/machinegun.hpp"
+
 
 
 /*----------------------------------------------
@@ -55,6 +57,8 @@ Ship::Ship(Game* g, String name, String file, String material, float mass)
 	addThruster(Vector3(+3, +1.6f, +8), BACK);
 	addThruster(Vector3(-3, -1.6f, +8), BACK);
 	addThruster(Vector3(+3, -1.6f, +8), BACK);
+	
+	addWeapon(Vector3(0, 0, -8), BACK);
 	
 	// Steering controls
 	mSteerX = 0;
@@ -149,6 +153,19 @@ void Ship::addThruster(Vector3 location, Quaternion rotation)
 	mThrusters.push_back(engine);
 }
 
+
+void Ship::addWeapon(Vector3 location, Quaternion rotation)
+{
+	Weapon* weapon = new MachineGun(mGame, mName + "_Weapon" + StringConverter::toString(mWeapons.size()), this, location, rotation);
+	mWeapons.push_back(weapon);
+}
+
+void Ship::setFireOrder(bool fire)
+{
+	if (mWeapons.size() > 0) {
+		mWeapons.front()->setFireOrder(fire);
+	}
+}
 
 /*----------------------------------------------
 	Getters / Setters

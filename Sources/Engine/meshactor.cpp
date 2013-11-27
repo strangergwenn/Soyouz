@@ -117,6 +117,14 @@ void MeshActor::setRotation(Quaternion newRot)
 	}
 }
 
+void MeshActor::setSpeed(Vector3 newSpeed)
+{
+	if (mPhysBody)
+	{
+		mPhysBody->setLinearVelocity(btVector3(newSpeed[0], newSpeed[1], newSpeed[2]));
+	}
+}
+
 
 void MeshActor::translate(Vector3 offset, bool bRelative)
 {
@@ -197,6 +205,36 @@ Vector3 MeshActor::getLocalAngularSpeed(void)
 {
 	btVector3 angularSpeed = mPhysBody->getAngularVelocity() * mPhysTransform.getBasis();
 	return Vector3(angularSpeed[0], angularSpeed[1], angularSpeed[2]);
+}
+
+Quaternion MeshActor::getRotation()
+{
+	if (mPhysBody)
+	{
+		btQuaternion rotation(mPhysTransform.getRotation());
+		return Quaternion(rotation.getW(), rotation.getX(), rotation.getY(), rotation.getZ());
+	}
+	else
+	{
+		return Actor::rotation();
+	}
+}
+
+Vector3 MeshActor::getLocation()
+{
+	if (mPhysBody)
+	{
+		const btVector3 &origin = mPhysTransform.getOrigin();
+		return Vector3(origin.getX(), origin.getY(), origin.getZ());
+	}
+	else
+	{
+		return Actor::location();
+	}
+}
+
+Vector3 MeshActor::getGlobalPosition(Vector3 position) {
+	return getRotation() * position + getLocation();
 }
 
 /*----------------------------------------------

@@ -10,7 +10,7 @@
 
 #include "Engine/game.hpp"
 #include "Engine/actor.hpp"
-#include "Engine/bullet.hpp"
+#include "Engine/bulletphysics.hpp"
 #include "Engine/gametypes.hpp"
 
 class Game;
@@ -86,6 +86,12 @@ public:
 	virtual void setRotation(Quaternion newRot);
 
 	/**
+	 * @brief Set the the actor linear velocity in the world
+	 * @param offset		linear velocit vector
+	 **/
+	virtual void setSpeed(Vector3 newSpeed);
+
+	/**
 	 * @brief Translate the actor in the world
 	 * @param offset		Movement vector
 	 * @param bRelative		true if relative to the node
@@ -140,6 +146,16 @@ public:
 	 * @return a vector materializing the angular speeds along X, Y, Z
 	 **/
 	Vector3 getLocalAngularSpeed(void);
+	
+	/**
+	 * @brief Get a relative position vector in ship in global reference
+	 * @return a vector materializing position along X, Y, Z
+	 **/
+	Vector3 getGlobalPosition(Vector3 position);
+
+	Quaternion getRotation();
+
+	Vector3 getLocation();
 	
 	/**
 	 * @brief Set a material

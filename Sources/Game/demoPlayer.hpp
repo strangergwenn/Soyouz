@@ -185,7 +185,9 @@ protected:
 			case OIS::KC_F4:
 				mGame->setDebugMode(3);
 				break;
-
+			case OIS::KC_LCONTROL:
+				mShip->setFireOrder(true);
+				break;
 			case OIS::KC_ESCAPE:
 				mGame->quit();
 				break;
@@ -206,6 +208,9 @@ protected:
 			case OIS::KC_Q:
 			case OIS::KC_E:
 				mShip->setRoll(0.0f);
+				break;
+			case OIS::KC_LCONTROL:
+				mShip->setFireOrder(false);
 				break;
 			case OIS::KC_TAB:
 				mTargetSpeed = MAX_TARGET_SPEED;

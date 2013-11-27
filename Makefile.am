@@ -15,6 +15,9 @@ SoyouzCPPFiles= \
 	Sources/main.cpp \
 	Sources/Game/ship.cpp \
 	Sources/Game/thruster.cpp \
+	Sources/Game/weapon.cpp \
+	Sources/Game/machinegun.cpp \
+	Sources/Game/bullet.cpp \
 	Sources/Engine/actor.cpp \
 	Sources/Engine/meshactor.cpp \
 	Sources/Engine/game.cpp \
@@ -35,7 +38,10 @@ SoyouzHPPFiles= \
 	Sources/Game/demoPlayer.hpp \
 	Sources/Game/demoWorld.hpp \
 	Sources/Game/ship.hpp \
-	Sources/Game/engine.hpp
+	Sources/Game/thruster.hpp
+	Sources/Game/weapon.hpp
+	Sources/Game/machinegun.hpp
+	
 
 
 Soyouz_SOURCES= ${SoyouzCPPFiles} ${SoyouzHPPFiles}

@@ -10,6 +10,7 @@
 
 #include "Engine/meshactor.hpp"
 #include "Game/thruster.hpp"
+#include "Game/weapon.hpp"
 
 class Game;
 
@@ -88,6 +89,11 @@ public:
 	 **/
 	float getMaxAngularSpeed(void);
 
+/**
+	 * @brief Order the ship to fire with its primary weapon
+	 * @param fire		activate or disable fire
+	 **/
+	void setFireOrder(bool fire);
 
 protected:
 	
@@ -114,7 +120,14 @@ protected:
 	 **/
 	void addThruster(Vector3 location, Quaternion rotation);
 
-	
+
+	/**
+	 * @brief Add an weapon to the ship
+	 * @param location		Thruster relative location
+	 * @param rotation		Thruster rotation
+	 **/
+	void addWeapon(Vector3 location, Quaternion rotation);
+
 	// Steering controls for the player
 	float mSteerX;
 	float mSteerY;
@@ -131,9 +144,13 @@ protected:
 	float mSoftModeLimit;
 	float mSoftModeAngularLimit;
 
-	// Thrusters	
+	// Thrusters
 	Ogre::list<Thruster*>::type mThrusters;
+	
+	// Weapons
+	Ogre::list<Weapon*>::type mWeapons;
 
 };
 
 #endif /* __SHIP_H_ */
+

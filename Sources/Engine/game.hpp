@@ -10,7 +10,7 @@
 #define __GAME_H_
 
 #include "Engine/ogre.hpp"
-#include "Engine/bullet.hpp"
+#include "Engine/bulletphysics.hpp"
 #include "Engine/iomanager.hpp"
 
 class Actor;
