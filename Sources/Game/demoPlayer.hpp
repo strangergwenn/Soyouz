@@ -129,11 +129,10 @@ protected:
 				mControlDirection = !mControlDirection;
 				updateDirection();
 				break;
-
-			case OIS::KC_TAB:
-				mShip->setSpeed(1.0f);
+			case OIS::KC_BACK:
+				mTargetSpeed = 0.0;
+				updateSpeed();
 				break;
-
 			case OIS::KC_Q:
 				mShip->setRoll(1.0f);
 				break;
