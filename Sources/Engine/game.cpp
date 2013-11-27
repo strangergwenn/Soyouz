@@ -111,9 +111,22 @@ void Game::unregisterActor(Actor* ref)
 }
 
 
+void Game::deleteActor(Actor* target)
+{
+	deleteGameNode(target->getNode());
+	delete[] target;
+}
+
+
 Ogre::SceneNode* Game::createGameNode(String name)
 {
 	return mScene->getRootSceneNode()->createChildSceneNode(name);
+}
+
+
+void Game::deleteGameNode(Ogre::SceneNode* node)
+{
+	mScene->destroySceneNode(node);
 }
 
 
@@ -129,9 +142,15 @@ void Game::deleteGameEntity(Ogre::Entity* entity)
 }
 
 
-void Game::addRigidBody(btRigidBody* body)
+void Game::registerRigidBody(btRigidBody* body)
 {
 	mPhysWorld->addRigidBody(body);
+}
+
+
+void Game::unregisterRigidBody(btRigidBody* body)
+{
+	mPhysWorld->removeRigidBody(body);
 }
 
 

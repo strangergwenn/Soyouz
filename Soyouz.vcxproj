@@ -317,8 +317,11 @@
     <ClCompile Include="Sources\Engine\player.cpp" />
     <ClCompile Include="Sources\Engine\actor.cpp" />
     <ClCompile Include="Sources\Engine\iomanager.cpp" />
+    <ClCompile Include="Sources\Game\bullet.cpp" />
+    <ClCompile Include="Sources\Game\machinegun.cpp" />
     <ClCompile Include="Sources\Game\ship.cpp" />
     <ClCompile Include="Sources\Game\thruster.cpp" />
+    <ClCompile Include="Sources\Game\weapon.cpp" />
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\Engine\game.cpp" />
   </ItemGroup>
@@ -617,20 +620,23 @@
     <ClInclude Include="External\Bullet\src\vectormath\sse\vectormath_aos.h" />
     <ClInclude Include="External\Bullet\src\vectormath\sse\vec_aos.h" />
     <ClInclude Include="External\Bullet\src\vectormath\vmInclude.h" />
-    <ClInclude Include="Sources\Engine\bullet.hpp" />
+    <ClInclude Include="Sources\Engine\bulletphysics.hpp" />
     <ClInclude Include="Sources\Engine\dirlightactor.hpp" />
     <ClInclude Include="Sources\Engine\gametypes.hpp" />
     <ClInclude Include="Sources\Engine\meshactor.hpp" />
     <ClInclude Include="Sources\Engine\ogre.hpp" />
     <ClInclude Include="Sources\Engine\lightactor.hpp" />
+    <ClInclude Include="Sources\Game\bullet.hpp" />
     <ClInclude Include="Sources\Game\demoWorld.hpp" />
     <ClInclude Include="Sources\Engine\player.hpp" />
     <ClInclude Include="Sources\Engine\actor.hpp" />
     <ClInclude Include="Sources\Engine\iomanager.hpp" />
     <ClInclude Include="Sources\Engine\game.hpp" />
     <ClInclude Include="Sources\Game\demoPlayer.hpp" />
+    <ClInclude Include="Sources\Game\machinegun.hpp" />
     <ClInclude Include="Sources\Game\thruster.hpp" />
     <ClInclude Include="Sources\Game\ship.hpp" />
+    <ClInclude Include="Sources\Game\weapon.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\plugins.cfg" />

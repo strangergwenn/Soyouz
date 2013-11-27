@@ -70,7 +70,7 @@ public:
 	
 	/**
 	 * @brief Main tick event
-	 * @param evt			Frame event
+	 * @param evt				Frame event
 	 **/
 	virtual void tick(const Ogre::FrameEvent& evt);
 	
@@ -85,33 +85,51 @@ public:
 	 * @param ref				Actor reference
 	 **/
 	void unregisterActor(Actor* ref);
+	
+	/**
+	 * @brief Remove an actor
+	 * @param target			Actor reference
+	 **/
+	void deleteActor(Actor* target);
 
 	/**
 	 * @brief Run the level (blocking)
-	 * @param name					Node name
+	 * @param name				Node name
 	 * @return the scene node
 	 **/
 	Ogre::SceneNode* createGameNode(String name);
 	
 	/**
+	 * @brief Remove a scene node
+	 * @param node				Node reference
+	 **/
+	void Game::deleteGameNode(Ogre::SceneNode* node);
+	
+	/**
 	 * @brief Create en entity
-	 * @param name					Node name
-	 * @param file					File name
+	 * @param name				Node name
+	 * @param file				File name
 	 * @return the scene entity
 	 **/
 	Ogre::Entity* createGameEntity(String name, String file);
 	
 	/**
 	 * @brief Remove an entity
-	 * @param entity				Enrity reference
+	 * @param entity			Entity reference
 	 **/
 	void deleteGameEntity(Ogre::Entity* entity);
 	
 	/**
 	 * @brief Register a rigid body to the scene
-	 * @param body					Rigid body
+	 * @param body				Rigid body
 	 **/
-	void addRigidBody(btRigidBody* body);
+	void registerRigidBody(btRigidBody* body);
+	
+	/**
+	 * @brief Unregister a rigid body from the scene
+	 * @param body				Rigid body
+	 **/
+	void unregisterRigidBody(btRigidBody* body);
 	
 	/**
 	 * @brief Quit the game
