@@ -45,6 +45,17 @@ class DemoWorld : public Game
 		MeshActor* crate = new MeshActor(this, "crate", "crate.mesh", "MI_Crate", true, 1.0f);
 		crate->setLocation(Vector3(0, 0, -50));
 		
+		Ogre::Real distance = 2000000;
+		Ogre::Real scale = 30000;
+
+		Ogre::SceneNode* mSceneNode = mScene->getRootSceneNode()->createChildSceneNode();
+		Ogre::Entity* mEntity = mScene->createEntity("sphere1", Ogre::SceneManager::PT_SPHERE);
+		mEntity->setMaterialName("Default");
+		mEntity->setCastShadows(true);
+		mSceneNode->attachObject(mEntity);
+		mSceneNode->setScale(scale, scale, scale);
+		mSceneNode->setPosition(Vector3(0, -distance, 0));
+
 		// Airlock
 		//MeshActor* act2 = new MeshActor(this, "DemoMesh", "Airlock.mesh", "MI_Airlock", true, 0.0f);
 		//act2->setLocation(Vector3(-256,-128,0));
