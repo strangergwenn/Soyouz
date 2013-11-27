@@ -35,7 +35,7 @@ Thruster::Thruster(Game* g, String name, MeshActor* parent, Vector3 location, Qu
 void Thruster::tick(const Ogre::FrameEvent& evt)
 {
 	// Basic data
-	Vector3 direction = mNode->getOrientation() * Vector3(0, 0, -1);
+	Vector3 direction = mNode->getOrientation() * Vector3(0, 0, 1);
 	Vector3 rotAxis = mRelPosition.crossProduct(direction);
 	Vector3 target = mShip->getDirectionCommand();
 	Vector3 aim = mShip->getRotationCommand();
