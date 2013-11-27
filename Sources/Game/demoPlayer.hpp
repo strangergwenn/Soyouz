@@ -101,6 +101,11 @@ protected:
 	}
 	
 	void updateSpeed() {
+		if(mTargetSpeed > MAX_TARGET_SPEED) {
+			mTargetSpeed = MAX_TARGET_SPEED;
+		} else if(mTargetSpeed < MIN_TARGET_SPEED) {
+			mTargetSpeed = MIN_TARGET_SPEED;
+		}
 		mShip->setSpeed(mTargetSpeed);
 	}
  
@@ -204,7 +209,7 @@ protected:
 				mShip->setRoll(0.0f);
 				break;
 			case OIS::KC_TAB:
-				mTargetSpeed = 1.0;
+				mTargetSpeed = MAX_TARGET_SPEED;
 				updateSpeed();
 				break;
 			default:
