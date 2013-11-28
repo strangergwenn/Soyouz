@@ -44,12 +44,15 @@ out vec4 pPixel;
 void main()
 {
 	vec4 diffuseData = texture2D(diffuseMap, vUv0.xy);
-	vec3 normalData = normalStrength * (texture2D(normalMap, vUv0.xy).xyz);
+	vec3 normalData = (texture2D(normalMap, vUv0.xy).xyz);
 	vec3 specData = texture2D(specMap, vUv0.xy).xyz;
+
+	normalData = vec3(normalData[0], normalData[1], 0)
+		+ normalStrength * vec3(0, 0, normalData[2]);
 
 	float lightFactor = clamp(dot(normalData, vLightDir), 0.0, 1.0);
 	float specFactor = specularStrength * pow(clamp(dot(normalData, vHalfAngle), 0.0, 1.0), specularPower);
-	vec3 reflectVec = reflect(-vEyeDir, vNormal + normalData / (5 * normalStrength));
+	vec3 reflectVec = reflect(-vEyeDir, vNormal + normalData);
 
 	pPixel = diffuseData * lightFactor * lightDiffuse;
 	pPixel += texture(envMap, reflectVec) * specFactor * lightFactor * lightSpecular;

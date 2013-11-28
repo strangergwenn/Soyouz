@@ -31,15 +31,15 @@ class DemoWorld : public Game
 		Ogre::Light* sun = mScene->createLight("Sun");
 		sun->setType(Ogre::Light::LT_DIRECTIONAL);
 		sun->setDirection(Vector3(-0.2f, 0.1f, -1.0f));
-		sun->setDiffuseColour(Ogre::ColourValue(0.40f, 0.30f, 0.10f));
-		sun->setSpecularColour(Ogre::ColourValue(0.40f, 0.30f, 0.10f));
+		sun->setDiffuseColour(Ogre::ColourValue(1.5f, 1.2f, 1.0f));
+		sun->setSpecularColour(Ogre::ColourValue(1.5f, 1.2f, 1.0f));
 		
 		// Back sun
 		Ogre::Light* sun2 = mScene->createLight("Sun2");
 		sun2->setType(Ogre::Light::LT_DIRECTIONAL);
 		sun2->setDirection(Vector3(0.2f, -0.1f, 1.0f));
-		sun2->setDiffuseColour(Ogre::ColourValue(0.10f, 0.10f, 0.20f));
-		sun2->setSpecularColour(Ogre::ColourValue(0.20f, 0.20f, 0.20f));
+		sun2->setDiffuseColour(Ogre::ColourValue(0.80f, 0.80f, 1.0f));
+		sun2->setSpecularColour(Ogre::ColourValue(0.80f, 0.80f, 1.0f));
 
 		// Collision crate
 		MeshActor* crate = new MeshActor(this, "crate", "crate.mesh", "MI_Crate", true, 1.0f);

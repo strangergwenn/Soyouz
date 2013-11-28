@@ -13,7 +13,7 @@ material MI_Crate : Master
 			fragment_program_ref PS_Master
 			{
 				param_named specularStrength	float 0.2
-				param_named normalStrength		float 200.0
+				param_named normalStrength		float 1.0
 			}
 		}
 	}
