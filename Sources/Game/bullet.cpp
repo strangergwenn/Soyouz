@@ -15,7 +15,7 @@
 	
 Bullet::Bullet(Game* g, String name, Weapon* parent, Vector3 location, Quaternion rotation, Vector3 velocity)
 	//: MeshActor(g, name, "SM_Exhaust.mesh", "MI_Exhaust", false, 1.0)
-	: MeshActor(g, name, "SM_Bullet.mesh", "MI_Gloss", false, 0.0004)
+	: MeshActor(g, name, "SM_Bullet.mesh", "MI_Gloss", false, 0.0004f)
 {
 	
 	mLifeTime = 0;

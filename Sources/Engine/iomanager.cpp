@@ -36,12 +36,12 @@ IOManager::IOManager(Ogre::RenderWindow* w, Player* p, Game* g) :
 	// Input methods
 	mMouse = static_cast<OIS::Mouse*>(mInputManager->createInputObject(OIS::OISMouse, true));
 	mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject(OIS::OISKeyboard, true));
-	try {
+	/*try {
 		mJoy = static_cast<OIS::JoyStick*>(mInputManager->createInputObject(OIS::OISJoyStick, true));
 	}
 	catch (...) {
 		mJoy = NULL;
-	}
+	}*/
 
 	// Callbacks
 	mMouse->setEventCallback(mPlayer);

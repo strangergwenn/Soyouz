@@ -19,7 +19,7 @@ Weapon::Weapon(Game* g, String name, Ship* parent, Vector3 location, Quaternion 
 {
 	mFiring = false;
 	mTimeSinceLastFire = 0;
-	mFirerate = 0.1; // 100 ms or 600 rpm
+	mFirerate = 0.1f; // 100 ms or 600 rpm
 	
 	// TODO Customization
 	

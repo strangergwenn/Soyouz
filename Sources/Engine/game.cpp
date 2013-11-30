@@ -326,8 +326,10 @@ bool Game::setupSystem(const String desiredRenderer)
     }
     mRoot->setRenderSystem(renderSystem);
 	renderSystem->setConfigOption("FSAA", "8");
+	renderSystem->setConfigOption("Fixed Pipeline Enabled", "Yes");
+	renderSystem->setConfigOption("Full Screen", "No");
+	renderSystem->setConfigOption("RTT Preferred Mode", "FBO");
 	renderSystem->setConfigOption("VSync", "No");
-    renderSystem->setConfigOption("Full Screen", "No");
     renderSystem->setConfigOption("Video Mode", "1280 x 720");
 	mWindow = mRoot->initialise(true, "Soyouz");
 	mScene = mRoot->createSceneManager(Ogre::ST_GENERIC, "GameScene");
@@ -365,17 +367,12 @@ void Game::setupRender(bool bShowPostProcess)
 	mIOManager = new IOManager(mWindow, mPlayer, this);
 	mRoot->addFrameListener(this);
 
-	// Shadows
-	mScene->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
-	mScene->setShadowTexturePixelFormat(Ogre::PF_FLOAT32_R);
-	mScene->setShadowTextureSelfShadow(true);
-	mScene->setShadowTextureSize(512);
-
 	// Post-processing	
+	/*
 	Ogre::CompositorManager::getSingleton().addCompositor(cam->getViewport(), "PostProcess");
 	Ogre::CompositorManager::getSingleton().setCompositorEnabled(cam->getViewport(), "PostProcess", bShowPostProcess);
 	PostProcessListener *gml = new PostProcessListener();
-	Ogre::MaterialManager::getSingleton().addListener(gml);
+	Ogre::MaterialManager::getSingleton().addListener(gml);*/
 }
 
 

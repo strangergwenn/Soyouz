@@ -1,0 +1,95 @@
+
+vertex_program ssao_vs_pCg cg
+{
+    source ssao.cg
+    profiles vs_1_1 arbvp1
+    entry_point ssao_vs
+    default_params
+    {
+        param_named_auto wvp worldviewproj_matrix
+    }
+}
+
+fragment_program ssao_ps_pCg cg
+{
+    source ssao.cg
+    entry_point ssao_ps
+    profiles ps_2_x arbfp1
+    default_params
+    {
+    }
+}
+
+vertex_program ssao_vs_pGLSL glsl
+{
+    source ssao_vs.glsl
+    syntax glsl150
+    default_params
+    {
+        param_named_auto worldViewProj worldviewproj_matrix
+    }
+}
+
+fragment_program ssao_ps_pGLSL glsl
+{
+    source ssao_ps.glsl
+    // will run on anything with GLSL 1.50 and up
+    syntax glsl150
+	default_params
+	{
+        param_named geomMap int 0
+        param_named randMap int 1
+    }
+}
+
+material ssao
+{
+    technique
+    {
+        pass
+        {
+            vertex_program_ref ssao_vs_pCg
+            {
+            }
+
+            fragment_program_ref ssao_ps_pCg
+            {
+            }
+
+            texture_unit geomMap
+            {
+                tex_address_mode clamp
+                filtering bilinear
+            }
+
+            texture_unit randMap
+            {
+                texture random.png
+                filtering none
+            }
+        }
+    }
+}
+
+material modulate
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+
+            texture_unit
+            {
+                texture white.png
+                filtering bilinear
+            }
+
+            texture_unit
+            {
+                texture white.png
+                filtering bilinear
+            }
+        }
+    }
+}
