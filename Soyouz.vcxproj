@@ -634,7 +634,6 @@
     <ClInclude Include="Sources\Engine\DeferredShading\AmbientLight.h" />
     <ClInclude Include="Sources\Engine\DeferredShading\DeferredLightCP.h" />
     <ClInclude Include="Sources\Engine\DeferredShading\DeferredShading.h" />
-    <ClInclude Include="Sources\Engine\DeferredShading\DeferredShadingDemo.h" />
     <ClInclude Include="Sources\Engine\DeferredShading\DLight.h" />
     <ClInclude Include="Sources\Engine\DeferredShading\GBufferMaterialGenerator.h" />
     <ClInclude Include="Sources\Engine\DeferredShading\GBufferSchemeHandler.h" />

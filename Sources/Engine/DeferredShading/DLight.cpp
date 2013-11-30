@@ -54,7 +54,7 @@ void DLight::setAttenuation(float c, float b, float a)
 			c = c-threshold;
 			float d=sqrt(b*b-4*a*c);
 			outerRadius = (-2*c)/(b+d);
-			outerRadius *= 1.2f;
+			outerRadius /= 1.2f;
 		}
 	}
 	else
@@ -234,30 +234,28 @@ bool DLight::isCameraInsideLight(Ogre::Camera* camera)
 		return false;
 	case Ogre::Light::LT_POINT:
 		{
-		Ogre::Real distanceFromLight = camera->getDerivedPosition()
-			.distance(mParentLight->getDerivedPosition());
-		//Small epsilon fix to account for the fact that we aren't a true sphere.
-		return distanceFromLight <= mRadius + camera->getNearClipDistance() + 0.1; 
+			Ogre::Real distanceFromLight = camera->getDerivedPosition().distance(mParentLight->getDerivedPosition());
+			return distanceFromLight <= mRadius + camera->getNearClipDistance() + 0.1; 
 		}
 	case Ogre::Light::LT_SPOTLIGHT:
 		{
-		Ogre::Vector3 lightPos = mParentLight->getDerivedPosition();
-		Ogre::Vector3 lightDir = mParentLight->getDerivedDirection();
-		Ogre::Radian attAngle = mParentLight->getSpotlightOuterAngle();
+			Ogre::Vector3 lightPos = mParentLight->getDerivedPosition();
+			Ogre::Vector3 lightDir = mParentLight->getDerivedDirection();
+			Ogre::Radian attAngle = mParentLight->getSpotlightOuterAngle();
 		
-		//Extend the analytic cone's radius by the near clip range by moving its tip accordingly.
-		//Some trigonometry needed here.
-		Ogre::Vector3 clipRangeFix = -lightDir * (camera->getNearClipDistance() / Ogre::Math::Tan(attAngle/2));
-		lightPos = lightPos + clipRangeFix;
+			//Extend the analytic cone's radius by the near clip range by moving its tip accordingly.
+			//Some trigonometry needed here.
+			Ogre::Vector3 clipRangeFix = -lightDir * (camera->getNearClipDistance() / Ogre::Math::Tan(attAngle/2));
+			lightPos = lightPos + clipRangeFix;
     
-		Ogre::Vector3 lightToCamDir = camera->getDerivedPosition() - lightPos;
-		Ogre::Real distanceFromLight = lightToCamDir.normalise();
+			Ogre::Vector3 lightToCamDir = camera->getDerivedPosition() - lightPos;
+			Ogre::Real distanceFromLight = lightToCamDir.normalise();
 
-		Ogre::Real cosAngle = lightToCamDir.dotProduct(lightDir);
-		Ogre::Radian angle = Ogre::Math::ACos(cosAngle);
-		//Check whether we will see the cone from our current POV.
-		return (distanceFromLight <= (mParentLight->getAttenuationRange() + clipRangeFix.length()))
-			&& (angle <= attAngle);
+			Ogre::Real cosAngle = lightToCamDir.dotProduct(lightDir);
+			Ogre::Radian angle = Ogre::Math::ACos(cosAngle);
+			//Check whether we will see the cone from our current POV.
+			return (distanceFromLight <= (mParentLight->getAttenuationRange() + clipRangeFix.length()))
+				&& (angle <= attAngle);
 		}
 	default:
 		//Please the compiler

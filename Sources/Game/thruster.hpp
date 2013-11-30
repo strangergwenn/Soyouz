@@ -57,6 +57,7 @@ public:
 protected:
 
 	Ship* mShip;
+	Ogre::Light *mLight;
 	
 	Vector3 mRelPosition;
 	float mRotationRatio;

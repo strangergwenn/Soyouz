@@ -42,12 +42,12 @@ DeferredShadingSystem::DeferredShadingSystem(
 	):
 	mViewport(vp), mSceneMgr(sm), mCamera(cam)
 {
-	sm->setShadowTechnique(SHADOWTYPE_TEXTURE_ADDITIVE);
+	sm->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE);
 	sm->setShadowTextureCasterMaterial("DeferredShading/Shadows/Caster");
 	mSceneMgr->setShadowTextureCount(1);
-	mSceneMgr->setShadowFarDistance(150);
-	mSceneMgr->setShadowTextureConfig( 0, 512, 512, PF_FLOAT16_R, 2 );
-	mSceneMgr->setShadowDirectionalLightExtrusionDistance(75);
+	mSceneMgr->setShadowFarDistance(500);
+	mSceneMgr->setShadowTextureConfig(0, 512, 512, PF_FLOAT16_R, 2 );
+	mSceneMgr->setShadowDirectionalLightExtrusionDistance(100);
 }
 
 void DeferredShadingSystem::initialize()

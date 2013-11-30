@@ -1,20 +1,21 @@
-
-import * from "Core/Materials/Master.material"
-
-material MI_APC : Master
+material MI_APC
 {
-	set_texture_alias diffuseMap	TX_APC_D.png
-	set_texture_alias normalMap		TX_APC_N.png
-	set_texture_alias specMap		TX_APC_S.png
-
-	technique main
+	technique
 	{
 		pass main
 		{
-			fragment_program_ref PS_Master
+			specular 1.0 1.0 1.0 1.0 0.5
+			texture_unit
 			{
-				param_named specularStrength	float 0.5
-				param_named normalStrength		float 1.0
+				texture TX_APC_D.png
+			}
+			texture_unit NormalMap
+			{
+				texture TX_APC_N.png
+			}
+			texture_unit SpecularMap
+			{
+				texture TX_APC_S.png
 			}
 		}
 	}
