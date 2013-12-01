@@ -12,11 +12,11 @@ material DeferredShading/AmbientLight
 			depth_write on
 			depth_check on
 			
-			vertex_program_ref DeferredShading/post/vs
+			vertex_program_ref vs
 			{
 			
 			}
-			fragment_program_ref DeferredShading/post/Ambient_ps
+			fragment_program_ref Ambient_ps
 			{
 			
 			}
@@ -48,10 +48,10 @@ material DeferredShading/Post/ShowNormal
 			cull_hardware none
 			cull_software none
 			depth_func always_pass
-			fragment_program_ref DeferredShading/post/ShowNormal_ps
+			fragment_program_ref ShowNormal_ps
 			{
 			}
-			vertex_program_ref DeferredShading/post/vs
+			vertex_program_ref vs
 			{
 			}
 			texture_unit
@@ -78,10 +78,10 @@ material DeferredShading/Post/ShowDS
 			cull_hardware none
 			cull_software none
 			depth_func always_pass
-			fragment_program_ref DeferredShading/post/ShowDS_ps
+			fragment_program_ref ShowDS_ps
 			{
 			}
-			vertex_program_ref DeferredShading/post/vs
+			vertex_program_ref vs
 			{
 			}
 			texture_unit
@@ -108,10 +108,10 @@ material DeferredShading/Post/ShowColour
 			cull_hardware none
 			cull_software none
 			depth_func always_pass
-			fragment_program_ref DeferredShading/post/ShowColour_ps
+			fragment_program_ref ShowColour_ps
 			{
 			}
-			vertex_program_ref DeferredShading/post/vs
+			vertex_program_ref vs
 			{
 			}
 			texture_unit
@@ -137,10 +137,10 @@ material DeferredShading/Post/ShowGlow
 			cull_hardware none
 			cull_software none
 			depth_func always_pass
-			fragment_program_ref DeferredShading/post/ShowGlow_ps
+			fragment_program_ref ShowGlow_ps
 			{
 			}
-			vertex_program_ref DeferredShading/post/vs
+			vertex_program_ref vs
 			{
 			}
 			texture_unit
