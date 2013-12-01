@@ -135,7 +135,7 @@ GpuProgramPtr GBufferMaterialGeneratorImpl::generateFragmentShader(MaterialGener
     ss << "#version " << shadingLangVersion << std::endl;
     if(shadingLangVersion >= 150)
     {
-        ss << "out vec4 fragData[2];" << std::endl;
+        ss << "out vec4 fragData[3];" << std::endl;
     }
     
     ss << inSemantic << " vec3 oViewPos;" << std::endl;
@@ -201,6 +201,8 @@ GpuProgramPtr GBufferMaterialGeneratorImpl::generateFragmentShader(MaterialGener
     }
     ss << outData << "[1].rgb = normalize(oNormal);" << std::endl;
     ss << outData << "[1].a = length(oViewPos) / cFarDistance;" << std::endl;
+	
+    ss << outData << "[2].rgb = vec3(1, 0, 1);" << std::endl;
 
     ss << "}" << std::endl;
 

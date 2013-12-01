@@ -4,7 +4,7 @@ compositor DeferredShading/GBuffer
 	technique
 	{
 		// temporary textures
-		texture mrt_output target_width target_height PF_FLOAT16_RGBA PF_FLOAT16_RGBA chain_scope
+		texture mrt_output target_width target_height PF_FLOAT16_RGBA PF_FLOAT16_RGBA PF_FLOAT16_RGBA chain_scope
 		
 		target mrt_output
 		{
@@ -119,6 +119,7 @@ compositor DeferredShading/ShowGlow
 				material DeferredShading/Post/ShowGlow
 				input 0 mrt_output 0
 				input 1 mrt_output 1
+				input 2 mrt_output 2
 			}
         }
 	}
