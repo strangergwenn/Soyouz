@@ -21,10 +21,7 @@
 #include "OgreLogManager.h"
 
 #include "DeferredLightCP.h"
-#include "GBufferSchemeHandler.h"
-#include "NullSchemeHandler.h"
 
-#include "SharedData.h"
 
 namespace Ogre
 {
@@ -122,16 +119,11 @@ void DeferredShadingSystem::createResources(void)
 {
 	CompositorManager &compMan = CompositorManager::getSingleton();
 
-	//Hook up the compositor logic and scheme handlers.
-	//This can theoretically happen in a loaded plugin, but in this case the demo contains the code.
 	static bool firstTime = true;
 	if (firstTime)
 	{
-		//MaterialManager::getSingleton().addListener(new GBufferSchemeHandler, "GBuffer");
-		//MaterialManager::getSingleton().addListener(new NullSchemeHandler, "NoGBuffer");
-
+		MaterialManager::getSingleton().addListener(new GBufferListener, "GBuffer");
 		compMan.registerCustomCompositionPass("DeferredLight", new DeferredLightCompositionPass);
-
 		firstTime = false;
 	}
 	

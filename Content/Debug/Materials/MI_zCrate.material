@@ -1,22 +1,15 @@
-material MI_zCrate
+//
+// This work is distributed under the General Public License,
+// see LICENSE for details
+//
+// @author Gwennaël ARBONA
+//
+
+import * from "Core/Materials/Master.material"
+
+material MI_zCrate : Master
 {
-	technique
-	{
-		pass main
-		{
-			specular 0 0 0 1 1.0
-			texture_unit DiffuseMap
-			{
-				texture TX_zCrate_D.png
-			}
-			texture_unit NormalMap
-			{
-				texture TX_zCrate_N.png
-			}
-			texture_unit GlowMap
-			{
-				texture TX_zCrate_E.png
-			}
-		}
-	}
+	set_texture_alias DiffuseMap	TX_zCrate_D.png
+	set_texture_alias NormalMap		TX_zCrate_N.png
+	set_texture_alias GlowMap		TX_zCrate_E.png
 }

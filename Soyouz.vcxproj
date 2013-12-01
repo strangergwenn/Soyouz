@@ -315,8 +315,6 @@
     <ClCompile Include="Sources\Engine\DeferredShading\DeferredLightCP.cpp" />
     <ClCompile Include="Sources\Engine\DeferredShading\DeferredShading.cpp" />
     <ClCompile Include="Sources\Engine\DeferredShading\DLight.cpp" />
-    <ClCompile Include="Sources\Engine\DeferredShading\GBufferMaterialGenerator.cpp" />
-    <ClCompile Include="Sources\Engine\DeferredShading\GBufferSchemeHandler.cpp" />
     <ClCompile Include="Sources\Engine\DeferredShading\GeomUtils.cpp" />
     <ClCompile Include="Sources\Engine\DeferredShading\LightMaterialGenerator.cpp" />
     <ClCompile Include="Sources\Engine\DeferredShading\MaterialGenerator.cpp" />
@@ -634,13 +632,9 @@
     <ClInclude Include="Sources\Engine\DeferredShading\DeferredLightCP.h" />
     <ClInclude Include="Sources\Engine\DeferredShading\DeferredShading.h" />
     <ClInclude Include="Sources\Engine\DeferredShading\DLight.h" />
-    <ClInclude Include="Sources\Engine\DeferredShading\GBufferMaterialGenerator.h" />
-    <ClInclude Include="Sources\Engine\DeferredShading\GBufferSchemeHandler.h" />
     <ClInclude Include="Sources\Engine\DeferredShading\GeomUtils.h" />
     <ClInclude Include="Sources\Engine\DeferredShading\LightMaterialGenerator.h" />
     <ClInclude Include="Sources\Engine\DeferredShading\MaterialGenerator.h" />
-    <ClInclude Include="Sources\Engine\DeferredShading\NullSchemeHandler.h" />
-    <ClInclude Include="Sources\Engine\DeferredShading\SharedData.h" />
     <ClInclude Include="Sources\Engine\dirlightactor.hpp" />
     <ClInclude Include="Sources\Engine\gametypes.hpp" />
     <ClInclude Include="Sources\Engine\meshactor.hpp" />

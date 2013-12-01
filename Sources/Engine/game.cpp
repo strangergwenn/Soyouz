@@ -6,7 +6,7 @@
 **/
 
 
-#include "Engine/DeferredShading/SharedData.h"
+#include "Engine/DeferredShading/DeferredShading.h"
 #include "Engine/game.hpp"
 #include "Engine/actor.hpp"
 #include "Engine/player.hpp"

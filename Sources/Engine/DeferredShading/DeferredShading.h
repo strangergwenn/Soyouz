@@ -23,6 +23,51 @@ The wiki article explaining this demo can be found here :
 #include "Engine/DeferredShading/GeomUtils.h"
 
 
+class GBufferListener : public Ogre::MaterialManager::Listener
+{
+	public:
+
+	Ogre::Technique* GBufferListener::handleSchemeNotFound(unsigned short schemeIndex, 
+		const Ogre::String& schemeName, Ogre::Material* originalMaterial, unsigned short lodIndex, 
+		const Ogre::Renderable* rend)
+	{
+		// Material manager settings
+		Ogre::MaterialManager& matMgr = Ogre::MaterialManager::getSingleton();
+		Ogre::String curSchemeName = matMgr.getActiveScheme();
+		matMgr.setActiveScheme(Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+		Ogre::Technique* originalTechnique = originalMaterial->getBestTechnique(lodIndex, rend);
+		matMgr.setActiveScheme(curSchemeName);
+	
+		// Create GBuffer technique
+		Ogre::Technique* gBufferTech = originalMaterial->createTechnique();
+		gBufferTech->removeAllPasses();
+		gBufferTech->setSchemeName(schemeName);
+
+		// Create post-GBuffer technique
+		Ogre::Technique* noGBufferTech = originalMaterial->createTechnique();
+		noGBufferTech->removeAllPasses();
+		noGBufferTech->setSchemeName("NoGBuffer");
+
+		// Fill new pass with old data
+		if (originalTechnique->getNumPasses() > 0)
+		{
+			Ogre::Pass* newPass = gBufferTech->createPass();
+			Ogre::Pass* originalPass = originalTechnique->getPass(0);
+		
+			*newPass = *(originalMaterial->getTechnique(0)->getPass(0));
+			newPass->setAmbient(originalPass->getAmbient());
+			newPass->setDiffuse(originalPass->getDiffuse());
+			newPass->setSpecular(originalPass->getSpecular());
+			newPass->setShininess(originalPass->getShininess());
+			newPass->setCullingMode(originalPass->getCullingMode());
+			newPass->setLightingEnabled(false);
+		}
+		return gBufferTech;
+	}
+	
+};
+
+
 /** System to manage Deferred Shading for a camera/render target.
  *  @note With the changes to the compositor framework, this class just
  *		selects which compositors to enable.
@@ -82,9 +127,42 @@ protected:
 	void createResources();
 };
 
-const Ogre::ColourValue SAMPLE_COLORS[] = 
-{   Ogre::ColourValue::Red, Ogre::ColourValue::Green, Ogre::ColourValue::Blue, 
-    Ogre::ColourValue::White, Ogre::ColourValue(1,1,0,1), Ogre::ColourValue(1,0,1,1)
+
+
+class SharedData : public Ogre::Singleton<SharedData>
+{
+public:
+
+	SharedData()
+		: iRoot(0),
+			iCamera(0),
+			iWindow(0),
+			mMLAnimState(0),
+			iMainLight(0)
+	{
+		iActivate = false;
+	}
+
+	~SharedData() {}
+
+	// shared data across the application
+	Ogre::Real iLastFrameTime;
+	Ogre::Root *iRoot;
+	Ogre::Camera *iCamera;
+	Ogre::RenderWindow *iWindow;
+
+	DeferredShadingSystem *iSystem;
+	bool iActivate;
+	bool iGlobalActivate;
+
+	// Animation state for light swarm
+	Ogre::AnimationState* mMLAnimState;
+
+	Ogre::Light *iMainLight;
+
+	Ogre::vector<Ogre::Node*>::type mLightNodes;
+
 };
+
 
 #endif

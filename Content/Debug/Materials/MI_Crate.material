@@ -1,18 +1,14 @@
-material MI_Crate
+//
+// This work is distributed under the General Public License,
+// see LICENSE for details
+//
+// @author Gwennaël ARBONA
+//
+
+import * from "Core/Materials/Master.material"
+
+material MI_Crate : Master
 {
-	technique
-	{
-		pass main
-		{
-			specular 0 0 0 1 1.0
-			texture_unit DiffuseMap
-			{
-				texture TX_Crate_D.jpg
-			}
-			texture_unit NormalMap
-			{
-				texture TX_Crate_N.jpg
-			}
-		}
-	}
+	set_texture_alias DiffuseMap	TX_Crate_D.jpg
+	set_texture_alias NormalMap		TX_Crate_N.jpg
 }

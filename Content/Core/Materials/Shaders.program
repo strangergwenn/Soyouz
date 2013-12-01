@@ -9,10 +9,18 @@
 //	Master shaders
 //-----------------------------------------------
 
-// Basic vertex shader
-vertex_program VS_UVMap glsl
+// Basic pixel shader
+fragment_program PS_Master glsl
 {
-	source VS_UVMap.glsl
+	source PS_Master.glsl
+	default_params
+	{
+		param_named DiffuseMap			int 0
+		param_named NormalMap			int 1
+		param_named SpecularMap			int 2
+		param_named GlowMap				int 3
+		param_named cFarDistance		float 500.0
+	}
 }
 
 
@@ -23,20 +31,10 @@ vertex_program VS_Master glsl
 }
 
 
-// Main pixel shader
-fragment_program PS_Master glsl
+// Basic vertex shader
+vertex_program VS_UVMap glsl
 {
-	source PS_Master.glsl
-	default_params
-	{
-		param_named normalStrength		float 1.0
-		param_named specularStrength	float 0.2
-		param_named specularPower		float 2.0
-		param_named diffuseMap			int 0
-		param_named normalMap			int 1
-		param_named specMap				int 2
-		param_named envMap				int 3
-	}
+	source VS_UVMap.glsl
 }
 
 

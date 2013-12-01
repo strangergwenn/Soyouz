@@ -16,7 +16,7 @@
 #include "Engine/lightactor.hpp"
 #include "Game/demoPlayer.hpp"
 
-#include "Engine/DeferredShading/SharedData.h"
+#include "Engine/DeferredShading/DeferredShading.h"
 
 
 /*----------------------------------------------
@@ -29,27 +29,27 @@ class DemoWorld : public Game
 	void construct()
 	{
 		// Collision crate
-		//MeshActor* crate = new MeshActor(this, "crate", "crate.mesh", "MI_Crate", true, 1.0f);
-		//crate->setLocation(Vector3(0, 0, -50));
-		//
-		//// Earth
-		//Ogre::Real distance = 2000000;
-		//Ogre::Real scale = 30000;
-		//Ogre::SceneNode* mSceneNode = mScene->getRootSceneNode()->createChildSceneNode();
-		//Ogre::Entity* mEntity = mScene->createEntity("sphere1", Ogre::SceneManager::PT_SPHERE);
-		//mEntity->setMaterialName("Default");
-		//mEntity->setCastShadows(true);
-		//mSceneNode->attachObject(mEntity);
-		//mSceneNode->setScale(scale, scale, scale);
-		//mSceneNode->setPosition(Vector3(0, -distance, 0));
-		//		
-		//// zCrate
-		//Ogre::SceneNode* mSceneNode2 = mScene->getRootSceneNode()->createChildSceneNode();
-		//Ogre::Entity* mEntity2 = mScene->createEntity("zcrate", Ogre::SceneManager::PT_CUBE);
-		//mEntity2->setMaterialName("MI_zCrate");
-		//mEntity2->setCastShadows(true);
-		//mSceneNode2->attachObject(mEntity2);
-		//mSceneNode2->setPosition(Vector3(-128, -64, -64));
+		MeshActor* crate = new MeshActor(this, "crate", "crate.mesh", "MI_Crate", true, 1.0f);
+		crate->setLocation(Vector3(0, 0, -50));
+		
+		// Earth
+		Ogre::Real distance = 2000000;
+		Ogre::Real scale = 30000;
+		Ogre::SceneNode* mSceneNode = mScene->getRootSceneNode()->createChildSceneNode();
+		Ogre::Entity* mEntity = mScene->createEntity("sphere1", Ogre::SceneManager::PT_SPHERE);
+		mEntity->setMaterialName("Default");
+		mEntity->setCastShadows(true);
+		mSceneNode->attachObject(mEntity);
+		mSceneNode->setScale(scale, scale, scale);
+		mSceneNode->setPosition(Vector3(0, -distance, 0));
+				
+		// zCrate
+		Ogre::SceneNode* mSceneNode2 = mScene->getRootSceneNode()->createChildSceneNode();
+		Ogre::Entity* mEntity2 = mScene->createEntity("zcrate", Ogre::SceneManager::PT_CUBE);
+		mEntity2->setMaterialName("MI_zCrate");
+		mEntity2->setCastShadows(true);
+		mSceneNode2->attachObject(mEntity2);
+		mSceneNode2->setPosition(Vector3(-128, -64, -64));
 		
 		// Deferred renderer
 		DeferredShadingSystem* mSystem = new DeferredShadingSystem(mWindow->getViewport(0), mScene, mPlayer->getCamera());

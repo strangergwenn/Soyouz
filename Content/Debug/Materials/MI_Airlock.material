@@ -1,9 +1,0 @@
-
-import * from "Core/Materials/Master.material"
-
-material MI_Airlock : Master
-{
-	set_texture_alias diffuseMap	TX_Airlock_D.png
-	set_texture_alias normalMap		TX_Airlock_N.png
-	set_texture_alias specMap		TX_Airlock_S.png
-}
