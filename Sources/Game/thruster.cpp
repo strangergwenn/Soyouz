@@ -71,7 +71,7 @@ void Thruster::tick(const Ogre::FrameEvent& evt)
 
 	// Output
 	setMaterialParam(1, alpha);
-	float lightAlpha = (alpha ? 1.0f : 0.0f) + 3 * alpha;
+	float lightAlpha = Math::Clamp(10 * alpha, 0.0f, 3.0f);
 	mLight->setDiffuseColour(lightAlpha * Ogre::ColourValue(0.2f, 0.9f, 1.0f));
 	mShip->applyLocalForce(alpha * mStrength * direction, mRelPosition);
 	MeshActor::tick(evt);

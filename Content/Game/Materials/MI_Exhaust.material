@@ -12,7 +12,7 @@ material MI_Exhaust : Glow
 		{
 			fragment_program_ref PS_Glow
 			{
-				param_named baseStrength float		2.1
+				param_named baseStrength float		2.5
 				param_named basePower float			4.0
 
 				param_named panningY float			5.0

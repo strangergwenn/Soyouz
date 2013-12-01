@@ -9,7 +9,7 @@
 	Config
 /*-----------------------------------------------*/
 
-#version 150
+#version 440
 
 uniform float		baseStrength;
 uniform float		basePower;
@@ -32,7 +32,7 @@ uniform sampler2D	panningMap;
 
 in vec4 vUv0;
 
-out vec4 pPixel;
+out vec4 fragData[3];
 
 
 /*-------------------------------------------------
@@ -50,6 +50,8 @@ void main()
 	vec4 light = vec4(lightColor, alpha) * basePowerData;
 	vec4 base = vec4(baseColor, 1 - alpha) * (1 - basePowerData);
 
-	pPixel = (base + light) * panningData * baseStrength;
-	pPixel.w = alpha * baseAlpha.x;
+	fragData[0] = vec4(0, 0, 0, 0);
+	fragData[1] = vec4(0, 0, 0, 0);
+	fragData[2] = (base + light) * panningData * baseStrength * baseAlpha.x;
+	fragData[2].w = alpha * baseAlpha.x;
 }
