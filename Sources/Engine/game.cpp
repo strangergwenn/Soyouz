@@ -50,10 +50,6 @@ Game::~Game()
 	{
 		delete mRoot;
 	}
-
-#ifdef OGRE_STATIC_LIB
-	mStaticPluginLoader.unload();
-#endif
 }
 
 
@@ -200,10 +196,7 @@ void Game::gameLog(String text)
 
 void Game::setDebugMode(int newStatus)
 {
-	// Deactivate all drawers
 	mPhysDrawer->setDebugMode(0);
-
-	// Then... 
 	switch (newStatus)
 	{
 	case 0:
@@ -230,7 +223,6 @@ void Game::setDebugMode(int newStatus)
 	default:
 		break;
 	}
-
 }
 
 
@@ -275,14 +267,9 @@ void Game::setupResources()
 	String pluginsPath, secName, typeName, archName;
 	
 	// Plugins
-#ifndef OGRE_STATIC_LIB
 	pluginsPath = PLUGINS_CONF;
-#endif	
 	mRoot = new Ogre::Root(pluginsPath, OGRE_CONF, LOGFILE_NAME);
 	mOverlaySystem = new Ogre::OverlaySystem();
-#ifdef OGRE_STATIC_LIB
-	mStaticPluginLoader.load();
-#endif
 
 	// Resources
 	cf.load(RESOURCES_CONF);

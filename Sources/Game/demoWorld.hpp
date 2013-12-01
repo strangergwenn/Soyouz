@@ -63,7 +63,6 @@ class DemoWorld : public Game
 		SharedData::getSingleton().iWindow = mWindow;
 		SharedData::getSingleton().iActivate = true;
 		SharedData::getSingleton().iGlobalActivate = true;
-		SharedData::getSingleton().iSystem->setSSAO(false);
 		SharedData::getSingleton().iSystem->setActive(true);
 
 		// Light
