@@ -205,18 +205,22 @@ void Game::setDebugMode(int newStatus)
 
 	case 1:
 		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWCOLOUR);
-		mPhysDrawer->setDebugMode(1);
 		break;
 
 	case 2:
-		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWNORMALS);
+		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWCOLOUR);
+		mPhysDrawer->setDebugMode(1);
 		break;
 
 	case 3:
-		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWDSP);
+		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWNORMALS);
 		break;
 
 	case 4:
+		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWDSP);
+		break;
+
+	case 5:
 		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWGLOW);
 		break;
 

@@ -99,9 +99,12 @@ GpuProgramPtr GBufferMaterialGeneratorImpl::generateVertexShader(MaterialGenerat
 
     String programSource = ss.str();
     String programName = mBaseName + "VP_" + StringConverter::toString(permutation);
-
+		
 	Ogre::Log* msg = LogManager::getSingleton().getDefaultLog();
-	//msg->logMessage(programSource);
+	msg->logMessage("vvvvvvvvvvvvvvvvvv BEGIN SOURCE vvvvvvvvvvvvvvvvvv");
+	msg->logMessage("vvvvvvvvvvvvvvvvvv" + programName + " vvvvvvvvvvvvvvvvvv");
+	msg->logMessage(programSource);
+	msg->logMessage("^^^^^^^^^^^^^^^^^^ END SOURCE ^^^^^^^^^^^^^^^^^^");
 
     // Create shader object
     HighLevelGpuProgramPtr ptrProgram;

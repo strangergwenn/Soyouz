@@ -171,23 +171,12 @@ protected:
 				break;
 				
 			case OIS::KC_F1:
-				mGame->setDebugMode(0);
-				break;
-
 			case OIS::KC_F2:
-				mGame->setDebugMode(1);
-				break;
-
 			case OIS::KC_F3:
-				mGame->setDebugMode(2);
-				break;
-
 			case OIS::KC_F4:
-				mGame->setDebugMode(3);
-				break;
-
 			case OIS::KC_F5:
-				mGame->setDebugMode(4);
+			case OIS::KC_F6:
+				mGame->setDebugMode(e.key - OIS::KC_F1);
 				break;
 
 			case OIS::KC_LCONTROL:
