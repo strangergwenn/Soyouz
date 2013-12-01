@@ -159,9 +159,12 @@ void DeferredShadingSystem::createResources(void)
 	compMan.registerCompositorLogic("SSAOLogic", mCompositorLogics["SSAOLogic"]);
 
 	mGBufferInstance = compMan.addCompositor(mViewport, "DeferredShading/GBuffer");
+
 	mInstance[DSM_SHOWLIT] = compMan.addCompositor(mViewport, "DeferredShading/ShowLit");
 	mInstance[DSM_SHOWNORMALS] = compMan.addCompositor(mViewport, "DeferredShading/ShowNormals");
 	mInstance[DSM_SHOWDSP] = compMan.addCompositor(mViewport, "DeferredShading/ShowDepthSpecular");
 	mInstance[DSM_SHOWCOLOUR] = compMan.addCompositor(mViewport, "DeferredShading/ShowColour");
+	mInstance[DSM_SHOWGLOW] = compMan.addCompositor(mViewport, "DeferredShading/ShowGlow");
+
 	mSSAOInstance =  compMan.addCompositor(mViewport, "DeferredShading/SSAO");
 }

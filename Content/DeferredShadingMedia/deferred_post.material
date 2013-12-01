@@ -68,6 +68,7 @@ material DeferredShading/Post/ShowNormal
 		}
 	}
 }
+
 material DeferredShading/Post/ShowDS
 {
     technique
@@ -96,8 +97,8 @@ material DeferredShading/Post/ShowDS
 			}
 		}
 	}
-
 }
+
 material DeferredShading/Post/ShowColour
 {
     technique
@@ -108,6 +109,35 @@ material DeferredShading/Post/ShowColour
 			cull_software none
 			depth_func always_pass
 			fragment_program_ref DeferredShading/post/ShowColour_ps
+			{
+			}
+			vertex_program_ref DeferredShading/post/vs
+			{
+			}
+			texture_unit
+			{
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit
+			{
+				tex_coord_set 1
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+material DeferredShading/Post/ShowGlow
+{
+    technique
+    {
+    	pass
+		{
+			cull_hardware none
+			cull_software none
+			depth_func always_pass
+			fragment_program_ref DeferredShading/post/ShowGlow_ps
 			{
 			}
 			vertex_program_ref DeferredShading/post/vs

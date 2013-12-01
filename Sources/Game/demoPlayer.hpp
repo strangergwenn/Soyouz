@@ -185,6 +185,11 @@ protected:
 			case OIS::KC_F4:
 				mGame->setDebugMode(3);
 				break;
+
+			case OIS::KC_F5:
+				mGame->setDebugMode(4);
+				break;
+
 			case OIS::KC_LCONTROL:
 				mShip->setFireOrder(true);
 				break;

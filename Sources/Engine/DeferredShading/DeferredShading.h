@@ -39,7 +39,8 @@ public:
 		DSM_SHOWCOLOUR = 1,  // Show diffuse (for debugging)
 		DSM_SHOWNORMALS = 2, // Show normals (for debugging)
 		DSM_SHOWDSP = 3,	 // Show depth and specular channel (for debugging)
-		DSM_COUNT = 4
+		DSM_SHOWGLOW = 4,	 // Show glow maps
+		DSM_COUNT = 5
 	};
 
 	//The first render queue that does get rendered into the GBuffer

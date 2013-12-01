@@ -5,9 +5,12 @@
 * @author Gwennaël ARBONA
 **/
 
+
+#include "Engine/DeferredShading/SharedData.h"
 #include "Engine/game.hpp"
 #include "Engine/actor.hpp"
 #include "Engine/player.hpp"
+
 
 #define OGRE_CONF			"Config/soyouz.cfg"
 #if OGRE_DEBUG_MODE
@@ -199,30 +202,35 @@ void Game::setDebugMode(int newStatus)
 {
 	// Deactivate all drawers
 	mPhysDrawer->setDebugMode(0);
-	mPlayer->setWireframe(false);
 
 	// Then... 
 	switch (newStatus)
 	{
 	case 0:
+		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWLIT);
 		break;
 
 	case 1:
-		mPlayer->setWireframe(true);
+		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWCOLOUR);
+		mPhysDrawer->setDebugMode(1);
 		break;
 
 	case 2:
-		mPhysDrawer->setDebugMode(1);
+		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWNORMALS);
 		break;
 
 	case 3:
-		mPlayer->setWireframe(true);
-		mPhysDrawer->setDebugMode(1);
+		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWDSP);
+		break;
+
+	case 4:
+		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWGLOW);
 		break;
 
 	default:
 		break;
 	}
+
 }
 
 

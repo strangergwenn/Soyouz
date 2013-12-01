@@ -21,30 +21,19 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /** Deferred shading framework
 	// W.J. :wumpus: van der Laan 2005 //
 	
-	Post shader: Generic fullscreen quad
+	Post shader: Debug, show normal channel
 */
-#version 150
+float4 main(
+	float2 texCoord: TEXCOORD0, 
+	float2 projCoord: TEXCOORD1,
 
-in vec4 vertex;
-
-out vec2 oUv0;
-out vec3 oRay;
-
-uniform vec3 farCorner;
-uniform float flip;
-
-void main()
+	uniform sampler Tex0: register(s0),
+	uniform sampler Tex1: register(s1)	
+	) : COLOR 
 {
-	// Clean up inaccuracies
-	vec2 Pos = sign(vertex.xy);
+	float4 a0 = tex2D(Tex0, texCoord); // Attribute 0: Diffuse color+shininess
+	float4 a1 = tex2D(Tex1, texCoord); // Attribute 1: Normal+depth
 
-	// Image-space
-    oUv0 = (vec2(Pos.x, -Pos.y) + 1.0) * 0.5;
-
-	// This ray will be interpolated and will be the ray from the camera
-	// to the far clip plane, per pixel
-	oRay = farCorner * vec3(Pos, 1);
-
-	gl_Position = vec4(Pos, 0, 1);
-	gl_Position.y *= flip;
+	return float4((a1.xyz+1)*0.5,0);
 }
+

@@ -102,6 +102,28 @@ compositor DeferredShading/ShowColour
 	}
 }
 
+// Postfilter that shows the glow channel
+compositor DeferredShading/ShowGlow
+{
+	technique 
+	{
+		//Reference the main Gbuffer texture
+		texture_ref mrt_output DeferredShading/GBuffer mrt_output
+		
+		target_output
+        {
+			input none
+			
+			pass render_quad
+			{
+				material DeferredShading/Post/ShowGlow
+				input 0 mrt_output 0
+				input 1 mrt_output 1
+			}
+        }
+	}
+}
+
 // Postfilter that shows the normal channel
 compositor DeferredShading/ShowNormals
 {
