@@ -116,10 +116,13 @@ GBufferSchemeHandler::PassProperties GBufferSchemeHandler::inspectPass(
 	{
 		props.isSkinned = false;
 	}
-
+	
+	Ogre::Log* msg = LogManager::getSingleton().getDefaultLog();
+	msg->logMessage(">>>>>  NUM to " + StringConverter::toString(pass->getNumTextureUnitStates()));
 	for (unsigned short i=0; i<pass->getNumTextureUnitStates(); i++) 
 	{
 		TextureUnitState* tus = pass->getTextureUnitState(i);
+		msg->logMessage(">>>>>  NUM to " + tus->getTextureName());
 		if (!checkNormalMap(tus, props))
 		{
 			props.regularTextures.push_back(tus);

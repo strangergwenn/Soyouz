@@ -374,12 +374,6 @@ void Game::setupRender(bool bShowPostProcess)
 	// IO manager
 	mIOManager = new IOManager(mWindow, mPlayer, this);
 	mRoot->addFrameListener(this);
-
-	// Post-processing	
-	Ogre::CompositorManager::getSingleton().addCompositor(cam->getViewport(), "PostProcess");
-	Ogre::CompositorManager::getSingleton().setCompositorEnabled(cam->getViewport(), "PostProcess", bShowPostProcess);
-	PostProcessListener *gml = new PostProcessListener();
-	Ogre::MaterialManager::getSingleton().addListener(gml);
 }
 
 

@@ -46,7 +46,7 @@ class DemoWorld : public Game
 		// zCrate
 		Ogre::SceneNode* mSceneNode2 = mScene->getRootSceneNode()->createChildSceneNode();
 		Ogre::Entity* mEntity2 = mScene->createEntity("zcrate", Ogre::SceneManager::PT_CUBE);
-		mEntity2->setMaterialName("Default");
+		mEntity2->setMaterialName("MI_zCrate");
 		mEntity2->setCastShadows(true);
 		mSceneNode2->attachObject(mEntity2);
 		mSceneNode2->setPosition(Vector3(-128, -64, -64));
@@ -63,7 +63,7 @@ class DemoWorld : public Game
 		SharedData::getSingleton().iWindow = mWindow;
 		SharedData::getSingleton().iActivate = true;
 		SharedData::getSingleton().iGlobalActivate = true;
-		SharedData::getSingleton().iSystem->setSSAO(true);
+		SharedData::getSingleton().iSystem->setSSAO(false);
 		SharedData::getSingleton().iSystem->setActive(true);
 
 		// Light

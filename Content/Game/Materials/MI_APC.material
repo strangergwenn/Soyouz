@@ -13,10 +13,10 @@ material MI_APC
 			{
 				texture TX_APC_N.png
 			}
-			texture_unit SpecularMap
-			{
-				texture TX_APC_S.png
-			}
+			//texture_unit SpecularMap
+			//{
+			//	texture TX_APC_S.png
+			//}
 		}
 	}
 }

@@ -101,10 +101,7 @@ GpuProgramPtr GBufferMaterialGeneratorImpl::generateVertexShader(MaterialGenerat
     String programName = mBaseName + "VP_" + StringConverter::toString(permutation);
 
 	Ogre::Log* msg = LogManager::getSingleton().getDefaultLog();
-	msg->logMessage("################ BEGIN SOURCE ################");
-	msg->logMessage("################ " + programName + " ################");
-	msg->logMessage(programSource);
-	msg->logMessage("################ END SOURCE ################");
+	//msg->logMessage(programSource);
 
     // Create shader object
     HighLevelGpuProgramPtr ptrProgram;
@@ -161,10 +158,10 @@ GpuProgramPtr GBufferMaterialGeneratorImpl::generateFragmentShader(MaterialGener
     }
 
     uint32 numTextures = permutation & GBufferMaterialGenerator::GBP_TEXTURE_MASK;
-    for (uint32 i = 0; i < numTextures; i++)
-    {
-        ss << "uniform sampler2D sTex" << i << ";" << std::endl;
-    }
+
+    ss << "uniform sampler2D sTex0;" << std::endl;
+	ss << "uniform sampler2D sGlowMap;" << std::endl;
+
     if (numTextures == 0 || permutation & GBufferMaterialGenerator::GBP_HAS_DIFFUSE_COLOUR)
     {
         ss << "uniform vec4 cDiffuseColour;" << std::endl;
@@ -182,12 +179,14 @@ GpuProgramPtr GBufferMaterialGeneratorImpl::generateFragmentShader(MaterialGener
         {
             ss << outData << "[0].rgb *= cDiffuseColour.rgb;" << std::endl;
         }
+		ss << outData << "[2].rgb = " << textureFunc << "(sGlowMap, oUv0).rgb;" << std::endl;
     }
     else
     {
         ss << outData << "[0].rgb = cDiffuseColour.rgb;" << std::endl;
+		ss << outData << "[2].rgb = vec3(0, 0, 0);" << std::endl;
     }
-
+	 
     ss << outData << "[0].a = cSpecularity;" << std::endl;
     if (permutation & GBufferMaterialGenerator::GBP_NORMAL_MAP)
     {
@@ -201,8 +200,6 @@ GpuProgramPtr GBufferMaterialGeneratorImpl::generateFragmentShader(MaterialGener
     }
     ss << outData << "[1].rgb = normalize(oNormal);" << std::endl;
     ss << outData << "[1].a = length(oViewPos) / cFarDistance;" << std::endl;
-	
-    ss << outData << "[2].rgb = vec3(1, 0, 1);" << std::endl;
 
     ss << "}" << std::endl;
 
@@ -210,10 +207,10 @@ GpuProgramPtr GBufferMaterialGeneratorImpl::generateFragmentShader(MaterialGener
     String programName = mBaseName + "FP_" + StringConverter::toString(permutation);
 	
 	Ogre::Log* msg = LogManager::getSingleton().getDefaultLog();
-	msg->logMessage("################ BEGIN SOURCE ################");
-	msg->logMessage("################ " + programName + " ################");
+	msg->logMessage("vvvvvvvvvvvvvvvvvv BEGIN SOURCE vvvvvvvvvvvvvvvvvv");
+	msg->logMessage("vvvvvvvvvvvvvvvvvv" + programName + " vvvvvvvvvvvvvvvvvv");
 	msg->logMessage(programSource);
-	msg->logMessage("################ END SOURCE ################");
+	msg->logMessage("^^^^^^^^^^^^^^^^^^ END SOURCE ^^^^^^^^^^^^^^^^^^");
 
     // Create shader object
     HighLevelGpuProgramPtr ptrProgram;
@@ -237,11 +234,15 @@ GpuProgramPtr GBufferMaterialGeneratorImpl::generateFragmentShader(MaterialGener
     if (permutation & GBufferMaterialGenerator::GBP_NORMAL_MAP)
     {
         params->setNamedConstant("sNormalMap", samplerNum++);
+		msg->logMessage("binding sNormalMap to " + StringConverter::toString(samplerNum));
     }
-    for (uint32 i = 0; i < numTextures; i++, samplerNum++)
-    {
-        params->setNamedConstant("sTex" + StringConverter::toString(i), samplerNum);
-    }
+	msg->logMessage("binding sTex0 to " + StringConverter::toString(samplerNum));
+    params->setNamedConstant("sTex0", samplerNum);	
+
+	samplerNum++;
+
+	msg->logMessage("binding sGlowMap to " + StringConverter::toString(samplerNum));
+    params->setNamedConstant("sGlowMap", samplerNum);
 
     params->setNamedAutoConstant("cFarDistance", GpuProgramParameters::ACT_FAR_CLIP_DISTANCE);
         
