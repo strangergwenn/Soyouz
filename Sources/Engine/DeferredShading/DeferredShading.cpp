@@ -21,7 +21,6 @@
 #include "OgreLogManager.h"
 
 #include "DeferredLightCP.h"
-#include "SSAOLogic.h"
 #include "GBufferSchemeHandler.h"
 #include "NullSchemeHandler.h"
 
@@ -59,7 +58,6 @@ void DeferredShadingSystem::initialize()
 	
 	mActive = false;
 	
-	mSSAO = false;
 	mCurrentMode = DSM_SHOWLIT;
 	setActive(true);
 }
@@ -103,26 +101,8 @@ void DeferredShadingSystem::setMode(DSMode mode)
 	}
 
 	mCurrentMode = mode;
-
-	mSSAOInstance->setEnabled(mActive && mSSAO && mCurrentMode == DSM_SHOWLIT);
 }
 
-void DeferredShadingSystem::setSSAO(bool ssao)
-{
-	if (ssao != mSSAO) 
-	{
-		mSSAO = ssao;
-		if (mActive && mCurrentMode == DSM_SHOWLIT)
-		{
-			mSSAOInstance->setEnabled(ssao);
-		}
-	}
-}
-	
-bool DeferredShadingSystem::getSSAO() const
-{
-	return mSSAO;
-}
 void DeferredShadingSystem::setActive(bool active)
 {
 	if (mActive != active)
@@ -147,17 +127,14 @@ void DeferredShadingSystem::createResources(void)
 	static bool firstTime = true;
 	if (firstTime)
 	{
-		MaterialManager::getSingleton().addListener(new GBufferSchemeHandler, "GBuffer");
-		MaterialManager::getSingleton().addListener(new NullSchemeHandler, "NoGBuffer");
+		//MaterialManager::getSingleton().addListener(new GBufferSchemeHandler, "GBuffer");
+		//MaterialManager::getSingleton().addListener(new NullSchemeHandler, "NoGBuffer");
 
 		compMan.registerCustomCompositionPass("DeferredLight", new DeferredLightCompositionPass);
 
 		firstTime = false;
 	}
-
-	mCompositorLogics["SSAOLogic"] = new SSAOLogic;
-	compMan.registerCompositorLogic("SSAOLogic", mCompositorLogics["SSAOLogic"]);
-
+	
 	mGBufferInstance = compMan.addCompositor(mViewport, "DeferredShading/GBuffer");
 
 	mInstance[DSM_SHOWLIT] = compMan.addCompositor(mViewport, "DeferredShading/ShowLit");
@@ -165,6 +142,4 @@ void DeferredShadingSystem::createResources(void)
 	mInstance[DSM_SHOWDSP] = compMan.addCompositor(mViewport, "DeferredShading/ShowDepthSpecular");
 	mInstance[DSM_SHOWCOLOUR] = compMan.addCompositor(mViewport, "DeferredShading/ShowColour");
 	mInstance[DSM_SHOWGLOW] = compMan.addCompositor(mViewport, "DeferredShading/ShowGlow");
-
-	mSSAOInstance =  compMan.addCompositor(mViewport, "DeferredShading/SSAO");
 }

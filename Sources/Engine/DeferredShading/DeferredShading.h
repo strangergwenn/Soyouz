@@ -58,13 +58,7 @@ public:
 	void setMode(DSMode mode);
 
 	DSMode getMode(void) const;
-
-	/** Set screen space ambient occlusion mode
-	 */
-	void setSSAO(bool ssao);
 	
-	bool getSSAO() const;
-
 	/** Activate or deactivate system
 	 */
 	void setActive(bool active);
@@ -77,11 +71,9 @@ protected:
 	Ogre::CompositorInstance *mGBufferInstance;
 	// Filters
 	Ogre::CompositorInstance *mInstance[DSM_COUNT];
-	Ogre::CompositorInstance* mSSAOInstance;
 	// Active/inactive
 	bool mActive;
 	DSMode mCurrentMode;
-	bool mSSAO;
 
 	//Used to unregister compositor logics and free memory
 	typedef Ogre::map<Ogre::String, Ogre::CompositorLogic*>::type CompositorLogicMap;
