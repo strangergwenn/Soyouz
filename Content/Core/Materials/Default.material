@@ -13,6 +13,11 @@ material Default : Master
 {
 }
 
+// Default material
+material _missing_material_ : Master
+{
+}
+
 // White
 material White
 {

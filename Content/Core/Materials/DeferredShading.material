@@ -79,13 +79,11 @@ material DeferredShading/AmbientLight
 			depth_write on
 			depth_check on
 			
-			vertex_program_ref vs
+			vertex_program_ref Ambient_vs
 			{
-			
 			}
 			fragment_program_ref Ambient_ps
 			{
-			
 			}
 			
 			texture_unit
@@ -116,7 +114,7 @@ material DeferredShading/Post/ShowNormal
 			fragment_program_ref ShowNormal_ps
 			{
 			}
-			vertex_program_ref vs
+			vertex_program_ref Ambient_vs
 			{
 			}
 			texture_unit
@@ -146,7 +144,7 @@ material DeferredShading/Post/ShowDS
 			fragment_program_ref ShowDS_ps
 			{
 			}
-			vertex_program_ref vs
+			vertex_program_ref Ambient_vs
 			{
 			}
 			texture_unit
@@ -176,7 +174,7 @@ material DeferredShading/Post/ShowColour
 			fragment_program_ref ShowColour_ps
 			{
 			}
-			vertex_program_ref vs
+			vertex_program_ref Ambient_vs
 			{
 			}
 			texture_unit
@@ -206,7 +204,7 @@ material DeferredShading/Post/ShowGlow
 			fragment_program_ref ShowGlow_ps
 			{
 			}
-			vertex_program_ref vs
+			vertex_program_ref Ambient_vs
 			{
 			}
 			texture_unit

@@ -37,7 +37,7 @@ public:
 
 		if (permutation & LightMaterialGenerator::MI_DIRECTIONAL)
 		{
-			programName += "vs";
+			programName += "Ambient_vs";
 		}
 		else
 		{
@@ -202,7 +202,7 @@ public:
 
 		if (permutation & LightMaterialGenerator::MI_DIRECTIONAL)
 		{
-			programName += "vs";
+			programName += "Ambient_vs";
 		}
 		else
 		{
