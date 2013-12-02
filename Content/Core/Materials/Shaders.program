@@ -81,3 +81,14 @@ fragment_program PS_Blur glsl
 	}
 }
 
+// Blur pixel shader
+fragment_program PS_Add glsl
+{
+	source PS_Add.glsl
+	default_params
+	{
+		param_named input1			int 0
+		param_named input2			int 1
+	}
+}
+

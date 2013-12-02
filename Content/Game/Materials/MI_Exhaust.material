@@ -6,9 +6,9 @@ material MI_Exhaust : Glow
 	set_texture_alias baseMap		jet.tga
 	set_texture_alias panningMap	jetnoise.png
 
-	technique main
+	technique NoGBuffer
 	{
-		pass main
+		pass
 		{
 			fragment_program_ref PS_Glow
 			{

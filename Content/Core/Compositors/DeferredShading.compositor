@@ -34,10 +34,11 @@ compositor DeferredShading/ShowLit
 
 	technique
 	{
-		//Reference the main Gbuffer texture
 		texture_ref mrt_output DeferredShading/GBuffer mrt_output
-        texture main target_width target_height PF_R8G8B8A8
-        texture glow target_width target_height PF_R8G8B8A8
+        texture main			target_width target_height PF_R8G8B8A8
+        texture glow			target_width target_height PF_R8G8B8A8
+        texture main_glow		target_width target_height PF_R8G8B8A8
+        texture transparency	target_width target_height PF_R8G8B8A8
 		
         target glow
         {
@@ -45,8 +46,8 @@ compositor DeferredShading/ShowLit
 
             pass clear
             {
-            }
-			
+            }	
+				
 			pass render_quad
 			{
 				material DeferredShading/Post/ShowGlow
@@ -68,6 +69,7 @@ compositor DeferredShading/ShowLit
 			// render skies and other pre-gbuffer objects
 			pass render_scene
 			{
+				material_scheme GBuffer
 				first_render_queue 1
 				last_render_queue  9			
 			}
@@ -79,23 +81,16 @@ compositor DeferredShading/ShowLit
 				input 1 mrt_output 1
 			}
 			
-			//Render the objects that skipped rendering into the gbuffer
-			pass render_scene
-			{
-				material_scheme NoGBuffer
-				first_render_queue 10
-				last_render_queue 79
-			}
-			
 			//Render the post-GBuffer render queue objects
 			pass render_scene
 			{
+				material_scheme GBuffer
 				//This value is synchronized with the code
 				first_render_queue 80
 			}
 		}
-
-        target_output
+		
+        target main_glow
         {
             input none
 
@@ -104,6 +99,32 @@ compositor DeferredShading/ShowLit
 				material PostProcess/Blur
                 input 0 main
                 input 1 glow
+            }
+        }
+		
+		target transparency
+		{
+            input none
+			material_scheme NoGBuffer
+
+            pass clear
+            {
+            }
+			
+			pass render_scene
+			{
+			}
+		}
+		
+        target_output
+        {
+            input none
+
+            pass render_quad
+            {
+				material PostProcess/Blur
+                input 0 main_glow
+                input 1 transparency
             }
         }
 	}

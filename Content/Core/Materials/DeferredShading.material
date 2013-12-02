@@ -1,6 +1,73 @@
-// Post processors
+ //
+// This work is distributed under the General Public License,
+// see LICENSE for details
+//
+// @author Gwennaël ARBONA
+//
 
-//Ambient light
+material PostProcess/Blur
+{
+	technique main
+	{
+		pass main
+		{			
+			vertex_program_ref VS_UVMap
+			{
+				param_named_auto projection		worldviewproj_matrix
+			}
+ 
+			fragment_program_ref PS_Blur
+			{
+			}
+ 
+			texture_unit scene
+			{
+				tex_coord_set 0
+				tex_address_mode clamp
+				filtering trilinear
+			}
+ 
+			texture_unit input
+			{
+				tex_coord_set 0
+				tex_address_mode clamp
+				filtering trilinear
+			}
+		}
+	}
+}
+material PostProcess/Add
+{
+	technique main
+	{
+		pass main
+		{			
+			vertex_program_ref VS_UVMap
+			{
+				param_named_auto projection		worldviewproj_matrix
+			}
+ 
+			fragment_program_ref PS_Add
+			{
+			}
+ 
+			texture_unit scene
+			{
+				tex_coord_set 0
+				tex_address_mode clamp
+				filtering trilinear
+			}
+ 
+			texture_unit input
+			{
+				tex_coord_set 0
+				tex_address_mode clamp
+				filtering trilinear
+			}
+		}
+	}
+}
+
 material DeferredShading/AmbientLight
 {
     technique
@@ -37,8 +104,6 @@ material DeferredShading/AmbientLight
 	}
 }
 
-//These materials don't need content_type compositor, as they get their textures from the compositor that uses them
-//In a full screen quad
 material DeferredShading/Post/ShowNormal
 {
     technique
@@ -128,6 +193,7 @@ material DeferredShading/Post/ShowColour
 		}
 	}
 }
+
 material DeferredShading/Post/ShowGlow
 {
     technique
@@ -160,25 +226,6 @@ material DeferredShading/Post/ShowGlow
 				tex_address_mode clamp
 				filtering none
 			}
-		}
-	}
-}
-
-material DeferredShading/Post/SimpleQuad
-{
-    technique
-    {
-        pass
-        {
-            lighting off
-			depth_write off
-			depth_check off
-			
-            texture_unit
-            {
-                texture white.png
-                filtering none
-            }
 		}
 	}
 }

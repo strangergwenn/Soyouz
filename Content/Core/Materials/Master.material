@@ -7,9 +7,11 @@
 
 material Master
 {
-	technique
+	technique GBuffer
 	{
-		pass main
+		scheme GBuffer
+
+		pass
 		{
 			vertex_program_ref VS_Master
 			{
@@ -45,6 +47,18 @@ material Master
 				texture_alias GlowMap
 				texture black.png
 			}
+		}
+	}
+
+	technique NoGBuffer
+	{
+		scheme NoGBuffer
+
+		pass
+		{
+			lighting off
+			depth_write on
+			scene_blend zero zero
 		}
 	}
 }

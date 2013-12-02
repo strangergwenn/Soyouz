@@ -5,16 +5,12 @@
 // @author Gwennaël ARBONA
 //
 
+import * from "Core/Materials/Master.material"
+
+
 // Default material
-material Default
+material Default : Master
 {
-    technique main
-    {
-        pass main
-        {
-            diffuse 1.0 1.0 1.0
-        }
-    }
 }
 
 // White

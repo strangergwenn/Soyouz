@@ -119,14 +119,7 @@ void DeferredShadingSystem::createResources(void)
 {
 	CompositorManager &compMan = CompositorManager::getSingleton();
 
-	static bool firstTime = true;
-	if (firstTime)
-	{
-		MaterialManager::getSingleton().addListener(new GBufferListener, "GBuffer");
-		compMan.registerCustomCompositionPass("DeferredLight", new DeferredLightCompositionPass);
-		firstTime = false;
-	}
-	
+	compMan.registerCustomCompositionPass("DeferredLight", new DeferredLightCompositionPass);
 	mGBufferInstance = compMan.addCompositor(mViewport, "DeferredShading/GBuffer");
 
 	mInstance[DSM_SHOWLIT] = compMan.addCompositor(mViewport, "DeferredShading/ShowLit");
