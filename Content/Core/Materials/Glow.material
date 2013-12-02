@@ -14,14 +14,27 @@ material Glow
 
 		pass
 		{
+			lighting off
 			depth_write off
 			scene_blend zero zero
 		}
 	}
-
+	
 	technique NoGBuffer
 	{
 		scheme NoGBuffer
+
+		pass
+		{
+			lighting off
+			depth_write on
+			scene_blend zero zero
+		}
+	}
+
+	technique NoGBuffer_Glow
+	{
+		scheme NoGBuffer_Glow
 
 		pass
 		{

@@ -1,28 +1,29 @@
+//
+// This work is distributed under the General Public License,
+// see LICENSE for details
+//
+// @author Gwennaël ARBONA
+//
+
 //Postfilter generating the GBuffer
 compositor DeferredShading/GBuffer
 {
 	technique
 	{
-		// temporary textures
 		texture mrt_output target_width target_height PF_FLOAT16_RGBA PF_FLOAT16_RGBA PF_FLOAT16_RGBA chain_scope
 		
 		target mrt_output
 		{
 			input none
+			shadows off
+			material_scheme GBuffer
+
 			pass clear
 			{
 			}
-			
-			shadows off
-			material_scheme GBuffer
-			
-			// everything but the lights and their meshes
-			// could do this with something like a visibility mask too
+
 			pass render_scene
 			{
-				//These values are synchronized with the code
-				first_render_queue 10
-				last_render_queue  79	
 			}
 		}
 	}
@@ -34,12 +35,40 @@ compositor DeferredShading/ShowLit
 
 	technique
 	{
+		// Textures
 		texture_ref mrt_output DeferredShading/GBuffer mrt_output
-        texture main			target_width target_height PF_R8G8B8A8
-        texture glow			target_width target_height PF_R8G8B8A8
-        texture main_glow		target_width target_height PF_R8G8B8A8
-        texture transparency	target_width target_height PF_R8G8B8A8
+        texture main					target_width target_height PF_R8G8B8A8
+        texture glow					target_width target_height PF_R8G8B8A8
+        texture main_glow				target_width target_height PF_R8G8B8A8
+        texture transparency			target_width target_height PF_R8G8B8A8
+        texture transparency_glow		target_width target_height PF_R8G8B8A8
+        texture main_glow_transparency	target_width target_height PF_R8G8B8A8
 		
+		// Main target for rendering objects (GBuffer)
+        target main
+        {
+			input none
+			shadows off
+			
+			pass clear
+			{
+			}
+			
+			pass render_scene
+			{
+				material_scheme GBuffer
+				first_render_queue 1
+				last_render_queue  9
+			}
+			
+			pass render_custom DeferredLight
+			{
+				input 0 mrt_output 0
+				input 1 mrt_output 1
+			}
+		}
+		
+		// Glow rendering target for objects (GBuffer)
         target glow
         {
             input none
@@ -57,39 +86,7 @@ compositor DeferredShading/ShowLit
 			}
         }
 		
-        target main
-        {
-			input none
-			shadows off
-			
-			pass clear
-			{
-			}
-			
-			// render skies and other pre-gbuffer objects
-			pass render_scene
-			{
-				material_scheme GBuffer
-				first_render_queue 1
-				last_render_queue  9			
-			}
-			
-			//Render the lights and their meshes
-			pass render_custom DeferredLight
-			{
-				input 0 mrt_output 0
-				input 1 mrt_output 1
-			}
-			
-			//Render the post-GBuffer render queue objects
-			pass render_scene
-			{
-				material_scheme GBuffer
-				//This value is synchronized with the code
-				first_render_queue 80
-			}
-		}
-		
+		// Main target with glow (GBuffer)
         target main_glow
         {
             input none
@@ -102,6 +99,7 @@ compositor DeferredShading/ShowLit
             }
         }
 		
+		// Transparency pass (No GBuffer)
 		target transparency
 		{
             input none
@@ -116,6 +114,35 @@ compositor DeferredShading/ShowLit
 			}
 		}
 		
+		// Glowing transparency pass (No GBuffer)
+		target transparency_glow
+		{
+            input none
+			material_scheme NoGBuffer_Glow
+
+            pass clear
+            {
+            }
+			
+			pass render_scene
+			{
+			}
+		}
+		
+		// Main target with transparency pass (GBuffer + overlay)
+        target main_glow_transparency
+        {
+            input none
+
+            pass render_quad
+            {
+				material PostProcess/Add
+                input 0 main_glow
+                input 1 transparency
+            }
+        }
+		
+		// Final output after glowing transparency pass (GBuffer + overlay)
         target_output
         {
             input none
@@ -123,8 +150,8 @@ compositor DeferredShading/ShowLit
             pass render_quad
             {
 				material PostProcess/Blur
-                input 0 main_glow
-                input 1 transparency
+                input 0 main_glow_transparency
+                input 1 transparency_glow
             }
         }
 	}
