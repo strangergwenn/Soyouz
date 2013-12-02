@@ -9,7 +9,7 @@
 	Config
 /*-----------------------------------------------*/
 
-#version 440
+#version 150
 
 uniform float		baseStrength;
 uniform float		basePower;

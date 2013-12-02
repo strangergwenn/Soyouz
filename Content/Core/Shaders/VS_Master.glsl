@@ -1,4 +1,21 @@
-#version 440
+/**
+* This work is distributed under the General Public License,
+* see LICENSE for details
+*
+* @author Gwennaël ARBONA
+**/
+
+/*-------------------------------------------------
+	Config
+/*-----------------------------------------------*/
+
+#version 150
+
+
+/*-------------------------------------------------
+	Input / Output
+/*-----------------------------------------------*/
+
 in vec4 vertex;
 in vec3 normal;
 in vec2 uv0;
@@ -12,6 +29,11 @@ out vec2 oUv0;
 
 uniform mat4 cWorldViewProj;
 uniform mat4 cWorldView;
+
+
+/*-------------------------------------------------
+	Shader
+/*-----------------------------------------------*/
 
 void main()
 {

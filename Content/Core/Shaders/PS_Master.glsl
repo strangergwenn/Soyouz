@@ -9,7 +9,7 @@
 	Input / Outputs
 /*-----------------------------------------------*/
 
-#version 440
+#version 150
 
 out vec4 fragData[3];
 in vec3 oViewPos;
