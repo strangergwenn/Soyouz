@@ -24,7 +24,14 @@ SoyouzCPPFiles= \
 	Sources/Engine/lightactor.cpp \
 	Sources/Engine/dirlightactor.cpp \
 	Sources/Engine/iomanager.cpp \
-	Sources/Engine/player.cpp
+	Sources/Engine/player.cpp \
+	Sources/Engine/DeferredShading/DeferredShading.cpp \
+	Sources/Engine/DeferredShading/DeferredLightCP.cpp \
+	Sources/Engine/DeferredShading/AmbientLight.cpp \
+	Sources/Engine/DeferredShading/DLight.cpp \
+	Sources/Engine/DeferredShading/GeomUtils.cpp \
+	Sources/Engine/DeferredShading/LightMaterialGenerator.cpp \
+	Sources/Engine/DeferredShading/MaterialGenerator.cpp
 	
 SoyouzHPPFiles= \
 	Sources/Engine/game.hpp \
