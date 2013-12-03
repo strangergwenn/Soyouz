@@ -11,17 +11,17 @@
 
 #version 150
 
-uniform mat4 projection;
+uniform sampler2D	input1;
+uniform sampler2D	input2;
 
 
 /*-------------------------------------------------
 	Input / Output
 /*-----------------------------------------------*/
 
-in vec4 vertex;
-in vec2 uv0;
+in vec4 vUv0;
 
-out vec2 vUv0;
+out vec4 pPixel;
 
 
 /*-------------------------------------------------
@@ -30,6 +30,7 @@ out vec2 vUv0;
 
 void main()
 {
-	vUv0 = uv0;
-	gl_Position = projection * vertex;
+	vec4 pixel1 = texture(input1, vec2(vUv0.x, vUv0.y));
+	vec4 pixel2 = texture(input2, vec2(vUv0.x, vUv0.y));
+	pPixel = pixel1 * pixel2;
 }

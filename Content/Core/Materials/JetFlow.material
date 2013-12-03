@@ -6,7 +6,7 @@
 //
 
 // Exhaust material
-material Glow
+material JetFlow
 {
 	technique GBuffer
 	{
@@ -47,7 +47,7 @@ material Glow
 				param_named_auto projection			worldviewproj_matrix
 			}
 
-			fragment_program_ref PS_Glow
+			fragment_program_ref PS_JetFlow
 			{
 				param_named baseStrength float		1.0
 				param_named basePower float			2.0

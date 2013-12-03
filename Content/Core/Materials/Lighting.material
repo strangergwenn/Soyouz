@@ -7,8 +7,6 @@ material DeferredShading/LightMaterial/Geometry
 	{
 		pass DeferredPass
 		{
-			// Don't disable depth test, because the light doesn't have to be rendered
-			// if the bounding geometry is obscured.
 			scene_blend add
 			depth_write off
 			depth_check on

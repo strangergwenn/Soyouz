@@ -1,0 +1,62 @@
+//
+// This work is distributed under the General Public License,
+// see LICENSE for details
+//
+// @author Gwennaël ARBONA
+//
+
+//-----------------------------------------------
+//	Post-processing shaders
+//-----------------------------------------------
+
+// Add + Add blurred pixel shader
+fragment_program PS_Blur glsl
+{
+	source PS_Blur.glsl
+	default_params
+	{
+		param_named_auto invTexSize inverse_texture_size 0
+		param_named scene			int 0
+		param_named blurdata		int 1
+	}
+}
+
+// Add pixel shader
+fragment_program PS_Add glsl
+{
+	source PS_Add.glsl
+	default_params
+	{
+		param_named input1			int 0
+		param_named input2			int 1
+	}
+}
+
+// Multiply pixel shader
+fragment_program PS_Mul glsl
+{
+	source PS_Mul.glsl
+	default_params
+	{
+		param_named input1			int 0
+		param_named input2			int 1
+	}
+}
+
+// SSAO shader
+fragment_program PS_CreaseShading glsl
+{
+    source PS_CreaseShading.glsl
+	
+	default_params
+	{
+		param_named sNormal int 0
+		param_named sPosition int 1
+		param_named sRandom int 2
+		param_named cMinimumCrease	float 0.1
+		param_named cBias			float 2.0
+		param_named cAverager		float 24
+		param_named cRange			float 4.0
+		param_named cKernelSize		float 2.0
+	}
+}

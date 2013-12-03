@@ -1,0 +1,51 @@
+
+vertex_program VS_Ambient cg
+{
+	source VS_Ambient.cg
+	profiles vs_1_1 arbvp1
+	entry_point main
+	default_params
+	{
+		param_named_auto flip render_target_flipping
+		param_named farCorner float3 1 1 1
+	}
+}
+
+fragment_program PS_Ambient cg
+{
+	source PS_Ambient.cg
+	profiles ps_2_0 arbfp1
+	entry_point main
+	
+	default_params
+	{
+		param_named_auto ambientColor ambient_light_colour 0		
+		param_named_auto proj projection_matrix
+		param_named_auto farClipDistance far_clip_distance
+	}
+}
+
+fragment_program PS_ShowColour cg
+{
+	source PS_ShowColour.cg
+	profiles ps_2_0 arbfp1
+	entry_point main
+}
+
+fragment_program PS_ShowDS cg
+{
+	source PS_ShowDS.cg
+	profiles ps_2_0 arbfp1
+	entry_point main
+}
+
+vertex_program VS_LightMaterial cg
+{
+	source VS_LightMaterial.cg
+	profiles vs_1_1 arbvp1
+	entry_point main
+	default_params
+	{
+		param_named_auto worldViewProj worldviewproj_matrix
+	}
+}

@@ -1,0 +1,14 @@
+
+float4 main(
+	float2 texCoord: TEXCOORD0, 
+	float2 projCoord: TEXCOORD1,
+
+	uniform sampler Tex0: register(s0),
+	uniform sampler Tex1: register(s1)
+	) : COLOR 
+{
+	float4 a0 = tex2D(Tex0, texCoord);
+	float4 a1 = tex2D(Tex1, texCoord);
+	return float4(pow(a1.w,0.33), 0, a0.w, 0);
+}
+

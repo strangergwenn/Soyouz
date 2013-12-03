@@ -37,11 +37,11 @@ public:
 
 		if (permutation & LightMaterialGenerator::MI_DIRECTIONAL)
 		{
-			programName += "Ambient_vs";
+			programName += "VS_Ambient";
 		}
 		else
 		{
-			programName += "LightMaterial_vs";
+			programName += "VS_LightMaterial";
 		}
 
 		GpuProgramPtr ptr = HighLevelGpuProgramManager::getSingleton().getByName(programName);
@@ -55,7 +55,7 @@ public:
 		if (mMasterSource.empty())
 		{
 			DataStreamPtr ptrMasterSource = ResourceGroupManager::getSingleton().openResource(
-				 "LightMaterial_ps.cg"
+				 "PS_LightMaterial.cg"
 				, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 			assert(ptrMasterSource.isNull()==false);
 			mMasterSource = ptrMasterSource->getAsString();
@@ -64,7 +64,7 @@ public:
 		assert(mMasterSource.empty()==false);
 
 		// Create name
-		String name = mBaseName+StringConverter::toString(permutation)+"_ps";		
+		String name = mBaseName+ "PS_" + StringConverter::toString(permutation);		
 
 		// Create shader object
 		HighLevelGpuProgramPtr ptrProgram = HighLevelGpuProgramManager::getSingleton().createProgram(
@@ -202,11 +202,11 @@ public:
 
 		if (permutation & LightMaterialGenerator::MI_DIRECTIONAL)
 		{
-			programName += "Ambient_vs";
+			programName += "VS_Ambient";
 		}
 		else
 		{
-			programName += "LightMaterial_vs";
+			programName += "VS_LightMaterial";
 		}
 
 		GpuProgramPtr ptr = HighLevelGpuProgramManager::getSingleton().getByName(programName);
@@ -219,7 +219,7 @@ public:
 		/// Create shader
 		if (mMasterSource.empty())
 		{
-			DataStreamPtr ptrMasterSource = ResourceGroupManager::getSingleton().openResource("LightMaterial_ps.glsl",
+			DataStreamPtr ptrMasterSource = ResourceGroupManager::getSingleton().openResource("PS_LightMaterial.glsl",
                                                                                               ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 			assert(ptrMasterSource.isNull()==false);
 			mMasterSource = ptrMasterSource->getAsString();
@@ -228,7 +228,7 @@ public:
 		assert(mMasterSource.empty()==false);
 
 		// Create name
-		String name = mBaseName+StringConverter::toString(permutation)+"_ps";
+		String name = mBaseName+ "PS_" + StringConverter::toString(permutation)+"_ps";
 
 		// Create shader object
 		HighLevelGpuProgramPtr ptrProgram = HighLevelGpuProgramManager::getSingleton().createProgram(name, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,

@@ -176,6 +176,7 @@ protected:
 			case OIS::KC_F4:
 			case OIS::KC_F5:
 			case OIS::KC_F6:
+			case OIS::KC_F7:
 				mGame->setDebugMode(e.key - OIS::KC_F1);
 				break;
 
@@ -207,8 +208,8 @@ protected:
 				mShip->setFireOrder(false);
 				break;
 			case OIS::KC_TAB:
-				mTargetSpeed = MAX_TARGET_SPEED;
-				updateSpeed();
+				//mTargetSpeed = MAX_TARGET_SPEED;
+				//updateSpeed();
 				break;
 			default:
 			break;

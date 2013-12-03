@@ -1,7 +1,7 @@
 
-import * from "Core/Materials/Glow.material"
+import * from "Core/Materials/JetFlow.material"
 
-material MI_Exhaust : Glow
+material MI_Exhaust : JetFlow
 {
 	set_texture_alias baseMap		jet.tga
 	set_texture_alias panningMap	jetnoise.png
@@ -10,7 +10,7 @@ material MI_Exhaust : Glow
 	{
 		pass
 		{
-			fragment_program_ref PS_Glow
+			fragment_program_ref PS_JetFlow
 			{
 				param_named baseStrength float		2.5
 				param_named basePower float			4.0

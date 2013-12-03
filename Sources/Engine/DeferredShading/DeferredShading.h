@@ -40,7 +40,8 @@ public:
 		DSM_SHOWNORMALS = 2, // Show normals (for debugging)
 		DSM_SHOWDSP = 3,	 // Show depth and specular channel (for debugging)
 		DSM_SHOWGLOW = 4,	 // Show glow maps
-		DSM_COUNT = 5
+		DSM_SHOWSSAO = 5,    // Show SSAO
+		DSM_COUNT = 6
 	};
 
 	//The first render queue that does get rendered into the GBuffer

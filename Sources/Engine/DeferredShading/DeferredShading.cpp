@@ -122,9 +122,10 @@ void DeferredShadingSystem::createResources(void)
 	compMan.registerCustomCompositionPass("DeferredLight", new DeferredLightCompositionPass);
 	mGBufferInstance = compMan.addCompositor(mViewport, "DeferredShading/GBuffer");
 
-	mInstance[DSM_SHOWLIT] = compMan.addCompositor(mViewport, "DeferredShading/ShowLit");
-	mInstance[DSM_SHOWNORMALS] = compMan.addCompositor(mViewport, "DeferredShading/ShowNormals");
-	mInstance[DSM_SHOWDSP] = compMan.addCompositor(mViewport, "DeferredShading/ShowDepthSpecular");
-	mInstance[DSM_SHOWCOLOUR] = compMan.addCompositor(mViewport, "DeferredShading/ShowColour");
-	mInstance[DSM_SHOWGLOW] = compMan.addCompositor(mViewport, "DeferredShading/ShowGlow");
+	mInstance[DSM_SHOWLIT] =		compMan.addCompositor(mViewport, "DeferredShading/ShowLit");
+	mInstance[DSM_SHOWNORMALS] =	compMan.addCompositor(mViewport, "DeferredShading/ShowNormals");
+	mInstance[DSM_SHOWDSP] =		compMan.addCompositor(mViewport, "DeferredShading/ShowDepthSpecular");
+	mInstance[DSM_SHOWCOLOUR] =		compMan.addCompositor(mViewport, "DeferredShading/ShowColour");
+	mInstance[DSM_SHOWGLOW] =		compMan.addCompositor(mViewport, "DeferredShading/ShowGlow");
+	mInstance[DSM_SHOWSSAO] =		compMan.addCompositor(mViewport, "DeferredShading/ShowSSAO");
 }

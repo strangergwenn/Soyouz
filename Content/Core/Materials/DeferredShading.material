@@ -1,72 +1,9 @@
- //
+//
 // This work is distributed under the General Public License,
 // see LICENSE for details
 //
 // @author Gwennaël ARBONA
 //
-
-material PostProcess/Blur
-{
-	technique main
-	{
-		pass main
-		{			
-			vertex_program_ref VS_UVMap
-			{
-				param_named_auto projection		worldviewproj_matrix
-			}
- 
-			fragment_program_ref PS_Blur
-			{
-			}
- 
-			texture_unit scene
-			{
-				tex_coord_set 0
-				tex_address_mode clamp
-				filtering trilinear
-			}
- 
-			texture_unit input
-			{
-				tex_coord_set 0
-				tex_address_mode clamp
-				filtering trilinear
-			}
-		}
-	}
-}
-material PostProcess/Add
-{
-	technique main
-	{
-		pass main
-		{			
-			vertex_program_ref VS_UVMap
-			{
-				param_named_auto projection		worldviewproj_matrix
-			}
- 
-			fragment_program_ref PS_Add
-			{
-			}
- 
-			texture_unit scene
-			{
-				tex_coord_set 0
-				tex_address_mode clamp
-				filtering trilinear
-			}
- 
-			texture_unit input
-			{
-				tex_coord_set 0
-				tex_address_mode clamp
-				filtering trilinear
-			}
-		}
-	}
-}
 
 material DeferredShading/AmbientLight
 {
@@ -79,10 +16,10 @@ material DeferredShading/AmbientLight
 			depth_write on
 			depth_check on
 			
-			vertex_program_ref Ambient_vs
+			vertex_program_ref VS_Ambient
 			{
 			}
-			fragment_program_ref Ambient_ps
+			fragment_program_ref PS_Ambient
 			{
 			}
 			
@@ -102,6 +39,31 @@ material DeferredShading/AmbientLight
 	}
 }
 
+material DeferredShading/Post/ShowColour
+{
+    technique
+    {
+    	pass
+		{
+			cull_hardware none
+			cull_software none
+			depth_func always_pass
+			fragment_program_ref PS_ShowColour
+			{
+			}
+			vertex_program_ref VS_Ambient
+			{
+			}
+			texture_unit
+			{
+				content_type compositor DeferredShading/GBuffer mrt_output 0
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
 material DeferredShading/Post/ShowNormal
 {
     technique
@@ -111,20 +73,15 @@ material DeferredShading/Post/ShowNormal
 			cull_hardware none
 			cull_software none
 			depth_func always_pass
-			fragment_program_ref ShowNormal_ps
+			fragment_program_ref PS_ShowColour
 			{
 			}
-			vertex_program_ref Ambient_vs
+			vertex_program_ref VS_Ambient
 			{
-			}
-			texture_unit
-			{
-				tex_address_mode clamp
-				filtering none
 			}
 			texture_unit
 			{
-				tex_coord_set 1
+				content_type compositor DeferredShading/GBuffer mrt_output 1
 				tex_address_mode clamp
 				filtering none
 			}
@@ -141,50 +98,21 @@ material DeferredShading/Post/ShowDS
 			cull_hardware none
 			cull_software none
 			depth_func always_pass
-			fragment_program_ref ShowDS_ps
+			fragment_program_ref PS_ShowDS
 			{
 			}
-			vertex_program_ref Ambient_vs
+			vertex_program_ref VS_Ambient
 			{
 			}
 			texture_unit
 			{
+				content_type compositor DeferredShading/GBuffer mrt_output 0
 				tex_address_mode clamp
 				filtering none
 			}
 			texture_unit
 			{
-				tex_coord_set 1
-				tex_address_mode clamp
-				filtering none
-			}
-		}
-	}
-}
-
-material DeferredShading/Post/ShowColour
-{
-    technique
-    {
-    	pass
-		{
-			cull_hardware none
-			cull_software none
-			depth_func always_pass
-			fragment_program_ref ShowColour_ps
-			{
-			}
-			vertex_program_ref Ambient_vs
-			{
-			}
-			texture_unit
-			{
-				tex_address_mode clamp
-				filtering none
-			}
-			texture_unit
-			{
-				tex_coord_set 1
+				content_type compositor DeferredShading/GBuffer mrt_output 1
 				tex_address_mode clamp
 				filtering none
 			}
@@ -201,26 +129,15 @@ material DeferredShading/Post/ShowGlow
 			cull_hardware none
 			cull_software none
 			depth_func always_pass
-			fragment_program_ref ShowGlow_ps
+			fragment_program_ref PS_ShowColour
 			{
 			}
-			vertex_program_ref Ambient_vs
+			vertex_program_ref VS_Ambient
 			{
-			}
-			texture_unit
-			{
-				tex_address_mode clamp
-				filtering none
 			}
 			texture_unit
 			{
-				tex_coord_set 1
-				tex_address_mode clamp
-				filtering none
-			}
-			texture_unit
-			{
-				tex_coord_set 2
+				content_type compositor DeferredShading/GBuffer mrt_output 2
 				tex_address_mode clamp
 				filtering none
 			}

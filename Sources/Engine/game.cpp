@@ -224,6 +224,10 @@ void Game::setDebugMode(int newStatus)
 		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWGLOW);
 		break;
 
+	case 6:
+		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWSSAO);
+		break;
+
 	default:
 		break;
 	}
