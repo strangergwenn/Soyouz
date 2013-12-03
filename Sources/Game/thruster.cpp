@@ -28,10 +28,10 @@ Thruster::Thruster(Game* g, String name, MeshActor* parent, Vector3 location, Qu
 	Ogre::SceneNode *sn = mNode->createChildSceneNode();
 	mLight = g->getScene()->createLight();
 	mLight->setType(Ogre::Light::LT_POINT);
-	mLight->setAttenuation(20, 1.0f, 0.22f, 0.20f);
+	mLight->setAttenuation(100, 1.0f, 0.0f, 0.2f);
 	sn->attachObject(mLight);
 	sn->setPosition(0, 0, -0.1f);
-		
+	
 	// Position
 	mRelPosition = location;
 	mShip = (Ship*)parent;
