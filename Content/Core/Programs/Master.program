@@ -23,16 +23,6 @@ fragment_program PS_Master glsl
 	}
 }
 
-// Emissive pixel shader
-fragment_program PS_Colormap glsl
-{
-	source PS_Colormap.glsl
-	default_params
-	{
-		param_named textureMap			int 0
-	}
-}
-
 // Main vertex shader
 vertex_program VS_Master glsl
 {
