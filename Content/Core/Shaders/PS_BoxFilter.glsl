@@ -10,6 +10,7 @@
 /*-----------------------------------------------*/
 
 #version 150
+#define KERNEL_SIZE 4
 
 uniform sampler2D input1;
 uniform vec4 size;
@@ -26,11 +27,11 @@ out vec4 pPixel;
 void main()
 {
 	float color = 0;
-	for (int x = -2; x < 2; x++)
-	for (int y = -2; y < 2; y++)
+	for (int x = -KERNEL_SIZE / 2; x < KERNEL_SIZE / 2; x++)
+	for (int y = -KERNEL_SIZE / 2; y < KERNEL_SIZE / 2; y++)
 	{
 		color += texture2D(input1, vec2(vUv0.x + x * size.z, vUv0.y + y * size.w)).x;
 	}
-	color /= 16;
+	color /= (KERNEL_SIZE * KERNEL_SIZE);
 	pPixel = vec4(color, color, color, 1);
 }

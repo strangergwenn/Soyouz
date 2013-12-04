@@ -20,29 +20,31 @@ material PostProcess/SSAO
 				param_named_auto projection		worldviewproj_matrix
 			}
 
-            fragment_program_ref PS_CreaseShading
+            fragment_program_ref PS_SSAO
             {
-                param_named_auto cViewportSize	viewport_size
+            {
+                param_named_auto cViewportSize viewport_size
+                param_named_auto farClipDistance far_clip_distance
+                param_named_auto nearClipDistance near_clip_distance
+                param_named_auto cFov fov
+				
+                param_named cSampleLengthScreenSpace float 1.8
+				param_named cOffsetScale float 0.001
+				param_named cDefaultAccessibility float 0.0
+				param_named cEdgeHighlight float 2.5
             }
-
-			texture_unit
-			{
-				content_type compositor DeferredShading/GBuffer mrt_output 1
-				tex_address_mode clamp
-				filtering none
-			}
-
-			texture_unit
-			{
-				content_type compositor DeferredShading/GBuffer mrt_output 3
-				tex_address_mode clamp
-				filtering none
-			}
 
             texture_unit
             {
-                texture rand1x32.png
+				content_type compositor DeferredShading/GBuffer mrt_output 1
                 tex_address_mode clamp
+                filtering none
+            }
+            
+            texture_unit
+            {
+                texture regularSphereJittered4.png
+                tex_address_mode wrap
                 filtering none
             }
         }
@@ -68,14 +70,14 @@ material PostProcess/Blur
 			{
 				tex_coord_set 0
 				tex_address_mode clamp
-				filtering trilinear
+                filtering none
 			}
  
 			texture_unit input
 			{
 				tex_coord_set 0
 				tex_address_mode clamp
-				filtering trilinear
+                filtering none
 			}
 		}
 	}
@@ -98,16 +100,14 @@ material PostProcess/Add
  
 			texture_unit scene
 			{
-				tex_coord_set 0
 				tex_address_mode clamp
-				filtering trilinear
+                filtering none
 			}
  
 			texture_unit input
 			{
-				tex_coord_set 0
 				tex_address_mode clamp
-				filtering trilinear
+                filtering none
 			}
 		}
 	}
@@ -130,16 +130,40 @@ material PostProcess/Mul
  
 			texture_unit scene
 			{
-				tex_coord_set 0
 				tex_address_mode clamp
-				filtering trilinear
+                filtering none
 			}
  
 			texture_unit input
 			{
-				tex_coord_set 0
 				tex_address_mode clamp
-				filtering trilinear
+                filtering none
+			}
+		}
+	}
+}
+
+material PostProcess/BoxFilter
+{
+	technique main
+	{
+		pass main
+		{			
+			depth_check off
+			vertex_program_ref VS_UVMap
+			{
+				param_named_auto projection		worldviewproj_matrix
+			}
+
+			fragment_program_ref PS_BoxFilter
+			{
+				param_named_auto size			viewport_size
+			}
+
+			texture_unit input
+			{
+				tex_address_mode clamp
+                filtering none
 			}
 		}
 	}

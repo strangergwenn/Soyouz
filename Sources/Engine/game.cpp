@@ -328,7 +328,6 @@ bool Game::setupSystem(const String desiredRenderer)
         renderSystem = *(rdrs.begin());
     }
     mRoot->setRenderSystem(renderSystem);
-	renderSystem->setConfigOption("FSAA", "8");
 	renderSystem->setConfigOption("Fixed Pipeline Enabled", "Yes");
 	renderSystem->setConfigOption("Full Screen", "No");
 	renderSystem->setConfigOption("RTT Preferred Mode", "FBO");
@@ -364,7 +363,7 @@ void Game::setupRender(bool bShowPostProcess)
 	// Engine settings
 	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
 	Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(Ogre::TFO_ANISOTROPIC);
-	Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(8);
+	Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(4);
 
 	// IO manager
 	mIOManager = new IOManager(mWindow, mPlayer, this);

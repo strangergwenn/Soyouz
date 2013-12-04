@@ -43,20 +43,24 @@ fragment_program PS_Mul glsl
 	}
 }
 
-// SSAO shader
-fragment_program PS_CreaseShading glsl
+// Box filter pixel shader
+fragment_program PS_BoxFilter glsl
 {
-    source PS_CreaseShading.glsl
+	source PS_BoxFilter.glsl
+	default_params
+	{
+		param_named input1			int 0
+	}
+}
+
+// SSAO shader
+fragment_program PS_SSAO glsl
+{
+    source PS_SSAO.glsl
 	
 	default_params
 	{
-		param_named sNormal int 0
-		param_named sPosition int 1
-		param_named sRandom int 2
-		param_named cMinimumCrease	float 0.1
-		param_named cBias			float 2.0
-		param_named cAverager		float 24
-		param_named cRange			float 4.0
-		param_named cKernelSize		float 2.0
+		param_named sSceneDepthSampler int 0
+		param_named sRotSampler4x4 int 1
 	}
 }

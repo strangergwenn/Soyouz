@@ -37,18 +37,19 @@ compositor DeferredShading/ShowLit
 	{
 		// Textures
 		texture_ref mrt_output DeferredShading/GBuffer mrt_output
-        texture main					target_width target_height PF_R8G8B8A8
-        texture ssao					target_width target_height PF_R8G8B8A8
-        texture main_ssao				target_width target_height PF_R8G8B8A8
-        texture glow					target_width target_height PF_R8G8B8A8
-        texture main_glow				target_width target_height PF_R8G8B8A8
-        texture transparency			target_width target_height PF_R8G8B8A8
-        texture transparency_glow		target_width target_height PF_R8G8B8A8
-        texture main_glow_transparency	target_width target_height PF_R8G8B8A8
+		texture main					target_width target_height PF_R8G8B8A8
+		texture ssao					target_width target_height PF_R8G8B8A8
+		texture ssao_filtered			target_width target_height PF_R8G8B8A8
+		texture main_ssao				target_width target_height PF_R8G8B8A8
+		texture glow					target_width target_height PF_R8G8B8A8
+		texture main_glow				target_width target_height PF_R8G8B8A8
+		texture transparency			target_width target_height PF_R8G8B8A8
+		texture transparency_glow		target_width target_height PF_R8G8B8A8
+		texture main_glow_transparency	target_width target_height PF_R8G8B8A8
 		
 		// Main target for rendering objects (GBuffer)
-        target main
-        {
+		target main
+		{
 			input none
 			shadows off
 			
@@ -73,68 +74,79 @@ compositor DeferredShading/ShowLit
 		// SSAO target (GBuffer)
 		target ssao
 		{
-            input none
+			input none
 
-            pass clear
-            {
-            }
+			pass clear
+			{
+			}
 
 			pass render_quad
 			{
 				material PostProcess/SSAO
 			}
 		}
+
+		// Filtered SSAO
+		target ssao_filtered
+		{
+			input none
+			pass render_quad
+			{
+				material PostProcess/BoxFilter
+				input 0 ssao
+			}
+		}
 		
 		// Main target with SSAO (GBuffer)
 		target main_ssao
 		{
-            input none
+			input none
 
-            pass render_quad
-            {
+			pass render_quad
+			{
 				material PostProcess/Mul
-                input 0 main
-                input 1 ssao
-            }
+				input 0 main
+				input 1 ssao_filtered
+			}
 		}
 		
 		// Glow rendering target for objects (GBuffer)
-        target glow
-        {
-            input none
+		target glow
+		{
+			input none
 
-            pass clear
-            {
-            }
+			pass clear
+			{
+			}
 			
 			pass render_quad
 			{
 				material DeferredShading/Post/ShowGlow
 			}
-        }
+		}
 		
 		// Main target with glow (GBuffer)
-        target main_glow
-        {
-            input none
+		target main_glow
+		{
+			input none
 
-            pass render_quad
-            {
+			pass render_quad
+			{
 				material PostProcess/Blur
-                input 0 main_ssao
-                input 1 glow
-            }
-        }
+				input 0 main_ssao
+				input 1 glow
+			}
+		}
 		
 		// Transparency pass (No GBuffer)
 		target transparency
 		{
-            input none
+			input none
 			material_scheme NoGBuffer
 
-            pass clear
-            {
-            }
+			pass clear
+			{
+			}
 			
 			pass render_scene
 			{
@@ -144,12 +156,12 @@ compositor DeferredShading/ShowLit
 		// Glowing transparency pass (No GBuffer)
 		target transparency_glow
 		{
-            input none
+			input none
 			material_scheme NoGBuffer_Glow
 
-            pass clear
-            {
-            }
+			pass clear
+			{
+			}
 			
 			pass render_scene
 			{
@@ -157,30 +169,30 @@ compositor DeferredShading/ShowLit
 		}
 		
 		// Main target with transparency pass (GBuffer + overlay)
-        target main_glow_transparency
-        {
-            input none
+		target main_glow_transparency
+		{
+			input none
 
-            pass render_quad
-            {
+			pass render_quad
+			{
 				material PostProcess/Add
-                input 0 main_glow
-                input 1 transparency
-            }
-        }
+				input 0 main_glow
+				input 1 transparency
+			}
+		}
 		
 		// Final output after glowing transparency pass (GBuffer + overlay)
-        target_output
-        {
-            input none
+		target_output
+		{
+			input none
 			
-            pass render_quad
-            {
+			pass render_quad
+			{
 				material PostProcess/Blur
-                input 0 main_glow_transparency
-                input 1 transparency_glow
-            }
-        }
+				input 0 main_glow_transparency
+				input 1 transparency_glow
+			}
+		}
 	}
 }
 
@@ -258,13 +270,30 @@ compositor DeferredShading/ShowSSAO
 	technique 
 	{
 		texture_ref mrt_output DeferredShading/GBuffer mrt_output
-		target_output
-        {
+		texture ssao target_width target_height PF_R8G8B8A8
+
+		target ssao
+		{
 			input none
+
+			pass clear
+			{
+			}
+
 			pass render_quad
 			{
 				material PostProcess/SSAO
 			}
-        }
+		}
+
+		target_output
+		{
+			input none
+			pass render_quad
+			{
+				material PostProcess/BoxFilter
+				input 0 ssao
+			}
+		}
 	}
 }

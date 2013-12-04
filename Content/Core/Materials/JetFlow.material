@@ -64,12 +64,14 @@ material JetFlow
 			{
 				texture_alias baseMap
 				texture white.png
+                filtering none
 			}
 
 			texture_unit
 			{
 				texture_alias panningMap
 				texture white.png
+                filtering none
 			}
 		}
 	}
