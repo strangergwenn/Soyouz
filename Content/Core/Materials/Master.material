@@ -27,7 +27,7 @@ material Master
 			texture_unit
 			{
 				texture_alias DiffuseMap
-				texture white.png
+				texture black.png
 			}
 			
 			texture_unit

@@ -16,6 +16,7 @@ MeshActor::MeshActor(Game* g, String name, String file)
 {
 	if (file.length() > 0)
 	{
+		prepareLoad(file);
 		mMesh = g->createGameEntity(name + "_mesh", file);
 		mMesh->setCastShadows(true);
 		mNode->attachObject(mMesh);
@@ -29,6 +30,7 @@ MeshActor::MeshActor(Game* g, String name, String file, String material)
 {
 	if (file.length() > 0)
 	{
+		prepareLoad(file);
 		mMesh = g->createGameEntity(name + "_mesh", file);
 		mMesh->setCastShadows(true);
 		mNode->attachObject(mMesh);
@@ -43,6 +45,7 @@ MeshActor::MeshActor(Game* g, String name, String file, String material, bool bC
 {
 	if (file.length() > 0)
 	{
+		prepareLoad(file);
 		mMesh = g->createGameEntity(name + "_mesh", file);
 		mMesh->setCastShadows(bCastShadows);
 		mNode->attachObject(mMesh);
@@ -55,11 +58,15 @@ MeshActor::MeshActor(Game* g, String name, String file, String material, bool bC
 MeshActor::MeshActor(Game* g, String name, String file, String material, bool bCastShadows, float mass)
 	: Actor(g, name)
 {
-	mMesh = g->createGameEntity(name + "_mesh", file);
-	mMesh->setCastShadows(bCastShadows);
-	mNode->attachObject(mMesh);
-	setMaterial(material);
-	generateCollisions(mass);
+	if (file.length() > 0)
+	{
+		prepareLoad(file);
+		mMesh = g->createGameEntity(name + "_mesh", file);
+		mMesh->setCastShadows(bCastShadows);
+		mNode->attachObject(mMesh);
+		setMaterial(material);
+		generateCollisions(mass);
+	}
 }
 
 
@@ -84,6 +91,17 @@ void MeshActor::tick(const Ogre::FrameEvent& evt)
 		mNode->setPosition(origin.getX(), origin.getY(), origin.getZ());
 	}
 	Actor::tick(evt);
+}
+
+
+void MeshActor::prepareLoad(Ogre::String name)
+{
+	unsigned short src, dest;
+	Ogre::MeshPtr pMesh = Ogre::MeshManager::getSingleton().load(name, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+	if (!pMesh->suggestTangentVectorBuildParams(Ogre::VES_TANGENT, src, dest))
+	{
+		pMesh->buildTangentVectors(Ogre::VES_TANGENT, src, dest);
+	}
 }
 
 

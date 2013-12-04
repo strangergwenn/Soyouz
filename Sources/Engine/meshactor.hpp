@@ -73,6 +73,13 @@ public:
 	 * @param evt			Frame event
 	 **/
 	virtual void tick(const Ogre::FrameEvent& evt);
+
+	/**
+	 * @brief Prepare mesh normals for loading
+	 * @param name			Mesh file
+	 **/
+	void prepareLoad(Ogre::String name);
+
 	/**
 	 * @brief Set the the actor location in the world
 	 * @param offset		Location vector
