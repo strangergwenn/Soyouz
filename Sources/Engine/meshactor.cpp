@@ -65,7 +65,6 @@ MeshActor::MeshActor(Game* g, String name, String file, String material, bool bC
 
 MeshActor::~MeshActor()
 {
-	Actor::~Actor();
 	mGame->unregisterRigidBody(mPhysBody);
 }
 

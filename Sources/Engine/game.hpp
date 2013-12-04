@@ -103,7 +103,7 @@ public:
 	 * @brief Remove a scene node
 	 * @param node				Node reference
 	 **/
-	void Game::deleteGameNode(Ogre::SceneNode* node);
+	void deleteGameNode(Ogre::SceneNode* node);
 	
 	/**
 	 * @brief Create en entity
