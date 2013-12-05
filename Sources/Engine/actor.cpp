@@ -23,8 +23,7 @@ Actor::Actor(Game* g, String name)
 
 Actor::~Actor()
 {
-	mGame->unregisterActor(this);
-	delete mNode;
+	mGame->deleteGameNode(mNode);
 }
 
 

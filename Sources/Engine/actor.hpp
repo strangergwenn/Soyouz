@@ -33,7 +33,7 @@ public:
 	/**
 	 * @brief Delete an actor
 	 **/
-	~Actor();
+	virtual ~Actor();
 	
 	/**
 	 * @brief Pre-tick event
