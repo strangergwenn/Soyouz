@@ -82,10 +82,20 @@ void Game::tick(const Ogre::FrameEvent& evt)
 
 	// Actor tick
 	for (Ogre::list<Actor*>::iterator it = mAllActors.begin(); it != mAllActors.end(); it++)
-    {
+	{
 		ref = *it;
-        ref->tick(evt);
-    }
+		ref->tick(evt);
+	}
+
+	// Actor garbage collector
+	Actor* previousItem = NULL;
+	for (Ogre::list<Actor*>::iterator it = mToRemoveActors.begin(); it != mToRemoveActors.end();it++)
+	{
+		deleteActor(previousItem);
+		previousItem = *it;
+	}
+	mToRemoveActors.clear();
+	deleteActor(previousItem);
 
 	// Debug physics
 	mPhysDrawer->step();
@@ -106,16 +116,16 @@ void Game::registerActor(Actor* ref)
 
 void Game::unregisterActor(Actor* ref)
 {
-	mAllActors.remove(ref);
+	mToRemoveActors.push_back(ref);
 }
-
 
 void Game::deleteActor(Actor* target)
 {
-	deleteGameNode(target->getNode());
-	delete[] target;
+	if(target != NULL) {
+		mAllActors.remove(target);
+		delete target;
+	}
 }
-
 
 Ogre::SceneNode* Game::createGameNode(String name)
 {

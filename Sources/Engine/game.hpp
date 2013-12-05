@@ -232,6 +232,7 @@ protected:
 	IOManager* mIOManager;
 
 	Ogre::list<Actor*>::type mAllActors;
+	Ogre::list<Actor*>::type mToRemoveActors;
 
 #ifdef OGRE_STATIC_LIB
 	StaticPluginLoader mStaticPluginLoader;

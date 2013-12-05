@@ -19,7 +19,7 @@ Bullet::Bullet(Game* g, String name, Weapon* parent, Vector3 location, Quaternio
 {
 	
 	mLifeTime = 0;
-	mTimeToLive = 10;
+	mTimeToLive = 8;
 	
 	// Customization
 	
@@ -32,14 +32,15 @@ Bullet::Bullet(Game* g, String name, Weapon* parent, Vector3 location, Quaternio
 	setSpeed(velocity);
 }
 
+Bullet::~Bullet() {
+}
 
 void Bullet::tick(const Ogre::FrameEvent& evt)
 {
 	mLifeTime += evt.timeSinceLastFrame;
 	
 	if(mLifeTime > mTimeToLive) {
-		// TODO make destroy
-		// delete this;
+		mGame->unregisterActor(this);
 	}
 }
 

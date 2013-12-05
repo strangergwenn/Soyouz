@@ -66,7 +66,7 @@ public:
 	/**
 	 * @brief Delete an actor
 	 **/
-	~MeshActor();
+	virtual ~MeshActor();
 	
 	/**
 	 * @brief Main tick event
