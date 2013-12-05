@@ -1,16 +1,8 @@
 
+#include "Engine/Rendering/renderer.hpp"
+
 #include "LightMaterialGenerator.h"
 
-#include "OgreStringConverter.h"
-#include "OgreException.h"
-#include "OgreMaterialManager.h"
-
-#include "OgrePass.h"
-#include "OgreTechnique.h"
-
-#include "OgreGpuProgramManager.h"
-#include "OgreHighLevelGpuProgram.h"
-#include "OgreHighLevelGpuProgramManager.h"
 
 #include "DLight.h"
 

@@ -6,7 +6,7 @@
 **/
 
 
-#include "Engine/DeferredShading/DeferredShading.h"
+#include "Engine/Rendering/renderer.hpp"
 #include "Engine/game.hpp"
 #include "Engine/actor.hpp"
 #include "Engine/player.hpp"
@@ -200,32 +200,32 @@ void Game::setDebugMode(int newStatus)
 	switch (newStatus)
 	{
 	case 0:
-		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWLIT);
+		SharedData::getSingleton().iSystem->setMode(Renderer::DSM_SHOWLIT);
 		break;
 
 	case 1:
-		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWCOLOUR);
+		SharedData::getSingleton().iSystem->setMode(Renderer::DSM_SHOWCOLOUR);
 		break;
 
 	case 2:
-		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWCOLOUR);
+		SharedData::getSingleton().iSystem->setMode(Renderer::DSM_SHOWCOLOUR);
 		mPhysDrawer->setDebugMode(1);
 		break;
 
 	case 3:
-		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWNORMALS);
+		SharedData::getSingleton().iSystem->setMode(Renderer::DSM_SHOWNORMALS);
 		break;
 
 	case 4:
-		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWDSP);
+		SharedData::getSingleton().iSystem->setMode(Renderer::DSM_SHOWDSP);
 		break;
 
 	case 5:
-		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWGLOW);
+		SharedData::getSingleton().iSystem->setMode(Renderer::DSM_SHOWGLOW);
 		break;
 
 	case 6:
-		SharedData::getSingleton().iSystem->setMode(DeferredShadingSystem::DSM_SHOWSSAO);
+		SharedData::getSingleton().iSystem->setMode(Renderer::DSM_SHOWSSAO);
 		break;
 
 	default:
@@ -360,14 +360,16 @@ void Game::setupRender(bool bShowPostProcess)
 	mScene->setAmbientLight(Ogre::ColourValue(0,0,0));
 	vp->setBackgroundColour(Ogre::ColourValue(0.1f, 0.1f, 0.1f));
 	
-	// Engine settings
-	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
-	Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(Ogre::TFO_ANISOTROPIC);
-	Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(4);
-
 	// IO manager
 	mIOManager = new IOManager(mWindow, mPlayer, this);
 	mRoot->addFrameListener(this);
+
+	// Deferred rendering setup
+	mRenderer = new Renderer(mWindow->getViewport(0), mScene, mPlayer->getCamera());
+	SharedData::getSingleton().iCamera = cam;
+	SharedData::getSingleton().iRoot = mRoot;
+	SharedData::getSingleton().iWindow = mWindow;
+	mRenderer->setMode(Renderer::DSM_SHOWLIT);
 }
 
 

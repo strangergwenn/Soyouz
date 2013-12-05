@@ -6,9 +6,9 @@
 **/
 
 #include "Engine/game.hpp"
+#include "Engine/Rendering/renderer.hpp"
 #include "Game/thruster.hpp"
 #include "Game/ship.hpp"
-#include "Engine/DeferredShading/DeferredShading.h"
 
 
 /*----------------------------------------------

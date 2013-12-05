@@ -2,7 +2,7 @@
 #ifndef H_WJ_DLight
 #define H_WJ_DLight
 
-#include "OgreSimpleRenderable.h"
+#include "Engine/Rendering/renderer.hpp"
 #include "MaterialGenerator.h"
 
 /** Deferred light geometry. Each instance matches a normal light.

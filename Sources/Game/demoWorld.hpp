@@ -8,7 +8,6 @@
 #ifndef __DEMOWORLD_H_
 #define __DEMOWORLD_H_
 
-#include "Engine/ogre.hpp"
 #include "Engine/game.hpp"
 #include "Engine/actor.hpp"
 #include "Engine/player.hpp"
@@ -16,7 +15,7 @@
 #include "Engine/lightactor.hpp"
 #include "Game/demoPlayer.hpp"
 
-#include "Engine/DeferredShading/DeferredShading.h"
+#include "Engine/Rendering/renderer.hpp"
 
 
 /*----------------------------------------------
@@ -51,20 +50,6 @@ class DemoWorld : public Game
 		mSceneNode2->attachObject(mEntity2);
 		mSceneNode2->setPosition(Vector3(-128, -64, -64));
 		
-		// Deferred renderer
-		DeferredShadingSystem* mSystem = new DeferredShadingSystem(mWindow->getViewport(0), mScene, mPlayer->getCamera());
-		new SharedData();
-		SharedData::getSingleton().iSystem = mSystem;
-		mSystem->initialize();
-        
-		// Settings
-		SharedData::getSingleton().iCamera = mPlayer->getCamera();
-		SharedData::getSingleton().iRoot = mRoot;
-		SharedData::getSingleton().iWindow = mWindow;
-		SharedData::getSingleton().iActivate = true;
-		SharedData::getSingleton().iGlobalActivate = true;
-		SharedData::getSingleton().iSystem->setActive(true);
-
 		// Light
 		Ogre::Light* l1 = mScene->createLight();
         l1->setType(Ogre::Light::LT_DIRECTIONAL);

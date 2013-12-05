@@ -3,7 +3,7 @@
 #define H_WJ_MaterialGenerator
 
 
-#include "Engine/ogre.hpp"
+#include "Engine/Rendering/renderer.hpp"
 
 class MaterialGenerator
 {

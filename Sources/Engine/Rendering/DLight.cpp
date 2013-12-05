@@ -1,14 +1,8 @@
 
 #include "DLight.h"
 
-#include "OgreHardwareBufferManager.h"
-#include "OgreCamera.h"
-#include "OgreSceneNode.h"
-#include "OgreLight.h"
 #include "GeomUtils.h"
 #include "LightMaterialGenerator.h"
-#include "OgreTechnique.h"
-#include "OgreSceneManager.h"
 
 #define ENABLE_BIT(mask, flag) (mask) |= (flag)
 #define DISABLE_BIT(mask, flag) (mask) &= ~(flag)

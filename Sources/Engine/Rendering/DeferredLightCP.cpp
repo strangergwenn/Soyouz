@@ -1,7 +1,7 @@
 
 #include "DeferredLightCP.h"
 
-#include "Ogre.h"
+#include "Engine/Rendering/renderer.hpp"
 using namespace Ogre;
 
 #include "LightMaterialGenerator.h"

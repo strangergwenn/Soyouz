@@ -1,9 +1,8 @@
 
 #include "AmbientLight.h"
 #include "GeomUtils.h"
-#include "OgreMaterialManager.h"
-#include "OgreRoot.h"
-#include "OgreRenderSystem.h"
+
+#include "Engine/Rendering/renderer.hpp"
 
 using namespace Ogre;
 

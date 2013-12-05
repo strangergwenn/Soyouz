@@ -9,7 +9,7 @@
 #ifndef __GAME_H_
 #define __GAME_H_
 
-#include "Engine/ogre.hpp"
+#include "Engine/Rendering/renderer.hpp"
 #include "Engine/bulletphysics.hpp"
 #include "Engine/iomanager.hpp"
 
@@ -227,6 +227,7 @@ protected:
 	btSequentialImpulseConstraintSolver* mPhysSequentialImpulseConstraintSolver;
 
 	// Custom data
+	Renderer* mRenderer;
 	Player* mPlayer;
 	IOManager* mIOManager;
 

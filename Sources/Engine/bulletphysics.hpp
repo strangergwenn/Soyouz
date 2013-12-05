@@ -11,7 +11,7 @@
 
 #include "btBulletDynamicsCommon.h"
 #include "BulletCollision/CollisionShapes/btShapeHull.h"
-#include "Engine/ogre.hpp"
+#include "Engine/Rendering/renderer.hpp"
 #include "Engine/gametypes.hpp"
 
 

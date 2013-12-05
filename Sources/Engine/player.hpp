@@ -8,7 +8,7 @@
 #ifndef __PLAYER_H_
 #define __PLAYER_H_
 
-#include "Engine/ogre.hpp"
+#include "Engine/Rendering/renderer.hpp"
 #include "Engine/game.hpp"
 #include "Engine/actor.hpp"
 

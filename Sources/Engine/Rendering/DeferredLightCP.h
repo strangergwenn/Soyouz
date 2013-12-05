@@ -2,7 +2,7 @@
 #ifndef _DEFERRED_LIGHT_CP_H
 #define _DEFERRED_LIGHT_CP_H
 
-#include "OgreCompositorInstance.h"
+#include "Engine/Rendering/renderer.hpp"
 #include "OgreCustomCompositionPass.h"
 
 #include "DLight.h"

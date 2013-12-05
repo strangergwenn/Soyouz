@@ -2,7 +2,7 @@
 #ifndef _AMBIENTLIGHT_H
 #define _AMBIENTLIGHT_H
 
-#include "OgreSimpleRenderable.h"
+#include "Engine/Rendering/renderer.hpp"
 
 class AmbientLight : public Ogre::SimpleRenderable
 

@@ -1,24 +1,6 @@
 
 
-#include "DeferredShading.h"
-
-#include "OgreConfigFile.h"
-#include "OgreStringConverter.h"
-#include "OgreException.h"
-
-#include "OgreRoot.h"
-#include "OgreRenderSystem.h"
-
-#include "OgreEntity.h"
-#include "OgreSubEntity.h"
-#include "OgreRoot.h"
-
-#include "OgreCompositor.h"
-#include "OgreCompositorManager.h"
-#include "OgreCompositorChain.h"
-#include "OgreCompositorInstance.h"
-
-#include "OgreLogManager.h"
+#include "Engine/Rendering/renderer.hpp"
 
 #include "DeferredLightCP.h"
 
@@ -30,39 +12,44 @@ namespace Ogre
 
 using namespace Ogre;
 
-const Ogre::uint8 DeferredShadingSystem::PRE_GBUFFER_RENDER_QUEUE = Ogre::RENDER_QUEUE_1;
-const Ogre::uint8 DeferredShadingSystem::POST_GBUFFER_RENDER_QUEUE = Ogre::RENDER_QUEUE_8;
+const Ogre::uint8 Renderer::PRE_GBUFFER_RENDER_QUEUE = Ogre::RENDER_QUEUE_1;
+const Ogre::uint8 Renderer::POST_GBUFFER_RENDER_QUEUE = Ogre::RENDER_QUEUE_8;
 
-DeferredShadingSystem::DeferredShadingSystem(
+Renderer::Renderer(
 		Viewport *vp, SceneManager *sm,  Camera *cam
 	):
 	mViewport(vp), mSceneMgr(sm), mCamera(cam)
 {
+	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
+	Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(Ogre::TFO_ANISOTROPIC);
+	Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(4);
+	
+	sm->setShadowTextureCount(1);
+	sm->setShadowFarDistance(200);
+	sm->setShadowDirectionalLightExtrusionDistance(200);
 	sm->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE);
+	sm->setShadowTextureConfig(0, 512, 512, PF_FLOAT16_R, 2 );
 	sm->setShadowTextureCasterMaterial("DeferredShading/Shadows/Caster");
-	mSceneMgr->setShadowTextureCount(1);
-	mSceneMgr->setShadowFarDistance(200);
-	mSceneMgr->setShadowTextureConfig(0, 512, 512, PF_FLOAT16_R, 2 );
-	mSceneMgr->setShadowDirectionalLightExtrusionDistance(200);
-}
+	
+	new SharedData();
+	SharedData::getSingleton().iSystem = this;
 
-void DeferredShadingSystem::initialize()
-{
-	for(int i=0; i<DSM_COUNT; ++i)
+	for(int i=0; i<DSM_NONE; ++i)
 		mInstance[i]=0;
 
 	createResources();
-	
-	mActive = false;
-	
-	mCurrentMode = DSM_SHOWLIT;
-	setActive(true);
+		
+	mCurrentMode = DSM_NONE;
+
+	mGBufferInstance->setEnabled(true);
+	setMode(mCurrentMode);
 }
 
-DeferredShadingSystem::~DeferredShadingSystem()
+
+Renderer::~Renderer()
 {
 	CompositorChain *chain = CompositorManager::getSingleton().getCompositorChain(mViewport);
-	for(int i=0; i<DSM_COUNT; ++i)
+	for(int i=0; i<DSM_NONE; ++i)
 		chain->_removeInstance(mInstance[i]);
 	CompositorManager::getSingleton().removeCompositorChain(mViewport);
 
@@ -78,18 +65,18 @@ DeferredShadingSystem::~DeferredShadingSystem()
 	mCompositorLogics.clear();
 }
 
-void DeferredShadingSystem::setMode(DSMode mode)
+void Renderer::setMode(DSMode mode)
 {
-	assert( 0 <= mode && mode < DSM_COUNT);
+	assert( 0 <= mode && mode <= DSM_NONE);
 
-	if (mCurrentMode == mode && mInstance[mode]->getEnabled()==mActive)
+	if (mCurrentMode == mode)
 		return;
 
-	for(int i=0; i<DSM_COUNT; ++i)
+	for(int i=0; i<DSM_NONE; ++i)
 	{
 		if(i == mode)
 		{
-			mInstance[i]->setEnabled(mActive);
+			mInstance[i]->setEnabled(true);
 		}
 		else
 		{
@@ -100,22 +87,8 @@ void DeferredShadingSystem::setMode(DSMode mode)
 	mCurrentMode = mode;
 }
 
-void DeferredShadingSystem::setActive(bool active)
-{
-	if (mActive != active)
-	{
-		mActive = active;
-		mGBufferInstance->setEnabled(active);
-		setMode(mCurrentMode);
-	}
-}
 
-DeferredShadingSystem::DSMode DeferredShadingSystem::getMode(void) const
-{
-	return mCurrentMode;
-}
-
-void DeferredShadingSystem::createResources(void)
+void Renderer::createResources(void)
 {
 	CompositorManager &compMan = CompositorManager::getSingleton();
 
