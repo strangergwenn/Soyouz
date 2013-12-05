@@ -29,7 +29,7 @@ Renderer::Renderer(
 	sm->setShadowDirectionalLightExtrusionDistance(200);
 	sm->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE);
 	sm->setShadowTextureConfig(0, 512, 512, PF_FLOAT16_R, 2 );
-	sm->setShadowTextureCasterMaterial("DeferredShading/Shadows/Caster");
+	sm->setShadowTextureCasterMaterial("Render/ShadowCaster");
 	
 	new SharedData();
 	SharedData::getSingleton().iSystem = this;

@@ -4,7 +4,7 @@
 #include "Engine/Rendering/renderer.hpp"
 using namespace Ogre;
 
-#include "LightMaterialGenerator.h"
+#include "MaterialGenerator.h"
 
 //-----------------------------------------------------------------------
 DeferredLightRenderOperation::DeferredLightRenderOperation(

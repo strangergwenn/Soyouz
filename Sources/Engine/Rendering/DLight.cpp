@@ -2,7 +2,7 @@
 #include "DLight.h"
 
 #include "GeomUtils.h"
-#include "LightMaterialGenerator.h"
+#include "MaterialGenerator.h"
 
 #define ENABLE_BIT(mask, flag) (mask) |= (flag)
 #define DISABLE_BIT(mask, flag) (mask) &= ~(flag)

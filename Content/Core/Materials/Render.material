@@ -5,7 +5,7 @@
 // @author Gwennaël ARBONA
 //
 
-material DeferredShading/AmbientLight
+material Render/AmbientLight
 {
     technique
     {
@@ -39,7 +39,24 @@ material DeferredShading/AmbientLight
 	}
 }
 
-material DeferredShading/Post/ShowColour
+material Render/ShadowCaster
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref VS_ShadowCaster
+			{
+			}
+
+			fragment_program_ref PS_ShadowCaster
+			{
+			}
+		}
+	}
+}
+
+material Render/ShowColour
 {
     technique
     {
@@ -64,7 +81,7 @@ material DeferredShading/Post/ShowColour
 	}
 }
 
-material DeferredShading/Post/ShowNormal
+material Render/ShowNormal
 {
     technique
     {
@@ -89,7 +106,7 @@ material DeferredShading/Post/ShowNormal
 	}
 }
 
-material DeferredShading/Post/ShowDS
+material Render/ShowDS
 {
     technique
     {
@@ -120,7 +137,7 @@ material DeferredShading/Post/ShowDS
 	}
 }
 
-material DeferredShading/Post/ShowGlow
+material Render/ShowGlow
 {
     technique
     {
@@ -141,6 +158,70 @@ material DeferredShading/Post/ShowGlow
 				tex_address_mode clamp
 				filtering none
 			}
+		}
+	}
+}
+
+// Geometry light
+material Light/Geometry
+{
+	technique DeferredTechnique
+	{
+		pass DeferredPass
+		{
+			scene_blend add
+			depth_write off
+			depth_check on
+			lighting off
+			
+			texture_unit GBuffer1
+			{
+				content_type compositor DeferredShading/GBuffer mrt_output 0
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit GBuffer2
+			{
+				content_type compositor DeferredShading/GBuffer mrt_output 1
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material Light/GeometryShadow : Light/Geometry
+{
+	technique DeferredTechnique
+	{
+		pass DeferredPass
+		{
+			texture_unit ShadowMap
+			{
+				content_type shadow
+			}
+		}
+	}
+}
+
+material Light/Quad : Light/Geometry
+{
+    technique DeferredTechnique
+    {
+		pass DeferredPass
+		{
+			depth_check off
+		}
+	}
+}
+
+material Light/QuadShadow : Light/GeometryShadow
+{
+    technique DeferredTechnique
+    {
+		pass DeferredPass
+		{
+			depth_check off
 		}
 	}
 }

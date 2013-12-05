@@ -84,8 +84,7 @@ public:
 	SharedData()
 		: iRoot(0),
 			iCamera(0),
-			iWindow(0),
-			iMainLight(0)
+			iWindow(0)
 	{
 	}
 
@@ -97,7 +96,6 @@ public:
 	Ogre::RenderWindow *iWindow;
 
 	Renderer *iSystem;
-	Ogre::Light *iMainLight;
 	Ogre::vector<Ogre::Node*>::type mLightNodes;
 
 };

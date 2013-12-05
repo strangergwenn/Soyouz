@@ -6,10 +6,10 @@
 //
 
 //-----------------------------------------------
-//	Master shaders
+//	Content shaders
 //-----------------------------------------------
 
-// Basic pixel shader
+// Standard pixel shader
 fragment_program PS_Master glsl
 {
 	source PS_Master.glsl
@@ -23,24 +23,7 @@ fragment_program PS_Master glsl
 	}
 }
 
-// Main vertex shader
-vertex_program VS_Master glsl
-{
-	source VS_Master.glsl
-}
-
-// Basic vertex shader
-vertex_program VS_UVMap glsl
-{
-	source VS_UVMap.glsl
-}
-
-
-//-----------------------------------------------
-//	Jet shader
-//-----------------------------------------------
-
-// Emissive pixel shader
+// Jet exhaust pixel shader
 fragment_program PS_JetFlow glsl
 {
 	source PS_JetFlow.glsl

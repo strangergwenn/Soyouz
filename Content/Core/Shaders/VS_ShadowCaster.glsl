@@ -18,51 +18,18 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTIO
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,OUT OF OR IN CONNECTION WITH THE 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ******************************************************************************/
-/** Deferred shading framework
-	// W.J. :wumpus: van der Laan 2005 //
-	
-	Post shader: Multipass, ambient (base) pass
-*/
 
-//GL and DX expect a different value
-arbfp1 float finalDepth(float4 p)
+#version 150
+
+in vec4 vertex;
+    
+out vec3 oViewPos;
+   
+uniform mat4 cWorldViewProj;
+uniform mat4 cWorldView;
+
+void main()
 {
-    // GL needs it in [0..1]
-    return (p.z / p.w) * 0.5 + 0.5;
-}
-
-float finalDepth(float4 p)
-{
-    // normally it's in [-1..1]
-    return p.z / p.w;
-}
-
-void main(
-	float2 texCoord: TEXCOORD0, 
-	float3 ray : TEXCOORD1,
-	
-	out float4 oColour : COLOR,
-	out float oDepth : DEPTH,
-	
-	uniform sampler Tex0: register(s0),
-	uniform sampler Tex1: register(s1),
-	uniform float4x4 proj,
-	uniform float4 ambientColor,
-	uniform float3 farCorner,
-	uniform float farClipDistance
-	)
-{
-	float4 a0 = tex2D(Tex0, texCoord); // Attribute 0: Diffuse color+shininess
-	float4 a1 = tex2D(Tex1, texCoord); // Attribute 1: Normal+depth
-
-	// Clip fragment if depth is too close, so the skybox can be rendered on the background
-	clip(a1.w-0.0001);
-
-	// Calculate ambient colour of fragment
-	oColour = float4( ambientColor*float4(a0.rgb ,0));
-
-	// Calculate depth of fragment;
-	float3 viewPos = normalize(ray) * farClipDistance * a1.w;
-	float4 projPos = mul( proj, float4(viewPos, 1) );
-	oDepth = finalDepth(projPos);
+    gl_Position = cWorldViewProj * vertex;
+    oViewPos = (cWorldView * vertex).xyz;
 }

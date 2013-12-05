@@ -316,7 +316,6 @@
     <ClCompile Include="Sources\Engine\Rendering\renderer.cpp" />
     <ClCompile Include="Sources\Engine\Rendering\DLight.cpp" />
     <ClCompile Include="Sources\Engine\Rendering\GeomUtils.cpp" />
-    <ClCompile Include="Sources\Engine\Rendering\LightMaterialGenerator.cpp" />
     <ClCompile Include="Sources\Engine\Rendering\MaterialGenerator.cpp" />
     <ClCompile Include="Sources\Engine\lightactor.cpp" />
     <ClCompile Include="Sources\Engine\meshactor.cpp" />
@@ -631,7 +630,6 @@
     <ClInclude Include="Sources\Engine\Rendering\DeferredLightCP.h" />
     <ClInclude Include="Sources\Engine\Rendering\DLight.h" />
     <ClInclude Include="Sources\Engine\Rendering\GeomUtils.h" />
-    <ClInclude Include="Sources\Engine\Rendering\LightMaterialGenerator.h" />
     <ClInclude Include="Sources\Engine\Rendering\MaterialGenerator.h" />
     <ClInclude Include="Sources\Engine\gametypes.hpp" />
     <ClInclude Include="Sources\Engine\meshactor.hpp" />

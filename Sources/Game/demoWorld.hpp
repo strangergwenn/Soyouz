@@ -57,10 +57,7 @@ class DemoWorld : public Game
 		l1->setDirection(1, -0.5f, -0.2f);
 		l1->setShadowFarClipDistance(500);
 		l1->setShadowFarDistance(500);
-		l1->setCastShadows(false);
-
-		SharedData::getSingleton().iMainLight = l1;
-		SharedData::getSingleton().iMainLight->setVisible(true);
+		l1->setCastShadows(true);
 	}
 
 	void destruct(){}

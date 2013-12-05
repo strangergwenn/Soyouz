@@ -18,37 +18,17 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTIO
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,OUT OF OR IN CONNECTION WITH THE 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ******************************************************************************/
-/** Deferred shading framework
-	// W.J. :wumpus: van der Laan 2005 //
-	
-	Post shader: Generic fullscreen quad
-*/
-void main(
-	float4 Pos: POSITION,
-	
-	out float4 oPos: POSITION,
-	out float2 oTexCoord: TEXCOORD0,
-	
-	out float3 oRay : TEXCOORD1,
-	
-	uniform float3 farCorner,
-	uniform float flip
-	)
+
+#version 150
+
+in vec3 oViewPos;
+    
+out vec4 oColor;
+    
+uniform float cFarDistance;
+
+void main()
 {
-	// Clean up inaccuracies
-	Pos.xy = sign(Pos.xy);
-	
-	oPos = float4(Pos.xy, 0, 1);
-	oPos.y *= flip;
-	
-	// Image-space
-	oTexCoord.x = 0.5 * (1 + Pos.x);
-	oTexCoord.y = 0.5 * (1 - Pos.y);
-
-	// This ray will be interpolated and will be the ray from the camera
-	// to the far clip plane, per pixel
-	oRay = farCorner * float3(Pos.xy, 1);
+    float depth = length(oViewPos) / cFarDistance;
+    oColor = vec4(depth, depth, depth, 1.0);
 }
-
-
-

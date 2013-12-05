@@ -32,7 +32,6 @@ compositor DeferredShading/GBuffer
 //Postfilter lighting the scene using the GBuffer
 compositor DeferredShading/ShowLit
 {
-
 	technique
 	{
 		// Textures
@@ -121,7 +120,7 @@ compositor DeferredShading/ShowLit
 			
 			pass render_quad
 			{
-				material DeferredShading/Post/ShowGlow
+				material Render/ShowGlow
 			}
 		}
 		
@@ -207,7 +206,7 @@ compositor DeferredShading/ShowColour
 			input none
 			pass render_quad
 			{
-				material DeferredShading/Post/ShowColour
+				material Render/ShowColour
 			}
         }
 	}
@@ -224,7 +223,7 @@ compositor DeferredShading/ShowGlow
 			input none
 			pass render_quad
 			{
-				material DeferredShading/Post/ShowGlow
+				material Render/ShowGlow
 			}
         }
 	}
@@ -241,7 +240,7 @@ compositor DeferredShading/ShowNormals
 			input none
 			pass render_quad
 			{
-				material DeferredShading/Post/ShowNormal
+				material Render/ShowNormal
 			}
         }
 	}
@@ -258,7 +257,7 @@ compositor DeferredShading/ShowDepthSpecular
 			input none
 			pass render_quad
 			{
-				material DeferredShading/Post/ShowDS
+				material Render/ShowDS
 			}
         }
 	}
