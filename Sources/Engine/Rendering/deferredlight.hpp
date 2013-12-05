@@ -1,19 +1,19 @@
 
-#ifndef H_WJ_DLight
-#define H_WJ_DLight
+#ifndef H_WJ_DEFERREDLIGHT
+#define H_WJ_DEFERREDLIGHT
 
 #include "Engine/Rendering/renderer.hpp"
-#include "MaterialGenerator.h"
+#include "Engine/Rendering/lightmaterial.hpp"
 
 /** Deferred light geometry. Each instance matches a normal light.
 	Should not be created by the user.
 	XXX support other types of light other than point lights.
  */
-class DLight: public Ogre::SimpleRenderable
+class DeferredLight: public Ogre::SimpleRenderable
 {
 public:
-	DLight(MaterialGenerator *gen, Ogre::Light* parentLight);
-	~DLight();
+	DeferredLight(MaterialGenerator *gen, Ogre::Light* parentLight);
+	~DeferredLight();
 
 	/** Update the information from the light that matches this one 
 	 */
@@ -65,7 +65,7 @@ protected:
 	 */
 	void setSpecularColour(const Ogre::ColourValue &col);
 
-	/// The light that this DLight renders
+	/// The light that this DeferredLight renders
 	Ogre::Light* mParentLight;
 	/// Mode to ignore world orientation/position
 	bool bIgnoreWorld;

@@ -14,21 +14,9 @@ same license as the rest of the engine.
 
 
 #include "Engine/Rendering/renderer.hpp"
+#include "Engine/Rendering/deferredlight.hpp"
+#include "Engine/Rendering/lightmaterial.hpp"
 
-
-#include "DLight.h"
-
-
-#include "MaterialGenerator.h"
-
-#include "OgreStringConverter.h"
-#include "OgreException.h"
-
-#include "OgrePass.h"
-#include "OgreTechnique.h"
-
-#include "OgreHighLevelGpuProgram.h"
-#include "OgreHighLevelGpuProgramManager.h"
 
 using namespace Ogre;
 

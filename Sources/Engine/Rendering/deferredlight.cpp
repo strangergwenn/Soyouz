@@ -1,15 +1,15 @@
 
-#include "DLight.h"
 
-#include "GeomUtils.h"
-#include "MaterialGenerator.h"
+#include "Engine/Rendering/deferredlight.hpp"
+#include "Engine/Rendering/geometry.hpp"
+
 
 #define ENABLE_BIT(mask, flag) (mask) |= (flag)
 #define DISABLE_BIT(mask, flag) (mask) &= ~(flag)
 
 using namespace Ogre;
 //-----------------------------------------------------------------------
-DLight::DLight(MaterialGenerator *sys, Ogre::Light* parentLight):
+DeferredLight::DeferredLight(MaterialGenerator *sys, Ogre::Light* parentLight):
     mParentLight(parentLight), bIgnoreWorld(false), mGenerator(sys), mPermutation(0)
 {
 	// Set up geometry
@@ -22,14 +22,14 @@ DLight::DLight(MaterialGenerator *sys, Ogre::Light* parentLight):
 	updateFromParent();
 }
 //-----------------------------------------------------------------------
-DLight::~DLight()
+DeferredLight::~DeferredLight()
 {
 	// need to release IndexData and vertexData created for renderable
     delete mRenderOp.indexData;
     delete mRenderOp.vertexData;
 }
 //-----------------------------------------------------------------------
-void DLight::setAttenuation(float c, float b, float a)
+void DeferredLight::setAttenuation(float c, float b, float a)
 {
 	// Set Attenuation parameter to shader
 	//setCustomParameter(3, Vector4(c, b, a, 0));
@@ -59,7 +59,7 @@ void DLight::setAttenuation(float c, float b, float a)
 	rebuildGeometry(outerRadius);
 }
 //-----------------------------------------------------------------------
-void DLight::setSpecularColour(const ColourValue &col)
+void DeferredLight::setSpecularColour(const ColourValue &col)
 {
 	//setCustomParameter(2, Vector4(col.r, col.g, col.b, col.a));
 	/// There is a specular component? Set material accordingly
@@ -71,7 +71,7 @@ void DLight::setSpecularColour(const ColourValue &col)
 		
 }
 //-----------------------------------------------------------------------
-void DLight::rebuildGeometry(float radius)
+void DeferredLight::rebuildGeometry(float radius)
 {
 	//Disable all 3 bits
 	DISABLE_BIT(mPermutation, LightMaterialGenerator::MI_POINT);
@@ -99,9 +99,9 @@ void DLight::rebuildGeometry(float radius)
 	}	
 }
 //-----------------------------------------------------------------------
-void DLight::createRectangle2D()
+void DeferredLight::createRectangle2D()
 {
-	/// XXX this RenderOp should really be re-used between DLight objects,
+	/// XXX this RenderOp should really be re-used between DeferredLight objects,
 	/// not generated every time
 	delete mRenderOp.vertexData; 
 	delete mRenderOp.indexData; 
@@ -120,7 +120,7 @@ void DLight::createRectangle2D()
 	bIgnoreWorld = true;
 }
 //-----------------------------------------------------------------------
-void DLight::createSphere(float radius, int nRings, int nSegments)
+void DeferredLight::createSphere(float radius, int nRings, int nSegments)
 {
 	delete mRenderOp.vertexData; 
 	delete mRenderOp.indexData;
@@ -142,7 +142,7 @@ void DLight::createSphere(float radius, int nRings, int nSegments)
 	bIgnoreWorld = false;
 }
 //-----------------------------------------------------------------------
-void DLight::createCone(float radius, float height, int nVerticesInBase)
+void DeferredLight::createCone(float radius, float height, int nVerticesInBase)
 {
 	delete mRenderOp.vertexData;
 	delete mRenderOp.indexData;
@@ -164,12 +164,12 @@ void DLight::createCone(float radius, float height, int nVerticesInBase)
 	bIgnoreWorld = false;
 }
 //-----------------------------------------------------------------------
-Real DLight::getBoundingRadius(void) const
+Real DeferredLight::getBoundingRadius(void) const
 {
 	return mRadius;
 }
 //-----------------------------------------------------------------------
-Real DLight::getSquaredViewDepth(const Camera* cam) const
+Real DeferredLight::getSquaredViewDepth(const Camera* cam) const
 {
 	if(bIgnoreWorld)
 	{
@@ -182,12 +182,12 @@ Real DLight::getSquaredViewDepth(const Camera* cam) const
 	}
 }
 //-----------------------------------------------------------------------
-const MaterialPtr& DLight::getMaterial(void) const
+const MaterialPtr& DeferredLight::getMaterial(void) const
 {
 	return mGenerator->getMaterial(mPermutation);
 }
 //-----------------------------------------------------------------------
-void DLight::getWorldTransforms(Matrix4* xform) const
+void DeferredLight::getWorldTransforms(Matrix4* xform) const
 {
 	if (mParentLight->getType() == Light::LT_SPOTLIGHT)
 	{
@@ -203,7 +203,7 @@ void DLight::getWorldTransforms(Matrix4* xform) const
 	
 }
 //-----------------------------------------------------------------------
-void DLight::updateFromParent()
+void DeferredLight::updateFromParent()
 {
 	//TODO : Don't do this unless something changed
 	setAttenuation(mParentLight->getAttenuationConstant(), 
@@ -220,7 +220,7 @@ void DLight::updateFromParent()
 	}
 }
 //-----------------------------------------------------------------------
-bool DLight::isCameraInsideLight(Ogre::Camera* camera)
+bool DeferredLight::isCameraInsideLight(Ogre::Camera* camera)
 {
 	switch (mParentLight->getType())
 	{
@@ -257,7 +257,7 @@ bool DLight::isCameraInsideLight(Ogre::Camera* camera)
 	}
 }
 //-----------------------------------------------------------------------
-bool DLight::getCastChadows() const
+bool DeferredLight::getCastChadows() const
 {
 	return 
 		mParentLight->_getManager()->isShadowTechniqueInUse() &&
@@ -265,7 +265,7 @@ bool DLight::getCastChadows() const
 		(mParentLight->getType() == Light::LT_DIRECTIONAL || mParentLight->getType() == Light::LT_SPOTLIGHT);
 }
 //-----------------------------------------------------------------------
-void DLight::updateFromCamera(Ogre::Camera* camera)
+void DeferredLight::updateFromCamera(Ogre::Camera* camera)
 {
 	//Set shader params
 	const Ogre::MaterialPtr& mat = getMaterial();

@@ -5,13 +5,9 @@
 * @author Gwennaël ARBONA
 **/
 
-#ifndef __OGREINC_H
-#define __OGREINC_H
+#ifndef __RENDERER_H
+#define __RENDERER_H
 
-
-/*----------------------------------------------
-	Definitions and includes
-----------------------------------------------*/
 
 #include "Ogre.h"
 #include "OgreException.h"
@@ -33,10 +29,9 @@
 
 class Renderer : public Ogre::RenderTargetListener
 {
-public:
-	Renderer(Ogre::Viewport *vp, Ogre::SceneManager *sm, Ogre::Camera *cam);
-	~Renderer();
 
+public:
+	
 	enum DSMode
 	{
 		DSM_SHOWLIT = 0,     // The deferred shading mode
@@ -47,58 +42,41 @@ public:
 		DSM_SHOWSSAO = 5,    // Show SSAO
 		DSM_NONE = 6		 // None
 	};
-
-	static const Ogre::uint8 PRE_GBUFFER_RENDER_QUEUE;
-	static const Ogre::uint8 POST_GBUFFER_RENDER_QUEUE;
-
-	void initialize();
-
+	
+	/**
+	 * @brief Renderer constructor
+	 * @param vp				Viewport
+	 * @param sm				Scene manager
+	 **/
+	Renderer(Ogre::Viewport* vp, Ogre::SceneManager* sm);
+	
+	/**
+	 * @brief Renderer destructor
+	 **/
+	~Renderer();
+	
+	/**
+	 * @brief Set the current compositor mode
+	 * @param mode				New rendering mode
+	 **/
 	void setMode(DSMode mode);
 
 	
 protected:
-	Ogre::Viewport *mViewport;
-	Ogre::SceneManager *mSceneMgr;
-	Ogre::Camera *mCamera;
 	
-	Ogre::CompositorInstance *mGBufferInstance;
-	Ogre::CompositorInstance *mInstance[DSM_NONE];
+	// Scene data
+	Ogre::Viewport* mViewport;
+	Ogre::SceneManager* mScene;
+	Ogre::CompositorInstance* mInstance[DSM_NONE];
 
+	// Current view mode
 	DSMode mCurrentMode;
 
+	// Compositor map
 	typedef Ogre::map<Ogre::String, Ogre::CompositorLogic*>::type CompositorLogicMap;
 	CompositorLogicMap mCompositorLogics;
 
-	void createResources();
 };
 
 
-/*----------------------------------------------
-	Shared data
-----------------------------------------------*/
-
-class SharedData : public Ogre::Singleton<SharedData>
-{
-public:
-
-	SharedData()
-		: iRoot(0),
-			iCamera(0),
-			iWindow(0)
-	{
-	}
-
-	~SharedData() {}
-
-	Ogre::Real iLastFrameTime;
-	Ogre::Root *iRoot;
-	Ogre::Camera *iCamera;
-	Ogre::RenderWindow *iWindow;
-
-	Renderer *iSystem;
-	Ogre::vector<Ogre::Node*>::type mLightNodes;
-
-};
-
-
-#endif /* __OGREINC_H */
+#endif /* __RENDERER_H */

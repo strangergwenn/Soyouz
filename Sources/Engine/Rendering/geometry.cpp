@@ -13,9 +13,9 @@ same license as the rest of the engine.
 */
 
 
-#include "GeomUtils.h"
 
 #include "Engine/Rendering/renderer.hpp"
+#include "Engine/Rendering/geometry.hpp"
 
 using namespace Ogre;
 

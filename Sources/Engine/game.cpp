@@ -200,32 +200,32 @@ void Game::setDebugMode(int newStatus)
 	switch (newStatus)
 	{
 	case 0:
-		SharedData::getSingleton().iSystem->setMode(Renderer::DSM_SHOWLIT);
+		mRenderer->setMode(Renderer::DSM_SHOWLIT);
 		break;
 
 	case 1:
-		SharedData::getSingleton().iSystem->setMode(Renderer::DSM_SHOWCOLOUR);
+		mRenderer->setMode(Renderer::DSM_SHOWCOLOUR);
 		break;
 
 	case 2:
-		SharedData::getSingleton().iSystem->setMode(Renderer::DSM_SHOWCOLOUR);
+		mRenderer->setMode(Renderer::DSM_SHOWCOLOUR);
 		mPhysDrawer->setDebugMode(1);
 		break;
 
 	case 3:
-		SharedData::getSingleton().iSystem->setMode(Renderer::DSM_SHOWNORMALS);
+		mRenderer->setMode(Renderer::DSM_SHOWNORMALS);
 		break;
 
 	case 4:
-		SharedData::getSingleton().iSystem->setMode(Renderer::DSM_SHOWDSP);
+		mRenderer->setMode(Renderer::DSM_SHOWDSP);
 		break;
 
 	case 5:
-		SharedData::getSingleton().iSystem->setMode(Renderer::DSM_SHOWGLOW);
+		mRenderer->setMode(Renderer::DSM_SHOWGLOW);
 		break;
 
 	case 6:
-		SharedData::getSingleton().iSystem->setMode(Renderer::DSM_SHOWSSAO);
+		mRenderer->setMode(Renderer::DSM_SHOWSSAO);
 		break;
 
 	default:
@@ -357,18 +357,13 @@ void Game::setupRender(bool bShowPostProcess)
 	// Window
 	Ogre::Viewport* vp = mWindow->addViewport(cam);
 	mPlayer->setCameraRatio(Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
-	mScene->setAmbientLight(Ogre::ColourValue(0,0,0));
-	vp->setBackgroundColour(Ogre::ColourValue(0.1f, 0.1f, 0.1f));
 	
 	// IO manager
 	mIOManager = new IOManager(mWindow, mPlayer, this);
 	mRoot->addFrameListener(this);
 
 	// Deferred rendering setup
-	mRenderer = new Renderer(mWindow->getViewport(0), mScene, mPlayer->getCamera());
-	SharedData::getSingleton().iCamera = cam;
-	SharedData::getSingleton().iRoot = mRoot;
-	SharedData::getSingleton().iWindow = mWindow;
+	mRenderer = new Renderer(mWindow->getViewport(0), mScene);
 	mRenderer->setMode(Renderer::DSM_SHOWLIT);
 }
 
