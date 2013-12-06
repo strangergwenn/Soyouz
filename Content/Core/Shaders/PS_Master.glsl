@@ -17,7 +17,7 @@ in vec3 oTangent;
 in vec3 oBiNormal;
 in vec2 oUv0;
 
-out vec4 fragData[4];
+out vec4 fragData[3];
 
 uniform sampler2D DiffuseMap;
 uniform sampler2D NormalMap;
@@ -42,7 +42,6 @@ vec3 expand(vec3 v)
  0  <          diffuse map          > < specular map >
  1  <          normal map           > < depth buffer >
  2  <            glow map           > 
- 3  <        world position         > 
 /*-----------------------------------------------*/
 
 void main()
@@ -60,7 +59,4 @@ void main()
 	
 	fragData[2].rgb = texture(GlowMap, oUv0).rgb;
 	fragData[2].a = 0;
-
-	fragData[3].rgb = vec3(oViewPos);
-	fragData[3].a = 0;
 }
