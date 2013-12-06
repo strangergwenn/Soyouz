@@ -2,59 +2,61 @@
 * This work is distributed under the General Public License,
 * see LICENSE for details
 *
-* @author Gwennaël ARBONA
+* @author GwennaÃ«l ARBONA
 **/
 
 /*-------------------------------------------------
-	Config
+	Input / Outputs
 /*-----------------------------------------------*/
 
 #version 150
 
-uniform float		normalStrength;
-uniform float		specularStrength;
-uniform float		specularPower;
+in vec3 oViewPos;
+in vec3 oNormal;
+in vec3 oTangent;
+in vec3 oBiNormal;
+in vec2 oUv0;
 
-uniform vec4		lightDiffuse;
-uniform vec4		lightSpecular;
+out vec4 fragData[3];
 
-uniform sampler2D	diffuseMap;
-uniform sampler2D	normalMap;
-uniform sampler2D	specMap;
-uniform samplerCube envMap;
+uniform sampler2D DiffuseMap;
+uniform sampler2D NormalMap;
+uniform sampler2D SpecularMap;
+uniform sampler2D GlowMap;
+uniform float cFarDistance;
 
 
 /*-------------------------------------------------
-	Input / Output
+	Helpers
 /*-----------------------------------------------*/
 
-in vec4 vUv0;
-in vec3 vEyeDir;
-in vec3 vNormal;
-in vec3 vLightDir;
-in vec3 vHalfAngle;
-
-out vec4 pPixel;
+vec3 expand(vec3 v)
+{
+   return (v - 0.5) * 2.0;
+}
 
 
 /*-------------------------------------------------
-	Shader
+    GBuffer format : 
+		R			G			B			A
+ 0  <          diffuse map          > < specular map >
+ 1  <          normal map           > < depth buffer >
+ 2  <            glow map           > 
 /*-----------------------------------------------*/
 
 void main()
 {
-	vec4 diffuseData = texture2D(diffuseMap, vUv0.xy);
-	vec3 normalData = (texture2D(normalMap, vUv0.xy).xyz);
-	vec3 specData = texture2D(specMap, vUv0.xy).xyz;
+	fragData[0].rgb = texture(DiffuseMap, oUv0).rgb;
+	fragData[0].a = length(texture(SpecularMap, oUv0).rgb);
+	
+	vec3 texNormal = texture(NormalMap, oUv0).rgb;
+	texNormal.b = texNormal.b * 2;
+	mat3 normalRotation = mat3(oTangent, oBiNormal, oNormal);
+	vec3 localTexNormal = normalRotation * texNormal;
 
-	normalData = vec3(normalData[0], normalData[1], 0)
-		+ normalStrength * vec3(0, 0, normalData[2]);
-
-	float lightFactor = clamp(dot(normalData, vLightDir), 0.0, 1.0);
-	float specFactor = specularStrength * pow(clamp(dot(normalData, vHalfAngle), 0.0, 1.0), specularPower);
-	vec3 reflectVec = reflect(-vEyeDir, vNormal + normalData);
-
-	pPixel = diffuseData * lightFactor * lightDiffuse;
-	pPixel += texture(envMap, reflectVec) * specFactor * lightFactor * lightSpecular;
-	pPixel.w = diffuseData.w;
+	fragData[1].rgb = normalize(localTexNormal);
+	fragData[1].a = length(oViewPos) / cFarDistance;
+	
+	fragData[2].rgb = texture(GlowMap, oUv0).rgb;
+	fragData[2].a = 0;
 }

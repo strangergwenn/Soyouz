@@ -6,27 +6,48 @@
 //
 
 // Exhaust material
-material Glow
+material JetFlow
 {
-	technique void
+	technique GBuffer
 	{
-	}
+		scheme GBuffer
 
-	technique main
-	{
-		scheme glow
-		pass main
+		pass
 		{
 			lighting off
-            depth_write off
+			depth_write off
+			scene_blend zero zero
+		}
+	}
+	
+	technique NoGBuffer
+	{
+		scheme NoGBuffer
+
+		pass
+		{
+			lighting off
+			depth_write on
+			scene_blend zero zero
+		}
+	}
+
+	technique NoGBuffer_Glow
+	{
+		scheme NoGBuffer_Glow
+
+		pass
+		{
+			lighting off
+			depth_write off
 			scene_blend alpha_blend
-			
+
 			vertex_program_ref VS_UVMap
 			{
 				param_named_auto projection			worldviewproj_matrix
 			}
 
-			fragment_program_ref PS_Glow
+			fragment_program_ref PS_JetFlow
 			{
 				param_named baseStrength float		1.0
 				param_named basePower float			2.0
@@ -43,12 +64,14 @@ material Glow
 			{
 				texture_alias baseMap
 				texture white.png
+                filtering none
 			}
 
 			texture_unit
 			{
 				texture_alias panningMap
 				texture white.png
+                filtering none
 			}
 		}
 	}

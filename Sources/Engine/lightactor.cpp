@@ -5,7 +5,7 @@
 * @author Gwennaël ARBONA
 **/
 
-#include "Engine/ogre.hpp"
+#include "Engine/Rendering/renderer.hpp"
 #include "Engine/lightactor.hpp"
 
 

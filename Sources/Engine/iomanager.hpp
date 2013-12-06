@@ -8,7 +8,7 @@
 #ifndef __WINDOW_H_
 #define __WINDOW_H_
 
-#include "Engine/ogre.hpp"
+#include "Engine/Rendering/renderer.hpp"
 #include "Engine/gametypes.hpp"
 
 class Game;

@@ -5,91 +5,72 @@
 // @author Gwennaël ARBONA
 //
 
-// Master material
 material Master
 {
-	technique main
+	technique GBuffer
 	{
-		pass main
+		scheme GBuffer
+
+		pass
 		{
-			ambient 0 0 0 
-			lighting on
-			depth_bias 10
-			iteration once_per_light
-			scene_blend colour_blend
-			
 			vertex_program_ref VS_Master
 			{
-				param_named_auto lightPosition	light_position_object_space 0
-				param_named_auto eyePosition	camera_position_object_space 0
-				param_named_auto projection		worldviewproj_matrix
+				param_named_auto cWorldViewProj	worldviewproj_matrix
+				param_named_auto cWorldView		worldview_matrix
 			}
 
 			fragment_program_ref PS_Master
 			{
-				param_named_auto lightDiffuse	light_diffuse_colour 0
-				param_named_auto lightSpecular	light_specular_colour 0
+				param_named_auto cFarDistance	far_clip_distance
 			}
 			
 			texture_unit
 			{
-				texture_alias diffuseMap
+				texture_alias DiffuseMap
 				texture black.png
 			}
 			
 			texture_unit
 			{
-				texture_alias normalMap
+				texture_alias NormalMap
+				texture neutralnormal.png
+			}
+			
+			texture_unit
+			{
+				texture_alias SpecularMap
 				texture black.png
 			}
 			
 			texture_unit
 			{
-				texture_alias specMap
+				texture_alias GlowMap
 				texture black.png
-			}
-			
-			texture_unit
-			{
-				texture_alias envMap
-				cubic_texture cubemap.dds combinedUVW
-				filtering linear linear linear
-				tex_address_mode clamp
 			}
 		}
 	}
 
-	technique glow
+	technique NoGBuffer
 	{
-		pass blank
+		scheme NoGBuffer
+
+		pass
 		{
 			lighting off
+			depth_write on
 			scene_blend zero zero
 		}
-
-		pass glow
-		{
-			lighting off
-			depth_bias 10
-			
-			vertex_program_ref VS_Master
-			{
-				param_named_auto lightPosition	light_position_object_space 0
-				param_named_auto eyePosition	camera_position_object_space
-				param_named_auto projection		worldviewproj_matrix
-			}
-
-			fragment_program_ref PS_Colormap
-			{
-				param_named textureColor		float4 1 1 1
-			}
-
-			texture_unit
-			{
-				texture_alias emissiveMap
-				texture white.png
-			}
-		}
 	}
 
+	technique NoGBuffer_Glow
+	{
+		scheme NoGBuffer_Glow
+
+		pass
+		{
+			lighting off
+			depth_write on
+			scene_blend zero zero
+		}
+	}
 }

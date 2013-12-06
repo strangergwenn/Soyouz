@@ -19,9 +19,9 @@ uniform mat4 projection;
 /*-----------------------------------------------*/
 
 in vec4 vertex;
-in vec4 uv0;
+in vec2 uv0;
 
-out vec4 vUv0;
+out vec2 vUv0;
 
 
 /*-------------------------------------------------

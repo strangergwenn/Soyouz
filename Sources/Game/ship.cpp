@@ -5,10 +5,10 @@
 * @author Gwennaël ARBONA
 **/
 
-#include "Game/ship.hpp"
 #include "Engine/game.hpp"
+#include "Game/ship.hpp"
+#include "Game/thruster.hpp"
 #include "Game/machinegun.hpp"
-
 
 
 /*----------------------------------------------

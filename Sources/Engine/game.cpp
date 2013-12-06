@@ -5,9 +5,12 @@
 * @author Gwennaël ARBONA
 **/
 
+
+#include "Engine/Rendering/renderer.hpp"
 #include "Engine/game.hpp"
 #include "Engine/actor.hpp"
 #include "Engine/player.hpp"
+
 
 #define OGRE_CONF			"Config/soyouz.cfg"
 #if OGRE_DEBUG_MODE
@@ -47,10 +50,6 @@ Game::~Game()
 	{
 		delete mRoot;
 	}
-
-#ifdef OGRE_STATIC_LIB
-	mStaticPluginLoader.unload();
-#endif
 }
 
 
@@ -207,27 +206,36 @@ void Game::gameLog(String text)
 
 void Game::setDebugMode(int newStatus)
 {
-	// Deactivate all drawers
 	mPhysDrawer->setDebugMode(0);
-	mPlayer->setWireframe(false);
-
-	// Then... 
 	switch (newStatus)
 	{
 	case 0:
+		mRenderer->setMode(Renderer::DSM_SHOWLIT);
 		break;
 
 	case 1:
-		mPlayer->setWireframe(true);
+		mRenderer->setMode(Renderer::DSM_SHOWCOLOUR);
 		break;
 
 	case 2:
+		mRenderer->setMode(Renderer::DSM_SHOWCOLOUR);
 		mPhysDrawer->setDebugMode(1);
 		break;
 
 	case 3:
-		mPlayer->setWireframe(true);
-		mPhysDrawer->setDebugMode(1);
+		mRenderer->setMode(Renderer::DSM_SHOWNORMALS);
+		break;
+
+	case 4:
+		mRenderer->setMode(Renderer::DSM_SHOWDSP);
+		break;
+
+	case 5:
+		mRenderer->setMode(Renderer::DSM_SHOWGLOW);
+		break;
+
+	case 6:
+		mRenderer->setMode(Renderer::DSM_SHOWSSAO);
 		break;
 
 	default:
@@ -277,14 +285,9 @@ void Game::setupResources()
 	String pluginsPath, secName, typeName, archName;
 	
 	// Plugins
-#ifndef OGRE_STATIC_LIB
 	pluginsPath = PLUGINS_CONF;
-#endif	
 	mRoot = new Ogre::Root(pluginsPath, OGRE_CONF, LOGFILE_NAME);
 	mOverlaySystem = new Ogre::OverlaySystem();
-#ifdef OGRE_STATIC_LIB
-	mStaticPluginLoader.load();
-#endif
 
 	// Resources
 	cf.load(RESOURCES_CONF);
@@ -335,9 +338,10 @@ bool Game::setupSystem(const String desiredRenderer)
         renderSystem = *(rdrs.begin());
     }
     mRoot->setRenderSystem(renderSystem);
-	renderSystem->setConfigOption("FSAA", "8");
+	renderSystem->setConfigOption("Fixed Pipeline Enabled", "Yes");
+	renderSystem->setConfigOption("Full Screen", "No");
+	renderSystem->setConfigOption("RTT Preferred Mode", "FBO");
 	renderSystem->setConfigOption("VSync", "No");
-    renderSystem->setConfigOption("Full Screen", "No");
     renderSystem->setConfigOption("Video Mode", "1280 x 720");
 	mWindow = mRoot->initialise(true, "Soyouz");
 	mScene = mRoot->createSceneManager(Ogre::ST_GENERIC, "GameScene");
@@ -363,29 +367,14 @@ void Game::setupRender(bool bShowPostProcess)
 	// Window
 	Ogre::Viewport* vp = mWindow->addViewport(cam);
 	mPlayer->setCameraRatio(Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
-	mScene->setAmbientLight(Ogre::ColourValue(0,0,0));
-	vp->setBackgroundColour(Ogre::ColourValue(0.1f, 0.1f, 0.1f));
 	
-	// Engine settings
-	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
-	Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(Ogre::TFO_ANISOTROPIC);
-	Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(8);
-
 	// IO manager
 	mIOManager = new IOManager(mWindow, mPlayer, this);
 	mRoot->addFrameListener(this);
 
-	// Shadows
-	mScene->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
-	mScene->setShadowTexturePixelFormat(Ogre::PF_FLOAT32_R);
-	mScene->setShadowTextureSelfShadow(true);
-	mScene->setShadowTextureSize(512);
-
-	// Post-processing	
-	Ogre::CompositorManager::getSingleton().addCompositor(cam->getViewport(), "PostProcess");
-	Ogre::CompositorManager::getSingleton().setCompositorEnabled(cam->getViewport(), "PostProcess", bShowPostProcess);
-	PostProcessListener *gml = new PostProcessListener();
-	Ogre::MaterialManager::getSingleton().addListener(gml);
+	// Deferred rendering setup
+	mRenderer = new Renderer(mWindow->getViewport(0), mScene);
+	mRenderer->setMode(Renderer::DSM_SHOWLIT);
 }
 
 

@@ -9,10 +9,10 @@
 #define __SHIP_H_
 
 #include "Engine/meshactor.hpp"
-#include "Game/thruster.hpp"
 #include "Game/weapon.hpp"
 
 class Game;
+class Thruster;
 
 
 /*----------------------------------------------

@@ -11,9 +11,8 @@
 
 #version 150
 
-uniform vec4		textureColor;
-
-uniform sampler2D	textureMap;
+uniform sampler2D	input1;
+uniform sampler2D	input2;
 
 
 /*-------------------------------------------------
@@ -21,10 +20,6 @@ uniform sampler2D	textureMap;
 /*-----------------------------------------------*/
 
 in vec4 vUv0;
-in vec3 vEyeDir;
-in vec3 vNormal;
-in vec3 vLightDir;
-in vec3 vHalfAngle;
 
 out vec4 pPixel;
 
@@ -35,6 +30,7 @@ out vec4 pPixel;
 
 void main()
 {
-	vec4 data = texture2D(textureMap, vUv0.xy);
-	pPixel = data * textureColor;
+	vec4 pixel1 = texture(input1, vec2(vUv0.x, vUv0.y));
+	vec4 pixel2 = texture(input2, vec2(vUv0.x, vUv0.y));
+	pPixel = pixel1 * pixel2;
 }

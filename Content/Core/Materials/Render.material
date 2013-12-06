@@ -1,0 +1,227 @@
+//
+// This work is distributed under the General Public License,
+// see LICENSE for details
+//
+// @author Gwennaël ARBONA
+//
+
+material Render/AmbientLight
+{
+    technique
+    {
+		pass
+		{
+			lighting off
+			
+			depth_write on
+			depth_check on
+			
+			vertex_program_ref VS_Ambient
+			{
+			}
+			fragment_program_ref PS_Ambient
+			{
+			}
+			
+			texture_unit
+			{
+				content_type compositor DeferredShading/GBuffer mrt_output 0
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit
+			{
+				content_type compositor DeferredShading/GBuffer mrt_output 1
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material Render/ShadowCaster
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref VS_ShadowCaster
+			{
+			}
+
+			fragment_program_ref PS_ShadowCaster
+			{
+			}
+		}
+	}
+}
+
+material Render/ShowColour
+{
+    technique
+    {
+    	pass
+		{
+			cull_hardware none
+			cull_software none
+			depth_func always_pass
+			fragment_program_ref PS_ShowColour
+			{
+			}
+			vertex_program_ref VS_Ambient
+			{
+			}
+			texture_unit
+			{
+				content_type compositor DeferredShading/GBuffer mrt_output 0
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material Render/ShowNormal
+{
+    technique
+    {
+    	pass
+		{
+			cull_hardware none
+			cull_software none
+			depth_func always_pass
+			fragment_program_ref PS_ShowColour
+			{
+			}
+			vertex_program_ref VS_Ambient
+			{
+			}
+			texture_unit
+			{
+				content_type compositor DeferredShading/GBuffer mrt_output 1
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material Render/ShowDS
+{
+    technique
+    {
+    	pass
+		{
+			cull_hardware none
+			cull_software none
+			depth_func always_pass
+			fragment_program_ref PS_ShowDS
+			{
+			}
+			vertex_program_ref VS_Ambient
+			{
+			}
+			texture_unit
+			{
+				content_type compositor DeferredShading/GBuffer mrt_output 0
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit
+			{
+				content_type compositor DeferredShading/GBuffer mrt_output 1
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material Render/ShowGlow
+{
+    technique
+    {
+    	pass
+		{
+			cull_hardware none
+			cull_software none
+			depth_func always_pass
+			fragment_program_ref PS_ShowColour
+			{
+			}
+			vertex_program_ref VS_Ambient
+			{
+			}
+			texture_unit
+			{
+				content_type compositor DeferredShading/GBuffer mrt_output 2
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+// Geometry light
+material Light/Geometry
+{
+	technique DeferredTechnique
+	{
+		pass DeferredPass
+		{
+			scene_blend add
+			depth_write off
+			depth_check on
+			lighting off
+			
+			texture_unit GBuffer1
+			{
+				content_type compositor DeferredShading/GBuffer mrt_output 0
+				tex_address_mode clamp
+				filtering none
+			}
+			texture_unit GBuffer2
+			{
+				content_type compositor DeferredShading/GBuffer mrt_output 1
+				tex_address_mode clamp
+				filtering none
+			}
+		}
+	}
+}
+
+material Light/GeometryShadow : Light/Geometry
+{
+	technique DeferredTechnique
+	{
+		pass DeferredPass
+		{
+			texture_unit ShadowMap
+			{
+				content_type shadow
+			}
+		}
+	}
+}
+
+material Light/Quad : Light/Geometry
+{
+    technique DeferredTechnique
+    {
+		pass DeferredPass
+		{
+			depth_check off
+		}
+	}
+}
+
+material Light/QuadShadow : Light/GeometryShadow
+{
+    technique DeferredTechnique
+    {
+		pass DeferredPass
+		{
+			depth_check off
+		}
+	}
+}

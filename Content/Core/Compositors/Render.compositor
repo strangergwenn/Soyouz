@@ -1,0 +1,298 @@
+//
+// This work is distributed under the General Public License,
+// see LICENSE for details
+//
+// @author Gwennaël ARBONA
+//
+
+//Postfilter generating the GBuffer
+compositor DeferredShading/GBuffer
+{
+	technique
+	{
+		texture mrt_output target_width target_height PF_FLOAT16_RGBA PF_FLOAT16_RGBA PF_FLOAT16_RGBA chain_scope
+		
+		target mrt_output
+		{
+			input none
+			shadows off
+			material_scheme GBuffer
+
+			pass clear
+			{
+			}
+
+			pass render_scene
+			{
+			}
+		}
+	}
+}
+
+//Postfilter lighting the scene using the GBuffer
+compositor DeferredShading/ShowLit
+{
+	technique
+	{
+		// Textures
+		texture_ref mrt_output DeferredShading/GBuffer mrt_output
+		texture main					target_width target_height PF_R8G8B8
+		texture ssao					target_width target_height PF_R8G8B8
+		texture ssao_filtered			target_width target_height PF_R8G8B8
+		texture main_ssao				target_width target_height PF_R8G8B8
+		texture glow					target_width target_height PF_R8G8B8
+		texture main_glow				target_width target_height PF_R8G8B8
+		texture transparency			target_width target_height PF_R8G8B8
+		texture transparency_glow		target_width target_height PF_R8G8B8
+		texture main_glow_transparency	target_width target_height PF_R8G8B8
+		
+		// Main target for rendering objects (GBuffer)
+		target main
+		{
+			input none
+			shadows off
+			
+			pass clear
+			{
+			}
+			
+			pass render_scene
+			{
+				material_scheme GBuffer
+				first_render_queue 1
+				last_render_queue  9
+			}
+			
+			pass render_custom DeferredLight
+			{
+				input 0 mrt_output 0
+				input 1 mrt_output 1
+			}
+		}
+		
+		// SSAO target (GBuffer)
+		target ssao
+		{
+			input none
+
+			pass clear
+			{
+			}
+
+			pass render_quad
+			{
+				material PostProcess/SSAO
+			}
+		}
+
+		// Filtered SSAO
+		target ssao_filtered
+		{
+			input none
+			pass render_quad
+			{
+				material PostProcess/BoxFilter
+				input 0 ssao
+			}
+		}
+		
+		// Main target with SSAO (GBuffer)
+		target main_ssao
+		{
+			input none
+
+			pass render_quad
+			{
+				material PostProcess/Mul
+				input 0 main
+				input 1 ssao_filtered
+			}
+		}
+		
+		// Glow rendering target for objects (GBuffer)
+		target glow
+		{
+			input none
+
+			pass clear
+			{
+			}
+			
+			pass render_quad
+			{
+				material Render/ShowGlow
+			}
+		}
+		
+		// Main target with glow (GBuffer)
+		target main_glow
+		{
+			input none
+
+			pass render_quad
+			{
+				material PostProcess/Blur
+				input 0 main_ssao
+				input 1 glow
+			}
+		}
+		
+		// Transparency pass (No GBuffer)
+		target transparency
+		{
+			input none
+			material_scheme NoGBuffer
+
+			pass clear
+			{
+			}
+			
+			pass render_scene
+			{
+			}
+		}
+		
+		// Glowing transparency pass (No GBuffer)
+		target transparency_glow
+		{
+			input none
+			material_scheme NoGBuffer_Glow
+
+			pass clear
+			{
+			}
+			
+			pass render_scene
+			{
+			}
+		}
+		
+		// Main target with transparency pass (GBuffer + overlay)
+		target main_glow_transparency
+		{
+			input none
+
+			pass render_quad
+			{
+				material PostProcess/Add
+				input 0 main_glow
+				input 1 transparency
+			}
+		}
+		
+		// Final output after glowing transparency pass (GBuffer + overlay)
+		target_output
+		{
+			input none
+			
+			pass render_quad
+			{
+				material PostProcess/Blur
+				input 0 main_glow_transparency
+				input 1 transparency_glow
+			}
+		}
+	}
+}
+
+// Postfilter that shows the colour channel
+compositor DeferredShading/ShowColour
+{
+	technique 
+	{
+		texture_ref mrt_output DeferredShading/GBuffer mrt_output
+		target_output
+        {
+			input none
+			pass render_quad
+			{
+				material Render/ShowColour
+			}
+        }
+	}
+}
+
+// Postfilter that shows the glow channel
+compositor DeferredShading/ShowGlow
+{
+	technique 
+	{
+		texture_ref mrt_output DeferredShading/GBuffer mrt_output
+		target_output
+        {
+			input none
+			pass render_quad
+			{
+				material Render/ShowGlow
+			}
+        }
+	}
+}
+
+// Postfilter that shows the normal channel
+compositor DeferredShading/ShowNormals
+{
+	technique 
+	{
+		texture_ref mrt_output DeferredShading/GBuffer mrt_output
+		target_output
+        {
+			input none
+			pass render_quad
+			{
+				material Render/ShowNormal
+			}
+        }
+	}
+}
+
+// Postfilter that shows the depth and specular channel
+compositor DeferredShading/ShowDepthSpecular
+{
+	technique 
+	{
+		texture_ref mrt_output DeferredShading/GBuffer mrt_output
+		target_output
+        {
+			input none
+			pass render_quad
+			{
+				material Render/ShowDS
+			}
+        }
+	}
+}
+
+// Postfilter that shows the SSAO
+compositor DeferredShading/ShowSSAO
+{
+	technique 
+	{
+		texture_ref mrt_output DeferredShading/GBuffer mrt_output
+		texture ssao target_width target_height PF_R8G8B8A8
+
+		target ssao
+		{
+			input none
+
+			pass clear
+			{
+			}
+
+			pass render_quad
+			{
+				material PostProcess/SSAO
+			}
+		}
+
+		target_output
+		{
+			input none
+			pass render_quad
+			{
+				material PostProcess/BoxFilter
+				input 0 ssao
+			}
+		}
+	}
+}

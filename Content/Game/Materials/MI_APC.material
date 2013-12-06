@@ -1,21 +1,15 @@
+//
+// This work is distributed under the General Public License,
+// see LICENSE for details
+//
+// @author Gwennaël ARBONA
+//
 
 import * from "Core/Materials/Master.material"
 
 material MI_APC : Master
 {
-	set_texture_alias diffuseMap	TX_APC_D.png
-	set_texture_alias normalMap		TX_APC_N.png
-	set_texture_alias specMap		TX_APC_S.png
-
-	technique main
-	{
-		pass main
-		{
-			fragment_program_ref PS_Master
-			{
-				param_named specularStrength	float 0.5
-				param_named normalStrength		float 1.0
-			}
-		}
-	}
+	set_texture_alias DiffuseMap	TX_APC_D.png
+	set_texture_alias NormalMap		TX_APC_N.png
+	set_texture_alias SpecularMap	TX_APC_S.png
 }

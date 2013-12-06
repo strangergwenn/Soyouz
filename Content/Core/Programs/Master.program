@@ -1,0 +1,35 @@
+//
+// This work is distributed under the General Public License,
+// see LICENSE for details
+//
+// @author Gwennaël ARBONA
+//
+
+//-----------------------------------------------
+//	Content shaders
+//-----------------------------------------------
+
+// Standard pixel shader
+fragment_program PS_Master glsl
+{
+	source PS_Master.glsl
+	default_params
+	{
+		param_named DiffuseMap			int 0
+		param_named NormalMap			int 1
+		param_named SpecularMap			int 2
+		param_named GlowMap				int 3
+		param_named cFarDistance		float 500.0
+	}
+}
+
+// Jet exhaust pixel shader
+fragment_program PS_JetFlow glsl
+{
+	source PS_JetFlow.glsl
+	default_params
+	{
+		param_named baseMap				int 0
+		param_named panningMap			int 1
+	}
+}

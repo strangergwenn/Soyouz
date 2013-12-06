@@ -9,39 +9,13 @@
 #ifndef __GAME_H_
 #define __GAME_H_
 
-#include "Engine/ogre.hpp"
+#include "Engine/Rendering/renderer.hpp"
 #include "Engine/bulletphysics.hpp"
 #include "Engine/iomanager.hpp"
 
 class Actor;
 class Player;
 class PointLight;
-
-
-/*----------------------------------------------
-	Post-processing compositor
-----------------------------------------------*/
-
-class PostProcessListener : public Ogre::MaterialManager::Listener
-{
-protected:
-	Ogre::MaterialPtr mBlackMat;
-
-public:
-	PostProcessListener()
-	{
-		mBlackMat = Ogre::MaterialManager::getSingleton().create("mGlowBlack", "Internal");
-		mBlackMat->getTechnique(0)->getPass(0)->setDiffuse(0,0,0,0);
-		mBlackMat->getTechnique(0)->getPass(0)->setSpecular(0,0,0,0);
-		mBlackMat->getTechnique(0)->getPass(0)->setAmbient(0,0,0);
-		mBlackMat->getTechnique(0)->getPass(0)->setSelfIllumination(0,0,0);
-	}
- 
-	Ogre::Technique *handleSchemeNotFound(unsigned short, const Ogre::String& schemeName, Ogre::Material*mat, unsigned short, const Ogre::Renderable*)
-	{
-		return mBlackMat->getTechnique(0);
-	}
-};
 
 
 /*----------------------------------------------
@@ -253,6 +227,7 @@ protected:
 	btSequentialImpulseConstraintSolver* mPhysSequentialImpulseConstraintSolver;
 
 	// Custom data
+	Renderer* mRenderer;
 	Player* mPlayer;
 	IOManager* mIOManager;
 

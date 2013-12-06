@@ -6,6 +6,7 @@
 **/
 
 #include "Engine/game.hpp"
+#include "Engine/Rendering/renderer.hpp"
 #include "Game/thruster.hpp"
 #include "Game/ship.hpp"
 
@@ -22,7 +23,16 @@ Thruster::Thruster(Game* g, String name, MeshActor* parent, Vector3 location, Qu
 	setModel("SM_Exhaust.mesh");
 	setMaterial("MI_Exhaust");
 	customize(1000, 2.0, 0.1f);
-
+	
+	// Local light	
+	Ogre::SceneNode *sn = mNode->createChildSceneNode();
+	mLight = g->getScene()->createLight();
+	mLight->setCastShadows(false);
+	mLight->setType(Ogre::Light::LT_POINT);
+	mLight->setAttenuation(100, 1.0f, 0.0f, 0.2f);
+	sn->attachObject(mLight);
+	sn->setPosition(0, 0, -0.1f);
+	
 	// Position
 	mRelPosition = location;
 	mShip = (Ship*)parent;
@@ -62,6 +72,8 @@ void Thruster::tick(const Ogre::FrameEvent& evt)
 
 	// Output
 	setMaterialParam(1, alpha);
+	float lightAlpha = Math::Clamp(10 * alpha, 0.0f, 3.0f);
+	mLight->setDiffuseColour(lightAlpha * Ogre::ColourValue(0.2f, 0.9f, 1.0f));
 	mShip->applyLocalForce(alpha * mStrength * direction, mRelPosition);
 	MeshActor::tick(evt);
 }

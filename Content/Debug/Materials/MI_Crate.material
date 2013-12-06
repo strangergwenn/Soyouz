@@ -1,20 +1,14 @@
+//
+// This work is distributed under the General Public License,
+// see LICENSE for details
+//
+// @author Gwennaël ARBONA
+//
 
 import * from "Core/Materials/Master.material"
 
 material MI_Crate : Master
 {
-	set_texture_alias diffuseMap	TX_Crate_D.jpg
-	set_texture_alias normalMap		TX_Crate_N.jpg
-
-	technique main
-	{
-		pass main
-		{
-			fragment_program_ref PS_Master
-			{
-				param_named specularStrength	float 0.2
-				param_named normalStrength		float 1.0
-			}
-		}
-	}
+	set_texture_alias DiffuseMap	TX_Crate_D.jpg
+	set_texture_alias NormalMap		TX_Crate_N.jpg
 }

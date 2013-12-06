@@ -171,20 +171,15 @@ protected:
 				break;
 				
 			case OIS::KC_F1:
-				mGame->setDebugMode(0);
-				break;
-
 			case OIS::KC_F2:
-				mGame->setDebugMode(1);
-				break;
-
 			case OIS::KC_F3:
-				mGame->setDebugMode(2);
+			case OIS::KC_F4:
+			case OIS::KC_F5:
+			case OIS::KC_F6:
+			case OIS::KC_F7:
+				mGame->setDebugMode(e.key - OIS::KC_F1);
 				break;
 
-			case OIS::KC_F4:
-				mGame->setDebugMode(3);
-				break;
 			case OIS::KC_LCONTROL:
 				mShip->setFireOrder(true);
 				break;
@@ -213,8 +208,8 @@ protected:
 				mShip->setFireOrder(false);
 				break;
 			case OIS::KC_TAB:
-				mTargetSpeed = MAX_TARGET_SPEED;
-				updateSpeed();
+				//mTargetSpeed = MAX_TARGET_SPEED;
+				//updateSpeed();
 				break;
 			default:
 			break;

@@ -1,33 +1,15 @@
+//
+// This work is distributed under the General Public License,
+// see LICENSE for details
+//
+// @author Gwennaël ARBONA
+//
 
 import * from "Core/Materials/Master.material"
 
 material MI_zCrate : Master
 {
-	set_texture_alias diffuseMap	TX_zCrate_D.png
-	set_texture_alias normalMap		TX_zCrate_N.png
-	set_texture_alias specMap		TX_zCrate_S.png
-	set_texture_alias emissiveMap	TX_zCrate_E.png
-
-	technique main
-	{
-		pass main
-		{
-			fragment_program_ref PS_Master
-			{
-				param_named specularStrength	float 0.8
-			}
-		}
-	}
-	
-	technique glow
-	{
-		scheme glow
-		pass glow
-		{
-			fragment_program_ref PS_Colormap
-			{
-				param_named textureColor float4	0.1 1 0.2
-			}
-		}
-	}
+	set_texture_alias DiffuseMap	TX_zCrate_D.png
+	set_texture_alias NormalMap		TX_zCrate_N.png
+	set_texture_alias GlowMap		TX_zCrate_E.png
 }

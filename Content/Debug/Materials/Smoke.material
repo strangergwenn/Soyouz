@@ -1,7 +1,0 @@
-
-import * from "Core/Materials/Particle.material"
-
-material MI_Smoke : Particle
-{
-	set_texture_alias emissiveMap	smoke.png
-}

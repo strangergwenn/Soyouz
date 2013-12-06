@@ -22,19 +22,29 @@ SoyouzCPPFiles= \
 	Sources/Engine/meshactor.cpp \
 	Sources/Engine/game.cpp \
 	Sources/Engine/lightactor.cpp \
-	Sources/Engine/dirlightactor.cpp \
 	Sources/Engine/iomanager.cpp \
-	Sources/Engine/player.cpp
+	Sources/Engine/player.cpp \
+	Sources/Engine/Rendering/renderer.cpp \
+	Sources/Engine/Rendering/renderoperation.cpp \
+	Sources/Engine/Rendering/ambient.cpp \
+	Sources/Engine/Rendering/deferredlight.cpp \
+	Sources/Engine/Rendering/geometry.cpp \
+	Sources/Engine/Rendering/lightmaterial.cpp
 	
 SoyouzHPPFiles= \
 	Sources/Engine/game.hpp \
 	Sources/Engine/player.hpp \
-	Sources/Engine/ogre.hpp \
 	Sources/Engine/iomanager.hpp \
 	Sources/Engine/bullet.hpp \
 	Sources/Engine/meshactor.hpp \
 	Sources/Engine/lightactor.hpp \
 	Sources/Engine/actor.hpp \
+	Sources/Engine/Rendering/renderer.hpp \
+	Sources/Engine/Rendering/renderoperation.hpp \
+	Sources/Engine/Rendering/ambient.hpp \
+	Sources/Engine/Rendering/deferredlight.hpp \
+	Sources/Engine/Rendering/geometry.hpp \
+	Sources/Engine/Rendering/lightmaterial.hpp \
 	Sources/Game/demoPlayer.hpp \
 	Sources/Game/demoWorld.hpp \
 	Sources/Game/ship.hpp \
