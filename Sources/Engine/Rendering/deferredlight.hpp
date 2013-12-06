@@ -1,80 +1,142 @@
+/**
+* This work is distributed under the General Public License,
+* see LICENSE for details
+*
+* @author Gwennaël ARBONA
+**/
 
-#ifndef H_WJ_DEFERREDLIGHT
-#define H_WJ_DEFERREDLIGHT
+#ifndef H_DEFERREDLIGHT
+#define H_DEFERREDLIGHT
+
 
 #include "Engine/Rendering/renderer.hpp"
 #include "Engine/Rendering/lightmaterial.hpp"
 
-/** Deferred light geometry. Each instance matches a normal light.
-	Should not be created by the user.
-	XXX support other types of light other than point lights.
- */
+
+/*----------------------------------------------
+	Deferred light class with geometry
+----------------------------------------------*/
+
 class DeferredLight: public Ogre::SimpleRenderable
 {
+
 public:
-	DeferredLight(MaterialGenerator *gen, Ogre::Light* parentLight);
+	
+	/**
+	 * @brief Deferred light constructor
+	 * @param mat			Light material
+	 * @param parentLight	Ogre light
+	 * @return the light
+	 **/
+	DeferredLight(LightMaterialGenerator* mat, Ogre::Light* parentLight);
+	
+	/**
+	 * @brief Deferred light destructor
+	 **/
 	~DeferredLight();
-
-	/** Update the information from the light that matches this one 
-	 */
+	
+	/**
+	 * @brief Update with the parent light data
+	 **/
 	void updateFromParent();
-
-	/** Update the information that is related to the camera
-	 */
+	
+	/**
+	 * @brief Update with the camera data
+	 * @param camera		Player camera
+	 **/
 	void updateFromCamera(Ogre::Camera* camera);
-
-	/** Does this light cast shadows?
-	*/
-	virtual bool getCastChadows() const;
-
-	/** @copydoc MovableObject::getBoundingRadius */
+	
+	/**
+	 * @brief Do we cast shadows
+	 * @return true if shadows
+	 **/
+	virtual bool getCastShadows() const;
+	
+	/**
+	 * @brief Get the light radius
+	 * @return the max effective distance
+	 **/
 	virtual Ogre::Real getBoundingRadius(void) const;
-	/** @copydoc Renderable::getSquaredViewDepth */
-	virtual Ogre::Real getSquaredViewDepth(const Ogre::Camera*) const;
-	/** @copydoc Renderable::getMaterial */
+	
+	/**
+	 * @brief Get the light depth
+	 * @param camera		Player camera
+	 * @return the squared depth of the light in the view
+	 **/
+	virtual Ogre::Real getSquaredViewDepth(const Ogre::Camera* camera) const;
+	
+	/**
+	 * @brief Get the current material
+	 * @return a pointer to the material
+	 **/
 	virtual const Ogre::MaterialPtr& getMaterial(void) const;
-	/** @copydoc Renderable::getBoundingRadius */
+	
+	/**
+	 * @brief Get the world transformation
+	 * @param xform			Transformation matrix to build
+	 **/
 	virtual void getWorldTransforms(Ogre::Matrix4* xform) const;
+
+
 protected:
-
-	/** Check if the camera is inside a light
-	*/
+	
+	/**
+	 * @brief Are we inside the light geometry ?
+	 * @param camera		Player camera
+	 * @retuen true if we are
+	 **/
 	bool isCameraInsideLight(Ogre::Camera* camera);
-
-	/** Create geometry for this light.
-	*/
+	
+	/**
+	 * @brief Rebuild the light geometry
+	 * @param radius		New geometry radius
+	 **/
 	void rebuildGeometry(float radius);
-
-	/** Create a sphere geometry.
-	*/
+	
+	/**
+	 * @brief Create a sphere for the geometry
+	 * @param radius		Sphere radius
+	 * @param nRings		Sphere rings (Z)
+	 * @param nSegments		Sphere segments (circle)
+	 **/
 	void createSphere(float radius, int nRings, int nSegments);
-
-	/** Create a rectangle.
-	*/
+	
+	/**
+	 * @brief Create a rectangle for the geometry
+	 **/
 	void createRectangle2D();
 	
-	/** Create a cone.
-	*/
+	/**
+	 * @brief Create a cone for the geometry
+	 * @param radius		Cone radius
+	 * @param height		Cone height (Z)
+	 * @param nVerticesInBase Base segments (circle)
+	 **/
 	void createCone(float radius, float height, int nVerticesInBase);
-
-	/** Set constant, linear, quadratic Attenuation terms 
-	 */
+	
+	/**
+	 * @brief Set the light attenuation parameters
+	 * @param c				Attenuation param c
+	 * @param b				Attenuation param b
+	 * @param a				Attenuation param a
+	 **/
 	void setAttenuation(float c, float b, float a);
-
-	/** Set the specular colour
-	 */
+	
+	/**
+	 * @brief Set the specular colour
+	 * @param col			New color
+	 **/
 	void setSpecularColour(const Ogre::ColourValue &col);
+	
 
-	/// The light that this DeferredLight renders
-	Ogre::Light* mParentLight;
-	/// Mode to ignore world orientation/position
-	bool bIgnoreWorld;
-	/// Bounding sphere radius
-	float mRadius;
-	/// Deferred shading system this minilight is part of
-	MaterialGenerator *mGenerator;
-	/// Material permutation
+	// Light data
 	Ogre::uint32 mPermutation;
+	Ogre::Light* mParentLight;
+	LightMaterialGenerator* mGenerator;
+	
+	// Light settings
+	float mRadius;
+	bool bIgnoreWorld;
 };
 
 #endif

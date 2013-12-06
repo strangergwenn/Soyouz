@@ -1,4 +1,9 @@
-
+/**
+* This work is distributed under the General Public License,
+* see LICENSE for details
+*
+* @author Gwennaël ARBONA
+**/
 
 #include "Engine/Rendering/deferredlight.hpp"
 #include "Engine/Rendering/geometry.hpp"
@@ -7,38 +12,45 @@
 #define ENABLE_BIT(mask, flag) (mask) |= (flag)
 #define DISABLE_BIT(mask, flag) (mask) &= ~(flag)
 
-using namespace Ogre;
-//-----------------------------------------------------------------------
-DeferredLight::DeferredLight(MaterialGenerator *sys, Ogre::Light* parentLight):
+
+/*----------------------------------------------
+	Constructor & destructor
+----------------------------------------------*/
+
+DeferredLight::DeferredLight(LightMaterialGenerator *sys, Ogre::Light* parentLight):
     mParentLight(parentLight), bIgnoreWorld(false), mGenerator(sys), mPermutation(0)
 {
-	// Set up geometry
-	// Allocate render operation
-	mRenderOp.operationType = RenderOperation::OT_TRIANGLE_LIST;
+	mRenderOp.operationType = Ogre::RenderOperation::OT_TRIANGLE_LIST;
 	mRenderOp.indexData = 0;
 	mRenderOp.vertexData = 0;
 	mRenderOp.useIndexes = true;
 
 	updateFromParent();
 }
-//-----------------------------------------------------------------------
+
+
 DeferredLight::~DeferredLight()
 {
-	// need to release IndexData and vertexData created for renderable
     delete mRenderOp.indexData;
     delete mRenderOp.vertexData;
 }
-//-----------------------------------------------------------------------
+
+
+/*----------------------------------------------
+	Methods
+----------------------------------------------*/
+
+
 void DeferredLight::setAttenuation(float c, float b, float a)
 {
 	// Set Attenuation parameter to shader
-	//setCustomParameter(3, Vector4(c, b, a, 0));
+	// setCustomParameter(3, Vector4(c, b, a, 0));
 	float outerRadius = mParentLight->getAttenuationRange();
-	/// There is attenuation? Set material accordingly
-	if(c != 1.0f || b != 0.0f || a != 0.0f)
+
+	if (c != 1.0f || b != 0.0f || a != 0.0f)
 	{
 		ENABLE_BIT(mPermutation, LightMaterialGenerator::MI_ATTENUATED);
-		if (mParentLight->getType() == Light::LT_POINT)
+		if (mParentLight->getType() == Ogre::Light::LT_POINT)
 		{
 			//// Calculate radius from Attenuation
 			int threshold_level = 10;// difference of 10-15 levels deemed unnoticeable
@@ -58,19 +70,21 @@ void DeferredLight::setAttenuation(float c, float b, float a)
     
 	rebuildGeometry(outerRadius);
 }
-//-----------------------------------------------------------------------
-void DeferredLight::setSpecularColour(const ColourValue &col)
-{
-	//setCustomParameter(2, Vector4(col.r, col.g, col.b, col.a));
-	/// There is a specular component? Set material accordingly
-	
+
+
+void DeferredLight::setSpecularColour(const Ogre::ColourValue &col)
+{	
 	if(col.r != 0.0f || col.g != 0.0f || col.b != 0.0f)
+	{
 		ENABLE_BIT(mPermutation,LightMaterialGenerator::MI_SPECULAR);
+	}
 	else
+	{
 		DISABLE_BIT(mPermutation,LightMaterialGenerator::MI_SPECULAR);
-		
+	}	
 }
-//-----------------------------------------------------------------------
+
+
 void DeferredLight::rebuildGeometry(float radius)
 {
 	//Disable all 3 bits
@@ -80,53 +94,52 @@ void DeferredLight::rebuildGeometry(float radius)
 
 	switch (mParentLight->getType())
 	{
-	case Light::LT_DIRECTIONAL:
+	case Ogre::Light::LT_DIRECTIONAL:
 		createRectangle2D();
         ENABLE_BIT(mPermutation,LightMaterialGenerator::MI_DIRECTIONAL);
 		break;
-	case Light::LT_POINT:
+	case Ogre::Light::LT_POINT:
 		/// XXX some more intelligent expression for rings and segments
 		createSphere(radius, 10, 10);
 		ENABLE_BIT(mPermutation,LightMaterialGenerator::MI_POINT);
 		break;
-	case Light::LT_SPOTLIGHT:
-		Real height = mParentLight->getAttenuationRange();
-		Radian coneRadiusAngle = mParentLight->getSpotlightOuterAngle() / 2;
-        Real rad = Math::Tan(coneRadiusAngle) * height;
+	case Ogre::Light::LT_SPOTLIGHT:
+		Ogre::Real height = mParentLight->getAttenuationRange();
+		Ogre::Radian coneRadiusAngle = mParentLight->getSpotlightOuterAngle() / 2;
+        Ogre::Real rad = Ogre::Math::Tan(coneRadiusAngle) * height;
 		createCone(rad, height, 20);
 		ENABLE_BIT(mPermutation,LightMaterialGenerator::MI_SPOTLIGHT);
 		break;
 	}	
 }
-//-----------------------------------------------------------------------
+
+
 void DeferredLight::createRectangle2D()
 {
-	/// XXX this RenderOp should really be re-used between DeferredLight objects,
-	/// not generated every time
 	delete mRenderOp.vertexData; 
 	delete mRenderOp.indexData; 
 
-	mRenderOp.vertexData = new VertexData();
+	// Create rectangle
+	mRenderOp.vertexData = new Ogre::VertexData();
     mRenderOp.indexData = 0;
-
 	GeomUtils::createQuad(mRenderOp.vertexData);
-
-    mRenderOp.operationType = RenderOperation::OT_TRIANGLE_STRIP; 
+    mRenderOp.operationType = Ogre::RenderOperation::OT_TRIANGLE_STRIP; 
     mRenderOp.useIndexes = false; 
 
-	// Set bounding
-    setBoundingBox(AxisAlignedBox(-10000,-10000,-10000,10000,10000,10000));
+	// Set bounding box
+    setBoundingBox(Ogre::AxisAlignedBox(-10000,-10000,-10000,10000,10000,10000));
 	mRadius = 15000;
 	bIgnoreWorld = true;
 }
-//-----------------------------------------------------------------------
+
+
 void DeferredLight::createSphere(float radius, int nRings, int nSegments)
 {
 	delete mRenderOp.vertexData; 
 	delete mRenderOp.indexData;
-	mRenderOp.operationType = RenderOperation::OT_TRIANGLE_LIST;
-	mRenderOp.indexData = new IndexData();
-	mRenderOp.vertexData = new VertexData();
+	mRenderOp.operationType = Ogre::RenderOperation::OT_TRIANGLE_LIST;
+	mRenderOp.indexData = new Ogre::IndexData();
+	mRenderOp.vertexData = new Ogre::VertexData();
 	mRenderOp.useIndexes = true;
 
 	GeomUtils::createSphere(mRenderOp.vertexData, mRenderOp.indexData
@@ -137,18 +150,19 @@ void DeferredLight::createSphere(float radius, int nRings, int nSegments)
 		);
 
 	// Set bounding box and sphere
-	setBoundingBox( AxisAlignedBox( Vector3(-radius, -radius, -radius), Vector3(radius, radius, radius) ) );
+	setBoundingBox(Ogre::AxisAlignedBox(Ogre::Vector3(-radius, -radius, -radius), Ogre::Vector3(radius, radius, radius) ) );
 	mRadius = radius;
 	bIgnoreWorld = false;
 }
-//-----------------------------------------------------------------------
+
+
 void DeferredLight::createCone(float radius, float height, int nVerticesInBase)
 {
 	delete mRenderOp.vertexData;
 	delete mRenderOp.indexData;
-	mRenderOp.operationType = RenderOperation::OT_TRIANGLE_LIST;
-	mRenderOp.indexData = new IndexData();
-	mRenderOp.vertexData = new VertexData();
+	mRenderOp.operationType = Ogre::RenderOperation::OT_TRIANGLE_LIST;
+	mRenderOp.indexData = new Ogre::IndexData();
+	mRenderOp.vertexData = new Ogre::VertexData();
 	mRenderOp.useIndexes = true;
 
 	GeomUtils::createCone(mRenderOp.vertexData, mRenderOp.indexData
@@ -156,20 +170,22 @@ void DeferredLight::createCone(float radius, float height, int nVerticesInBase)
 		, height, nVerticesInBase);
 
 	// Set bounding box and sphere
-	setBoundingBox( AxisAlignedBox( 
-			Vector3(-radius, 0, -radius), 
-			Vector3(radius, height, radius) ) );
+	setBoundingBox(Ogre::AxisAlignedBox( 
+			Ogre::Vector3(-radius, 0, -radius), 
+			Ogre::Vector3(radius, height, radius) ) );
 
 	mRadius = radius;
 	bIgnoreWorld = false;
 }
-//-----------------------------------------------------------------------
-Real DeferredLight::getBoundingRadius(void) const
+
+
+Ogre::Real DeferredLight::getBoundingRadius(void) const
 {
 	return mRadius;
 }
-//-----------------------------------------------------------------------
-Real DeferredLight::getSquaredViewDepth(const Camera* cam) const
+
+
+Ogre::Real DeferredLight::getSquaredViewDepth(const Ogre::Camera* cam) const
 {
 	if(bIgnoreWorld)
 	{
@@ -177,40 +193,41 @@ Real DeferredLight::getSquaredViewDepth(const Camera* cam) const
 	}
 	else
 	{
-		Vector3 dist = cam->getDerivedPosition() - getParentSceneNode()->_getDerivedPosition();
+		Ogre::Vector3 dist = cam->getDerivedPosition() - getParentSceneNode()->_getDerivedPosition();
 		return dist.squaredLength();
 	}
 }
-//-----------------------------------------------------------------------
-const MaterialPtr& DeferredLight::getMaterial(void) const
+
+
+const Ogre::MaterialPtr& DeferredLight::getMaterial(void) const
 {
 	return mGenerator->getMaterial(mPermutation);
 }
-//-----------------------------------------------------------------------
-void DeferredLight::getWorldTransforms(Matrix4* xform) const
+
+
+void DeferredLight::getWorldTransforms(Ogre::Matrix4* xform) const
 {
-	if (mParentLight->getType() == Light::LT_SPOTLIGHT)
+	if (mParentLight->getType() == Ogre::Light::LT_SPOTLIGHT)
 	{
-		Quaternion quat = Vector3::UNIT_Y.getRotationTo(mParentLight->getDerivedDirection());
+		Ogre::Quaternion quat = Ogre::Vector3::UNIT_Y.getRotationTo(mParentLight->getDerivedDirection());
 		xform->makeTransform(mParentLight->getDerivedPosition(),
-			Vector3::UNIT_SCALE, quat);
+			Ogre::Vector3::UNIT_SCALE, quat);
 	}
 	else
 	{
 		xform->makeTransform(mParentLight->getDerivedPosition(),
-			Vector3::UNIT_SCALE, Quaternion::IDENTITY);
+			Ogre::Vector3::UNIT_SCALE, Ogre::Quaternion::IDENTITY);
 	}
 	
 }
-//-----------------------------------------------------------------------
+
+
 void DeferredLight::updateFromParent()
 {
-	//TODO : Don't do this unless something changed
-	setAttenuation(mParentLight->getAttenuationConstant(), 
-		mParentLight->getAttenuationLinear(), mParentLight->getAttenuationQuadric());	
+	setAttenuation(mParentLight->getAttenuationConstant(), mParentLight->getAttenuationLinear(), mParentLight->getAttenuationQuadric());	
 	setSpecularColour(mParentLight->getSpecularColour());
 
-	if (getCastChadows())
+	if (getCastShadows())
 	{
 		ENABLE_BIT(mPermutation,LightMaterialGenerator::MI_SHADOW_CASTER);
 	}
@@ -219,18 +236,21 @@ void DeferredLight::updateFromParent()
 		DISABLE_BIT(mPermutation, LightMaterialGenerator::MI_SHADOW_CASTER);
 	}
 }
-//-----------------------------------------------------------------------
+
+
 bool DeferredLight::isCameraInsideLight(Ogre::Camera* camera)
 {
 	switch (mParentLight->getType())
 	{
 	case Ogre::Light::LT_DIRECTIONAL:
 		return false;
+
 	case Ogre::Light::LT_POINT:
 		{
 			Ogre::Real distanceFromLight = camera->getDerivedPosition().distance(mParentLight->getDerivedPosition());
-			return distanceFromLight <= mRadius + camera->getNearClipDistance() + 0.1; 
+			return distanceFromLight <= mRadius + camera->getNearClipDistance() + 0.1;
 		}
+
 	case Ogre::Light::LT_SPOTLIGHT:
 		{
 			Ogre::Vector3 lightPos = mParentLight->getDerivedPosition();
@@ -251,23 +271,25 @@ bool DeferredLight::isCameraInsideLight(Ogre::Camera* camera)
 			return (distanceFromLight <= (mParentLight->getAttenuationRange() + clipRangeFix.length()))
 				&& (angle <= attAngle);
 		}
+
 	default:
 		//Please the compiler
 		return false;
 	}
 }
-//-----------------------------------------------------------------------
-bool DeferredLight::getCastChadows() const
+
+
+bool DeferredLight::getCastShadows() const
 {
 	return 
 		mParentLight->_getManager()->isShadowTechniqueInUse() &&
 		mParentLight->getCastShadows() && 
-		(mParentLight->getType() == Light::LT_DIRECTIONAL || mParentLight->getType() == Light::LT_SPOTLIGHT);
+		(mParentLight->getType() == Ogre::Light::LT_DIRECTIONAL || mParentLight->getType() == Ogre::Light::LT_SPOTLIGHT);
 }
-//-----------------------------------------------------------------------
+
+
 void DeferredLight::updateFromCamera(Ogre::Camera* camera)
 {
-	//Set shader params
 	const Ogre::MaterialPtr& mat = getMaterial();
 	if (!mat->isLoaded()) 
 	{
@@ -279,9 +301,7 @@ void DeferredLight::updateFromCamera(Ogre::Camera* camera)
 	for (unsigned short i=0; i<tech->getNumPasses(); i++) 
 	{
 		Ogre::Pass* pass = tech->getPass(i);
-		// get the vertex shader parameters
 		Ogre::GpuProgramParametersSharedPtr params = pass->getVertexProgramParameters();
-		// set the camera's far-top-right corner
 		if (params->_findNamedConstantDefinition("farCorner"))
 			params->setNamedConstant("farCorner", farCorner);
 	    
@@ -289,7 +309,7 @@ void DeferredLight::updateFromCamera(Ogre::Camera* camera)
 		if (params->_findNamedConstantDefinition("farCorner"))
 			params->setNamedConstant("farCorner", farCorner);
 
-		//If inside light geometry, render back faces with CMPF_GREATER, otherwise normally
+		// If inside light geometry, render back faces with CMPF_GREATER, otherwise normally
 		if (mParentLight->getType() == Ogre::Light::LT_DIRECTIONAL)
 		{
 			pass->setCullingMode(Ogre::CULL_CLOCKWISE);
@@ -310,9 +330,9 @@ void DeferredLight::updateFromCamera(Ogre::Camera* camera)
 			}
 		}
 
-		Camera shadowCam("ShadowCameraSetupCam", 0);
+		Ogre::Camera shadowCam("ShadowCameraSetupCam", 0);
 		shadowCam._notifyViewport(camera->getViewport());
-		SceneManager* sm = mParentLight->_getManager();
+		Ogre::SceneManager* sm = mParentLight->_getManager();
 		sm->getShadowCameraSetup()->getShadowCamera(sm, 
 			camera, camera->getViewport(), mParentLight, &shadowCam, 0);
 			

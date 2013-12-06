@@ -105,7 +105,7 @@ void RenderOperation::execute(Ogre::SceneManager *sm, Ogre::RenderSystem *rs)
 		tech = dLight->getMaterial()->getBestTechnique();
 
 		// Update shadow textures
-		if (dLight->getCastChadows())
+		if (dLight->getCastShadows())
 		{
 			// Render textures
 			Ogre::SceneManager::RenderContext* context = sm->_pauseRendering();

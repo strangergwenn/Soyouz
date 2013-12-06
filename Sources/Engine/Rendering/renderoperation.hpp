@@ -61,7 +61,7 @@ private:
 	Ogre::Viewport* mViewport;
 
 	// Material generator
-	MaterialGenerator* mLightMaterialGenerator;
+	LightMaterialGenerator* mLightMaterialGenerator;
 
 	// Lights
 	typedef std::map<Ogre::Light*, DeferredLight*> LightsMap;

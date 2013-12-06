@@ -39,7 +39,7 @@ public:
 	
 	/**
 	 * @brief Get the view depth (zero)
-	 * @param cam				Ignored
+	 * @param cam			Ignored
 	 * @return zero
 	 **/
 	virtual Ogre::Real getSquaredViewDepth(const Ogre::Camera* cam) const;
@@ -52,13 +52,13 @@ public:
 	
 	/**
 	 * @brief Get the world transformation
-	 * @param xform				Transformation matrix to build
+	 * @param xform			Transformation matrix to build
 	 **/
 	virtual void getWorldTransforms(Ogre::Matrix4* xform) const;
 	
 	/**
 	 * @brief Update the lighting from the camera position
-	 * @param camera			Camera to use
+	 * @param camera		Camera to use
 	 **/
 	void updateFromCamera(Ogre::Camera* camera);
 
