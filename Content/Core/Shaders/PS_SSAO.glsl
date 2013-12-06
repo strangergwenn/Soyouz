@@ -15,7 +15,7 @@ uniform float cEdgeHighlight;
 
 void main()
 {
-	const int nSampleNum = 16;
+	const int nSampleNum = 12;
 
 	float clipDepth = farClipDistance - nearClipDistance;
 

@@ -29,7 +29,7 @@ Thruster::Thruster(Game* g, String name, MeshActor* parent, Vector3 location, Qu
 	mLight = g->getScene()->createLight();
 	mLight->setCastShadows(false);
 	mLight->setType(Ogre::Light::LT_POINT);
-	mLight->setAttenuation(100, 1.0f, 0.0f, 0.2f);
+	mLight->setAttenuation(100, 1.0f, 0.00f, 1.0f);
 	sn->attachObject(mLight);
 	sn->setPosition(0, 0, -0.1f);
 	

@@ -12,6 +12,8 @@
 #define ENABLE_BIT(mask, flag) (mask) |= (flag)
 #define DISABLE_BIT(mask, flag) (mask) &= ~(flag)
 
+#define MINIMUM_ATTENUATION (5.0f)
+
 
 /*----------------------------------------------
 	Constructor & destructor
@@ -43,24 +45,15 @@ DeferredLight::~DeferredLight()
 
 void DeferredLight::setAttenuation(float c, float b, float a)
 {
-	// Set Attenuation parameter to shader
-	// setCustomParameter(3, Vector4(c, b, a, 0));
 	float outerRadius = mParentLight->getAttenuationRange();
-
 	if (c != 1.0f || b != 0.0f || a != 0.0f)
 	{
 		ENABLE_BIT(mPermutation, LightMaterialGenerator::MI_ATTENUATED);
 		if (mParentLight->getType() == Ogre::Light::LT_POINT)
 		{
-			//// Calculate radius from Attenuation
-			int threshold_level = 10;// difference of 10-15 levels deemed unnoticeable
-			float threshold = 1.0f/((float)threshold_level/256.0f); 
-
-			//// Use quadratic formula to determine outer radius
-			c = c-threshold;
-			float d=sqrt(b*b-4*a*c);
-			outerRadius = (-2*c)/(b+d);
-			outerRadius /= 1.2f;
+			float minAttenuation = 1.0f / (MINIMUM_ATTENUATION / 256.0f);
+			c -= minAttenuation;
+			outerRadius = (-2 * c) / (b + sqrt(b * b - 4 * a * c));
 		}
 	}
 	else

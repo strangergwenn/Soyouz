@@ -167,5 +167,5 @@ void main()
     total_light_contrib *= (1-spotFalloff);
 #endif
 
-    fragColour = vec4(total_light_contrib*colour, 0.0);
+    fragColour = vec4(total_light_contrib * colour, 0.0);
 }
