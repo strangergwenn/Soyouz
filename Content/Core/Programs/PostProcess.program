@@ -64,3 +64,15 @@ fragment_program PS_SSAO glsl
 		param_named sRotSampler4x4 int 1
 	}
 }
+
+// FXAA shader
+fragment_program PS_FXAA glsl
+{
+    source PS_FXAA.glsl
+	
+	default_params
+	{
+		param_named textureSampler int 0
+		param_named texcoordOffset float2 0.001 0.001
+	}
+}

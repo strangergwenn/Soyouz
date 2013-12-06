@@ -45,6 +45,7 @@ compositor DeferredShading/ShowLit
 		texture transparency			target_width target_height PF_R8G8B8
 		texture transparency_glow		target_width target_height PF_R8G8B8
 		texture main_glow_transparency	target_width target_height PF_R8G8B8
+		texture final_scene				target_width target_height PF_R8G8B8
 		
 		// Main target for rendering objects (GBuffer)
 		target main
@@ -181,7 +182,7 @@ compositor DeferredShading/ShowLit
 		}
 		
 		// Final output after glowing transparency pass (GBuffer + overlay)
-		target_output
+		target final_scene
 		{
 			input none
 			
@@ -190,6 +191,18 @@ compositor DeferredShading/ShowLit
 				material PostProcess/Blur
 				input 0 main_glow_transparency
 				input 1 transparency_glow
+			}
+		}
+		
+		// FXAA
+		target_output
+		{
+			input none
+			
+			pass render_quad
+			{
+				material PostProcess/FXAA
+				input 0 final_scene
 			}
 		}
 	}

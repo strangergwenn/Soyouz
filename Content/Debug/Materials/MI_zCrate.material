@@ -11,5 +11,6 @@ material MI_zCrate : Master
 {
 	set_texture_alias DiffuseMap	TX_zCrate_D.png
 	set_texture_alias NormalMap		TX_zCrate_N.png
+	set_texture_alias SpecularMap	TX_zCrate_S.png
 	set_texture_alias GlowMap		TX_zCrate_E.png
 }

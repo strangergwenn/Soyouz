@@ -6,10 +6,21 @@
 **/
 
 /*-------------------------------------------------
-	Input / Outputs
+	Config
 /*-----------------------------------------------*/
 
 #version 150
+
+uniform sampler2D DiffuseMap;
+uniform sampler2D NormalMap;
+uniform sampler2D SpecularMap;
+uniform sampler2D GlowMap;
+uniform float cFarDistance;
+
+
+/*-------------------------------------------------
+	Input / Outputs
+/*-----------------------------------------------*/
 
 in vec3 oViewPos;
 in vec3 oNormal;
@@ -18,12 +29,6 @@ in vec3 oBiNormal;
 in vec2 oUv0;
 
 out vec4 fragData[3];
-
-uniform sampler2D DiffuseMap;
-uniform sampler2D NormalMap;
-uniform sampler2D SpecularMap;
-uniform sampler2D GlowMap;
-uniform float cFarDistance;
 
 
 /*-------------------------------------------------

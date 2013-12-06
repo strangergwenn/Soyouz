@@ -54,6 +54,7 @@ class DemoWorld : public Game
 		Ogre::Light* l1 = mScene->createLight();
         l1->setType(Ogre::Light::LT_DIRECTIONAL);
         l1->setDiffuseColour(1.0f, 0.9f, 0.5f);
+        l1->setSpecularColour(1.0f, 0.9f, 0.5f);
 		l1->setDirection(1, -0.5f, -0.2f);
 		l1->setCastShadows(false);
 	}
