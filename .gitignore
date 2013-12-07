@@ -31,7 +31,8 @@ OpenGL Rendering Subsystem
 *.la
 *.a
 # External libs
-External/
+External/Ogre/*
+External/Bullet/*
 
 #Autotools file
 Build/

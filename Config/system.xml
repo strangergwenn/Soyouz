@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+	<rendersystem>
+		<option name="Fixed Pipeline Enabled" value="Yes" />
+		<option name="Full Screen" value="No" />
+		<option name="RTT Preferred Mode" value="FBO" />
+		<option name="VSync" value="No" />
+		<option name="Video Mode" value="1280 x 720" />
+	</rendersystem>
+	
+	<renderer>
+		<mipmaps value="5" />
+		<anisotropy value="4" />
+		<shadowDistance value="200" />
+		<shadowRes value="512" />
+	</renderer>
+	
+</document>

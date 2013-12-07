@@ -12,6 +12,7 @@
 #include "Engine/Rendering/renderer.hpp"
 #include "Engine/bulletphysics.hpp"
 #include "Engine/iomanager.hpp"
+#include "tinyxml2.hpp"
 
 class Actor;
 class Player;
@@ -115,6 +116,12 @@ public:
 	 * @return the scene
 	 **/
 	Ogre::SceneManager* getScene();
+	
+	/**
+	 * @brief Get the current config file root
+	 * @return the root XML element
+	 **/
+	tinyxml2::XMLElement* getConfig();
 	
 	/**
 	 * @brief Write text to the log file
@@ -230,6 +237,8 @@ protected:
 	Renderer* mRenderer;
 	Player* mPlayer;
 	IOManager* mIOManager;
+	tinyxml2::XMLDocument mConfigFile;
+	tinyxml2::XMLElement* mConfig;
 
 	Ogre::list<Actor*>::type mAllActors;
 	Ogre::list<Actor*>::type mToRemoveActors;

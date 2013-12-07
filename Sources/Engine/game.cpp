@@ -13,6 +13,7 @@
 
 
 #define OGRE_CONF			"Config/soyouz.cfg"
+#define SYSTEM_CONF			"Config/system.xml"
 #if OGRE_DEBUG_MODE
 #  define PLUGINS_CONF		"Config/plugins_d.cfg"
 #else
@@ -175,6 +176,12 @@ Ogre::SceneManager* Game::getScene()
 }
 
 
+tinyxml2::XMLElement* Game::getConfig()
+{
+	return mConfig;
+}
+
+
 /*----------------------------------------------
 	Events
 ----------------------------------------------*/
@@ -282,13 +289,20 @@ bool Game::setup()
 void Game::setupResources()
 {
 	Ogre::ConfigFile cf;
+	tinyxml2::XMLError res;
 	String pluginsPath, secName, typeName, archName;
 	
-	// Plugins
+	// Main setup
 	pluginsPath = PLUGINS_CONF;
 	mRoot = new Ogre::Root(pluginsPath, OGRE_CONF, LOGFILE_NAME);
 	mOverlaySystem = new Ogre::OverlaySystem();
 
+	// XML setup
+	res = mConfigFile.LoadFile(SYSTEM_CONF);
+	assert(res == tinyxml2::XML_NO_ERROR);
+	mConfig = mConfigFile.FirstChildElement("document");
+	assert(mConfig != NULL);
+	
 	// Resources
 	cf.load(RESOURCES_CONF);
 	Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
@@ -331,18 +345,23 @@ bool Game::setupSystem(const String desiredRenderer)
             break;
         }
     }
-
-	// Selection
     if (!bRes)
 	{
         renderSystem = *(rdrs.begin());
     }
     mRoot->setRenderSystem(renderSystem);
-	renderSystem->setConfigOption("Fixed Pipeline Enabled", "Yes");
-	renderSystem->setConfigOption("Full Screen", "No");
-	renderSystem->setConfigOption("RTT Preferred Mode", "FBO");
-	renderSystem->setConfigOption("VSync", "No");
-    renderSystem->setConfigOption("Video Mode", "1280 x 720");
+
+	// Render options
+	tinyxml2::XMLElement* renderConf = mConfig->FirstChildElement("rendersystem");
+	assert(renderConf != NULL);
+	tinyxml2::XMLElement* i = renderConf->FirstChildElement("option");
+	while (i != NULL)
+	{
+		renderSystem->setConfigOption(i->Attribute("name"), i->Attribute("value"));
+		i = i->NextSiblingElement("option");
+	}
+
+	// Window
 	mWindow = mRoot->initialise(true, "Soyouz");
 	mScene = mRoot->createSceneManager(Ogre::ST_GENERIC, "GameScene");
     return true;
@@ -373,7 +392,7 @@ void Game::setupRender(bool bShowPostProcess)
 	mRoot->addFrameListener(this);
 
 	// Deferred rendering setup
-	mRenderer = new Renderer(mWindow->getViewport(0), mScene);
+	mRenderer = new Renderer(mWindow->getViewport(0), mScene, this);
 	mRenderer->setMode(Renderer::DSM_SHOWLIT);
 }
 

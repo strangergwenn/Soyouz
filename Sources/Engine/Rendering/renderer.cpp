@@ -7,28 +7,37 @@
 
 #include "Engine/Rendering/renderer.hpp"
 #include "Engine/Rendering/renderoperation.hpp"
+#include "Engine/game.hpp"
 
 
 /*----------------------------------------------
 	Constructor & destructor
 ----------------------------------------------*/
 
-Renderer::Renderer(Ogre::Viewport* vp, Ogre::SceneManager* sm)
+Renderer::Renderer(Ogre::Viewport* vp, Ogre::SceneManager* sm, tinyxml2::XMLElement* s)
 	: mViewport(vp), mScene(sm)
 {
+	// XML settings
+	tinyxml2::XMLElement* config = s->FirstChildElement("renderer");
+	assert(config != NULL);
+	int res = config->FirstChildElement("shadowRes")->IntAttribute("value");
+	int aniso = config->FirstChildElement("anisotropy")->IntAttribute("value");
+	size_t mipmaps = (size_t)(config->FirstChildElement("mipmaps")->IntAttribute("value"));
+	float distance = config->FirstChildElement("shadowDistance")->FloatAttribute("value");
+
 	// Texture filtering
-	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
+	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(mipmaps);
 	Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(Ogre::TFO_ANISOTROPIC);
-	Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(4);
-	
+	Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(aniso);
+
 	// General render settings
 	vp->setBackgroundColour(Ogre::ColourValue(0.1f, 0.1f, 0.1f));
 	sm->setAmbientLight(Ogre::ColourValue(0,0,0));
 	sm->setShadowTextureCount(1);
-	sm->setShadowFarDistance(200);
-	sm->setShadowDirectionalLightExtrusionDistance(200);
+	sm->setShadowFarDistance(distance);
+	sm->setShadowDirectionalLightExtrusionDistance(distance);
 	sm->setShadowTechnique(Ogre::SHADOWTYPE_TEXTURE_MODULATIVE);
-	sm->setShadowTextureConfig(0, 512, 512, Ogre::PF_FLOAT16_R, 2 );
+	sm->setShadowTextureConfig(0, res, res, Ogre::PF_FLOAT16_R, 2 );
 	sm->setShadowTextureCasterMaterial("Render/ShadowCaster");
 	
 	// GBuffer creation

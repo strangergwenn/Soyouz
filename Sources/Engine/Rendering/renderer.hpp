@@ -22,6 +22,8 @@
 #define OIS_DYNAMIC_LIB
 #include <OIS/OIS.h>
 
+#include "tinyxml2.hpp"
+
 
 /*----------------------------------------------
 	Deferred shading renderer
@@ -47,8 +49,9 @@ public:
 	 * @brief Renderer constructor
 	 * @param vp				Viewport
 	 * @param sm				Scene manager
+	 * @param s					System config
 	 **/
-	Renderer(Ogre::Viewport* vp, Ogre::SceneManager* sm);
+	Renderer(Ogre::Viewport* vp, Ogre::SceneManager* sm,  tinyxml2::XMLElement* s);
 	
 	/**
 	 * @brief Renderer destructor
