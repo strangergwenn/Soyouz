@@ -490,7 +490,6 @@ void MeshActor::getCollisionMesh(bool bOptimize)
          }
          trimesh->addTriangle(vertexPos[0], vertexPos[1], vertexPos[2]);
 	}
-	gameLog("getCollisionMesh : t " + StringConverter::toString(trimesh->getNumTriangles()) + " tris");
 	btConvexTriangleMeshShape* trishape = new btConvexTriangleMeshShape(trimesh, true);
 	
 	// Collision hull generation
@@ -501,7 +500,6 @@ void MeshActor::getCollisionMesh(bool bOptimize)
 		hull->buildHull(margin);
 		mPhysShape = new btConvexHullShape((btScalar*)hull->getVertexPointer(), hull->numVertices());
 
-		gameLog("getCollisionMesh : h " + StringConverter::toString(hull->numTriangles()) + " tris");
 		delete trishape;
 		delete hull;
 	}

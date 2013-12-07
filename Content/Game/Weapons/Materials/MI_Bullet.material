@@ -1,0 +1,24 @@
+//
+// This work is distributed under the General Public License,
+// see LICENSE for details
+//
+// @author Gwennaël ARBONA
+//
+
+import * from "Core/Materials/Master.material"
+
+material MI_Bullet : Master
+{
+	set_texture_alias GlowMap		white.png
+	technique GBuffer
+	{
+		pass
+		{
+			fragment_program_ref PS_Master
+			{
+				param_named cGlowAlpha			float 1.0
+				param_named cGlowColor			float3 1 0.5 0.1
+			}
+		}
+	}
+}

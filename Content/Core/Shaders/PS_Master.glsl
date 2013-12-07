@@ -15,6 +15,10 @@ uniform sampler2D DiffuseMap;
 uniform sampler2D NormalMap;
 uniform sampler2D SpecularMap;
 uniform sampler2D GlowMap;
+
+uniform vec3 cGlowColor;
+uniform float cGlowAlpha;
+
 uniform float cFarDistance;
 
 
@@ -64,6 +68,11 @@ void main()
 	fragData[1].a = length(oViewPos) / cFarDistance;
 	
 	// Glow
-	fragData[2].rgb = texture(GlowMap, oUv0).rgb;
+	vec3 base = texture(GlowMap, oUv0).rgb;
+	if (length(cGlowColor) > 0)
+	{
+		base = cGlowColor * length(base);
+	}
+	fragData[2].rgb = base * cGlowAlpha;
 	fragData[2].a = 0;
 }
