@@ -27,48 +27,44 @@ class DemoWorld : public Game
 	
 	void construct()
 	{
+		// Earth and sky
+		earth = new MeshActor(this, "BackgroundPlanet", "SM_Planet.mesh", "MI_Earth");
+		earth->setRotation(Quaternion(Radian(Degree(-90).valueRadians()), Vector3(1,0,0)));
+		earth->setLocation(Vector3(0, -2000000, 0));
+		earth->setScale(1500);
+		mScene->setSkyBox(true, "Sky");
+
+		// Sun
+		Ogre::Light* l1 = mScene->createLight();
+        l1->setType(Ogre::Light::LT_DIRECTIONAL);
+        l1->setDiffuseColour(1.95f, 1.95f, 1.95f);
+        l1->setSpecularColour(1.95f, 1.95f, 1.95f);
+		l1->setDirection(1, -0.5f, -0.2f);
+		l1->setCastShadows(false);
+
 		// Collision crate
 		MeshActor* crate = new MeshActor(this, "crate", "crate.mesh", "MI_Crate", true, 1.0f);
 		crate->setLocation(Vector3(0, 0, -50));
-		
-		// Earth
-		Ogre::Real distance = 2000000;
-		Ogre::Real scale = 30000;
-		Ogre::SceneNode* mSceneNode = mScene->getRootSceneNode()->createChildSceneNode();
-		Ogre::Entity* mEntity = mScene->createEntity("sphere1", Ogre::SceneManager::PT_SPHERE);
-		mEntity->setMaterialName("Default");
-		mEntity->setCastShadows(true);
-		mSceneNode->attachObject(mEntity);
-		mSceneNode->setScale(scale, scale, scale);
-		mSceneNode->setPosition(Vector3(0, -distance, 0));
-				
-		// zCrate
-		Ogre::SceneNode* mSceneNode2 = mScene->getRootSceneNode()->createChildSceneNode();
-		Ogre::Entity* mEntity2 = mScene->createEntity("zcrate", Ogre::SceneManager::PT_CUBE);
-		mEntity2->setMaterialName("MI_zCrate");
-		mEntity2->setCastShadows(true);
-		mSceneNode2->attachObject(mEntity2);
-		mSceneNode2->setPosition(Vector3(-128, -64, -64));
-
-
-		mScene->setSkyBox(true, "Sky");
-
-		// Light
-		Ogre::Light* l1 = mScene->createLight();
-        l1->setType(Ogre::Light::LT_DIRECTIONAL);
-        l1->setDiffuseColour(1.0f, 0.9f, 0.5f);
-        l1->setSpecularColour(1.0f, 0.9f, 0.5f);
-		l1->setDirection(1, -0.5f, -0.2f);
-		l1->setCastShadows(false);
 	}
 
 	void destruct(){}
 
 	
+	void tick(const Ogre::FrameEvent& evt)
+	{
+		Game::tick(evt);
+		
+		earth->rotate(Quaternion(Radian(Degree(-0.1f * evt.timeSinceLastFrame).valueRadians()), Vector3(0,1,0)));
+	}
+	
+
 	void setupPlayer()
 	{
 		mPlayer = new DemoPlayer(this, "LocalPlayer");
 	}
+
+
+	MeshActor* earth;
 
 };
 

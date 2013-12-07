@@ -41,17 +41,29 @@ out vec4 fragData[3];
 
 void main()
 {
+	// Specific planet factor (temporary rim lighting)
+	float rimFactor = (length(oViewPos) - 800000) / 500000;
+	if (rimFactor < 0)
+	{
+		rimFactor = 0;
+	}
+
+	// Diffuse + specularity
 	fragData[0].rgb = texture(DiffuseMap, oUv0).rgb;
+	fragData[0].rgb += vec3(0.1, 0.5, 0.95) * rimFactor;
 	fragData[0].a = length(texture(SpecularMap, oUv0).rgb);
 	
+	// Normal mapping setup
 	vec3 texNormal = texture(NormalMap, oUv0).rgb;
 	texNormal.b = texNormal.b * 2;
 	mat3 normalRotation = mat3(oTangent, oBiNormal, oNormal);
 	vec3 localTexNormal = normalRotation * texNormal;
 
+	// Normal mapping + depth
 	fragData[1].rgb = normalize(localTexNormal);
 	fragData[1].a = length(oViewPos) / cFarDistance;
 	
+	// Glow
 	fragData[2].rgb = texture(GlowMap, oUv0).rgb;
 	fragData[2].a = 0;
 }

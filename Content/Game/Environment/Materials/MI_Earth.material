@@ -1,0 +1,13 @@
+//
+// This work is distributed under the General Public License,
+// see LICENSE for details
+//
+// @author Gwennaël ARBONA
+//
+
+import * from "Core/Materials/Master.material"
+
+material MI_Earth : Master
+{
+	set_texture_alias DiffuseMap	TX_Earth_D.png
+}
