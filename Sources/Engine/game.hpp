@@ -237,7 +237,7 @@ protected:
 	Renderer* mRenderer;
 	Player* mPlayer;
 	IOManager* mIOManager;
-	tinyxml2::XMLDocument mConfigFile;
+	tinyxml2::XMLDocument* mConfigFile;
 	tinyxml2::XMLElement* mConfig;
 
 	Ogre::list<Actor*>::type mAllActors;

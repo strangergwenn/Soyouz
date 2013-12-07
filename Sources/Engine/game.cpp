@@ -298,9 +298,10 @@ void Game::setupResources()
 	mOverlaySystem = new Ogre::OverlaySystem();
 
 	// XML setup
-	res = mConfigFile.LoadFile(SYSTEM_CONF);
+	mConfigFile = new tinyxml2::XMLDocument();
+	res = mConfigFile->LoadFile(SYSTEM_CONF);
 	assert(res == tinyxml2::XML_NO_ERROR);
-	mConfig = mConfigFile.FirstChildElement("document");
+	mConfig = mConfigFile->FirstChildElement("document");
 	assert(mConfig != NULL);
 	
 	// Resources
