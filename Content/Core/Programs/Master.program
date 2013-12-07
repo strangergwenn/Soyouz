@@ -19,7 +19,7 @@ fragment_program PS_Master glsl
 		param_named NormalMap			int 1
 		param_named SpecularMap			int 2
 		param_named GlowMap				int 3
-		param_named cFarDistance		float 500.0
+		param_named_auto cFarDistance	far_clip_distance
 	}
 }
 

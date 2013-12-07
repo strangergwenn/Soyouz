@@ -1,6 +1,19 @@
-material Skybox
+
+material Sky
 {
-	technique
+	technique GBuffer
+	{
+		scheme GBuffer
+
+		pass
+		{
+			lighting off
+			depth_write off
+			scene_blend zero zero
+		}
+	}
+	
+	technique NoGBuffer
 	{
 		pass
 		{

@@ -17,7 +17,6 @@ material PostProcess/FXAA
 			
 			vertex_program_ref VS_UVMap
 			{
-				param_named_auto projection		worldviewproj_matrix
 			}
 
             fragment_program_ref PS_FXAA

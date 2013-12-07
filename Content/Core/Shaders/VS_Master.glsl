@@ -23,6 +23,7 @@ in vec3 tangent;
 in vec3 binormal;
 
 out vec3 oViewPos;
+out vec3 oViewDir;
 out vec3 oNormal;
 out vec3 oTangent;
 out vec3 oBiNormal;
@@ -30,6 +31,7 @@ out vec2 oUv0;
 
 uniform mat4 cWorldViewProj;
 uniform mat4 cWorldView;
+uniform vec3 cEyePosition;
 
 
 /*-------------------------------------------------
@@ -43,5 +45,6 @@ void main()
 	oTangent = (cWorldView * vec4(tangent,0)).xyz;
 	oBiNormal =(cWorldView * vec4(binormal,0)).xyz;
 	oViewPos = (cWorldView * vertex).xyz;
+	oViewDir = vertex.xyz - cEyePosition;
 	oUv0 = uv0;
 }

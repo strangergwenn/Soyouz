@@ -49,7 +49,10 @@ class DemoWorld : public Game
 		mEntity2->setCastShadows(true);
 		mSceneNode2->attachObject(mEntity2);
 		mSceneNode2->setPosition(Vector3(-128, -64, -64));
-		
+
+
+		mScene->setSkyBox(true, "Sky");
+
 		// Light
 		Ogre::Light* l1 = mScene->createLight();
         l1->setType(Ogre::Light::LT_DIRECTIONAL);
