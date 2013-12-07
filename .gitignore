@@ -17,19 +17,21 @@
 *.lastbuildstate
 *.suo
 *.opensdf
-
-# Other
 OpenGL Rendering Subsystem
+
+# 3D files
 *.blend1
 *.blend2
 *.blend3
 *.mesh.xml
 *.scene
+*.psd
 
 # Compiled Static libraries
 *.lai
 *.la
 *.a
+
 # External libs
 External/Ogre/*
 External/Bullet/*

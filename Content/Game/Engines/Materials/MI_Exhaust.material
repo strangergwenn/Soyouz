@@ -3,8 +3,8 @@ import * from "Core/Materials/JetFlow.material"
 
 material MI_Exhaust : JetFlow
 {
-	set_texture_alias baseMap		jet.tga
-	set_texture_alias panningMap	jetnoise.png
+	set_texture_alias baseMap		TX_Jet.tga
+	set_texture_alias panningMap	TX_Jetnoise.png
 
 	technique NoGBuffer_Glow
 	{

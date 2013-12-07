@@ -18,12 +18,12 @@
 const float MAX_SPEED_RATIO =	+1.0f;
 const float MIN_SPEED_RATIO =	-1.0f;
 
-const Quaternion LEFT =			Quaternion(Radian(Degree(+90).valueRadians()), Vector3(0,1,0));
-const Quaternion RIGHT =		Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0));
-const Quaternion TOP =			Quaternion(Radian(Degree(+90).valueRadians()), Vector3(1,0,0));
-const Quaternion BOTTOM =		Quaternion(Radian(Degree(-90).valueRadians()), Vector3(1,0,0));
-const Quaternion FORWARD =		Quaternion(Radian(Degree(  0).valueRadians()), Vector3(0,1,0));
-const Quaternion BACK =			Quaternion(Radian(Degree(180).valueRadians()), Vector3(0,1,0));
+const Quaternion LEFT =			Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0));
+const Quaternion RIGHT =		Quaternion(Radian(Degree(+90).valueRadians()), Vector3(0,1,0));
+const Quaternion TOP =			Quaternion(Radian(Degree(-90).valueRadians()), Vector3(1,0,0));
+const Quaternion BOTTOM =		Quaternion(Radian(Degree(+90).valueRadians()), Vector3(1,0,0));
+const Quaternion FORWARD =		Quaternion(Radian(Degree(180).valueRadians()), Vector3(0,1,0));
+const Quaternion BACK =			Quaternion(Radian(Degree(  0).valueRadians()), Vector3(0,1,0));
 
 
 /*----------------------------------------------
@@ -58,7 +58,14 @@ Ship::Ship(Game* g, String name, String file, String material, float mass)
 	addThruster(Vector3(-3, -1.6f, +8), BACK);
 	addThruster(Vector3(+3, -1.6f, +8), BACK);
 	
+	// Weapon model
 	addWeapon(Vector3(0, 0, -8), BACK);
+
+	// Main engine model
+	MeshActor* mainengine = new MeshActor(g, name + "mainengine", "SM_Engine_2_Mod1.mesh", "Default");
+	mainengine->rotate(BACK);
+	mainengine->setLocation(Vector3(0, 0, +5.8f));
+	this->attachActor(mainengine);
 	
 	// Steering controls
 	mSteerX = 0;
