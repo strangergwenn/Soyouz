@@ -62,7 +62,7 @@ Ship::Ship(Game* g, String name, String file, String material, float mass)
 	addWeapon(Vector3(0, 0, -8), BACK);
 
 	// Main engine model
-	MeshActor* mainengine = new MeshActor(g, name + "mainengine", "SM_Engine_2_Mod1.mesh", "Default");
+	MeshActor* mainengine = new MeshActor(g, name + "mainengine", "SM_Engine_2_Mod1.mesh", "MI_Engine_2_Mod1");
 	mainengine->rotate(BACK);
 	mainengine->setLocation(Vector3(0, 0, +5.8f));
 	this->attachActor(mainengine);
