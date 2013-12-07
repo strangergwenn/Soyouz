@@ -28,11 +28,10 @@ public:
 	 * @brief Create a ship
 	 * @param g				Game actor
 	 * @param name			Unique name to set to the mesh
-	 * @param file			Ship file
-	 * @param material		Ship material
-	 * @param mass			Ship mass
+	 * @param templateFile	Ship template file
+	 * @param configFile	Ship user config file
 	 **/
-	Ship(Game* g, String name, String file, String material, float mass);
+	Ship(Game* g, String name, Ogre::String templateFile, Ogre::String configFile);
 	
 	/**
 	 * @brief Pre-tick event

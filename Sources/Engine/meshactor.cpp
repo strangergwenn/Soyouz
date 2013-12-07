@@ -12,15 +12,19 @@
 	Constructor & destructor
 ----------------------------------------------*/
 
+MeshActor::MeshActor(Game* g, String name)
+	: Actor(g, name)
+{
+	mPhysBody = NULL;
+}
+
+
 MeshActor::MeshActor(Game* g, String name, String file)
 	: Actor(g, name)
 {
 	if (file.length() > 0)
 	{
-		prepareLoad(file);
-		mMesh = g->createGameEntity(name + "_mesh", file);
-		mMesh->setCastShadows(true);
-		mNode->attachObject(mMesh);
+		setModel(file);
 	}
 	mPhysBody = NULL;
 }
@@ -31,10 +35,7 @@ MeshActor::MeshActor(Game* g, String name, String file, String material)
 {
 	if (file.length() > 0)
 	{
-		prepareLoad(file);
-		mMesh = g->createGameEntity(name + "_mesh", file);
-		mMesh->setCastShadows(true);
-		mNode->attachObject(mMesh);
+		setModel(file);
 		setMaterial(material);
 	}
 	mPhysBody = NULL;
@@ -46,11 +47,9 @@ MeshActor::MeshActor(Game* g, String name, String file, String material, bool bC
 {
 	if (file.length() > 0)
 	{
-		prepareLoad(file);
-		mMesh = g->createGameEntity(name + "_mesh", file);
-		mMesh->setCastShadows(bCastShadows);
-		mNode->attachObject(mMesh);
+		setModel(file);
 		setMaterial(material);
+		mMesh->setCastShadows(bCastShadows);
 	}
 	mPhysBody = NULL;
 }
@@ -61,11 +60,9 @@ MeshActor::MeshActor(Game* g, String name, String file, String material, bool bC
 {
 	if (file.length() > 0)
 	{
-		prepareLoad(file);
-		mMesh = g->createGameEntity(name + "_mesh", file);
-		mMesh->setCastShadows(bCastShadows);
-		mNode->attachObject(mMesh);
+		setModel(file);
 		setMaterial(material);
+		mMesh->setCastShadows(bCastShadows);
 		generateCollisions(mass);
 	}
 }
@@ -95,6 +92,22 @@ void MeshActor::tick(const Ogre::FrameEvent& evt)
 }
 
 
+void MeshActor::setModel(Ogre::String file)
+{
+	prepareLoad(file);
+	mMesh = mGame->createGameEntity(mName + "_mesh", file);
+	mMesh->setCastShadows(true);
+	mNode->attachObject(mMesh);
+}
+
+
+void MeshActor::setModel(Ogre::String file, float mass)
+{
+	setModel(file);
+	generateCollisions(mass);
+}
+
+
 void MeshActor::prepareLoad(Ogre::String name)
 {
 	unsigned short src, dest;
@@ -104,6 +117,7 @@ void MeshActor::prepareLoad(Ogre::String name)
 		pMesh->buildTangentVectors(Ogre::VES_TANGENT, src, dest);
 	}
 }
+
 
 
 void MeshActor::setLocation(Vector3 newPos)
@@ -203,11 +217,16 @@ void MeshActor::clearForces()
 }
 
 
+/*----------------------------------------------
+	Getters
+----------------------------------------------*/
+
 Vector3 MeshActor::getSpeed(void)
 {
 	btVector3 speed = mPhysBody->getLinearVelocity();
 	return Vector3(speed[0], speed[1], speed[2]);
 }
+
 
 Vector3 MeshActor::getLocalSpeed(void)
 {
@@ -215,17 +234,20 @@ Vector3 MeshActor::getLocalSpeed(void)
 	return Vector3(speed[0], speed[1], speed[2]);
 }
 
+
 Vector3 MeshActor::getAngularSpeed(void)
 {
 	btVector3 angularSpeed = mPhysBody->getAngularVelocity();
 	return Vector3(angularSpeed[0], angularSpeed[1], angularSpeed[2]);
 }
 
+
 Vector3 MeshActor::getLocalAngularSpeed(void)
 {
 	btVector3 angularSpeed = mPhysBody->getAngularVelocity() * mPhysTransform.getBasis();
 	return Vector3(angularSpeed[0], angularSpeed[1], angularSpeed[2]);
 }
+
 
 Quaternion MeshActor::getRotation()
 {
@@ -256,6 +278,7 @@ Vector3 MeshActor::getLocation()
 Vector3 MeshActor::getGlobalPosition(Vector3 position) {
 	return getRotation() * position + getLocation();
 }
+
 
 /*----------------------------------------------
 	Collisions

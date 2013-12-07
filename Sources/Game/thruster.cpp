@@ -16,7 +16,7 @@
 ----------------------------------------------*/
 	
 Thruster::Thruster(Game* g, String name, MeshActor* parent, Vector3 location, Quaternion rotation)
-	: MeshActor(g, name, "", "")
+	: MeshActor(g, name)
 {
 	// Customization
 	mMesh = NULL;

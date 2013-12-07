@@ -29,6 +29,13 @@ public:
 	 * @brief Create an actor
 	 * @param g				Game actor
 	 * @param name			Unique name to set to the mesh
+	 **/
+	MeshActor(Game* g, String name);
+	
+	/**
+	 * @brief Create an actor
+	 * @param g				Game actor
+	 * @param name			Unique name to set to the mesh
 	 * @param file			Mesh file to load
 	 **/
 	MeshActor(Game* g, String name, String file);
@@ -73,6 +80,19 @@ public:
 	 * @param evt			Frame event
 	 **/
 	virtual void tick(const Ogre::FrameEvent& evt);
+	
+	/**
+	 * @brief Set a new mesh from file name
+	 * @param name			Mesh file
+	 **/
+	void setModel(Ogre::String file);
+	
+	/**
+	 * @brief Set a new mesh from file name
+	 * @param name			Mesh file
+	 * @param mass			Mesh mass
+	 **/
+	void setModel(Ogre::String file, float mass);
 
 	/**
 	 * @brief Prepare mesh normals for loading

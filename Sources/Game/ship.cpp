@@ -30,9 +30,12 @@ const Quaternion BACK =			Quaternion(Radian(Degree(  0).valueRadians()), Vector3
 	Constructor
 ----------------------------------------------*/
 	
-Ship::Ship(Game* g, String name, String file, String material, float mass)
-	: MeshActor(g, name, file, material, true, mass)
+Ship::Ship(Game* g, Ogre::String name, Ogre::String templateFile, Ogre::String configFile)
+	: MeshActor(g, name)
 {
+	setModel("SM_APC.mesh", 100.0f);
+	setMaterial("MI_APC");
+
 	// Foward RCS ring
 	addThruster(Vector3(+4, 0, -5), RIGHT);
 	addThruster(Vector3(-4, 0, -5), LEFT);
