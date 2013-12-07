@@ -32,6 +32,11 @@ public:
 	 * @param configFile	Ship user config file
 	 **/
 	Ship(Game* g, String name, Ogre::String templateFile, Ogre::String configFile);
+
+	/**
+	 * @brief Destructor
+	 **/
+	virtual ~Ship();
 	
 	/**
 	 * @brief Pre-tick event
@@ -44,6 +49,12 @@ public:
 	 * @param evt			Frame event
 	 **/
 	void tick(const Ogre::FrameEvent& evt);
+
+	/**
+	 * @brief Order the ship to fire with its primary weapon
+	 * @param fire		activate or disable fire
+	 **/
+	void setFireOrder(bool fire);
 	
 	/**
 	 * @brief Set the ship speed target
@@ -88,13 +99,28 @@ public:
 	 **/
 	float getMaxAngularSpeed(void);
 
-/**
-	 * @brief Order the ship to fire with its primary weapon
-	 * @param fire		activate or disable fire
-	 **/
-	void setFireOrder(bool fire);
 
 protected:
+	
+	/**
+	 * @brief Load the user settings
+	 **/
+	virtual void loadConfigFile();
+
+	/**
+	 * @brief Add engines to the ship
+	 **/
+	virtual void setupEngines();
+	
+	/**
+	 * @brief Add weapons to the ship
+	 **/
+	virtual void setupWeapons();
+	
+	/**
+	 * @brief Add add-ons to the ship
+	 **/
+	virtual void setupAddons();
 	
 	/**
 	 * @brief Compute a steering component for linear control
@@ -111,21 +137,13 @@ protected:
 	 * @return the soft steering
 	 **/
 	float computeSoftAngularCommand(float measure, float command);
-	
-	/**
-	 * @brief Add an engine to the ship
-	 * @param location		Thruster relative location
-	 * @param rotation		Thruster rotation
-	 **/
-	void addThruster(Vector3 location, Quaternion rotation);
 
 
-	/**
-	 * @brief Add an weapon to the ship
-	 * @param location		Thruster relative location
-	 * @param rotation		Thruster rotation
-	 **/
-	void addWeapon(Vector3 location, Quaternion rotation);
+	// XML configuration
+	tinyxml2::XMLDocument* mTemplateFile;
+	tinyxml2::XMLDocument* mConfigFile;
+	tinyxml2::XMLElement* mTemplate;
+	tinyxml2::XMLElement* mConfig;
 
 	// Steering controls for the player
 	float mSteerX;
@@ -142,6 +160,13 @@ protected:
 	float mMaxAngularSpeed;
 	float mSoftModeLimit;
 	float mSoftModeAngularLimit;
+
+	// Customisation characteristics
+	int mEngineSize;
+	int mThrusterSize;
+	Ogre::String mShipClass;
+	Ogre::String mShipType;
+	Ogre::String mShipStory;
 
 	// Thrusters
 	Ogre::list<Thruster*>::type mThrusters;

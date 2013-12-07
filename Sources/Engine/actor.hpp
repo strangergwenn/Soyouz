@@ -89,6 +89,20 @@ public:
 	 * @param offset		Rotation vector (pitch, yaw, roll) in degrees
 	 **/
 	virtual void rotate(Quaternion rotator);
+	
+	/**
+	 * @brief Parse a string into a vector
+	 * @param vec			Input string
+	 * @return the Ogre vector
+	 **/
+	Vector3 vectorFromString(Ogre::String vec);
+	
+	/**
+	 * @brief Parse a string into a quaternion
+	 * @param vec			Input string
+	 * @return the Ogre quaternion
+	 **/
+	Quaternion quaternionFromString(Ogre::String quat);
 
 	/**
 	 * @brief Get the the actor location in the world

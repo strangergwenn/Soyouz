@@ -39,7 +39,7 @@ public:
 		mTargetSpeed = 0;
 
 		// Ship mesh
-		mShip = new Ship(g, "Ship", "", "");
+		mShip = new Ship(g, "Ship", "Hammer", "");
 		mShip->attachActor(this);
 		mShip->setLocation(Vector3(0, 0, 300));
 

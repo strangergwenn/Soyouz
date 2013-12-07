@@ -70,7 +70,10 @@ MeshActor::MeshActor(Game* g, String name, String file, String material, bool bC
 
 MeshActor::~MeshActor()
 {
-	mGame->unregisterRigidBody(mPhysBody);
+	if (mPhysBody)
+	{
+		mGame->unregisterRigidBody(mPhysBody);
+	}
 }
 
 
@@ -195,25 +198,36 @@ void MeshActor::rotate(Quaternion rotator)
 
 void MeshActor::applyForce(Vector3 force, Vector3 location)
 {
-	mPhysBody->setActivationState(DISABLE_DEACTIVATION);
-	btVector3 f = btVector3(force[0], force[1], force[2]);
-	btVector3 p = btVector3(location[0], location[1], location[2]);
-	mPhysBody->applyForce(f, p);
+	if (mPhysBody)
+	{
+		mPhysBody->setActivationState(DISABLE_DEACTIVATION);
+		btVector3 f = btVector3(force[0], force[1], force[2]);
+		btVector3 p = btVector3(location[0], location[1], location[2]);
+		mPhysBody->applyForce(f, p);
+	}
 }
+
 
 void MeshActor::applyLocalForce(Vector3 force, Vector3 location)
 {
-	mPhysBody->setActivationState(DISABLE_DEACTIVATION);
-	btVector3 f = btVector3(force[0], force[1], force[2]);
-	btVector3 p = btVector3(location[0], location[1], location[2]);
-	f = mPhysTransform.getBasis() * f;
-	p = mPhysTransform.getBasis() * p;
-	mPhysBody->applyForce(f, p);
+	if (mPhysBody)
+	{
+		mPhysBody->setActivationState(DISABLE_DEACTIVATION);
+		btVector3 f = btVector3(force[0], force[1], force[2]);
+		btVector3 p = btVector3(location[0], location[1], location[2]);
+		f = mPhysTransform.getBasis() * f;
+		p = mPhysTransform.getBasis() * p;
+		mPhysBody->applyForce(f, p);
+	}
 }
+
 
 void MeshActor::clearForces()
 {
-	mPhysBody->clearForces();
+	if (mPhysBody)
+	{
+		mPhysBody->clearForces();
+	}
 }
 
 
@@ -223,29 +237,57 @@ void MeshActor::clearForces()
 
 Vector3 MeshActor::getSpeed(void)
 {
-	btVector3 speed = mPhysBody->getLinearVelocity();
-	return Vector3(speed[0], speed[1], speed[2]);
+	if (mPhysBody)
+	{
+		btVector3 speed = mPhysBody->getLinearVelocity();
+		return Vector3(speed[0], speed[1], speed[2]);
+	}
+	else
+	{
+		return Vector3(0, 0, 0);
+	}
 }
 
 
 Vector3 MeshActor::getLocalSpeed(void)
 {
-	btVector3 speed = mPhysBody->getLinearVelocity() * mPhysTransform.getBasis();
-	return Vector3(speed[0], speed[1], speed[2]);
+	if (mPhysBody)
+	{
+		btVector3 speed = mPhysBody->getLinearVelocity() * mPhysTransform.getBasis();
+		return Vector3(speed[0], speed[1], speed[2]);
+	}
+	else
+	{
+		return Vector3(0, 0, 0);
+	}
 }
 
 
 Vector3 MeshActor::getAngularSpeed(void)
 {
-	btVector3 angularSpeed = mPhysBody->getAngularVelocity();
-	return Vector3(angularSpeed[0], angularSpeed[1], angularSpeed[2]);
+	if (mPhysBody)
+	{
+		btVector3 angularSpeed = mPhysBody->getAngularVelocity();
+		return Vector3(angularSpeed[0], angularSpeed[1], angularSpeed[2]);
+	}
+	else
+	{
+		return Vector3(0, 0, 0);
+	}
 }
 
 
 Vector3 MeshActor::getLocalAngularSpeed(void)
 {
-	btVector3 angularSpeed = mPhysBody->getAngularVelocity() * mPhysTransform.getBasis();
-	return Vector3(angularSpeed[0], angularSpeed[1], angularSpeed[2]);
+	if (mPhysBody)
+	{
+		btVector3 angularSpeed = mPhysBody->getAngularVelocity() * mPhysTransform.getBasis();
+		return Vector3(angularSpeed[0], angularSpeed[1], angularSpeed[2]);
+	}
+	else
+	{
+		return Vector3(0, 0, 0);
+	}
 }
 
 
@@ -275,7 +317,9 @@ Vector3 MeshActor::getLocation()
 	}
 }
 
-Vector3 MeshActor::getGlobalPosition(Vector3 position) {
+
+Vector3 MeshActor::getGlobalPosition(Vector3 position)
+{
 	return getRotation() * position + getLocation();
 }
 
