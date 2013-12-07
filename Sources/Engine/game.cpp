@@ -392,7 +392,7 @@ void Game::setupRender(bool bShowPostProcess)
 	mRoot->addFrameListener(this);
 
 	// Deferred rendering setup
-	mRenderer = new Renderer(mWindow->getViewport(0), mScene, this);
+	mRenderer = new Renderer(mWindow->getViewport(0), mScene, mConfig);
 	mRenderer->setMode(Renderer::DSM_SHOWLIT);
 }
 

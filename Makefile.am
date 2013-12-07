@@ -29,7 +29,8 @@ SoyouzCPPFiles= \
 	Sources/Engine/Rendering/ambient.cpp \
 	Sources/Engine/Rendering/deferredlight.cpp \
 	Sources/Engine/Rendering/geometry.cpp \
-	Sources/Engine/Rendering/lightmaterial.cpp
+	Sources/Engine/Rendering/lightmaterial.cpp \
+	External/tinyxml2/tinyxml2.cpp
 	
 SoyouzHPPFiles= \
 	Sources/Engine/game.hpp \
@@ -48,9 +49,10 @@ SoyouzHPPFiles= \
 	Sources/Game/demoPlayer.hpp \
 	Sources/Game/demoWorld.hpp \
 	Sources/Game/ship.hpp \
-	Sources/Game/thruster.hpp
-	Sources/Game/weapon.hpp
-	Sources/Game/machinegun.hpp
+	Sources/Game/thruster.hpp \
+	Sources/Game/weapon.hpp \
+	Sources/Game/machinegun.hpp \
+	External/tinyxml2/tinyxml2.hpp
 	
 
 
