@@ -77,7 +77,7 @@ void Game::tick(const Ogre::FrameEvent& evt)
 	// Physics tick
 	if (mPhysWorld)
 	{
-		mPhysWorld->stepSimulation(evt.timeSinceLastFrame);
+		mPhysWorld->stepSimulation(evt.timeSinceLastFrame, 10, btScalar(1.)/btScalar(120.));
 	}
 
 	// Actor pre-tick
