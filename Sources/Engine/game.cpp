@@ -73,6 +73,12 @@ void Game::run()
 void Game::tick(const Ogre::FrameEvent& evt)
 {
 	Actor* ref;
+	
+	// Physics tick
+	if (mPhysWorld)
+	{
+		mPhysWorld->stepSimulation(evt.timeSinceLastFrame);
+	}
 
 	// Actor pre-tick
 	for (Ogre::list<Actor*>::iterator it = mAllActors.begin(); it != mAllActors.end(); it++)
@@ -101,11 +107,8 @@ void Game::tick(const Ogre::FrameEvent& evt)
 	// Debug physics
 	mPhysDrawer->step();
 	
-	// Physics tick
-	if (mPhysWorld)
-	{
-		mPhysWorld->stepSimulation(evt.timeSinceLastFrame);
-	}
+	//const Ogre::RenderTarget::FrameStats& stats = mWindow->getStatistics();
+	//gameLog("FPS:" + Ogre::StringConverter::toString(stats.lastFPS));
 }
 	
 

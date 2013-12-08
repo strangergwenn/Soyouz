@@ -25,9 +25,9 @@ MachineGun::MachineGun(Game* g, String name, Ship* parent, Vector3 location, Qua
 void MachineGun::fire()
 {
 	
-	Vector3 canonLenght = Vector3(0, 0, -0.5);
+	Vector3 cannonLength = Vector3(0, 0, -0.5);
 	
-	Vector3 bulletLocation = mShip->getGlobalPosition(getLocation() + canonLenght);
+	Vector3 bulletLocation = mShip->getGlobalPosition(getLocation() + cannonLength);
 	Vector3 bulletVelocity = mShip->getSpeed() +  mShip->getRotation() * Vector3(0, 0, -500);
 	
 	

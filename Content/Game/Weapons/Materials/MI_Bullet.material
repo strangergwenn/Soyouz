@@ -17,7 +17,7 @@ material MI_Bullet : Master
 			fragment_program_ref PS_Master
 			{
 				param_named cGlowAlpha			float 1.0
-				param_named cGlowColor			float3 1 0.5 0.1
+				param_named cGlowColor			float3 1 0.2 0.0
 			}
 		}
 	}

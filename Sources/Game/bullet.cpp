@@ -19,7 +19,7 @@ Bullet::Bullet(Game* g, String name, Weapon* parent, Vector3 location, Quaternio
 {
 	
 	mLifeTime = 0;
-	mTimeToLive = 8;
+	mTimeToLive = 5;
 	
 	// Customization
 	
@@ -30,7 +30,7 @@ Bullet::Bullet(Game* g, String name, Weapon* parent, Vector3 location, Quaternio
 	rotate(rotation);
 	setLocation(location);
 	setSpeed(velocity);
-	setScale(10);
+	setScale(5);
 }
 
 Bullet::~Bullet() {

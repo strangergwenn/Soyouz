@@ -73,6 +73,6 @@ fragment_program PS_FXAA glsl
 	default_params
 	{
 		param_named textureSampler int 0
-		param_named texcoordOffset float2 0.001 0.001
+		param_named_auto texcoordOffset texture_size 0
 	}
 }
