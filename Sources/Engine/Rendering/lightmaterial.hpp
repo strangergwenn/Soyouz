@@ -74,7 +74,7 @@ protected:
 	 * @brief Get a material reference with caching
 	 * @param params			Output params
 	 **/
-	void LightMaterialGenerator::setUpBaseParameters(const Ogre::GpuProgramParametersSharedPtr& params);
+	void setUpBaseParameters(const Ogre::GpuProgramParametersSharedPtr& params);
 
 
 	// Source data
