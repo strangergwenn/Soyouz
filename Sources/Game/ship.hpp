@@ -98,7 +98,8 @@ public:
 	 * @return speed
 	 **/
 	float getMaxAngularSpeed(void);
-
+	
+	Weapon* getPrimaryWeapon();
 
 protected:
 	

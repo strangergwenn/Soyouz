@@ -203,6 +203,14 @@ void Ship::setFireOrder(bool fire)
 	}
 }
 
+Weapon* Ship::getPrimaryWeapon()
+{
+	if (mWeapons.size() > 0)
+	{
+		return mWeapons.front();
+	}
+	return NULL;
+}
 
 /*----------------------------------------------
 	Steering

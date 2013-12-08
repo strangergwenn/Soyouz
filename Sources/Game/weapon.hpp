@@ -45,6 +45,7 @@ public:
 	 **/
 	void setFireOrder(bool fire);
 
+	void setAimDirection(Vector3 aimDirection);
 
 protected:
 
@@ -57,6 +58,9 @@ protected:
 	bool mFiring;
 	Real mFirerate;
 	Real mTimeSinceLastFire;
+	Vector3 mAimDirection;
+	Quaternion mTurretFirstRotation;
+	Quaternion mTurretSecondRotation;
 
 };
 
