@@ -31,6 +31,9 @@ IOManager::IOManager(Ogre::RenderWindow* w, Player* p, Game* g) :
 	mWindow->getCustomAttribute("WINDOW", &windowHnd);
 	windowHndStr << windowHnd;
 	pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
+	#if defined OIS_LINUX_PLATFORM
+		pl.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
+	#endif
 	mInputManager = OIS::InputManager::createInputSystem(pl);
 
 	// Input methods
