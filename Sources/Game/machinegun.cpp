@@ -27,7 +27,7 @@ void MachineGun::fire()
 	
 	Vector3 cannonLength = Vector3(0, 0, -0.5);
 	
-	float bulletSpeed = 50;
+	float bulletSpeed = 600;
 
 	Vector3 bulletLocation = mShip->getGlobalPosition(getLocation() + cannonLength);
 	Vector3 bulletVelocity = mShip->getSpeed() + mShip->getRotation() * getRotation() * mTurretFirstRotation * mTurretSecondRotation * Vector3(0, 0, - bulletSpeed);

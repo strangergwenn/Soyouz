@@ -20,7 +20,14 @@ Weapon::Weapon(Game* g, String name, Ship* parent, Vector3 location, Quaternion 
 	mFiring = false;
 	mTimeSinceLastFire = 0;
 	mFirerate = 0.05f; // 50 ms or 1200 rpm
-	
+
+	mMinTurretFirstRotationAngle = Radian(-Math::PI);
+	mMaxTurretFirstRotationAngle = Radian(Math::PI);;
+	mTurretFirstRotationSpeed = Radian(0.01);;
+	mMinTurretSecondRotationAngle = Radian(-Math::HALF_PI);
+	mMaxTurretSecondRotationAngle = Radian(Math::HALF_PI);
+	mTurretSecondRotationSpeed = Radian(0.01);
+
 	// TODO Customization
 	
 	// Position
@@ -57,9 +64,6 @@ void Weapon::tick(const Ogre::FrameEvent& evt)
 	// Aim to target
 	Vector3 localAimDirection = (mShip->getRotation() * getRotation()).Inverse() * mAimDirection;
 
-	Radian firstAngleSpeed = Radian(0.01);
-	Radian secondAngleSpeed = Radian(0.01);
-
 	Radian targetFirstAngle =  normalizeAngle(- Math::ATan2(localAimDirection.x, localAimDirection.y));//  + Radian( localAimDirection.y > 0 ? 0 : Math::PI);
 	Radian targetSecondAngle = normalizeAngle(- Math::ATan2(sqrt(localAimDirection.x * localAimDirection.x + localAimDirection.y * localAimDirection.y ), localAimDirection.z) + Radian(Math::PI));
 
@@ -73,29 +77,43 @@ void Weapon::tick(const Ogre::FrameEvent& evt)
 	Radian nextSecondAngle;
 
 	// If turret support negative angle, optimize
-	if(Math::Abs(diffFirstAngle) > HALF_PI) {
+	if(Math::Abs(diffFirstAngle) > HALF_PI && mMinTurretSecondRotationAngle <= -targetSecondAngle && mMaxTurretSecondRotationAngle >= -targetSecondAngle) {
 		// Target too far, inverse turret
 		targetFirstAngle = normalizeAngle(targetFirstAngle + PI);
-		targetSecondAngle = - targetSecondAngle;
+		targetSecondAngle = -targetSecondAngle;
 
 		diffFirstAngle = normalizeAngle(targetFirstAngle - currentFirstAngle);
 		diffSecondAngle = normalizeAngle(targetSecondAngle - currentSecondAngle);
 	}
 
-	if(Math::Abs(diffFirstAngle) <= firstAngleSpeed) {
+	if(Math::Abs(diffFirstAngle) <= mTurretFirstRotationSpeed) {
 		nextFirstAngle = targetFirstAngle;
 	} else if(diffFirstAngle > Radian()) {
-		nextFirstAngle = currentFirstAngle + firstAngleSpeed;
+		nextFirstAngle = currentFirstAngle + mTurretFirstRotationSpeed;
 	} else {
-		nextFirstAngle = currentFirstAngle - firstAngleSpeed;
+		nextFirstAngle = currentFirstAngle - mTurretFirstRotationSpeed;
 	}
 
-	if(Math::Abs(diffSecondAngle) <= secondAngleSpeed) {
+	if(Math::Abs(diffSecondAngle) <= mTurretSecondRotationSpeed) {
 		nextSecondAngle = targetSecondAngle;
 	} else if(diffSecondAngle > Radian())  {
-		nextSecondAngle = currentSecondAngle + secondAngleSpeed;
+		nextSecondAngle = currentSecondAngle + mTurretSecondRotationSpeed;
 	} else {
-		nextSecondAngle = currentSecondAngle - secondAngleSpeed;
+		nextSecondAngle = currentSecondAngle - mTurretSecondRotationSpeed;
+	}
+
+	//Cap
+	if(nextFirstAngle < mMinTurretFirstRotationAngle) {
+		nextFirstAngle = mMinTurretFirstRotationAngle;
+	}
+	if(nextFirstAngle > mMaxTurretFirstRotationAngle) {
+		nextFirstAngle = mMaxTurretFirstRotationAngle;
+	}
+	if(nextSecondAngle < mMinTurretSecondRotationAngle) {
+		nextSecondAngle = mMinTurretSecondRotationAngle;
+	}
+	if(nextSecondAngle > mMaxTurretSecondRotationAngle) {
+		nextSecondAngle = mMaxTurretSecondRotationAngle;
 	}
 
 	mTurretFirstRotation.FromAngleAxis(nextFirstAngle, Vector3(0,0,1));

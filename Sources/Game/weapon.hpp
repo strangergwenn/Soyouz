@@ -61,7 +61,12 @@ protected:
 	Vector3 mAimDirection;
 	Quaternion mTurretFirstRotation;
 	Quaternion mTurretSecondRotation;
-
+	Radian mMinTurretFirstRotationAngle;
+	Radian mMaxTurretFirstRotationAngle;
+	Radian mTurretFirstRotationSpeed;
+	Radian mMinTurretSecondRotationAngle;
+	Radian mMaxTurretSecondRotationAngle;
+	Radian mTurretSecondRotationSpeed;
 };
 
 #endif /* __WEAPON_H_ */
