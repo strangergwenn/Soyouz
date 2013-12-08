@@ -38,8 +38,10 @@ Bullet::~Bullet() {
 
 void Bullet::tick(const Ogre::FrameEvent& evt)
 {
+	MeshActor::tick(evt);
+
 	mLifeTime += evt.timeSinceLastFrame;
-	
+
 	if(mLifeTime > mTimeToLive) {
 		mGame->unregisterActor(this);
 	}

@@ -32,6 +32,4 @@ void MachineGun::fire()
 	
 	
 	Bullet* bullet = new Bullet(mGame, mName + "_Bullet" + StringConverter::toString(bulletId++), this,  bulletLocation, getRotation() * mShip->getRotation(), bulletVelocity );
-	
-	gameLog("Fire !");
 }
