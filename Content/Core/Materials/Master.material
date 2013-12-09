@@ -19,8 +19,9 @@ material Master
 
 			fragment_program_ref PS_Master
 			{
-				param_named_auto cGlowAlpha			custom 1
+				param_named_auto cDiffuseColor			custom 1
 				param_named_auto cGlowColor			custom 2
+				param_named_auto cGlowAlpha			custom 3
 			}
 			
 			texture_unit

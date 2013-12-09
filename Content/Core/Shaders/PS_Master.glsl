@@ -16,6 +16,7 @@ uniform sampler2D NormalMap;
 uniform sampler2D SpecularMap;
 uniform sampler2D GlowMap;
 
+uniform vec3 cDiffuseColor;
 uniform vec3 cGlowColor;
 uniform float cGlowAlpha;
 
@@ -53,7 +54,7 @@ void main()
 	}
 
 	// Diffuse + specularity
-	fragData[0].rgb = texture(DiffuseMap, oUv0).rgb;
+	fragData[0].rgb = cDiffuseColor * texture(DiffuseMap, oUv0).rgb;
 	fragData[0].rgb += vec3(0.1, 0.5, 0.95) * rimFactor;
 	fragData[0].a = length(texture(SpecularMap, oUv0).rgb);
 	
@@ -76,3 +77,4 @@ void main()
 	fragData[2].rgb = base * cGlowAlpha;
 	fragData[2].a = 0;
 }
+

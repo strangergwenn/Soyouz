@@ -19,57 +19,67 @@ material _missing_material_ : Master
 }
 
 // White
-material White
+material White : Master
 {
-    technique main
-    {
-        pass main
-        {
-            diffuse  1.0 1.0 1.0
-            ambient  1.0 1.0 1.0
-            emissive 1.0 1.0 1.0
-        }
-    }
+}
+
+// Black
+material Black : Master
+{
+	technique GBuffer
+	{
+		pass
+		{
+			fragment_program_ref PS_Master
+			{
+				param_named cDiffuseColor		float3 0 0 0
+			}
+		}
+	}
 }
 
 // Red
-material Red
+material Red : Master
 {
-    technique main
-    {
-        pass main
-        {
-            diffuse  1.0 0.0 0.0
-            ambient  1.0 0.0 0.0
-            emissive 1.0 0.0 0.0
-        }
-    }
+	technique GBuffer
+	{
+		pass
+		{
+			fragment_program_ref PS_Master
+			{
+				param_named cDiffuseColor		float3 1 0 0
+			}
+		}
+	}
 }
 
 // Green
-material Green
+material Green : Master
 {
-    technique main
-    {
-        pass main
-        {
-            diffuse  0.0 1.0 0.0
-            ambient  0.0 1.0 0.0
-            emissive 0.0 1.0 0.0
-        }
-    }
+	technique GBuffer
+	{
+		pass
+		{
+			fragment_program_ref PS_Master
+			{
+				param_named cDiffuseColor		float3 0 1 0
+			}
+		}
+	}
 }
 
 // Blue
-material Blue
+material Blue : Master
 {
-    technique main
-    {
-        pass main
-        {
-            diffuse  0.0 0.0 1.0
-            ambient  0.0 0.0 1.0
-            emissive 0.0 0.0 1.0
-        }
-    }
+	technique GBuffer
+	{
+		pass
+		{
+			fragment_program_ref PS_Master
+			{
+				param_named cDiffuseColor		float3 0 0 1
+			}
+		}
+	}
 }
+
