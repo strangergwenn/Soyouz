@@ -101,8 +101,10 @@ public:
 	
 	Weapon* getPrimaryWeapon();
 
+
 protected:
 	
+
 	/**
 	 * @brief Load the user settings
 	 **/
@@ -124,6 +126,12 @@ protected:
 	virtual void setupAddons();
 	
 	/**
+	 * @brief Override this to decide wether to save the class or not
+	 * @return true if this is to be saved
+	 **/
+	virtual bool isSavable();
+	
+	/**
 	 * @brief Compute a steering component for linear control
 	 * @param measure		Input measure
 	 * @param command		Input command
@@ -138,6 +146,9 @@ protected:
 	 * @return the soft steering
 	 **/
 	float computeSoftAngularCommand(float measure, float command);
+
+
+protected:
 
 
 	// XML configuration

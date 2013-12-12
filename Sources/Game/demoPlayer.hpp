@@ -42,6 +42,7 @@ public:
 		mShip = new Ship(g, "Ship", "Hammer", "");
 		mShip->attachActor(this);
 		mShip->setLocation(Vector3(0, 0, 300));
+		mShip->saveToFile();
 
 		// Camera setup
 		setCameraSpheric(mDistance, Degree(0), Degree (0));

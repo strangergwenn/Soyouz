@@ -12,6 +12,7 @@
 	Definitions
 ----------------------------------------------*/
 
+const Ogre::String XML_FILE_DIR = "Content/Data/Save/0000/";
 const char* XML_FILE_ROOT_NAME = "save";
 const char* XML_FILE_VALUE_NAME = "value";
 const char* XML_FILE_HEADER = "xml version=\"1.0\" encoding=\"UTF-8\"";
@@ -21,9 +22,13 @@ const char* XML_FILE_HEADER = "xml version=\"1.0\" encoding=\"UTF-8\"";
 	Public methods
 ----------------------------------------------*/
 
-bool Savable::saveToFile()
+void Savable::saveToFile()
 {
-	bool res = false;
+	if (!isSavable())
+	{
+		return;
+	}
+	
 	mIsSaving = true;
 	mSaveFile = new tinyxml2::XMLDocument();
 
@@ -34,33 +39,47 @@ bool Savable::saveToFile()
 
 		if (mSaveData)
 		{
+			Ogre::String filePath = XML_FILE_DIR + getFileName();
 			mSaveFile->InsertEndChild(mSaveData);
 			save();
-			res = (mSaveFile->SaveFile(getFileName().c_str()) == tinyxml2::XML_NO_ERROR);
-			delete mSaveFile;
+
+			bool res = (mSaveFile->SaveFile(filePath.c_str()) == tinyxml2::XML_NO_ERROR);
+			assert(res && "Failed to save file");
 		}
+		else
+		{
+			assert(false && "Failed to insert save data");
+		}
+		delete mSaveFile;
+	}
+	else
+	{	
+		assert(false && "Failed to create a save file");
 	}
 
 	mIsSaving = false;
-	return res;
 }
 
 
-bool Savable::loadFromFile()
+void Savable::loadFromFile()
 {
-	bool res = false;
-
 	if (!mIsSaving)
 	{
 		mSaveFile = new tinyxml2::XMLDocument();
-		if (mSaveFile->LoadFile(getFileName().c_str()) == tinyxml2::XML_NO_ERROR)
+		if (mSaveFile->LoadFile((XML_FILE_DIR + getFileName()).c_str()) == tinyxml2::XML_NO_ERROR)
 		{
 			mSaveData = mSaveFile->FirstChildElement(XML_FILE_ROOT_NAME);
 			load();
 		}
+		else
+		{	
+			assert(false && "Failed to load the save file");
+		}
 	}
-	
-	return res;
+	else
+	{	
+		assert(false && "Trying to load while saving");
+	}
 }
 
 
@@ -79,6 +98,12 @@ void Savable::setSaveGroup(String name)
 	{
 		mSaveGroup = mSaveData->FirstChildElement(name.c_str());
 	}
+}
+
+
+bool Savable::isSavable()
+{
+	return false;
 }
 
 

@@ -128,6 +128,8 @@ Quaternion Actor::directionFromString(Ogre::String quat)
 void Actor::save()
 {
 	setSaveGroup("actor");
+	saveValue(location(), "location");
+	saveValue(rotation(), "rotation");
 }
 
 

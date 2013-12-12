@@ -26,6 +26,7 @@ OpenGL Rendering Subsystem
 *.mesh.xml
 *.scene
 *.psd
+Content/Data/Save/*
 
 # Compiled Static libraries
 *.lai

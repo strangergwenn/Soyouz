@@ -25,13 +25,13 @@ public:
 	 * @brief Save the entire instance by dumping it to a XML file
 	 * @return true if successful
 	 **/
-	bool saveToFile();
+	void saveToFile();
 	
 	/**
 	 * @brief Load the instance from file
 	 * @return true if successful
 	 **/
-	bool loadFromFile();
+	void loadFromFile();
 
 
 protected:
@@ -53,6 +53,12 @@ protected:
 	 * @return the relative file name
 	 **/
 	virtual String getFileName() = 0;
+	
+	/**
+	 * @brief Override this to decide wether to save the class or not
+	 * @return true if this is to be saved
+	 **/
+	virtual bool isSavable();
 
 	/**
 	 * @brief Set your current class name
