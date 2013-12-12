@@ -9,18 +9,6 @@
 
 
 /*----------------------------------------------
-	Definitions
-----------------------------------------------*/
-
-const Quaternion LEFT =			Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0));
-const Quaternion RIGHT =		Quaternion(Radian(Degree(+90).valueRadians()), Vector3(0,1,0));
-const Quaternion TOP =			Quaternion(Radian(Degree(-90).valueRadians()), Vector3(1,0,0));
-const Quaternion BOTTOM =		Quaternion(Radian(Degree(+90).valueRadians()), Vector3(1,0,0));
-const Quaternion FORWARD =		Quaternion(Radian(Degree(180).valueRadians()), Vector3(0,1,0));
-const Quaternion BACK =			Quaternion(Radian(Degree(  0).valueRadians()), Vector3(0,1,0));
-
-
-/*----------------------------------------------
 	Constructor & destructor
 ----------------------------------------------*/
 
@@ -95,29 +83,6 @@ void Actor::translate(Vector3 offset, bool bRelative)
 void Actor::rotate(Quaternion rotator)
 {
 	mNode->rotate(rotator);
-}
-
-
-/*----------------------------------------------
-	Helpers
-----------------------------------------------*/
-
-Quaternion Actor::directionFromString(Ogre::String quat)
-{
-	Quaternion result;
-	if (quat == "LEFT")
-		result = LEFT;
-	else if (quat == "RIGHT")
-		result = RIGHT;
-	else if (quat == "TOP")
-		result = TOP;
-	else if (quat == "BOTTOM")
-		result = BOTTOM;
-	else if (quat == "FORWARD")
-		result = FORWARD;
-	else
-		result = Ogre::StringConverter::parseQuaternion(quat);
-	return result;
 }
 
 

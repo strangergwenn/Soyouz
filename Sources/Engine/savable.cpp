@@ -12,14 +12,24 @@
 	Definitions
 ----------------------------------------------*/
 
-const Ogre::String XML_FILE_DIR = "Content/Data/Save/0000/";
-const char* XML_FILE_ROOT_NAME = "save";
+const Ogre::String XML_FILE_DIR = "Content/Save/0000/";
+const Ogre::String XML_TEMPLATE_DIR = "Content/Templates/";
+
 const char* XML_FILE_VALUE_NAME = "value";
+const char* XML_FILE_SAVE_NAME = "savefile";
+const char* XML_FILE_TEMPLATE_NAME = "template";
 const char* XML_FILE_HEADER = "xml version=\"1.0\" encoding=\"UTF-8\"";
+
+const Quaternion LEFT =			Quaternion(Radian(Degree(-90).valueRadians()), Vector3(0,1,0));
+const Quaternion RIGHT =		Quaternion(Radian(Degree(+90).valueRadians()), Vector3(0,1,0));
+const Quaternion TOP =			Quaternion(Radian(Degree(-90).valueRadians()), Vector3(1,0,0));
+const Quaternion BOTTOM =		Quaternion(Radian(Degree(+90).valueRadians()), Vector3(1,0,0));
+const Quaternion FORWARD =		Quaternion(Radian(Degree(180).valueRadians()), Vector3(0,1,0));
+const Quaternion BACK =			Quaternion(Radian(Degree(  0).valueRadians()), Vector3(0,1,0));
 
 
 /*----------------------------------------------
-	Public methods
+	Public methods (save)
 ----------------------------------------------*/
 
 void Savable::saveToFile()
@@ -35,7 +45,7 @@ void Savable::saveToFile()
 	if (mSaveFile)
 	{
 		mSaveFile->InsertEndChild(mSaveFile->NewDeclaration(XML_FILE_HEADER));
-		mSaveData = mSaveFile->NewElement(XML_FILE_ROOT_NAME);
+		mSaveData = mSaveFile->NewElement(XML_FILE_SAVE_NAME);
 
 		if (mSaveData)
 		{
@@ -68,7 +78,7 @@ void Savable::loadFromFile()
 		mSaveFile = new tinyxml2::XMLDocument();
 		if (mSaveFile->LoadFile((XML_FILE_DIR + getFileName()).c_str()) == tinyxml2::XML_NO_ERROR)
 		{
-			mSaveData = mSaveFile->FirstChildElement(XML_FILE_ROOT_NAME);
+			mSaveData = mSaveFile->FirstChildElement(XML_FILE_SAVE_NAME);
 			load();
 		}
 		else
@@ -84,7 +94,39 @@ void Savable::loadFromFile()
 
 
 /*----------------------------------------------
-	Protected methods
+	Protected methods (templates)
+----------------------------------------------*/
+
+void Savable::loadTemplate(String name)
+{
+	mIsSaving = false;
+	mSaveFile = new tinyxml2::XMLDocument();
+
+	if (mSaveFile->LoadFile((XML_TEMPLATE_DIR + name).c_str()) == tinyxml2::XML_NO_ERROR)
+	{
+		mSaveData = mSaveFile->FirstChildElement(XML_FILE_TEMPLATE_NAME);
+	}
+	else
+	{	
+		assert(false && "Failed to load template");
+	}
+}
+
+
+void Savable::closeTemplate()
+{
+	delete mSaveFile;
+}
+
+
+void Savable::setTemplateGroup(String name)
+{
+	setSaveGroup(name);
+}
+
+
+/*----------------------------------------------
+	Protected methods (saving)
 ----------------------------------------------*/
 
 void Savable::setSaveGroup(String name)
@@ -117,6 +159,10 @@ void Savable::saveValue(int value, String name)
 	}
 }
 
+
+/*----------------------------------------------
+	Data save & load
+----------------------------------------------*/
 
 void Savable::saveValue(float value, String name)
 {
@@ -242,4 +288,27 @@ Ogre::ColourValue Savable::loadColourValue(String name)
 		value = Ogre::StringConverter::parseColourValue(attr->Attribute(XML_FILE_VALUE_NAME));
 	}
 	return value;
+}
+
+
+/*----------------------------------------------
+	Helpers
+----------------------------------------------*/
+
+Quaternion Savable::directionFromString(Ogre::String quat)
+{
+	Quaternion result;
+	if (quat == "LEFT")
+		result = LEFT;
+	else if (quat == "RIGHT")
+		result = RIGHT;
+	else if (quat == "TOP")
+		result = TOP;
+	else if (quat == "BOTTOM")
+		result = BOTTOM;
+	else if (quat == "FORWARD")
+		result = FORWARD;
+	else
+		result = Ogre::StringConverter::parseQuaternion(quat);
+	return result;
 }

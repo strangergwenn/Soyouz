@@ -1,27 +1,34 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<document>
+<template>
 
 	<!-- Ship data -->
 	<description>
-		<class>Hammer APC</class>
-		<type>Armoured personnel carrier</type>
-		<story>First developped as a test vessel for RCS controls, this ship has the look and feel of a brick.</story>
+		<size value="4" />
+		<class value="Hammer APC" />
+		<type value="Armoured personnel carrier" />
+		<story value="First developped as a test vessel for RCS controls, this ship has the look and feel of a brick." />
 	</description>
 
 	<!-- Steering controls -->
 	<steering>
-		<speedLimits linear="75" angular="2" />
-		<softModeLimits linear="5" angular="0.1" />
+		<linearSpeedLimit value="75" />
+		<angularSpeedLimit value="2" />
+		<linearSoftModeLimit value="5" />
+		<angularSoftModeLimit value="0.1" />
 	</steering>
 
 	<!-- Hull data -->
 	<hull>
-		<mesh mass="100.0">SM_APC</mesh>
-		<material>MI_APC</material>
+		<mesh value="SM_APC" />
+		<mass value="100.0" />
+		<material value="MI_APC" />
 	</hull>
 
 	<!-- Weapon section -->
-	<weapons size="2" controls="fighter">
+	<weapons>
+	
+		<!-- Controls -->
+		<controls value="fighter" />
 
 		<!-- Main turret -->
 		<turret id="0" location="0 0 -8" direction="FORWARD" >
@@ -36,8 +43,8 @@
 	</weapons>
 	
 	<!-- Engine section -->
-	<engines thrusterSize="2" engineSize="2">
-
+	<engines>
+	
 		<engine location="+4 0 -5" 		direction="RIGHT" 	type="thruster" />
 		<engine location="-4 0 -5" 		direction="LEFT" 	type="thruster" />
 		<engine location="0 +3 -5" 		direction="TOP" 	type="thruster" />
@@ -61,4 +68,4 @@
 
 		<engine location="0 0 +5.8" 	direction="BACK" 	type="booster"/>
 	</engines>
-</document>
+</template>

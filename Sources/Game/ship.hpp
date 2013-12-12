@@ -29,9 +29,8 @@ public:
 	 * @param g				Game actor
 	 * @param name			Unique name to set to the mesh
 	 * @param templateFile	Ship template file
-	 * @param configFile	Ship user config file
 	 **/
-	Ship(Game* g, String name, Ogre::String templateFile, Ogre::String configFile);
+	Ship(Game* g, String name, Ogre::String templateFile);
 
 	/**
 	 * @brief Destructor
@@ -104,12 +103,7 @@ public:
 
 protected:
 	
-
-	/**
-	 * @brief Load the user settings
-	 **/
-	virtual void loadConfigFile();
-
+	
 	/**
 	 * @brief Add engines to the ship
 	 **/
@@ -151,12 +145,6 @@ protected:
 protected:
 
 
-	// XML configuration
-	tinyxml2::XMLDocument* mTemplateFile;
-	tinyxml2::XMLDocument* mConfigFile;
-	tinyxml2::XMLElement* mTemplate;
-	tinyxml2::XMLElement* mConfig;
-
 	// Steering controls for the player
 	float mSteerX;
 	float mSteerY;
@@ -174,8 +162,7 @@ protected:
 	float mSoftModeAngularLimit;
 
 	// Customisation characteristics
-	int mEngineSize;
-	int mThrusterSize;
+	int mShipSize;
 	Ogre::String mShipClass;
 	Ogre::String mShipType;
 	Ogre::String mShipStory;

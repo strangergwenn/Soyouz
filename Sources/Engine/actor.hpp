@@ -131,13 +131,6 @@ protected:
 	virtual String getFileName();
 	
 	/**
-	 * @brief Parse a string into a quaternion
-	 * @param vec			Input string
-	 * @return the Ogre quaternion
-	 **/
-	Quaternion directionFromString(Ogre::String quat);
-	
-	/**
 	 * @brief Write text to the log file
 	 * @param text				Input data
 	 **/

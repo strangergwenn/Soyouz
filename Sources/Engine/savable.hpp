@@ -59,6 +59,23 @@ protected:
 	 * @return true if this is to be saved
 	 **/
 	virtual bool isSavable();
+	
+	/**
+	 * @brief Load a template from file
+	 * @param name			Template name
+	 **/
+	void loadTemplate(String name);
+	
+	/**
+	 * @brief Close the template file
+	 **/
+	void closeTemplate();
+
+	/**
+	 * @brief Set your current template group
+	 * @param name			Group name
+	 **/
+	void setTemplateGroup(String name);
 
 	/**
 	 * @brief Set your current class name
@@ -149,6 +166,13 @@ protected:
 	 * @return the value
 	 **/
 	Ogre::ColourValue loadColourValue(String name);
+	
+	/**
+	 * @brief Parse a string into a quaternion
+	 * @param vec			Input string
+	 * @return the Ogre quaternion
+	 **/
+	Quaternion directionFromString(Ogre::String quat);
 
 
 protected:

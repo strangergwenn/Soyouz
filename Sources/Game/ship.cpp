@@ -18,80 +18,54 @@
 const float MAX_SPEED_RATIO =	+1.0f;
 const float MIN_SPEED_RATIO =	-1.0f;
 
-const Ogre::String TEMPLATE_SHIP_DIR = "Content/Data/Ships/";
+const Ogre::String TEMPLATE_SHIP_DIR = "Ships/";
 
 
 /*----------------------------------------------
 	Constructor
 ----------------------------------------------*/
 	
-Ship::Ship(Game* g, Ogre::String name, Ogre::String templateFile, Ogre::String configFile)
+Ship::Ship(Game* g, Ogre::String name, Ogre::String templateFile)
 	: MeshActor(g, name)
 {
-	// Create resources
-	tinyxml2::XMLError res;
-	mTemplateFile = new tinyxml2::XMLDocument();
-	mConfigFile = new tinyxml2::XMLDocument();
-	
 	// Steering controls
 	mSteerX = 0;
 	mSteerY = 0;
 	mSteerRoll = 0;
 	mSpeed = 0;
 	
-	// Load files and check
-	res = mTemplateFile->LoadFile((TEMPLATE_SHIP_DIR + templateFile + ".xml").c_str());
-	assert (res == tinyxml2::XML_NO_ERROR);
-	mTemplate = mTemplateFile->FirstChildElement("document");
-	assert (mTemplate != NULL);
-	res = mConfigFile->LoadFile(configFile.c_str());
-	if (res == tinyxml2::XML_NO_ERROR)
-	{
-		loadConfigFile();
-	}
+	// Load template file
+	loadTemplate(TEMPLATE_SHIP_DIR + templateFile + ".xml");
 
 	// Speed limits
-	tinyxml2::XMLElement* steering = mTemplate->FirstChildElement("steering");
-	assert (steering != NULL);
-	tinyxml2::XMLElement* speedLimits = steering->FirstChildElement("speedLimits");
-	assert (speedLimits != NULL);
-	tinyxml2::XMLElement* softModeLimits = steering->FirstChildElement("softModeLimits");
-	assert (softModeLimits != NULL);
-	mMaxSpeed = speedLimits->FloatAttribute("linear");
-	mMaxAngularSpeed = speedLimits->FloatAttribute("angular");
-	mSoftModeLimit = softModeLimits->FloatAttribute("linear");
-	mSoftModeAngularLimit = softModeLimits->FloatAttribute("angular");
+	setTemplateGroup("steering");
+	mMaxSpeed = loadFloatValue("linearSpeedLimit");
+	mMaxAngularSpeed = loadFloatValue("angularSpeedLimit");
+	mSoftModeLimit = loadFloatValue("linearSoftModeLimit");
+	mSoftModeAngularLimit = loadFloatValue("angularSoftModeLimit");
 
 	// Hull setup
-	tinyxml2::XMLElement* hull = mTemplate->FirstChildElement("hull");
-	if (hull)
-	{
-		setModel(
-			hull->FirstChildElement("mesh")->GetText() + Ogre::String(".mesh"),
-			hull->FirstChildElement("mesh")->FloatAttribute("mass"));
-		setMaterial(hull->FirstChildElement("material")->GetText());
-	}
+	setTemplateGroup("hull");
+	setModel(loadStringValue("mesh") + Ogre::String(".mesh"), loadFloatValue("mass"));
+	setMaterial(loadStringValue("material"));
 
 	// Bonus data
-	tinyxml2::XMLElement* desc = mTemplate->FirstChildElement("description");
-	if (desc)
-	{
-		mShipClass = desc->FirstChildElement("class")->GetText();
-		mShipType = desc->FirstChildElement("type")->GetText();
-		mShipStory = desc->FirstChildElement("story")->GetText();
-	}
+	setTemplateGroup("description");
+	mShipSize = loadIntValue("size");
+	mShipClass = loadStringValue("class");
+	mShipType = loadStringValue("type");
+	mShipStory = loadStringValue("story");
 
 	// External content
 	setupEngines();
 	setupWeapons();
 	setupAddons();
+	closeTemplate();
 }
 
 
 Ship::~Ship()
 {
-	delete mTemplateFile;
-	delete mConfigFile;
 }
 
 
@@ -126,26 +100,11 @@ void Ship::tick(const Ogre::FrameEvent& evt)
 	Content
 ----------------------------------------------*/
 
-void Ship::loadConfigFile()
-{
-	mConfig = mTemplateFile->FirstChildElement("document");
-	assert (mConfig != NULL);
-
-	// Use config to customize ship
-	// TODO
-}
-
-
 void Ship::setupEngines()
 {
-	// Load engine config
-	tinyxml2::XMLElement* engineConf = mTemplate->FirstChildElement("engines");
-	assert(engineConf != NULL);
-	mEngineSize = engineConf->IntAttribute("engineSize");
-	mThrusterSize = engineConf->IntAttribute("thrusterSize");
+	setTemplateGroup("engines");
+	tinyxml2::XMLElement* i = mSaveGroup->FirstChildElement("engine");
 
-	// Parse engine config
-	tinyxml2::XMLElement* i = engineConf->FirstChildElement("engine");
 	while (i != NULL)
 	{
 		// Parse data
