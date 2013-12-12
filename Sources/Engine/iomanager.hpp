@@ -67,6 +67,9 @@ protected:
 	void windowClosed(Ogre::RenderWindow* rw);
 
 
+protected:
+
+
 	String mDebugText;
 	Ogre::RenderWindow* mWindow;
 	Ogre::Overlay* mDebugOverlay;

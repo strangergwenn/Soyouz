@@ -125,7 +125,9 @@ public:
 		return mDebugOn;
 	}
  
+
 protected:
+
 
 	// Render data
 	bool mDebugOn;

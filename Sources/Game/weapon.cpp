@@ -23,10 +23,10 @@ Weapon::Weapon(Game* g, String name, Ship* parent, Vector3 location, Quaternion 
 
 	mMinTurretFirstRotationAngle = Radian(-Math::PI);
 	mMaxTurretFirstRotationAngle = Radian(Math::PI);;
-	mTurretFirstRotationSpeed = Radian(0.01);;
+	mTurretFirstRotationSpeed = Radian(0.01f);;
 	mMinTurretSecondRotationAngle = Radian(-Math::HALF_PI);
 	mMaxTurretSecondRotationAngle = Radian(Math::HALF_PI);
-	mTurretSecondRotationSpeed = Radian(0.01);
+	mTurretSecondRotationSpeed = Radian(0.01f);
 
 	// TODO Customization
 	

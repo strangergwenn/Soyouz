@@ -216,6 +216,9 @@ protected:
 	void dumpNodes(std::stringstream &ss, Ogre::Node *n, int level);
 	
 
+protected:
+
+
 	// Is it running ?
 	bool bRunning;
 	

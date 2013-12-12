@@ -102,18 +102,7 @@ void Actor::rotate(Quaternion rotator)
 	Helpers
 ----------------------------------------------*/
 
-Vector3 Actor::vectorFromString(Ogre::String vec)
-{
-	Ogre::vector<Ogre::String>::type vectorCoords = Ogre::StringUtil::split(vec);
-	Vector3 result = Vector3(
-		Ogre::StringConverter::parseReal(vectorCoords[0]),
-		Ogre::StringConverter::parseReal(vectorCoords[1]),
-		Ogre::StringConverter::parseReal(vectorCoords[2]));
-	return result;
-}
-
-
-Quaternion Actor::quaternionFromString(Ogre::String quat)
+Quaternion Actor::directionFromString(Ogre::String quat)
 {
 	Quaternion result;
 	if (quat == "LEFT")
@@ -127,8 +116,30 @@ Quaternion Actor::quaternionFromString(Ogre::String quat)
 	else if (quat == "FORWARD")
 		result = FORWARD;
 	else
-		result = BACK;
+		result = Ogre::StringConverter::parseQuaternion(quat);
 	return result;
+}
+
+
+/*----------------------------------------------
+	Save
+----------------------------------------------*/
+
+void Actor::save()
+{
+	setSaveGroup("actor");
+}
+
+
+void Actor::load()
+{
+	setSaveGroup("actor");
+}
+
+
+String Actor::getFileName()
+{
+	return mName + Ogre::String(".xml");
 }
 
 

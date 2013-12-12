@@ -9,6 +9,7 @@
 #define __ACTOR_H_
 
 #include "Engine/game.hpp"
+#include "Engine/savable.hpp"
 #include "Engine/gametypes.hpp"
 
 class Game;
@@ -18,7 +19,7 @@ class Game;
 	Class definitions
 ----------------------------------------------*/
 
-class Actor
+class Actor : public Savable
 {
 
 public:
@@ -89,20 +90,6 @@ public:
 	 * @param offset		Rotation vector (pitch, yaw, roll) in degrees
 	 **/
 	virtual void rotate(Quaternion rotator);
-	
-	/**
-	 * @brief Parse a string into a vector
-	 * @param vec			Input string
-	 * @return the Ogre vector
-	 **/
-	Vector3 vectorFromString(Ogre::String vec);
-	
-	/**
-	 * @brief Parse a string into a quaternion
-	 * @param vec			Input string
-	 * @return the Ogre quaternion
-	 **/
-	Quaternion quaternionFromString(Ogre::String quat);
 
 	/**
 	 * @brief Get the the actor location in the world
@@ -121,6 +108,34 @@ public:
 	 * @return the node
 	 **/
 	Ogre::SceneNode* getNode();
+
+
+protected:
+
+	/**
+	 * @brief Override this to save your class
+	 * @brief Call parent if inherited, call setSaveGroup(), then saveValue()
+	 **/
+	virtual void save();
+
+	/**
+	 * @brief Override this to load your class
+	 * @brief Call parent if inherited, call setSaveGroup(), then getValue()
+	 **/
+	virtual void load();
+
+	/**
+	 * @brief Override this to set your file name
+	 * @return the relative file name
+	 **/
+	virtual String getFileName();
+	
+	/**
+	 * @brief Parse a string into a quaternion
+	 * @param vec			Input string
+	 * @return the Ogre quaternion
+	 **/
+	Quaternion directionFromString(Ogre::String quat);
 	
 	/**
 	 * @brief Write text to the log file

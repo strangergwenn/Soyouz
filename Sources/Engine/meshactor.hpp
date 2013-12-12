@@ -227,7 +227,10 @@ protected:
 	 **/
 	void getCollisionMesh(bool bOptimize = false);
 	
-	
+
+protected:
+
+
 	// Physics data
 	btScalar mPhysMass;
 	btRigidBody* mPhysBody;

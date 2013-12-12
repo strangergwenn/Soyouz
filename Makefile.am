@@ -24,6 +24,7 @@ SoyouzCPPFiles= \
 	Sources/Engine/lightactor.cpp \
 	Sources/Engine/iomanager.cpp \
 	Sources/Engine/player.cpp \
+	Sources/Engine/savable.cpp \
 	Sources/Engine/Rendering/renderer.cpp \
 	Sources/Engine/Rendering/renderoperation.cpp \
 	Sources/Engine/Rendering/ambient.cpp \
@@ -40,6 +41,7 @@ SoyouzHPPFiles= \
 	Sources/Engine/meshactor.hpp \
 	Sources/Engine/lightactor.hpp \
 	Sources/Engine/actor.hpp \
+	Sources/Engine/savable.hpp \
 	Sources/Engine/Rendering/renderer.hpp \
 	Sources/Engine/Rendering/renderoperation.hpp \
 	Sources/Engine/Rendering/ambient.hpp \

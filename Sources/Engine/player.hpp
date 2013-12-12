@@ -138,7 +138,9 @@ protected:
 	 **/
 	virtual bool axisMoved(const OIS::JoyStickEvent &, int axis);
 
-	
+
+protected:
+
 	// Render data
 	int mFOV;
 	Ogre::Camera* mCamera;

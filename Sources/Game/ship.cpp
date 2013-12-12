@@ -149,8 +149,8 @@ void Ship::setupEngines()
 	while (i != NULL)
 	{
 		// Parse data
-		Vector3 engineLocation = vectorFromString(i->Attribute("location"));
-		Quaternion engineRotation = quaternionFromString(i->Attribute("direction"));
+		Vector3 engineLocation = Ogre::StringConverter::parseVector3(i->Attribute("location"));
+		Quaternion engineRotation = directionFromString(i->Attribute("direction"));
 
 		// Add a thruster
 		if (i->Attribute("type") == Ogre::String("thruster"))
