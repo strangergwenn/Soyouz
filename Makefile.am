@@ -59,7 +59,7 @@ SoyouzHPPFiles= \
 
 Soyouz_SOURCES= ${SoyouzCPPFiles} ${SoyouzHPPFiles}
 
-Soyouz_CXXFLAGS= $(OGRE_CFLAGS) $(OIS_CFLAGS) ${BULLET_CFLAGS} -I$(top_srcdir)/External/tinyxml2
+Soyouz_CXXFLAGS= $(OGRE_CFLAGS) $(OIS_CFLAGS) ${BULLET_CFLAGS} -I$(top_srcdir)/External/tinyxml2 -O0
 Soyouz_LDADD= $(OGRE_LIBS) $(OIS_LIBS) ${BULLET_LIBS}
 
 install-data-local:

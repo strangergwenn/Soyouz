@@ -212,6 +212,8 @@ public:
 
 protected: 
 
+	void init();
+
 	/**
 	 * @brief Setup the collision data
 	 * @param mass			Mass to set

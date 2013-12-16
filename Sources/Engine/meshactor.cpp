@@ -15,51 +15,52 @@
 MeshActor::MeshActor(Game* g, String name)
 	: Actor(g, name)
 {
-	mPhysBody = NULL;
+	init();
 }
 
 
 MeshActor::MeshActor(Game* g, String name, String file)
 	: Actor(g, name)
 {
+	init();
 	if (file.length() > 0)
 	{
 		setModel(file);
 		setCastShadows(true);
 	}
-	mPhysBody = NULL;
 }
 
 
 MeshActor::MeshActor(Game* g, String name, String file, String material)
 	: Actor(g, name)
 {
+	init();
 	if (file.length() > 0)
 	{
 		setModel(file);
 		setCastShadows(true);
 		setMaterial(material);
 	}
-	mPhysBody = NULL;
 }
 
 
 MeshActor::MeshActor(Game* g, String name, String file, String material, bool bCastShadows)
 	: Actor(g, name)
 {
+	init();
 	if (file.length() > 0)
 	{
 		setModel(file);
 		setCastShadows(bCastShadows);
 		setMaterial(material);
 	}
-	mPhysBody = NULL;
 }
 
 
 MeshActor::MeshActor(Game* g, String name, String file, String material, bool bCastShadows, float mass)
 	: Actor(g, name)
 {
+	init();
 	if (file.length() > 0)
 	{
 		setModel(file);
@@ -76,6 +77,11 @@ MeshActor::~MeshActor()
 	{
 		mGame->unregisterRigidBody(mPhysBody);
 	}
+}
+
+void MeshActor::init() {
+	mPhysBody = NULL;
+	mRootComponent = new ComponentActor(mGame, mName + "_root");
 }
 
 
@@ -347,6 +353,12 @@ Vector3 MeshActor::getGlobalPosition(Vector3 position)
 
 void MeshActor::addCollisionMesh(ComponentActor* component)
 {
+	btCollisionShape* mesh = component->getCollisionMesh(false);
+	
+	if(!mesh) {
+		return;
+	}
+	
 	btTransform transform;
 	Quaternion rotation = component->getRotation();
 	Vector3 location = component->getLocation();
@@ -360,7 +372,7 @@ void MeshActor::addCollisionMesh(ComponentActor* component)
 	btQuaternion quat(rotation.x, rotation.y, rotation.z, rotation.w);
 	transform.setRotation(quat);
 	
-	mPhysShape->addChildShape (transform , component->getCollisionMesh(false));
+	mPhysShape->addChildShape (transform , mesh);
 }
 
 void MeshActor::generateCollisions()

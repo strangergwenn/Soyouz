@@ -15,12 +15,14 @@
 ComponentActor::ComponentActor(Game* g, String name)
 	: Actor(g, name)
 {
+	mMesh = NULL;
 }
 
 
 ComponentActor::ComponentActor(Game* g, String name, String file)
 	: Actor(g, name)
 {
+	mMesh = NULL;
 	if (file.length() > 0)
 	{
 		setModel(file);
@@ -31,6 +33,7 @@ ComponentActor::ComponentActor(Game* g, String name, String file)
 ComponentActor::ComponentActor(Game* g, String name, String file, String material)
 	: Actor(g, name)
 {
+	mMesh = NULL;
 	if (file.length() > 0)
 	{
 		setModel(file);
@@ -42,6 +45,7 @@ ComponentActor::ComponentActor(Game* g, String name, String file, String materia
 ComponentActor::ComponentActor(Game* g, String name, String file, String material, bool bCastShadows)
 	: Actor(g, name)
 {
+	mMesh = NULL;
 	if (file.length() > 0)
 	{
 		setModel(file);
@@ -255,6 +259,11 @@ void getMeshInformation(const Ogre::Mesh* const mesh,
 
 btCollisionShape* ComponentActor::getCollisionMesh(bool bOptimize)
 {
+	if(!mMesh) {
+		return NULL;
+	}
+	
+	
 	Vector3* vertices;
 	size_t vCount, iCount;
 	unsigned long* indices;
