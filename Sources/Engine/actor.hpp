@@ -136,7 +136,6 @@ public:
 
 protected:
 
-	
 	// Render data
 	String mName;
 	Game* mGame;

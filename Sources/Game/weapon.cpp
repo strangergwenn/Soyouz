@@ -15,7 +15,7 @@
 ----------------------------------------------*/
 	
 Weapon::Weapon(Game* g, String name, Ship* parent, Vector3 location, Quaternion rotation)
-	: MeshActor(g, name, "", "")
+	: ComponentActor(g, name, "", "")
 {
 	mFiring = false;
 	mTimeSinceLastFire = 0;
@@ -35,7 +35,7 @@ Weapon::Weapon(Game* g, String name, Ship* parent, Vector3 location, Quaternion 
 	mShip = parent;
 	rotate(rotation);
 	setLocation(location);
-	parent->attachActor(this);
+	parent->attachComponent(this);
 }
 
 // TODO make a util file
@@ -140,7 +140,7 @@ void Weapon::tick(const Ogre::FrameEvent& evt)
 		}
 	}
 
-	MeshActor::tick(evt);
+	ComponentActor::tick(evt);
 }
 
 void Weapon::setFireOrder(bool fire)

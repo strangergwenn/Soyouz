@@ -67,8 +67,8 @@ Ship::Ship(Game* g, Ogre::String name, Ogre::String templateFile, Ogre::String c
 	if (hull)
 	{
 		setModel(
-			hull->FirstChildElement("mesh")->GetText() + Ogre::String(".mesh"),
-			hull->FirstChildElement("mesh")->FloatAttribute("mass"));
+			hull->FirstChildElement("mesh")->GetText() + Ogre::String(".mesh"));
+		setMass(hull->FirstChildElement("mesh")->FloatAttribute("mass"));
 		setMaterial(hull->FirstChildElement("material")->GetText());
 	}
 

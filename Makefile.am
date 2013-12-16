@@ -20,6 +20,7 @@ SoyouzCPPFiles= \
 	Sources/Game/bullet.cpp \
 	Sources/Engine/actor.cpp \
 	Sources/Engine/meshactor.cpp \
+	Sources/Engine/componentactor.cpp \
 	Sources/Engine/game.cpp \
 	Sources/Engine/lightactor.cpp \
 	Sources/Engine/iomanager.cpp \

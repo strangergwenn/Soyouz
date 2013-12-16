@@ -8,7 +8,7 @@
 #ifndef __WEAPON_H_
 #define __WEAPON_H_
 
-#include "Engine/meshactor.hpp"
+#include "Engine/componentactor.hpp"
 
 class Game;
 class Ship;
@@ -18,7 +18,7 @@ class Ship;
 	Class definitions
 ----------------------------------------------*/
 
-class Weapon : public MeshActor
+class Weapon : public ComponentActor
 {
 
 public:

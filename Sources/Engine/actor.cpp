@@ -148,6 +148,8 @@ Quaternion Actor::rotation()
 }
 
 
+
+
 Ogre::SceneNode* Actor::getNode()
 {
 	return mNode;

@@ -6,7 +6,7 @@
 **/
 
 #include "Engine/meshactor.hpp"
-
+#include "Engine/componentactor.hpp"
 
 /*----------------------------------------------
 	Constructor & destructor
@@ -25,6 +25,7 @@ MeshActor::MeshActor(Game* g, String name, String file)
 	if (file.length() > 0)
 	{
 		setModel(file);
+		setCastShadows(true);
 	}
 	mPhysBody = NULL;
 }
@@ -36,6 +37,7 @@ MeshActor::MeshActor(Game* g, String name, String file, String material)
 	if (file.length() > 0)
 	{
 		setModel(file);
+		setCastShadows(true);
 		setMaterial(material);
 	}
 	mPhysBody = NULL;
@@ -48,8 +50,8 @@ MeshActor::MeshActor(Game* g, String name, String file, String material, bool bC
 	if (file.length() > 0)
 	{
 		setModel(file);
+		setCastShadows(bCastShadows);
 		setMaterial(material);
-		mMesh->setCastShadows(bCastShadows);
 	}
 	mPhysBody = NULL;
 }
@@ -61,9 +63,9 @@ MeshActor::MeshActor(Game* g, String name, String file, String material, bool bC
 	if (file.length() > 0)
 	{
 		setModel(file);
+		setCastShadows(bCastShadows);
 		setMaterial(material);
-		mMesh->setCastShadows(bCastShadows);
-		generateCollisions(mass);
+		setMass(mass);
 	}
 }
 
@@ -97,19 +99,30 @@ void MeshActor::tick(const Ogre::FrameEvent& evt)
 
 void MeshActor::setModel(Ogre::String file)
 {
-	prepareLoad(file);
-	mMesh = mGame->createGameEntity(mName + "_mesh", file);
-	mMesh->setCastShadows(true);
-	mNode->attachObject(mMesh);
+	mRootComponent->setModel(file);
+	//~ prepareLoad(file);
+	//~ mMesh = mGame->createGameEntity(mName + "_mesh", file);
+	//~ mMesh->setCastShadows(true);
+	//~ mNode->attachObject(mMesh);
 }
 
-
-void MeshActor::setModel(Ogre::String file, float mass)
+void MeshActor::setCastShadows(bool bCastShadow)
 {
-	setModel(file);
-	generateCollisions(mass);
+	mRootComponent->setCastShadows(bCastShadow);
+	//~ prepareLoad(file);
+	//~ mMesh = mGame->createGameEntity(mName + "_mesh", file);
+	//~ mMesh->setCastShadows(true);
+	//~ mNode->attachObject(mMesh);
 }
 
+void MeshActor::setMass(float mass)
+{
+	mPhysMass = mass;
+	//~ prepareLoad(file);
+	//~ mMesh = mGame->createGameEntity(mName + "_mesh", file);
+	//~ mMesh->setCastShadows(true);
+	//~ mNode->attachObject(mMesh);
+}
 
 void MeshActor::prepareLoad(Ogre::String name)
 {
@@ -230,6 +243,10 @@ void MeshActor::clearForces()
 	}
 }
 
+void MeshActor::attachComponent(ComponentActor* component) {
+	mComponentActors.push_back(component);
+	generateCollisions();
+}
 
 /*----------------------------------------------
 	Getters
@@ -328,132 +345,44 @@ Vector3 MeshActor::getGlobalPosition(Vector3 position)
 	Collisions
 ----------------------------------------------*/
 
-/**
- * @brief Get mesh triangles
- * Thanks to the OGRE community (jacmoe)
- * http://www.ogre3d.org/tikiwiki/tiki-index.php?page=RetrieveVertexData
- * @param mesh			OGRE mesh data
- * @param vertex_count	Output vertices count
- * @param vertices		Output vertices data
- * @param index_count	Output index count
- * @param indices		Output index data
- * @param position		Mesh position offset
- * @param orient		Mesh orientation offset
- * @param scale			Mesh scale offset
- **/
-void getMeshInformation(const Ogre::Mesh* const mesh,
-                        size_t &vertex_count,
-                        Vector3* &vertices,
-                        size_t &index_count,
-                        unsigned long* &indices,
-                        const Vector3 &position,
-                        const Quaternion &orient,
-                        const Vector3 &scale)
+void MeshActor::addCollisionMesh(ComponentActor* component)
 {
-    bool added_shared = false;
-    size_t current_offset = 0;
-    size_t shared_offset = 0;
-    size_t next_offset = 0;
-    size_t index_offset = 0;
- 
-    vertex_count = index_count = 0;
- 
-    for (unsigned short i = 0; i < mesh->getNumSubMeshes(); ++i)
-    {
-        Ogre::SubMesh* submesh = mesh->getSubMesh(i);
-        if(submesh->useSharedVertices)
-        {
-            if(!added_shared )
-            {
-                vertex_count += mesh->sharedVertexData->vertexCount;
-                added_shared = true;
-            }
-        }
-        else
-        {
-            vertex_count += submesh->vertexData->vertexCount;
-        }
-        index_count += submesh->indexData->indexCount;
-    }
- 
-    vertices = new Vector3[vertex_count];
-    indices = new unsigned long[index_count];
-    added_shared = false;
- 
-    for (unsigned short i = 0; i < mesh->getNumSubMeshes(); ++i)
-    {
-        Ogre::SubMesh* submesh = mesh->getSubMesh(i);
-        Ogre::VertexData* vertex_data = submesh->useSharedVertices ? mesh->sharedVertexData : submesh->vertexData;
- 
-        if ((!submesh->useSharedVertices) || (submesh->useSharedVertices && !added_shared))
-        {
-            if(submesh->useSharedVertices)
-            {
-                added_shared = true;
-                shared_offset = current_offset;
-            }
- 
-            const Ogre::VertexElement* posElem = vertex_data->vertexDeclaration->findElementBySemantic(Ogre::VES_POSITION);
-            Ogre::HardwareVertexBufferSharedPtr vbuf = vertex_data->vertexBufferBinding->getBuffer(posElem->getSource());
-            unsigned char* vertex = static_cast<unsigned char*>(vbuf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY)); 
-            float* pReal;
- 
-            for(size_t j = 0; j < vertex_data->vertexCount; ++j, vertex += vbuf->getVertexSize())
-            {
-                posElem->baseVertexPointerToElement(vertex, &pReal);
-                Vector3 pt(pReal[0], pReal[1], pReal[2]);
-                vertices[current_offset + j] = (orient * (pt * scale)) + position;
-            }
- 
-            vbuf->unlock();
-            next_offset += vertex_data->vertexCount;
-        }
- 
-        Ogre::IndexData* index_data = submesh->indexData;
-        size_t numTris = index_data->indexCount / 3;
-        Ogre::HardwareIndexBufferSharedPtr ibuf = index_data->indexBuffer;
- 
-        bool use32bitindexes = (ibuf->getType() == Ogre::HardwareIndexBuffer::IT_32BIT);
-        unsigned long* pLong = static_cast<unsigned long*>(ibuf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY));
-        unsigned short* pShort = reinterpret_cast<unsigned short*>(pLong);
-        size_t offset = (submesh->useSharedVertices)? shared_offset : current_offset;
- 
-        if (use32bitindexes)
-        {
-            for (size_t k = 0; k < numTris*3; ++k)
-            {
-                indices[index_offset++] = pLong[k] + static_cast<unsigned long>(offset);
-            }
-        }
-        else
-        {
-            for (size_t k = 0; k < numTris*3; ++k)
-            {
-                indices[index_offset++] = static_cast<unsigned long>(pShort[k]) +
-                                          static_cast<unsigned long>(offset);
-            }
-        }
- 
-        ibuf->unlock();
-        current_offset = next_offset;
-    }
+	btTransform transform;
+	Quaternion rotation = component->getRotation();
+	Vector3 location = component->getLocation();
+	
+	transform.setIdentity();
+	transform.setOrigin(btVector3(
+		location[0],
+		location[1],
+		location[2]));
+	
+	btQuaternion quat(rotation.x, rotation.y, rotation.z, rotation.w);
+	transform.setRotation(quat);
+	
+	mPhysShape->addChildShape (transform , component->getCollisionMesh(false));
 }
 
-
-void MeshActor::generateCollisions(float mass)
+void MeshActor::generateCollisions()
 {
 	// Physics settings
-	getCollisionMesh(false);
+	
+	mPhysShape = new btCompoundShape(true);
+		
+	for (Ogre::list<ComponentActor*>::iterator it = mComponentActors.begin(); it != mComponentActors.end(); it++)
+	{
+		addCollisionMesh(*it);
+	}
+	
 	mPhysTransform.setIdentity();
 	mPhysTransform.setOrigin(btVector3(0, 0, 0));
 	btVector3 localInertia(0,0,0);
-	mPhysMass = mass;
 	
 	// Physics setup
-	mPhysShape->calculateLocalInertia(mass, localInertia);
+	mPhysShape->calculateLocalInertia(mPhysMass, localInertia);
 	mPhysMotionState = new btDefaultMotionState(mPhysTransform);
 	btRigidBody::btRigidBodyConstructionInfo rbConstruct(
-		mass,
+		mPhysMass,
 		mPhysMotionState,
 		mPhysShape,
 		localInertia);
@@ -463,89 +392,29 @@ void MeshActor::generateCollisions(float mass)
 	mGame->registerRigidBody(mPhysBody);
 }
 
-
-void MeshActor::getCollisionMesh(bool bOptimize)
-{
-	Vector3* vertices;
-	size_t vCount, iCount;
-	unsigned long* indices;
-	Ogre::Mesh* origin = mMesh->getMesh().get();
-
-	// Trimesh preparation
-	btTriangleMesh* trimesh = new btTriangleMesh();
-	getMeshInformation(origin, vCount, vertices, iCount, indices,
-		Vector3::ZERO, mNode->getOrientation(), mNode->getScale());
-
-	// Triangle copy
-    btVector3 vertexPos[3];
-	for (size_t n = 0; n < iCount / 3; n++)
-	{
-         for (unsigned int i = 0; i < 3; ++i)
-         {
-			const Vector3 &vec = vertices[*indices];
-			vertexPos[i][0] = vec.x;
-			vertexPos[i][1] = vec.y;
-			vertexPos[i][2] = vec.z;
-			*indices++;
-         }
-         trimesh->addTriangle(vertexPos[0], vertexPos[1], vertexPos[2]);
-	}
-	btConvexTriangleMeshShape* trishape = new btConvexTriangleMeshShape(trimesh, true);
-	
-	// Collision hull generation
-	if (bOptimize)
-	{
-		btShapeHull* hull = new btShapeHull(trishape);
-		btScalar margin = trishape->getMargin();
-		hull->buildHull(margin);
-		mPhysShape = new btConvexHullShape((btScalar*)hull->getVertexPointer(), hull->numVertices());
-
-		delete trishape;
-		delete hull;
-	}
-	else
-	{
-		mPhysShape = trishape;
-	}
-}
-
-
 /*----------------------------------------------
 	Materials
 ----------------------------------------------*/
 
 void MeshActor::setMaterial(String name)
 {
-	mMaterialName = name;
-	mMesh->setMaterialName(mMaterialName);
+	mRootComponent->setMaterial(name);
 }
 
 
 void MeshActor::setMaterialParam(int index, Real val)
 {
-	int numSubEnt = mMesh->getNumSubEntities();
-	for (int i = 0; i < numSubEnt; i++)
-	{
-		mMesh->getSubEntity(i)->setCustomParameter(index, Vector4(val, val, val, val));
-	}
+	mRootComponent->setMaterialParam(index, val);
 }
 
 
 void MeshActor::setMaterialParam(int index, Vector3 val)
 {
-	int numSubEnt = mMesh->getNumSubEntities();
-	for (int i = 0; i < numSubEnt; i++)
-	{
-		mMesh->getSubEntity(i)->setCustomParameter(index, Vector4(val[0], val[1], val[2], 0));
-	}
+	mRootComponent->setMaterialParam(index, val);
 }
 
 
 void MeshActor::setMaterialParam(int index, Vector4 val)
 {
-	int numSubEnt = mMesh->getNumSubEntities();
-	for (int i = 0; i < numSubEnt; i++)
-	{
-		mMesh->getSubEntity(i)->setCustomParameter(index, val);
-	}
+	mRootComponent->setMaterialParam(index, val);
 }

@@ -2,11 +2,11 @@
 * This work is distributed under the General Public License,
 * see LICENSE for details
 *
-* @author Gwennaël ARBONA
+* @author Frédéric BERTOLUS
 **/
 
-#ifndef __MESHACTOR_H_
-#define __MESHACTOR_H_
+#ifndef __COMPONENTACTOR_H_
+#define __COMPONENTACTOR_H_
 
 #include "Engine/game.hpp"
 #include "Engine/actor.hpp"
@@ -14,13 +14,13 @@
 #include "Engine/gametypes.hpp"
 
 class Game;
-class ComponentActor;
+
 
 /*----------------------------------------------
 	Class definitions
 ----------------------------------------------*/
 
-class MeshActor : public Actor
+class ComponentActor : public Actor
 {
 
 public:
@@ -30,7 +30,7 @@ public:
 	 * @param g				Game actor
 	 * @param name			Unique name to set to the mesh
 	 **/
-	MeshActor(Game* g, String name);
+	ComponentActor(Game* g, String name);
 	
 	/**
 	 * @brief Create an actor
@@ -38,7 +38,7 @@ public:
 	 * @param name			Unique name to set to the mesh
 	 * @param file			Mesh file to load
 	 **/
-	MeshActor(Game* g, String name, String file);
+	ComponentActor(Game* g, String name, String file);
 
 	/**
 	 * @brief Create an actor
@@ -47,7 +47,7 @@ public:
 	 * @param file			Mesh file to load
 	 * @param file			Material name to use
 	 **/
-	MeshActor(Game* g, String name, String file, String material);
+	ComponentActor(Game* g, String name, String file, String material);
 	
 	/**
 	 * @brief Create an actor
@@ -57,23 +57,13 @@ public:
 	 * @param material		Material name to use
 	 * @param bCastShadows	Should cast shadows
 	 **/
-	MeshActor(Game* g, String name, String file, String material, bool bCastShadows);
+	ComponentActor(Game* g, String name, String file, String material, bool bCastShadows);
 	
-	/**
-	 * @brief Create an actor
-	 * @param g				Game actor
-	 * @param name			Unique name to set to the mesh
-	 * @param file			Mesh file to load
-	 * @param material		Material name to use
-	 * @param bCastShadows	Should cast shadows
-	 * @param mass			Physics mass
-	 **/
-	MeshActor(Game* g, String name, String file, String material, bool bCastShadows, float mass);
-	
+
 	/**
 	 * @brief Delete an actor
 	 **/
-	virtual ~MeshActor();
+	virtual ~ComponentActor();
 	
 	/**
 	 * @brief Main tick event
@@ -87,9 +77,7 @@ public:
 	 **/
 	void setModel(Ogre::String file);
 	
-	void setCastShadows(bool castShadow);
-
-	void setMass(float mass);
+	void setCastShadows(bool bCastShadows);
 
 	/**
 	 * @brief Prepare mesh normals for loading
@@ -110,12 +98,6 @@ public:
 	virtual void setRotation(Quaternion newRot);
 
 	/**
-	 * @brief Set the the actor linear velocity in the world
-	 * @param offset		linear velocit vector
-	 **/
-	virtual void setSpeed(Vector3 newSpeed);
-
-	/**
 	 * @brief Translate the actor in the world
 	 * @param offset		Movement vector
 	 * @param bRelative		true if relative to the node
@@ -127,50 +109,7 @@ public:
 	 * @param offset		Rotation vector (pitch, yaw, roll) in degrees
 	 **/
 	virtual void rotate(Quaternion rotator);
-	
-	/**
-	 * @brief Apply a physical force
-	 * @param force			Force data
-	 * @param location		Force relative location
-	 **/
-	void applyForce(Vector3 force, Vector3 location);
 
-	/**
-	 * @brief Apply a physical force in the local referencial
-	 * @param force			Force data
-	 * @param location		Force relative location
-	 **/
-	void applyLocalForce(Vector3 force, Vector3 location);
-	
-	/**
-	 * @brief Remove all physical forces
-	 **/
-	void clearForces();
-	
-	/**
-	 * @brief Get the current speed
-	 * @return a vector materializing the speeds along X, Y, Z
-	 **/
-	Vector3 getSpeed(void);
-	
-	/**
-	 * @brief Get the current speed in local reference
-	 * @return a vector materializing the speeds along X, Y, Z
-	 **/
-	Vector3 getLocalSpeed(void);
-
-	/**
-	 * @brief Get the current angular speed
-	 * @return a vector materializing the angular speeds along X, Y, Z
-	 **/
-	Vector3 getAngularSpeed(void);
-	
-	/**
-	 * @brief Get the current angular speed in local reference
-	 * @return a vector materializing the angular speeds along X, Y, Z
-	 **/
-	Vector3 getLocalAngularSpeed(void);
-	
 	/**
 	 * @brief Get a relative position vector in ship in global reference
 	 * @return a vector materializing position along X, Y, Z
@@ -208,30 +147,27 @@ public:
 	 **/
 	void setMaterialParam(int index, Vector4 val);
 
-	void attachComponent(ComponentActor* component);
+	/**
+	 * @brief Generate a hull mesh from the OGRE mesh
+	 * @param bOptimize		Set to true to enable hull reduction
+	 * @return a hull mesh for Bullet
+	 **/
+	virtual btCollisionShape* getCollisionMesh(bool bOptimize = false);
 
 protected: 
 
-	/**
-	 * @brief Setup the collision data
-	 * @param mass			Mass to set
-	 **/
-	void generateCollisions();
-
-	void addCollisionMesh(ComponentActor* component);
 	
+	
+
 	
 	// Physics data
-	btScalar mPhysMass;
-	btRigidBody* mPhysBody;
-	btTransform mPhysTransform;
-	btCompoundShape* mPhysShape;
-	btDefaultMotionState* mPhysMotionState;
+	btTransform mLocalPhysTransform;
+	btCollisionShape* mCollisionMeshCache;
 
 	// Game data
-	ComponentActor* mRootComponent;
-	Ogre::list<ComponentActor*>::type mComponentActors;
-
+	String mMaterialName;
+	Ogre::Entity* mMesh;
+	bool mCastShadow;
 };
 
-#endif /* __MESHACTOR_H_ */
+#endif /* __COMPONENTACTOR_H_ */
