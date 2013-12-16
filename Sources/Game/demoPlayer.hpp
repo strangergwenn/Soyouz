@@ -36,6 +36,7 @@ public:
 		mControlDirection = false;
 		mFastControlDirection = false;
 		mTargetSpeed = 0;
+		mInverted = false;
 
 		// Ship mesh
 		mShip = new Ship(g, "Ship", "Sovereign");
@@ -56,10 +57,18 @@ public:
 
 protected:
 
+	
 	void preTick(const Ogre::FrameEvent& evt) {
 		// Set ship weapon target
-		Ogre::Ray ray = mCamera->getCameraToViewportRay(mMouseState.X.abs / (float)mCamera->getViewport()->getActualWidth() ,mMouseState.Y.abs / (float)mCamera->getViewport()->getActualHeight());
-		mShip->getPrimaryWeapon()->setAimDirection(ray.getDirection());
+		
+		if(mInverted) {
+			Ogre::Ray ray = mCamera->getCameraToViewportRay(1.0 - mMouseState.X.abs / (float)mCamera->getViewport()->getActualWidth() , 1.0 - mMouseState.Y.abs / (float)mCamera->getViewport()->getActualHeight());
+			mShip->setAimDirection(-ray.getDirection());
+			
+		} else {
+			Ogre::Ray ray = mCamera->getCameraToViewportRay(mMouseState.X.abs / (float)mCamera->getViewport()->getActualWidth() ,mMouseState.Y.abs / (float)mCamera->getViewport()->getActualHeight());
+			mShip->setAimDirection(ray.getDirection());
+		}
 	}
 
 	bool mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID id)
@@ -147,6 +156,10 @@ protected:
 			case OIS::KC_E:
 				mShip->setRoll(-1.0f);
 				break;
+				
+			case OIS::KC_I:
+				mInverted = !mInverted;
+				break;	
 
 			case OIS::KC_NUMPAD5:
 				mHorizAngle = 0;
@@ -186,6 +199,7 @@ protected:
 
 			case OIS::KC_LCONTROL:
 				mShip->setFireOrder(true);
+				mShip->setFireOrder(true);
 				break;
 			case OIS::KC_ESCAPE:
 				mGame->quit();
@@ -210,6 +224,7 @@ protected:
 				break;
 			case OIS::KC_LCONTROL:
 				mShip->setFireOrder(false);
+				mShip->setFireOrder(false);
 				break;
 			case OIS::KC_TAB:
 				//mTargetSpeed = MAX_TARGET_SPEED;
@@ -233,6 +248,7 @@ protected:
 	OIS::MouseState mMouseState;
 	bool mControlDirection;
 	bool mFastControlDirection;
+	bool mInverted = false;
 
 };
 

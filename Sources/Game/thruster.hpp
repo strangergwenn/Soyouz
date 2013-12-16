@@ -51,7 +51,7 @@ public:
 	 * @brief Customize the thruster exhaust model
 	 * @param scale			Exhaust model
 	 **/
-	void setModel(String file);
+	//void setModel(String file);
 
 
 protected:

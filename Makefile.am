@@ -20,6 +20,7 @@ SoyouzCPPFiles= \
 	Sources/Game/bullet.cpp \
 	Sources/Engine/actor.cpp \
 	Sources/Engine/meshactor.cpp \
+	Sources/Engine/componentactor.cpp \
 	Sources/Engine/game.cpp \
 	Sources/Engine/lightactor.cpp \
 	Sources/Engine/iomanager.cpp \
@@ -60,7 +61,7 @@ SoyouzHPPFiles= \
 
 Soyouz_SOURCES= ${SoyouzCPPFiles} ${SoyouzHPPFiles}
 
-Soyouz_CXXFLAGS= $(OGRE_CFLAGS) $(OIS_CFLAGS) ${BULLET_CFLAGS} -I$(top_srcdir)/External/tinyxml2
+Soyouz_CXXFLAGS= $(OGRE_CFLAGS) $(OIS_CFLAGS) ${BULLET_CFLAGS} -I$(top_srcdir)/External/tinyxml2 -O2
 Soyouz_LDADD= $(OGRE_LIBS) $(OIS_LIBS) ${BULLET_LIBS}
 
 install-data-local:

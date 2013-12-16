@@ -8,7 +8,7 @@
 #ifndef __WEAPON_H_
 #define __WEAPON_H_
 
-#include "Engine/meshactor.hpp"
+#include "Engine/componentactor.hpp"
 
 class Game;
 class Ship;
@@ -18,7 +18,7 @@ class Ship;
 	Class definitions
 ----------------------------------------------*/
 
-class Weapon : public MeshActor
+class Weapon : public ComponentActor
 {
 
 public:
@@ -59,6 +59,9 @@ protected:
 	Real mFirerate;
 	Real mTimeSinceLastFire;
 	Vector3 mAimDirection;
+	Vector3 mTurretFirstOffset;
+	Vector3 mTurretSecondOffset;
+	Vector3 mBarrelOffset;
 	Quaternion mTurretFirstRotation;
 	Quaternion mTurretSecondRotation;
 	Radian mMinTurretFirstRotationAngle;
@@ -67,6 +70,8 @@ protected:
 	Radian mMinTurretSecondRotationAngle;
 	Radian mMaxTurretSecondRotationAngle;
 	Radian mTurretSecondRotationSpeed;
+	ComponentActor* mBarrelActor;
+	ComponentActor* mTurretActor;
 };
 
 #endif /* __WEAPON_H_ */

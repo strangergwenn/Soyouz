@@ -19,8 +19,8 @@ Thruster::Thruster(Game* g, String name, MeshActor* parent, Vector3 location, Qu
 	: MeshActor(g, name)
 {
 	// Customization
-	mMesh = NULL;
 	setModel("SM_Exhaust.mesh");
+	setCastShadows(false);
 	setMaterial("MI_Exhaust");
 	customize(1000, 2.0, 0.1f);
 	
@@ -88,8 +88,10 @@ void Thruster::customize(float strength, float scale, float rotRatio)
 }
 
 
-void Thruster::setModel(String file)
+/*void Thruster::setModel(String file)
 {
+	MeshActor::setModel(file);
+	
 	if (mMesh)
 	{
 		mGame->deleteGameEntity(mMesh);
@@ -98,4 +100,4 @@ void Thruster::setModel(String file)
 	mMesh = mGame->createGameEntity(mName + "_mesh", file);
 	mMesh->setCastShadows(false);
 	mNode->attachObject(mMesh);
-}
+}*/

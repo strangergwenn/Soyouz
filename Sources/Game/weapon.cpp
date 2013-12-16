@@ -15,7 +15,7 @@
 ----------------------------------------------*/
 	
 Weapon::Weapon(Game* g, String name, Ship* parent, Vector3 location, Quaternion rotation)
-	: MeshActor(g, name, "", "")
+	: ComponentActor(g, name, "canon_base.mesh", "White")
 {
 	mFiring = false;
 	mTimeSinceLastFire = 0;
@@ -28,14 +28,30 @@ Weapon::Weapon(Game* g, String name, Ship* parent, Vector3 location, Quaternion 
 	mMaxTurretSecondRotationAngle = Radian(Math::HALF_PI);
 	mTurretSecondRotationSpeed = Radian(0.01f);
 
-	// TODO Customization
+	mTurretActor = new ComponentActor(g, name+"_turret", "canon_turret.mesh", "Red");
+	mBarrelActor = new ComponentActor(g, name+"_barrel", "canon_barrel.mesh", "White");
+ 	// TODO Customization
 	
 	// Position
 	mRelPosition = location;
 	mShip = parent;
 	rotate(rotation);
 	setLocation(location);
-	parent->attachActor(this);
+	
+	mTurretFirstOffset = Vector3(0, 0, -0.15);
+	mTurretSecondOffset = Vector3(0, 0, -0.73);
+	mBarrelOffset = Vector3(0, 0, -6);
+	
+	mTurretActor->setRotation(mTurretFirstRotation);
+	mTurretActor->setLocation(mTurretFirstOffset);
+	
+	mBarrelActor->setRotation(mTurretSecondRotation);
+	mBarrelActor->setLocation(mTurretSecondOffset);
+	
+	attachActor(mTurretActor);
+	mTurretActor->attachActor(mBarrelActor);
+	parent->attachComponent(this);
+	
 }
 
 // TODO make a util file
@@ -119,6 +135,9 @@ void Weapon::tick(const Ogre::FrameEvent& evt)
 	mTurretFirstRotation.FromAngleAxis(nextFirstAngle, Vector3(0,0,1));
 	mTurretSecondRotation.FromAngleAxis(nextSecondAngle, Vector3(1,0,0));
 
+	mTurretActor->setRotation(mTurretFirstRotation);
+	mBarrelActor->setRotation(mTurretSecondRotation);
+
 	//gameLog("mAimDirection=" + StringConverter::toString(mAimDirection));
 	//gameLog("localAimDirection=" + StringConverter::toString(localAimDirection));
 	//gameLog("currentFirstAngle=" + StringConverter::toString(currentFirstAngle.valueDegrees()));
@@ -140,7 +159,7 @@ void Weapon::tick(const Ogre::FrameEvent& evt)
 		}
 	}
 
-	MeshActor::tick(evt);
+	ComponentActor::tick(evt);
 }
 
 void Weapon::setFireOrder(bool fire)

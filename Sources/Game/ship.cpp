@@ -46,7 +46,8 @@ Ship::Ship(Game* g, Ogre::String name, Ogre::String templateFile)
 
 	// Hull setup
 	setTemplateGroup("hull");
-	setModel(loadStringValue("mesh") + Ogre::String(".mesh"), loadFloatValue("mass"));
+	setModel(loadStringValue("mesh") + Ogre::String(".mesh"));
+	setMass(loadFloatValue("mass"));
 	setMaterial(loadStringValue("material"));
 	mViewDistance = loadFloatValue("viewDistance");
 
@@ -62,6 +63,8 @@ Ship::Ship(Game* g, Ogre::String name, Ogre::String templateFile)
 	setupWeapons();
 	setupAddons();
 	closeTemplate();
+
+	commit();
 }
 
 
@@ -136,14 +139,99 @@ void Ship::setupEngines()
 
 void Ship::setupWeapons()
 {
-	Weapon* weapon = new MachineGun(
+	Weapon* weapon;
+	weapon = new MachineGun(
 		mGame,
-		mName + "_Weapon" + StringConverter::toString(mWeapons.size()),
+		mName + "_Weapon_top_big" + StringConverter::toString(mWeapons.size()),
 		this,
-		Vector3(0, 0, -8),
-		Quaternion(Radian(Degree(  0).valueRadians()), Vector3(0,1,0))
+		Vector3(0, 12.3, 0),
+		Quaternion(Radian(Degree(  90).valueRadians()), Vector3(1,0,0))
 	);
 	mWeapons.push_back(weapon);
+	
+	weapon = new MachineGun(
+		mGame,
+		mName + "_Weapon_top_right_medium" + StringConverter::toString(mWeapons.size()),
+		this,
+		Vector3(27.5, 4.4, 0),
+		Quaternion(Radian(Degree(  90).valueRadians()), Vector3(1,0,0))
+	);
+	mWeapons.push_back(weapon);
+	
+	weapon = new MachineGun(
+		mGame,
+		mName + "_Weapon_top_left_medium" + StringConverter::toString(mWeapons.size()),
+		this,
+		Vector3(-27.5, 4.4, 0),
+		Quaternion(Radian(Degree(  90).valueRadians()), Vector3(1,0,0))
+	);
+	mWeapons.push_back(weapon);
+	
+	weapon = new MachineGun(
+		mGame,
+		mName + "_Weapon_top_left_small" + StringConverter::toString(mWeapons.size()),
+		this,
+		Vector3(16, 9.4, 0),
+		Quaternion(Radian(Degree(  90).valueRadians()), Vector3(1,0,0))
+	);
+	mWeapons.push_back(weapon);
+	
+	weapon = new MachineGun(
+		mGame,
+		mName + "_Weapon_top_right_small" + StringConverter::toString(mWeapons.size()),
+		this,
+		Vector3(-16, 9.4, 0),
+		Quaternion(Radian(Degree(  90).valueRadians()), Vector3(1,0,0))
+	);
+	mWeapons.push_back(weapon);
+	
+	// Bottom
+	
+	weapon = new MachineGun(
+		mGame,
+		mName + "_Weapon_bottom_big" + StringConverter::toString(mWeapons.size()),
+		this,
+		Vector3(0, -12.3, 0),
+		Quaternion(Radian(Degree(  -90).valueRadians()), Vector3(1,0,0))
+	);
+	mWeapons.push_back(weapon);
+	
+	weapon = new MachineGun(
+		mGame,
+		mName + "_Weapon_bottom_right_medium" + StringConverter::toString(mWeapons.size()),
+		this,
+		Vector3(27.5, -4.4, 0),
+		Quaternion(Radian(Degree(  -90).valueRadians()), Vector3(1,0,0))
+	);
+	mWeapons.push_back(weapon);
+	
+	weapon = new MachineGun(
+		mGame,
+		mName + "_Weapon_bottom_left_medium" + StringConverter::toString(mWeapons.size()),
+		this,
+		Vector3(-27.5, -4.4, 0),
+		Quaternion(Radian(Degree(  -90).valueRadians()), Vector3(1,0,0))
+	);
+	mWeapons.push_back(weapon);
+	
+	weapon = new MachineGun(
+		mGame,
+		mName + "_Weapon_bottom_left_small" + StringConverter::toString(mWeapons.size()),
+		this,
+		Vector3(16, -9.4, 0),
+		Quaternion(Radian(Degree(  -90).valueRadians()), Vector3(1,0,0))
+	);
+	mWeapons.push_back(weapon);
+	
+	weapon = new MachineGun(
+		mGame,
+		mName + "_Weapon_bottom_right_small" + StringConverter::toString(mWeapons.size()),
+		this,
+		Vector3(-16, -9.4, 0),
+		Quaternion(Radian(Degree(  -90).valueRadians()), Vector3(1,0,0))
+	);
+	mWeapons.push_back(weapon);
+	
 }
 
 
@@ -166,21 +254,39 @@ bool Ship::isSavable()
 	Weapons
 ----------------------------------------------*/
 
-void Ship::setFireOrder(bool fire)
-{
-	if (mWeapons.size() > 0)
-	{
-		mWeapons.front()->setFireOrder(fire);
-	}
-}
 
 Weapon* Ship::getPrimaryWeapon()
 {
 	if (mWeapons.size() > 0)
 	{
-		return mWeapons.front();
+		return mWeapons[0];
 	}
 	return NULL;
+}
+
+Weapon* Ship::getSecondaryWeapon()
+{
+	if (mWeapons.size() > 1)
+	{
+		return mWeapons[1];
+	}
+	return NULL;
+}
+
+void Ship::setFireOrder(bool fire)
+{
+	for (Ogre::vector<Weapon*>::iterator it = mWeapons.begin(); it != mWeapons.end(); it++)
+	{
+		(*it)->setFireOrder(fire);
+	}
+}
+
+void Ship::setAimDirection(Vector3 aimDirection)
+{
+	for (Ogre::vector<Weapon*>::iterator it = mWeapons.begin(); it != mWeapons.end(); it++)
+	{
+		(*it)->setAimDirection(aimDirection);
+	}
 }
 
 /*----------------------------------------------

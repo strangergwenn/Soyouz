@@ -27,10 +27,12 @@ Bullet::Bullet(Game* g, String name, Weapon* parent, Vector3 location, Quaternio
 
 	// Position
 	mWeapon = (Weapon*)parent;
+	commit();
 	rotate(rotation);
 	setLocation(location);
 	setSpeed(velocity);
 	setScale(5);
+	
 }
 
 Bullet::~Bullet() {
