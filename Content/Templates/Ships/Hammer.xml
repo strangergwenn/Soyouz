@@ -20,6 +20,7 @@
 	<!-- Hull data -->
 	<hull>
 		<mesh value="SM_APC" />
+		<viewDistance value="30" />
 		<mass value="100.0" />
 		<material value="MI_APC" />
 	</hull>

@@ -30,7 +30,6 @@ public:
 	{
 		// Data
 		mStepDistance = 5;
-		mDistance = 20;
 		mHorizAngle = Degree(0);
 		mVertAngle = Degree(0);
 		mStepAngle = Degree(10);
@@ -39,10 +38,11 @@ public:
 		mTargetSpeed = 0;
 
 		// Ship mesh
-		mShip = new Ship(g, "Ship", "Hammer");
+		mShip = new Ship(g, "Ship", "Sovereign");
 		mShip->attachActor(this);
 		mShip->setLocation(Vector3(0, 0, 300));
 		mShip->saveToFile();
+		mDistance = mShip->getViewDistance();
 
 		// Camera setup
 		setCameraSpheric(mDistance, Degree(0), Degree (0));

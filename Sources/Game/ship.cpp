@@ -48,6 +48,7 @@ Ship::Ship(Game* g, Ogre::String name, Ogre::String templateFile)
 	setTemplateGroup("hull");
 	setModel(loadStringValue("mesh") + Ogre::String(".mesh"), loadFloatValue("mass"));
 	setMaterial(loadStringValue("material"));
+	mViewDistance = loadFloatValue("viewDistance");
 
 	// Bonus data
 	setTemplateGroup("description");
@@ -121,7 +122,9 @@ void Ship::setupEngines()
 		// Add an engine
 		else
 		{
-			MeshActor* mainengine = new MeshActor(mGame, mName + "mainengine", "SM_Engine_2_Mod1.mesh", "MI_Engine_2_Mod1");
+			static int xxxThisIsStupid = 0;
+			xxxThisIsStupid++;
+			MeshActor* mainengine = new MeshActor(mGame, mName + "mainengine" + StringConverter::toString(xxxThisIsStupid), "SM_Engine_2_Mod1.mesh", "MI_Engine_2_Mod1");
 			mainengine->rotate(engineRotation);
 			mainengine->setLocation(engineLocation);
 			this->attachActor(mainengine);
@@ -270,4 +273,10 @@ float Ship::getMaxSpeed(void)
 float Ship::getMaxAngularSpeed(void)
 {
 	return mMaxAngularSpeed;
+}
+
+
+float Ship::getViewDistance(void)
+{
+	return mViewDistance;
 }

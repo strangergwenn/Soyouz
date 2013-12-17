@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<template>
+
+	<!-- Ship data -->
+	<description>
+		<size value="2" />
+		<class value="Sovereign" />
+		<type value="Destroyer" />
+		<story value="" />
+	</description>
+
+	<!-- Steering controls -->
+	<steering>
+		<linearSpeedLimit value="75" />
+		<angularSpeedLimit value="2" />
+		<linearSoftModeLimit value="5" />
+		<angularSoftModeLimit value="0.1" />
+	</steering>
+
+	<!-- Hull data -->
+	<hull>
+		<viewDistance value="150" />
+		<mesh value="SM_Sovereign" />
+		<mass value="100.0" />
+		<material value="MI_Sovereign" />
+	</hull>
+
+	<!-- Weapon section -->
+	<weapons>
+	
+		<!-- Controls -->
+		<controls value="capital" />
+
+		<!-- Main turret -->
+		<turret id="0" location="0 0 -8" direction="FORWARD" >
+			<model>Autocannon</model>
+			<model>Flak</model>
+		</turret>
+
+		<!-- Available missiles -->
+		<missiles>
+			<model>Basic</model>
+		</missiles>
+	</weapons>
+	
+	<!-- Engine section -->
+	<engines>
+
+		<engine location="+8.94 5.35 +92" 	direction="BACK" 	type="booster"/>
+		<engine location="-8.94 5.35 +92" 	direction="BACK" 	type="booster"/>
+		<engine location="+8.94 -5.35 +92" 	direction="BACK" 	type="booster"/>
+		<engine location="-8.94 -5.35 +92" 	direction="BACK" 	type="booster"/>
+	
+		<engine location="0 0 -99" 			direction="FORWARD" type="thruster" />
+		<engine location="-0 +4.1 +91.5" 	direction="BACK" 	type="thruster" />
+		<engine location="+0 +4.1 +91.5" 	direction="BACK" 	type="thruster" />
+		<engine location="-3 -0 +91.5" 		direction="BACK" 	type="thruster" />
+		<engine location="+3 -0 +91.5" 		direction="BACK" 	type="thruster" />
+		
+		<engine location="+12.5 +11 +68" 	direction="TOP" 	type="thruster" />
+		<engine location="-12.5 +11 +68" 	direction="TOP" 	type="thruster" />
+		<engine location="+12.5 -11 +68" 	direction="BOTTOM" 	type="thruster" />
+		<engine location="-12.5 -11 +68" 	direction="BOTTOM" 	type="thruster" />
+		
+		<engine location="+14 0 +71" 		direction="RIGHT" 	type="thruster" />
+		<engine location="-14 0 +71" 		direction="LEFT" 	type="thruster" />
+		
+		<engine location="+9 0 -93" 		direction="RIGHT" 	type="thruster" />
+		<engine location="-9 0 -93" 		direction="LEFT" 	type="thruster" />
+	
+		<engine location="0 +12.3 -92" 		direction="TOP" 	type="thruster" />
+		<engine location="0 -12.3 -92" 		direction="BOTTOM" 	type="thruster" />
+		
+	</engines>
+</template>

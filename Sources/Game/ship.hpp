@@ -98,6 +98,13 @@ public:
 	 **/
 	float getMaxAngularSpeed(void);
 	
+	/**
+	 * @brief Get the standard viewing distance
+	 * @return distance
+	 **/
+	float getViewDistance();
+
+	
 	Weapon* getPrimaryWeapon();
 
 
@@ -162,6 +169,7 @@ protected:
 	float mSoftModeAngularLimit;
 
 	// Customisation characteristics
+	float mViewDistance;
 	int mShipSize;
 	Ogre::String mShipClass;
 	Ogre::String mShipType;
