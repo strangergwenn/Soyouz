@@ -82,6 +82,7 @@ MeshActor::~MeshActor()
 void MeshActor::init() {
 	mPhysBody = NULL;
 	mRootComponent = new ComponentActor(mGame, mName + "_root");
+	attachComponent(mRootComponent);
 }
 
 
@@ -250,8 +251,16 @@ void MeshActor::clearForces()
 }
 
 void MeshActor::attachComponent(ComponentActor* component) {
+	gameLog("attachComponent");
+	attachActor(component);
 	mComponentActors.push_back(component);
+	gameLog("attachComponent done");
+}
+
+void MeshActor::commit() {
+	gameLog("commit");
 	generateCollisions();
+	gameLog("commit done");
 }
 
 /*----------------------------------------------
@@ -378,6 +387,8 @@ void MeshActor::addCollisionMesh(ComponentActor* component)
 void MeshActor::generateCollisions()
 {
 	// Physics settings
+	gameLog("generateCollisions");
+	
 	
 	mPhysShape = new btCompoundShape(true);
 		
@@ -385,6 +396,7 @@ void MeshActor::generateCollisions()
 	{
 		addCollisionMesh(*it);
 	}
+	mPhysShape->recalculateLocalAabb();
 	
 	mPhysTransform.setIdentity();
 	mPhysTransform.setOrigin(btVector3(0, 0, 0));
@@ -402,6 +414,8 @@ void MeshActor::generateCollisions()
 	// End
 	mPhysBody = new btRigidBody(rbConstruct);
 	mGame->registerRigidBody(mPhysBody);
+	
+	gameLog("generateCollisions done");
 }
 
 /*----------------------------------------------

@@ -210,6 +210,8 @@ public:
 
 	void attachComponent(ComponentActor* component);
 
+	void commit();
+
 protected: 
 
 	void init();

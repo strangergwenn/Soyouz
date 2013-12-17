@@ -85,6 +85,8 @@ Ship::Ship(Game* g, Ogre::String name, Ogre::String templateFile, Ogre::String c
 	setupEngines();
 	setupWeapons();
 	setupAddons();
+	
+	commit();
 }
 
 

@@ -35,4 +35,5 @@ void MachineGun::fire()
 	Quaternion bulletRotation = mShip->getRotation() * getRotation() * mTurretFirstRotation * mTurretSecondRotation;
 
 	Bullet* bullet = new Bullet(mGame, mName + "_Bullet" + StringConverter::toString(bulletId++), this,  bulletLocation, bulletRotation, bulletVelocity );
+	
 }

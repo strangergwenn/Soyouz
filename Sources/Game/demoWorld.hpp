@@ -45,6 +45,7 @@ class DemoWorld : public Game
 		// Collision crate
 		MeshActor* crate = new MeshActor(this, "crate", "crate.mesh", "MI_Crate", true, 1.0f);
 		crate->setLocation(Vector3(0, 0, -50));
+		crate->commit();
 	}
 
 	void destruct(){}
