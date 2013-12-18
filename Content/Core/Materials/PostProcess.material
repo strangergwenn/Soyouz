@@ -50,16 +50,13 @@ material PostProcess/SSAO
 
             fragment_program_ref PS_SSAO
             {
-				param_named cSampleCount int 12
-				param_named cRangeCompression float 0.01
-				
-                param_named cSampleLengthScreenSpace float 1.8
-				param_named cOffsetScale float 0.001
-				param_named cDefaultAccessibility float 0.0
-				param_named cEdgeHighlight float 2.5
-
-                param_named_auto cFov fov
                 param_named_auto cViewportSize viewport_size
+                param_named_auto cFov fov
+
+				param_named cStrength float 0.2
+				param_named cOffsetScale float 0.001
+				param_named cRangeCompression float 0.01
+                param_named cSampleLengthScreenSpace float 1.8
             }
 
             texture_unit
