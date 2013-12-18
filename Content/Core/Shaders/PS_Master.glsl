@@ -64,9 +64,14 @@ void main()
 	mat3 normalRotation = mat3(oTangent, oBiNormal, oNormal);
 	vec3 localTexNormal = normalRotation * texNormal;
 
+	// Depth setup
+	uint depth = uint(clamp(length(oViewPos) * 100.0, 0.0, 65535.0));
+	uint hDepth = (depth & uint(0x0000FF00)) >> 8;
+	uint lDepth = (depth & uint(0x000000FF));
+
 	// Normal mapping + depth
 	fragData[1].rgb = normalize(localTexNormal);
-	fragData[1].a = length(oViewPos) / 200;
+	fragData[1].a = float(hDepth) / 256.0;
 	
 	// Glow
 	vec3 base = texture(GlowMap, oUv0).rgb;
@@ -75,6 +80,6 @@ void main()
 		base = cGlowColor * length(base);
 	}
 	fragData[2].rgb = base * cGlowAlpha;
-	fragData[2].a = 0;
+	fragData[2].a = float(lDepth) / 256.0;
 }
 

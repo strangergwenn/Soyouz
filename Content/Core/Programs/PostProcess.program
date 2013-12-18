@@ -60,8 +60,9 @@ fragment_program PS_SSAO glsl
 	
 	default_params
 	{
-		param_named sSceneDepthSampler int 0
-		param_named sRotSampler4x4 int 1
+		param_named sSceneDepthSamplerHigh int 0
+		param_named sSceneDepthSamplerLow int 1
+		param_named sRotSampler4x4 int 2
 	}
 }
 
