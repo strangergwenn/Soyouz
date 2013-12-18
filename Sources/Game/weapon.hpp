@@ -67,6 +67,8 @@ protected:
 	Radian mMinTurretSecondRotationAngle;
 	Radian mMaxTurretSecondRotationAngle;
 	Radian mTurretSecondRotationSpeed;
+	ComponentActor* mBarrelActor;
+	ComponentActor* mTurretActor;
 };
 
 #endif /* __WEAPON_H_ */

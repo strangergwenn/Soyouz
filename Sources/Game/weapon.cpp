@@ -15,7 +15,7 @@
 ----------------------------------------------*/
 	
 Weapon::Weapon(Game* g, String name, Ship* parent, Vector3 location, Quaternion rotation)
-	: ComponentActor(g, name, "", "")
+	: ComponentActor(g, name, "canon_base.mesh", "White")
 {
 	mFiring = false;
 	mTimeSinceLastFire = 0;
@@ -27,7 +27,8 @@ Weapon::Weapon(Game* g, String name, Ship* parent, Vector3 location, Quaternion 
 	mMinTurretSecondRotationAngle = Radian(-Math::HALF_PI);
 	mMaxTurretSecondRotationAngle = Radian(Math::HALF_PI);
 	mTurretSecondRotationSpeed = Radian(0.01);
-
+	mTurretActor = new ComponentActor(g, name+"_turret", "canon_turret.mesh", "Red");
+	mBarrelActor = new ComponentActor(g, name+"_barrel", "canon_barrel.mesh", "White");
 	// TODO Customization
 	
 	// Position
@@ -35,7 +36,17 @@ Weapon::Weapon(Game* g, String name, Ship* parent, Vector3 location, Quaternion 
 	mShip = parent;
 	rotate(rotation);
 	setLocation(location);
+	
+	
+	mTurretActor->rotate(rotation);
+	mTurretActor->setLocation(location + Vector3(0, 0, -0.15));
+	
+	mBarrelActor->rotate(rotation);
+	mBarrelActor->setLocation(location + Vector3(0, 0, -0.88));
+	
 	parent->attachComponent(this);
+	parent->attachComponent(mTurretActor);
+	parent->attachComponent(mBarrelActor);
 }
 
 // TODO make a util file
