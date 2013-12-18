@@ -22,7 +22,6 @@ fragment_program PS_Master glsl
 		param_named cDiffuseColor		float3 1 1 1
 		param_named cGlowColor			float3 1 1 1
 		param_named cGlowAlpha			float 1.0
-		param_named_auto cFarDistance		far_clip_distance
 	}
 }
 
