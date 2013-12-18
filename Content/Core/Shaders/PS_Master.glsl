@@ -66,7 +66,7 @@ void main()
 
 	// Normal mapping + depth
 	fragData[1].rgb = normalize(localTexNormal);
-	fragData[1].a = length(oViewPos) / cFarDistance;
+	fragData[1].a = length(oViewPos) / 200;
 	
 	// Glow
 	vec3 base = texture(GlowMap, oUv0).rgb;
