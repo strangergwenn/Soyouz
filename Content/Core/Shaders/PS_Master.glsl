@@ -19,7 +19,6 @@ uniform sampler2D GlowMap;
 uniform vec3 cDiffuseColor;
 uniform vec3 cGlowColor;
 uniform float cGlowAlpha;
-
 uniform float cFarDistance;
 
 
@@ -36,13 +35,17 @@ in vec2 oUv0;
 out vec4 fragData[3];
 
 
-/*-------------------------------------------------
-    GBuffer format : 
-		R			G			B			A
- 0  <          diffuse map          > < specular map >
- 1  <          normal map           > < depth buffer >
- 2  <            glow map           > 
-/*-----------------------------------------------*/
+/*
+ +-----------------------------------------------------------+
+ | GBuffer format as three 32 bits textures (12 bytes per px)|
+ +---+-------------+-------------+-------------+-------------+
+ |MRT|      R      |      G       |      B      |      A     |
+ +---+-------------+-------------+-------------+-------------+
+ | 0 |  diffuse R  |  diffuse G   |  diffuse B  |  specular  |
+ | 1 |  normal R   |   normal G   |   normal B  | depth high |
+ | 2 |    glow R   |    glow G    |    glow B   |  depth low |
+ +---+-------------+-------------+-------------+-------------+
+*/
 
 void main()
 {
@@ -65,7 +68,7 @@ void main()
 	vec3 localTexNormal = normalRotation * texNormal;
 
 	// Depth setup
-	uint depth = uint(clamp(length(oViewPos) * 100.0, 0.0, 65535.0));
+	uint depth = uint(clamp(length(oViewPos) * cFarDistance, 0.0, 65535.0));
 	uint hDepth = (depth & uint(0x0000FF00)) >> 8;
 	uint lDepth = (depth & uint(0x000000FF));
 
