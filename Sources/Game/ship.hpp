@@ -51,12 +51,6 @@ public:
 	void tick(const Ogre::FrameEvent& evt);
 
 	/**
-	 * @brief Order the ship to fire with its primary weapon
-	 * @param fire		activate or disable fire
-	 **/
-	void setFireOrder(bool fire);
-	
-	/**
 	 * @brief Set the ship speed target
 	 * @param speed			Speed setting
 	 **/
@@ -100,6 +94,7 @@ public:
 	float getMaxAngularSpeed(void);
 	
 	Weapon* getPrimaryWeapon();
+	Weapon* getSecondaryWeapon();
 
 protected:
 	
@@ -173,7 +168,7 @@ protected:
 	Ogre::list<Thruster*>::type mThrusters;
 	
 	// Weapons
-	Ogre::list<Weapon*>::type mWeapons;
+	Ogre::vector<Weapon*>::type mWeapons;
 
 };
 

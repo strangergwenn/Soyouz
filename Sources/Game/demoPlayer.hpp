@@ -37,6 +37,7 @@ public:
 		mControlDirection = false;
 		mFastControlDirection = false;
 		mTargetSpeed = 0;
+		mInverted = false;
 
 		// Ship mesh
 		mShip = new Ship(g, "Ship", "Hammer", "");
@@ -62,9 +63,11 @@ protected:
 		if(mInverted) {
 			Ogre::Ray ray = mCamera->getCameraToViewportRay(1.0 - mMouseState.X.abs / (float)mCamera->getViewport()->getActualWidth() , 1.0 - mMouseState.Y.abs / (float)mCamera->getViewport()->getActualHeight());
 			mShip->getPrimaryWeapon()->setAimDirection(-ray.getDirection());
+			mShip->getSecondaryWeapon()->setAimDirection(-ray.getDirection());
 		} else {
 			Ogre::Ray ray = mCamera->getCameraToViewportRay(mMouseState.X.abs / (float)mCamera->getViewport()->getActualWidth() ,mMouseState.Y.abs / (float)mCamera->getViewport()->getActualHeight());
 			mShip->getPrimaryWeapon()->setAimDirection(ray.getDirection());
+			mShip->getSecondaryWeapon()->setAimDirection(ray.getDirection());
 		}
 	}
 
@@ -195,7 +198,8 @@ protected:
 				break;
 
 			case OIS::KC_LCONTROL:
-				mShip->setFireOrder(true);
+				mShip->getPrimaryWeapon()->setFireOrder(true);
+				mShip->getSecondaryWeapon()->setFireOrder(true);
 				break;
 			case OIS::KC_ESCAPE:
 				mGame->quit();
@@ -219,7 +223,8 @@ protected:
 				mShip->setRoll(0.0f);
 				break;
 			case OIS::KC_LCONTROL:
-				mShip->setFireOrder(false);
+				mShip->getPrimaryWeapon()->setFireOrder(false);
+				mShip->getSecondaryWeapon()->setFireOrder(false);
 				break;
 			case OIS::KC_TAB:
 				//mTargetSpeed = MAX_TARGET_SPEED;

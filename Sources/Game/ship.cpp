@@ -176,14 +176,24 @@ void Ship::setupEngines()
 
 void Ship::setupWeapons()
 {
-	Weapon* weapon = new MachineGun(
+	Weapon* weapon1 = new MachineGun(
 		mGame,
-		mName + "_Weapon" + StringConverter::toString(mWeapons.size()),
+		mName + "_Weapon1" + StringConverter::toString(mWeapons.size()),
 		this,
 		Vector3(2, 2.5, -6.8),
 		Quaternion(Radian(Degree(  90).valueRadians()), Vector3(1,0,0))
 	);
-	mWeapons.push_back(weapon);
+	
+	Weapon* weapon2 = new MachineGun(
+		mGame,
+		mName + "_Weapon2" + StringConverter::toString(mWeapons.size()),
+		this,
+		Vector3(2, -2.5, -4.8),
+		Quaternion(Radian(Degree(  -90).valueRadians()), Vector3(1,0,0))
+	);
+	
+	mWeapons.push_back(weapon1);
+	mWeapons.push_back(weapon2);
 }
 
 
@@ -197,22 +207,25 @@ void Ship::setupAddons()
 	Weapons
 ----------------------------------------------*/
 
-void Ship::setFireOrder(bool fire)
-{
-	if (mWeapons.size() > 0)
-	{
-		mWeapons.front()->setFireOrder(fire);
-	}
-}
 
 Weapon* Ship::getPrimaryWeapon()
 {
 	if (mWeapons.size() > 0)
 	{
-		return mWeapons.front();
+		return mWeapons[0];
 	}
 	return NULL;
 }
+
+Weapon* Ship::getSecondaryWeapon()
+{
+	if (mWeapons.size() > 1)
+	{
+		return mWeapons[1];
+	}
+	return NULL;
+}
+
 
 /*----------------------------------------------
 	Steering
