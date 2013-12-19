@@ -56,7 +56,7 @@ material Render/ShadowCaster
 	}
 }
 
-material Render/ShowColour
+material Render/ShowGBuffer
 {
     technique
     {

@@ -209,7 +209,7 @@ compositor DeferredShading/ShowLit
 }
 
 // Postfilter that shows the colour channel
-compositor DeferredShading/ShowColour
+compositor DeferredShading/ShowGBuffer
 {
 	technique 
 	{
@@ -219,7 +219,7 @@ compositor DeferredShading/ShowColour
 			input none
 			pass render_quad
 			{
-				material Render/ShowColour
+				material Render/ShowGBuffer
 			}
         }
 	}
