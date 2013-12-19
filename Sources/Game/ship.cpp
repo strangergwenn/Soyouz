@@ -180,8 +180,8 @@ void Ship::setupWeapons()
 		mGame,
 		mName + "_Weapon" + StringConverter::toString(mWeapons.size()),
 		this,
-		Vector3(0, 0, -8),
-		Quaternion(Radian(Degree(  0).valueRadians()), Vector3(0,1,0))
+		Vector3(2, 2.5, -6.8),
+		Quaternion(Radian(Degree(  90).valueRadians()), Vector3(1,0,0))
 	);
 	mWeapons.push_back(weapon);
 }
