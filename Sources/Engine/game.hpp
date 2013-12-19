@@ -68,11 +68,10 @@ public:
 	void deleteActor(Actor* target);
 
 	/**
-	 * @brief Run the level (blocking)
-	 * @param name				Node name
+	 * @brief Get a scene node
 	 * @return the scene node
 	 **/
-	Ogre::SceneNode* createGameNode(String name);
+	Ogre::SceneNode* createGameNode();
 	
 	/**
 	 * @brief Remove a scene node

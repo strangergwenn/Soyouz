@@ -131,9 +131,9 @@ void Game::deleteActor(Actor* target)
 	}
 }
 
-Ogre::SceneNode* Game::createGameNode(String name)
+Ogre::SceneNode* Game::createGameNode()
 {
-	return mScene->getRootSceneNode()->createChildSceneNode(name);
+	return mScene->getRootSceneNode()->createChildSceneNode();
 }
 
 
@@ -244,7 +244,7 @@ void Game::setDebugMode(int newStatus)
 
 Ogre::ManualObject* Game::getDebugLine(Vector3 line, String name, String material)
 {
-	Ogre::ManualObject* tmp = mScene->createManualObject(name); 
+	Ogre::ManualObject* tmp = mScene->createManualObject(); 
 	tmp->begin(material, Ogre::RenderOperation::OT_LINE_LIST); 
 	tmp->position(0, 0, 0); 
 	tmp->position(line.x, line.y, line.z); 
@@ -355,7 +355,8 @@ bool Game::setupSystem(const String desiredRenderer)
 
 	// Window
 	mWindow = mRoot->initialise(true, "Soyouz");
-	mScene = mRoot->createSceneManager(Ogre::ST_GENERIC, "GameScene");
+	mRoot->initialiseCompositor();
+	mScene = mRoot->createSceneManager(Ogre::ST_GENERIC, 2, Ogre::INSTANCING_CULLING_THREADED, "GameScene");
     return true;
 }
 
@@ -376,7 +377,7 @@ void Game::setupRender(bool bShowPostProcess)
 	Ogre::Camera* cam = mPlayer->getCamera();
 
 	// Window
-	Ogre::Viewport* vp = mWindow->addViewport(cam);
+	Ogre::Viewport* vp = mWindow->addViewport();
 	mPlayer->setCameraRatio(Real(vp->getActualWidth()) / Real(vp->getActualHeight()));
 	
 	// IO manager
@@ -384,7 +385,7 @@ void Game::setupRender(bool bShowPostProcess)
 	mRoot->addFrameListener(this);
 
 	// Deferred rendering setup
-	mRenderer = new Renderer(mWindow->getViewport(0), mScene, mConfig);
+	mRenderer = new Renderer(mWindow->getViewport(0), mScene, cam, mConfig);
 	mRenderer->setMode(Renderer::DSM_SHOWLIT);
 }
 
@@ -418,6 +419,7 @@ void Game::setupPlayer()
 
 void Game::dumpNodes(std::stringstream &ss, Ogre::Node* n, int level)
 {
+	/*
 	for (int i = 0; i < level; i++)
 	{
 		ss << " ";
@@ -441,5 +443,7 @@ void Game::dumpNodes(std::stringstream &ss, Ogre::Node* n, int level)
 	{
 		dumpNodes(ss, node_it.getNext(), level + 2);
 	}
+	*/
+	//TODO
 }
 

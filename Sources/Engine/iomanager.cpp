@@ -128,18 +128,18 @@ void IOManager::postrender(const Ogre::FrameEvent& evt)
 		const Ogre::RenderTarget::FrameStats& stats = mWindow->getStatistics();
 
 		Ogre::OverlayElement* guiAvg = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/AverageFps");
-		guiAvg->setCaption(avgFps + StringConverter::toString(stats.avgFPS));
+		//guiAvg->setCaption(avgFps + StringConverter::toString(stats.avgFPS));
 
 		Ogre::OverlayElement* guiCurr = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/CurrFps");
-		guiCurr->setCaption(currFps + StringConverter::toString(stats.lastFPS));
+		//guiCurr->setCaption(currFps + StringConverter::toString(stats.lastFPS));
 
 		Ogre::OverlayElement* guiBest = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/BestFps");
-		guiBest->setCaption(bestFps + StringConverter::toString(stats.bestFPS)
-			+" "+StringConverter::toString(stats.bestFrameTime)+" ms");
+		//guiBest->setCaption(bestFps + StringConverter::toString(stats.bestFPS)
+		//	+" "+StringConverter::toString(stats.bestFrameTime)+" ms");
 
 		Ogre::OverlayElement* guiWorst = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/WorstFps");
-		guiWorst->setCaption(worstFps + StringConverter::toString(stats.worstFPS)
-			+" "+StringConverter::toString(stats.worstFrameTime)+" ms");
+		//guiWorst->setCaption(worstFps + StringConverter::toString(stats.worstFPS)
+		//	+" "+StringConverter::toString(stats.worstFrameTime)+" ms");
 
 		Ogre::OverlayElement* guiTris = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/NumTris");
 		guiTris->setCaption(tris + StringConverter::toString(stats.triangleCount));

@@ -20,7 +20,7 @@
 	Deferred shading operation
 ----------------------------------------------*/
 
-class RenderOperation : public Ogre::CompositorInstance::RenderSystemOperation
+class RenderOperation : public Ogre::CompositorWorkspace::RenderSystemOperation
 {
 
 public:
@@ -30,7 +30,7 @@ public:
 	 * @param instance			Current compositor
 	 * @param pass				Pass data
 	 **/
-	RenderOperation(Ogre::CompositorInstance* instance, const Ogre::CompositionPass* pass);
+	RenderOperation(Ogre::CompositorInstance* instance, const Ogre::CompositorPass* pass);
 	
 	/**
 	 * @brief Render operation destructor

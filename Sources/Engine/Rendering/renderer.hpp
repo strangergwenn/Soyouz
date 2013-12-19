@@ -14,9 +14,11 @@
 #include "OgreConfigFile.h"
 #include "OgreStringConverter.h"
 #include "OgreSceneManager.h"
+#include "Compositor/OgreCompositorManager2.h"
+#include "Compositor/OgreCompositorWorkspace.h"
 #include <OgreWindowEventUtilities.h>
 
-#include <Overlay/OgreOverlaySystem.h>
+#include "Overlay/OgreOverlaySystem.h"
 
 #define OIS_DYNAMIC_LIB
 #include <OIS/OIS.h>
@@ -45,9 +47,10 @@ public:
 	 * @brief Renderer constructor
 	 * @param vp				Viewport
 	 * @param sm				Scene manager
+	 * @param cam				Camera
 	 * @param s					System config
 	 **/
-	Renderer(Ogre::Viewport* vp, Ogre::SceneManager* sm,  tinyxml2::XMLElement* s);
+	Renderer(Ogre::Viewport* vp, Ogre::SceneManager* sm, Ogre::Camera* cam, tinyxml2::XMLElement* s);
 	
 	/**
 	 * @brief Renderer destructor
@@ -67,7 +70,7 @@ protected:
 	DSMode mCurrentMode;
 	Ogre::Viewport* mViewport;
 	Ogre::SceneManager* mScene;
-	Ogre::CompositorInstance* mInstance[DSM_NONE];
+	Ogre::CompositorWorkspace* mInstance[DSM_NONE];
 };
 
 

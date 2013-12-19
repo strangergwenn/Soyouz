@@ -16,7 +16,7 @@ Actor::Actor(Game* g, String name)
 {
 	mGame = g;
 	mName = name;
-	mNode = g->createGameNode(name);
+	mNode = g->createGameNode();
 	mGame->registerActor(this);
 }
 

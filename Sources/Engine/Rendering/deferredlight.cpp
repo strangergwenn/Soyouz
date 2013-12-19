@@ -274,10 +274,13 @@ bool DeferredLight::isCameraInsideLight(Ogre::Camera* camera)
 
 bool DeferredLight::getCastShadows() const
 {
-	return 
+	return true;
+	//TODO
+	/*
 		mParentLight->_getManager()->isShadowTechniqueInUse() &&
 		mParentLight->getCastShadows() && 
 		(mParentLight->getType() == Ogre::Light::LT_DIRECTIONAL || mParentLight->getType() == Ogre::Light::LT_SPOTLIGHT);
+		*/
 }
 
 
@@ -322,7 +325,7 @@ void DeferredLight::updateFromCamera(Ogre::Camera* camera)
 				pass->setDepthFunction(Ogre::CMPF_LESS_EQUAL);
 			}
 		}
-
+		/*
 		Ogre::Camera shadowCam("ShadowCameraSetupCam", 0);
 		shadowCam._notifyViewport(camera->getViewport());
 		Ogre::SceneManager* sm = mParentLight->_getManager();
@@ -338,6 +341,6 @@ void DeferredLight::updateFromCamera(Ogre::Camera* camera)
 		{
 			params->setNamedConstant("shadowFarClip", shadowCam.getFarClipDistance());
 		}
-
+		*/
 	}
 }

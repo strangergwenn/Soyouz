@@ -39,7 +39,7 @@ class DemoWorld : public Game
         l1->setType(Ogre::Light::LT_DIRECTIONAL);
         l1->setDiffuseColour(1.95f, 1.95f, 1.95f);
         l1->setSpecularColour(1.95f, 1.95f, 1.95f);
-		l1->setDirection(1, -0.5f, -0.2f);
+		l1->setDirection(Vector3(1, -0.5f, -0.2f));
 		l1->setCastShadows(false);
 
 		// Collision crate

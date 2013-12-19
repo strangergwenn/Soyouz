@@ -14,7 +14,7 @@
 	Constructor & destructor
 ----------------------------------------------*/
 
-Renderer::Renderer(Ogre::Viewport* vp, Ogre::SceneManager* sm, tinyxml2::XMLElement* s)
+Renderer::Renderer(Ogre::Viewport* vp, Ogre::SceneManager* sm, Ogre::Camera* cam, tinyxml2::XMLElement* s)
 	: mViewport(vp), mScene(sm)
 {
 	// XML settings
@@ -31,19 +31,16 @@ Renderer::Renderer(Ogre::Viewport* vp, Ogre::SceneManager* sm, tinyxml2::XMLElem
 	Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(aniso);
 
 	// General render settings
-	vp->setBackgroundColour(Ogre::ColourValue(0.1f, 0.1f, 0.1f));
 	sm->setAmbientLight(Ogre::ColourValue(0,0,0));
-	sm->setShadowTextureCount(1);
 	sm->setShadowFarDistance(distance);
 	sm->setShadowDirectionalLightExtrusionDistance(distance);
-	sm->setShadowTechnique(Ogre::SHADOWTYPE_TEXTURE_MODULATIVE);
-	sm->setShadowTextureConfig(0, res, res, Ogre::PF_FLOAT16_R, 2 );
 	sm->setShadowTextureCasterMaterial("Render/ShadowCaster");
 	
 	// GBuffer creation
-	Ogre::CompositorManager &compMan = Ogre::CompositorManager::getSingleton();
-	compMan.registerCustomCompositionPass("DeferredLight", new DeferredRenderPass);
-	Ogre::CompositorInstance* gbuffer = compMan.addCompositor(mViewport, "DeferredShading/GBuffer");
+	Ogre::RenderTarget* target = cam->getLastViewport()->getTarget();
+	Ogre::CompositorManager2* compMan = Ogre::Root::getSingleton().getCompositorManager2();
+	//compMan->registerCustomCompositionPass("DeferredLight", new DeferredRenderPass);
+	Ogre::CompositorWorkspace* gbuffer = compMan->addWorkspace(sm, target, cam, "DeferredShading/GBuffer", true);
 	gbuffer->setEnabled(true);
 	
 	// Prepare instances
@@ -53,9 +50,9 @@ Renderer::Renderer(Ogre::Viewport* vp, Ogre::SceneManager* sm, tinyxml2::XMLElem
 	}
 
 	// Load instances
-	mInstance[DSM_SHOWLIT] =		compMan.addCompositor(mViewport, "DeferredShading/ShowLit");
-	mInstance[DSM_SHOWGBUFFER] =	compMan.addCompositor(mViewport, "DeferredShading/ShowGBuffer");
-	mInstance[DSM_SHOWSSAO] =		compMan.addCompositor(mViewport, "DeferredShading/ShowSSAO");
+	mInstance[DSM_SHOWLIT] =		compMan->addWorkspace(sm, target, cam, "DeferredShading/ShowGBuffer", true);
+	mInstance[DSM_SHOWGBUFFER] =	compMan->addWorkspace(sm, target, cam, "DeferredShading/ShowGBuffer", true);
+	mInstance[DSM_SHOWSSAO] =		compMan->addWorkspace(sm, target, cam, "DeferredShading/ShowSSAO", true);
 
 	// Ready up
 	mCurrentMode = DSM_NONE;
@@ -65,12 +62,15 @@ Renderer::Renderer(Ogre::Viewport* vp, Ogre::SceneManager* sm, tinyxml2::XMLElem
 
 Renderer::~Renderer()
 {
+	//TODO
+	/*
 	Ogre::CompositorChain *chain = Ogre::CompositorManager::getSingleton().getCompositorChain(mViewport);
 	for(int i = 0; i < DSM_NONE; ++i)
 	{
 		chain->_removeInstance(mInstance[i]);
 	}
 	Ogre::CompositorManager::getSingleton().removeCompositorChain(mViewport);
+	*/
 }
 
 

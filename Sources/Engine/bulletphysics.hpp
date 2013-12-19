@@ -32,9 +32,10 @@ public:
 	DebugDrawer(Ogre::SceneManager* mgr, Ogre::SceneNode *node, btDynamicsWorld *world)
 		: mNode(node), mWorld(world), mDebugOn(true)
 	{
-		mLineDrawer = mgr->createManualObject("DebugLines");
-		Ogre::SceneNode* myManualObjectNode = mgr->getRootSceneNode()->createChildSceneNode("DebugLinesNode");
-		mNode->attachObject(mLineDrawer);
+		//TODO
+		//mLineDrawer = mgr->createManualObject("DebugLines");
+		//Ogre::SceneNode* myManualObjectNode = mgr->getRootSceneNode()->createChildSceneNode("DebugLinesNode");
+		//mNode->attachObject(mLineDrawer);
 	}
  
 	/**
@@ -42,14 +43,14 @@ public:
 	 **/
 	~DebugDrawer()
 	{
-		delete mLineDrawer;
+		//delete mLineDrawer;
 	}
  
 	/**
 	 * @brief Re-render
 	 **/
 	void step()
-	{
+	{/*
 		if (mDebugOn)
 		{
 			mLineDrawer->clear();
@@ -62,7 +63,7 @@ public:
 		{
 			mLineDrawer->clear();
 			mNode->needUpdate();
-		}
+		}*/
 	}
  
 	/**
@@ -72,9 +73,9 @@ public:
 	 * @param color				Color
 	 **/
 	void drawLine(const btVector3& from,const btVector3& to,const btVector3& color)
-	{
+	{/*
 		mLineDrawer->position(Vector3(from.x(), from.y(), from.z()));
-		mLineDrawer->position(Vector3(to.x(), to.y(), to.z()));
+		mLineDrawer->position(Vector3(to.x(), to.y(), to.z()));*/
 	}
 	
 	/**
@@ -108,12 +109,12 @@ public:
 	 * @param bIsOn			New status
 	 **/
 	void setDebugMode(int bIsOn)
-	{
+	{/*
 		mDebugOn = (bIsOn != 0);
 		if (!mDebugOn)
 		{
 			mLineDrawer->clear();
-		}
+		}*/
 	}
  
 	/**

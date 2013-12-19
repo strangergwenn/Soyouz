@@ -14,6 +14,7 @@
 ----------------------------------------------*/
 
 AmbientLight::AmbientLight()
+	: SimpleRenderable()
 {
 	setRenderQueueGroup(Ogre::RENDER_QUEUE_2);
 
