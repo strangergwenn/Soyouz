@@ -65,27 +65,12 @@ Renderer::Renderer(Ogre::Viewport* vp, Ogre::SceneManager* sm, tinyxml2::XMLElem
 
 Renderer::~Renderer()
 {
-	// Chain deletion
 	Ogre::CompositorChain *chain = Ogre::CompositorManager::getSingleton().getCompositorChain(mViewport);
 	for(int i = 0; i < DSM_NONE; ++i)
 	{
 		chain->_removeInstance(mInstance[i]);
 	}
 	Ogre::CompositorManager::getSingleton().removeCompositorChain(mViewport);
-
-	// Prepare iterators
-	Ogre::CompositorManager& compMgr = Ogre::CompositorManager::getSingleton();
-	CompositorLogicMap::const_iterator itor = mCompositorLogics.begin();
-	CompositorLogicMap::const_iterator end  = mCompositorLogics.end();
-
-	// Clear all compositors
-	while (itor != end)
-	{
-		compMgr.unregisterCompositorLogic(itor->first);
-		delete itor->second;
-		++itor;
-	}
-	mCompositorLogics.clear();
 }
 
 

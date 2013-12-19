@@ -14,7 +14,6 @@
 #include "OgreConfigFile.h"
 #include "OgreStringConverter.h"
 #include "OgreSceneManager.h"
-#include "OgreCompositorLogic.h"
 #include <OgreWindowEventUtilities.h>
 
 #include <Overlay/OgreOverlaySystem.h>
@@ -65,17 +64,10 @@ public:
 protected:
 	
 	// Scene data
+	DSMode mCurrentMode;
 	Ogre::Viewport* mViewport;
 	Ogre::SceneManager* mScene;
 	Ogre::CompositorInstance* mInstance[DSM_NONE];
-
-	// Current view mode
-	DSMode mCurrentMode;
-
-	// Compositor map
-	typedef Ogre::map<Ogre::String, Ogre::CompositorLogic*>::type CompositorLogicMap;
-	CompositorLogicMap mCompositorLogics;
-
 };
 
 
