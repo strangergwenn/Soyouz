@@ -37,12 +37,15 @@ Weapon::Weapon(Game* g, String name, Ship* parent, Vector3 location, Quaternion 
 	rotate(rotation);
 	setLocation(location);
 	
+	mTurretFirstOffset = Vector3(0, 0, -0.15);
+	mTurretSecondOffset = Vector3(0, 0, -0.73);
+	mBarrelOffset = Vector3(0, 0, -4.8);
 	
 	mTurretActor->setRotation(mTurretFirstRotation);
-	mTurretActor->setLocation(Vector3(0, 0, -0.15));
+	mTurretActor->setLocation(mTurretFirstOffset);
 	
 	mBarrelActor->setRotation(mTurretSecondRotation);
-	mBarrelActor->setLocation(Vector3(0, 0, -0.73));
+	mBarrelActor->setLocation(mTurretSecondOffset);
 	
 	attachActor(mTurretActor);
 	mTurretActor->attachActor(mBarrelActor);

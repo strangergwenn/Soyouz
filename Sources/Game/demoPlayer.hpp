@@ -55,10 +55,15 @@ public:
 
 protected:
 
+	
 	void preTick(const Ogre::FrameEvent& evt) {
 		// Set ship weapon target
 		Ogre::Ray ray = mCamera->getCameraToViewportRay(mMouseState.X.abs / (float)mCamera->getViewport()->getActualWidth() ,mMouseState.Y.abs / (float)mCamera->getViewport()->getActualHeight());
-		mShip->getPrimaryWeapon()->setAimDirection(ray.getDirection());
+		if(mInverted) {
+			mShip->getPrimaryWeapon()->setAimDirection(-ray.getDirection());
+		} else {
+			mShip->getPrimaryWeapon()->setAimDirection(ray.getDirection());
+		}
 	}
 
 	bool mousePressed(const OIS::MouseEvent &e, OIS::MouseButtonID id)
@@ -146,6 +151,10 @@ protected:
 			case OIS::KC_E:
 				mShip->setRoll(-1.0f);
 				break;
+				
+			case OIS::KC_I:
+				mInverted = !mInverted;
+				break;	
 
 			case OIS::KC_NUMPAD5:
 				mHorizAngle = 0;
@@ -232,6 +241,7 @@ protected:
 	OIS::MouseState mMouseState;
 	bool mControlDirection;
 	bool mFastControlDirection;
+	bool mInverted = false;
 
 };
 

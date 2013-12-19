@@ -59,6 +59,9 @@ protected:
 	Real mFirerate;
 	Real mTimeSinceLastFire;
 	Vector3 mAimDirection;
+	Vector3 mTurretFirstOffset;
+	Vector3 mTurretSecondOffset;
+	Vector3 mBarrelOffset;
 	Quaternion mTurretFirstRotation;
 	Quaternion mTurretSecondRotation;
 	Radian mMinTurretFirstRotationAngle;
