@@ -58,10 +58,12 @@ protected:
 	
 	void preTick(const Ogre::FrameEvent& evt) {
 		// Set ship weapon target
-		Ogre::Ray ray = mCamera->getCameraToViewportRay(mMouseState.X.abs / (float)mCamera->getViewport()->getActualWidth() ,mMouseState.Y.abs / (float)mCamera->getViewport()->getActualHeight());
+		
 		if(mInverted) {
+			Ogre::Ray ray = mCamera->getCameraToViewportRay(1.0 - mMouseState.X.abs / (float)mCamera->getViewport()->getActualWidth() , 1.0 - mMouseState.Y.abs / (float)mCamera->getViewport()->getActualHeight());
 			mShip->getPrimaryWeapon()->setAimDirection(-ray.getDirection());
 		} else {
+			Ogre::Ray ray = mCamera->getCameraToViewportRay(mMouseState.X.abs / (float)mCamera->getViewport()->getActualWidth() ,mMouseState.Y.abs / (float)mCamera->getViewport()->getActualHeight());
 			mShip->getPrimaryWeapon()->setAimDirection(ray.getDirection());
 		}
 	}
