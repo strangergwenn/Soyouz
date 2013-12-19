@@ -96,14 +96,14 @@ vertex_program VS_ShadowCaster glsl
 //	Debugging shaders
 //-----------------------------------------------
 
-// Color
-fragment_program PS_ShowColour glsl
+// GBuffer
+fragment_program PS_ShowGBuffer glsl
 {
-	source PS_ShowColour.glsl
-}
-
-// Depth + spec
-fragment_program PS_ShowDS glsl
-{
-	source PS_ShowDS.glsl
+	source PS_ShowGBuffer.glsl
+	default_params
+	{
+		param_named Tex0			int 0
+		param_named Tex1			int 1
+		param_named Tex2			int 2
+	}
 }

@@ -65,71 +65,32 @@ material Render/ShowColour
 			cull_hardware none
 			cull_software none
 			depth_func always_pass
-			fragment_program_ref PS_ShowColour
+
+			fragment_program_ref PS_ShowGBuffer
 			{
 			}
+
 			vertex_program_ref VS_Ambient
 			{
 			}
+
 			texture_unit
 			{
 				content_type compositor DeferredShading/GBuffer mrt_output 0
 				tex_address_mode clamp
 				filtering none
 			}
-		}
-	}
-}
 
-material Render/ShowNormal
-{
-    technique
-    {
-    	pass
-		{
-			cull_hardware none
-			cull_software none
-			depth_func always_pass
-			fragment_program_ref PS_ShowColour
-			{
-			}
-			vertex_program_ref VS_Ambient
-			{
-			}
 			texture_unit
 			{
 				content_type compositor DeferredShading/GBuffer mrt_output 1
 				tex_address_mode clamp
 				filtering none
 			}
-		}
-	}
-}
 
-material Render/ShowDS
-{
-    technique
-    {
-    	pass
-		{
-			cull_hardware none
-			cull_software none
-			depth_func always_pass
-			fragment_program_ref PS_ShowDS
-			{
-			}
-			vertex_program_ref VS_Ambient
-			{
-			}
 			texture_unit
 			{
-				content_type compositor DeferredShading/GBuffer mrt_output 0
-				tex_address_mode clamp
-				filtering none
-			}
-			texture_unit
-			{
-				content_type compositor DeferredShading/GBuffer mrt_output 1
+				content_type compositor DeferredShading/GBuffer mrt_output 2
 				tex_address_mode clamp
 				filtering none
 			}
@@ -141,25 +102,25 @@ material Render/ShowGlow
 {
     technique
     {
-    	pass
-		{
-			cull_hardware none
-			cull_software none
-			depth_func always_pass
-			fragment_program_ref PS_ShowColour
-			{
-			}
-			vertex_program_ref VS_Ambient
-			{
-			}
-			texture_unit
-			{
-				content_type compositor DeferredShading/GBuffer mrt_output 2
-				tex_address_mode clamp
-				filtering none
-			}
-		}
-	}
+            pass
+                {
+                        cull_hardware none
+                        cull_software none
+                        depth_func always_pass
+                        fragment_program_ref PS_ShowColour
+                        {
+                        }
+                        vertex_program_ref VS_Ambient
+                        {
+                        }
+                        texture_unit
+                        {
+                                content_type compositor DeferredShading/GBuffer mrt_output 2
+                                tex_address_mode clamp
+                                filtering none
+                        }
+                }
+        }
 }
 
 // Geometry light

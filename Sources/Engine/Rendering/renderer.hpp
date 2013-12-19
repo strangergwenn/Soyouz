@@ -37,12 +37,9 @@ public:
 	enum DSMode
 	{
 		DSM_SHOWLIT = 0,     // The deferred shading mode
-		DSM_SHOWCOLOUR = 1,  // Show diffuse (for debugging)
-		DSM_SHOWNORMALS = 2, // Show normals (for debugging)
-		DSM_SHOWDSP = 3,	 // Show depth and specular channel (for debugging)
-		DSM_SHOWGLOW = 4,	 // Show glow maps
-		DSM_SHOWSSAO = 5,    // Show SSAO
-		DSM_NONE = 6		 // None
+		DSM_SHOWGBUFFER = 1,  // Show GBuffer (for debugging)
+		DSM_SHOWSSAO = 2,    // Show SSAO
+		DSM_NONE = 3		 // None
 	};
 	
 	/**

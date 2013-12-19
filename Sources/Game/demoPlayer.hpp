@@ -180,9 +180,6 @@ protected:
 			case OIS::KC_F2:
 			case OIS::KC_F3:
 			case OIS::KC_F4:
-			case OIS::KC_F5:
-			case OIS::KC_F6:
-			case OIS::KC_F7:
 				mGame->setDebugMode(e.key - OIS::KC_F1);
 				break;
 
