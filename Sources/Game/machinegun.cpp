@@ -25,7 +25,7 @@ MachineGun::MachineGun(Game* g, String name, Ship* parent, Vector3 location, Qua
 void MachineGun::fire()
 {
 	
-	Vector3 cannonLength = Vector3(0, 0, -0.5);
+	Vector3 cannonLength = Vector3(0, 0, -5.0);
 	
 	float bulletSpeed = 600;
 

@@ -38,15 +38,16 @@ Weapon::Weapon(Game* g, String name, Ship* parent, Vector3 location, Quaternion 
 	setLocation(location);
 	
 	
-	mTurretActor->rotate(rotation);
-	mTurretActor->setLocation(location + Vector3(0, 0, -0.15));
+	mTurretActor->setRotation(mTurretFirstRotation);
+	mTurretActor->setLocation(Vector3(0, 0, -0.15));
 	
-	mBarrelActor->rotate(rotation);
-	mBarrelActor->setLocation(location + Vector3(0, 0, -0.88));
+	mBarrelActor->setRotation(mTurretSecondRotation);
+	mBarrelActor->setLocation(Vector3(0, 0, -0.73));
 	
+	attachActor(mTurretActor);
+	mTurretActor->attachActor(mBarrelActor);
 	parent->attachComponent(this);
-	parent->attachComponent(mTurretActor);
-	parent->attachComponent(mBarrelActor);
+	
 }
 
 // TODO make a util file
@@ -129,6 +130,9 @@ void Weapon::tick(const Ogre::FrameEvent& evt)
 
 	mTurretFirstRotation.FromAngleAxis(nextFirstAngle, Vector3(0,0,1));
 	mTurretSecondRotation.FromAngleAxis(nextSecondAngle, Vector3(1,0,0));
+
+	mTurretActor->setRotation(mTurretFirstRotation);
+	mBarrelActor->setRotation(mTurretSecondRotation);
 
 	//gameLog("mAimDirection=" + StringConverter::toString(mAimDirection));
 	//gameLog("localAimDirection=" + StringConverter::toString(localAimDirection));
