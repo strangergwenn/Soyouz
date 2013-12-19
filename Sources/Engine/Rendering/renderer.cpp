@@ -54,10 +54,7 @@ Renderer::Renderer(Ogre::Viewport* vp, Ogre::SceneManager* sm, tinyxml2::XMLElem
 
 	// Load instances
 	mInstance[DSM_SHOWLIT] =		compMan.addCompositor(mViewport, "DeferredShading/ShowLit");
-	mInstance[DSM_SHOWNORMALS] =	compMan.addCompositor(mViewport, "DeferredShading/ShowNormals");
-	mInstance[DSM_SHOWDSP] =		compMan.addCompositor(mViewport, "DeferredShading/ShowDepthSpecular");
-	mInstance[DSM_SHOWCOLOUR] =		compMan.addCompositor(mViewport, "DeferredShading/ShowColour");
-	mInstance[DSM_SHOWGLOW] =		compMan.addCompositor(mViewport, "DeferredShading/ShowGlow");
+	mInstance[DSM_SHOWGBUFFER] =	compMan.addCompositor(mViewport, "DeferredShading/ShowColour");
 	mInstance[DSM_SHOWSSAO] =		compMan.addCompositor(mViewport, "DeferredShading/ShowSSAO");
 
 	// Ready up

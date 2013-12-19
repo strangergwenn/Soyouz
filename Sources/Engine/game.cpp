@@ -224,27 +224,15 @@ void Game::setDebugMode(int newStatus)
 		break;
 
 	case 1:
-		mRenderer->setMode(Renderer::DSM_SHOWCOLOUR);
-		break;
-
-	case 2:
-		mRenderer->setMode(Renderer::DSM_SHOWCOLOUR);
+		mRenderer->setMode(Renderer::DSM_SHOWLIT);
 		mPhysDrawer->setDebugMode(1);
 		break;
 
+	case 2:
+		mRenderer->setMode(Renderer::DSM_SHOWGBUFFER);
+		break;
+
 	case 3:
-		mRenderer->setMode(Renderer::DSM_SHOWNORMALS);
-		break;
-
-	case 4:
-		mRenderer->setMode(Renderer::DSM_SHOWDSP);
-		break;
-
-	case 5:
-		mRenderer->setMode(Renderer::DSM_SHOWGLOW);
-		break;
-
-	case 6:
 		mRenderer->setMode(Renderer::DSM_SHOWSSAO);
 		break;
 

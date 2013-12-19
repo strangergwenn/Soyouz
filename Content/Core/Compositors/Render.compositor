@@ -225,57 +225,6 @@ compositor DeferredShading/ShowColour
 	}
 }
 
-// Postfilter that shows the glow channel
-compositor DeferredShading/ShowGlow
-{
-	technique 
-	{
-		texture_ref mrt_output DeferredShading/GBuffer mrt_output
-		target_output
-        {
-			input none
-			pass render_quad
-			{
-				material Render/ShowGlow
-			}
-        }
-	}
-}
-
-// Postfilter that shows the normal channel
-compositor DeferredShading/ShowNormals
-{
-	technique 
-	{
-		texture_ref mrt_output DeferredShading/GBuffer mrt_output
-		target_output
-        {
-			input none
-			pass render_quad
-			{
-				material Render/ShowNormal
-			}
-        }
-	}
-}
-
-// Postfilter that shows the depth and specular channel
-compositor DeferredShading/ShowDepthSpecular
-{
-	technique 
-	{
-		texture_ref mrt_output DeferredShading/GBuffer mrt_output
-		target_output
-        {
-			input none
-			pass render_quad
-			{
-				material Render/ShowDS
-			}
-        }
-	}
-}
-
 // Postfilter that shows the SSAO
 compositor DeferredShading/ShowSSAO
 {
