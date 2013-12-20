@@ -14,7 +14,10 @@
 ----------------------------------------------*/
 
 AmbientLight::AmbientLight()
-	: SimpleRenderable()
+	: SimpleRenderable(
+		Ogre::Id::generateNewId<MovableObject>(),
+		&(Ogre::Root::getSingleton().getSceneManager("GameScene")->_getEntityMemoryManager(Ogre::SCENE_DYNAMIC))
+	)
 {
 	setRenderQueueGroup(Ogre::RENDER_QUEUE_2);
 

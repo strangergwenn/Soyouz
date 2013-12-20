@@ -20,7 +20,11 @@
 ----------------------------------------------*/
 
 DeferredLight::DeferredLight(LightMaterialGenerator *sys, Ogre::Light* parentLight):
-    mParentLight(parentLight), bIgnoreWorld(false), mGenerator(sys), mPermutation(0)
+    mParentLight(parentLight), bIgnoreWorld(false), mGenerator(sys), mPermutation(0),
+	SimpleRenderable(
+		Ogre::Id::generateNewId<MovableObject>(),
+		&(Ogre::Root::getSingleton().getSceneManager("GameScene")->_getEntityMemoryManager(Ogre::SCENE_DYNAMIC))
+	)
 {
 	mRenderOp.operationType = Ogre::RenderOperation::OT_TRIANGLE_LIST;
 	mRenderOp.indexData = 0;
