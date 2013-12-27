@@ -65,6 +65,6 @@ void Editor::step(bool bRight)
 {
 	for (Ogre::vector<MeshActor*>::iterator it = mSpheres.begin(); it != mSpheres.end(); it++)
 	{
-		(*it)->translate(Vector3((bRight ? 1 : -1) * mSphereGap, 0, 0));
+		(*it)->translate(Vector3((bRight ? -1 : 1) * mSphereGap, 0, 0));
 	}
 }

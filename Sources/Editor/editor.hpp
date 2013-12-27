@@ -13,7 +13,7 @@
 
 
 /*----------------------------------------------
-Class definitions
+Class definition
 ----------------------------------------------*/
 
 class Editor : public Game
