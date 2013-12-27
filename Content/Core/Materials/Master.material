@@ -22,7 +22,7 @@ material Master
 				param_named_auto cDiffuseColor		custom 1
 				param_named_auto cGlowColor			custom 2
 				param_named_auto cGlowAlpha			custom 3
-				param_named cFarDistance float 100.0
+				param_named cFarDistance			float 1000.0
 			}
 			
 			texture_unit

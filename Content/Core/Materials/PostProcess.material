@@ -53,10 +53,10 @@ material PostProcess/SSAO
                 param_named_auto cViewportSize viewport_size
                 param_named_auto cFov fov
 
-				param_named cStrength float 0.2
-				param_named cOffsetScale float 0.001
-				param_named cRangeCompression float 0.01
-                param_named cSampleLengthScreenSpace float 1.8
+				param_named cStrength float 1.0
+				param_named cOffsetScale float 0.02
+				param_named cFarDistance float 1000.0
+                param_named cSampleLengthScreenSpace float 0.2
             }
 
             texture_unit
