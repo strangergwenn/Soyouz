@@ -9,6 +9,7 @@ import * from "Core/Materials/Master.material"
 
 material MI_Bullet : Master
 {
+	set_texture_alias DiffuseMap	black.png
 	set_texture_alias GlowMap		white.png
 	technique GBuffer
 	{

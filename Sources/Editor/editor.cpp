@@ -47,7 +47,7 @@ void Editor::construct()
 		if (matGroup != "Core")
 		{
 			Ogre::String matName = data.getPointer()->getName();
-			MeshActor* sphere = new MeshActor(this, "Sphere_" + Ogre::StringConverter::toString(i), "sphere.mesh", matName);
+			MeshActor* sphere = new MeshActor(this, "Sphere_" + Ogre::StringConverter::toString(i), "core2.mesh", matName);
 			sphere->translate(Vector3(i * mSphereGap, 0, 0));
 			mSpheres.push_back(sphere);
 			i++;
