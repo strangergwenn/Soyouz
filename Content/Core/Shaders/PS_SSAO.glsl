@@ -33,17 +33,27 @@ out vec4 pPixel;
 
 
 /*-------------------------------------------------
+	Deph lookup using bi-buffer and linear scaling
+	See cRangeCompression in SSAO material
+	See cFarDistance in Master material
+/*-----------------------------------------------*/
+
+float getDepth(vec2 coords)
+{
+	float hDepth = 256 * texture2D(sSceneDepthSamplerHigh, coords).w;
+	float lDepth = texture2D(sSceneDepthSamplerLow, coords).w;
+	return ((hDepth + lDepth)) * cRangeCompression;
+}
+
+
+/*-------------------------------------------------
 	Shader
 /*-----------------------------------------------*/
 
 void main()
-{	
-	// Get depth from bi-buffer
-	float hDepth = 256 * texture2D(sSceneDepthSamplerHigh, vUv0).w;
-	float lDepth = texture2D(sSceneDepthSamplerLow, vUv0).w;
-	float fragmentWorldDepth = ((hDepth + lDepth)) * cRangeCompression;
-
+{
 	// Compute rotation
+	float fragmentWorldDepth = getDepth(vUv0);
 	vec2 rotationTC = vUv0 * cViewportSize.xy / 4.0;
 	vec3 rotationVector = 2.0 * texture2D(sRotSampler4x4, rotationTC).xyz - 1.0;
     
@@ -63,13 +73,9 @@ void main()
 		sampleLength *= sampleLengthStep;
 		vec3 rotatedOffset = reflect(offset, rotationVector);
 		vec2 sampleTC = vUv0 + rotatedOffset.xy * cSampleLengthScreenSpace;
-            
-		// Get depth from bi-buffer
-		float hSDepth = 256 * texture2D(sSceneDepthSamplerHigh, sampleTC).w;
-		float lSDepth = texture2D(sSceneDepthSamplerLow, sampleTC).w;
-		float sampleWorldDepth = (hSDepth + lSDepth) * cRangeCompression;
-            
+                    
 		// Compute accessibility
+		float sampleWorldDepth = getDepth(sampleTC);
 		float fRangeIsInvalid = clamp((fragmentWorldDepth - sampleWorldDepth) / r, 0.0, 1.0);
 		accessibility += mix(float(sampleWorldDepth > (fragmentWorldDepth + rotatedOffset.z * r)) , 0.0, fRangeIsInvalid);
 	}
