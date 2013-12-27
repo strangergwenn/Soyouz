@@ -248,7 +248,7 @@ protected:
 	OIS::MouseState mMouseState;
 	bool mControlDirection;
 	bool mFastControlDirection;
-	bool mInverted = false;
+	bool mInverted;
 
 };
 
