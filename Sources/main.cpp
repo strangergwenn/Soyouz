@@ -5,7 +5,8 @@
 * @author Gwennaël ARBONA
 **/
 
-#include "Game/demoWorld.hpp"
+#include "Game/orbitSegment.hpp"
+#include "Editor/editor.hpp"
 
 
 /*----------------------------------------------
@@ -22,7 +23,9 @@
 {
 
 	// Open the world
-	DemoWorld w;
+	OrbitSegment w;
+	//Editor w;
+
 	try {
 		w.run();
 	}

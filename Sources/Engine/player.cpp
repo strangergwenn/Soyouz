@@ -114,6 +114,13 @@ bool Player::keyPressed(const OIS::KeyEvent &e)
 {
 	switch (e.key)
 	{
+		case OIS::KC_F1:
+		case OIS::KC_F2:
+		case OIS::KC_F3:
+		case OIS::KC_F4:
+			mGame->setDebugMode(e.key - OIS::KC_F1);
+			break;
+
 		case OIS::KC_ESCAPE:
 			mGame->quit();
 			break;

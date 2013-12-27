@@ -74,7 +74,7 @@ Ship::~Ship()
 
 
 /*----------------------------------------------
-	Content
+	Events
 ----------------------------------------------*/
 
 void Ship::preTick(const Ogre::FrameEvent& evt)

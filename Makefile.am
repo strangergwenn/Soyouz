@@ -18,6 +18,8 @@ SoyouzCPPFiles= \
 	Sources/Game/weapon.cpp \
 	Sources/Game/machinegun.cpp \
 	Sources/Game/bullet.cpp \
+	Sources/Game/pilot.cpp \
+	Sources/Game/orbitSegment.cpp \
 	Sources/Engine/actor.cpp \
 	Sources/Engine/meshactor.cpp \
 	Sources/Engine/componentactor.cpp \
@@ -49,8 +51,8 @@ SoyouzHPPFiles= \
 	Sources/Engine/Rendering/deferredlight.hpp \
 	Sources/Engine/Rendering/geometry.hpp \
 	Sources/Engine/Rendering/lightmaterial.hpp \
-	Sources/Game/demoPlayer.hpp \
-	Sources/Game/demoWorld.hpp \
+	Sources/Game/pilot.hpp \
+	Sources/Game/orbitSegment.hpp 
 	Sources/Game/ship.hpp \
 	Sources/Game/thruster.hpp \
 	Sources/Game/weapon.hpp \
