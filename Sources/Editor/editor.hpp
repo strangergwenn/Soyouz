@@ -9,7 +9,6 @@
 #define __EDITOR_H_
 
 #include "Engine/game.hpp"
-#include "Engine/player.hpp"
 #include "Engine/meshactor.hpp"
 
 
@@ -19,34 +18,51 @@ Class definitions
 
 class Editor : public Game
 {
+
+public:
 	
-	void construct()
-	{
-		MeshActor* sphere = new MeshActor(this, "Sphere", "SM_Sphere.mesh", "Default");
-		sphere->setScale(1);
+	/**
+	 * @brief Rotate lights
+	 * @param yaw				Yaw component
+	 * @param pitch				Pitch component
+	 **/
+	void rotateLights(Ogre::Degree yaw, Ogre::Degree pitch);
+	
+	/**
+	 * @brief Step the material list
+	 * @param bRight			True if toward the right side
+	 **/
+	void step(bool bRight);
 
-		Ogre::Light* l1 = mScene->createLight();
-        l1->setType(Ogre::Light::LT_DIRECTIONAL);
-        l1->setDiffuseColour(1.95f, 1.95f, 1.95f);
-        l1->setSpecularColour(1.95f, 1.95f, 1.95f);
-		l1->setDirection(1, -0.5f, -0.2f);
-		l1->setCastShadows(false);
-	}
 
+protected:
+	
+	/**
+	 * @brief Level construction
+	 **/
+	void construct();
+	
+	/**
+	 * @brief Level destruction
+	 **/
 	void destruct(){}
-
-
-	void setupPlayer()
-	{
-		Game::setupPlayer();
-		//mPlayer->
-	}
-
 	
-	void tick(const Ogre::FrameEvent& evt)
-	{
-		Game::tick(evt);
-	}
+	/**
+	 * @brief Setup the player
+	 **/
+	void setupPlayer();
+
+
+protected:
+	
+	// Scene settings
+	float mSphereGap;
+	int mMaterialIndex;
+
+	// Scene content
+	Ogre::Light* mLight;
+	Ogre::vector<MeshActor*>::type mSpheres;
+	
 
 };
 

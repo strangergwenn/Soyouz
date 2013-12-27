@@ -20,6 +20,8 @@ SoyouzCPPFiles= \
 	Sources/Game/bullet.cpp \
 	Sources/Game/pilot.cpp \
 	Sources/Game/orbitSegment.cpp \
+	Sources/Editor/editor.cpp \
+	Sources/Editor/user.cpp \
 	Sources/Engine/actor.cpp \
 	Sources/Engine/meshactor.cpp \
 	Sources/Engine/componentactor.cpp \
@@ -57,6 +59,8 @@ SoyouzHPPFiles= \
 	Sources/Game/thruster.hpp \
 	Sources/Game/weapon.hpp \
 	Sources/Game/machinegun.hpp \
+	Sources/Editor/editor.hpp \
+	Sources/Editor/user.hpp \
 	External/tinyxml2/tinyxml2.hpp
 	
 

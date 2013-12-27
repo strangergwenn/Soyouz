@@ -313,6 +313,8 @@
     <ClCompile Include="External\Bullet\src\MiniCL\MiniCLTaskScheduler.cpp" />
     <ClCompile Include="External\Bullet\src\MiniCL\MiniCLTask\MiniCLTask.cpp" />
     <ClCompile Include="External\tinyxml2\tinyxml2.cpp" />
+    <ClCompile Include="Sources\Editor\editor.cpp" />
+    <ClCompile Include="Sources\Editor\user.cpp" />
     <ClCompile Include="Sources\Engine\componentactor.cpp" />
     <ClCompile Include="Sources\Engine\Rendering\ambient.cpp" />
     <ClCompile Include="Sources\Engine\Rendering\renderoperation.cpp" />
@@ -633,6 +635,7 @@
     <ClInclude Include="External\Bullet\src\vectormath\vmInclude.h" />
     <ClInclude Include="External\tinyxml2\tinyxml2.hpp" />
     <ClInclude Include="Sources\Editor\editor.hpp" />
+    <ClInclude Include="Sources\Editor\user.hpp" />
     <ClInclude Include="Sources\Engine\bulletphysics.hpp" />
     <ClInclude Include="Sources\Engine\componentactor.hpp" />
     <ClInclude Include="Sources\Engine\Rendering\ambient.hpp" />
