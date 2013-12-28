@@ -103,52 +103,33 @@ void IOManager::prerender(const Ogre::FrameEvent& evt)
 	if (mJoy) mJoy->capture();
 
 	// Debug
-	mDebugText = "LOC : ";
-	Vector3 loc = mPlayer->location();
-	mDebugText += StringConverter::toString(Vector3(Math::Floor(loc[0]), Math::Floor(loc[1]), Math::Floor(loc[2])));
-	mDebugText += " ROT : ";
-	Quaternion rot = mPlayer->rotation();
-	mDebugText += "roll=" + StringConverter::toString(rot.getRoll()) + " pitch=" + StringConverter::toString(rot.getPitch()) + " yaw=" + StringConverter::toString(rot.getYaw());
-	mDebugText += " > " + mPlayer->debugText();
-
+	mDebugText = mPlayer->debugText();
 	cursor->setPosition( mMouse->getMouseState().X.abs - 1.0f, mMouse->getMouseState().Y.abs - 1.0f);
 }
 
 
 void IOManager::postrender(const Ogre::FrameEvent& evt)
 {
-	static String currFps = "Current FPS: ";
-	static String avgFps = "Average FPS: ";
-	static String bestFps = "Best FPS: ";
-	static String worstFps = "Worst FPS: ";
-	static String tris = "Triangle Count: ";
-	static String batches = "Batch Count: ";
-
 	try {
 		const Ogre::RenderTarget::FrameStats& stats = mWindow->getStatistics();
-
-		Ogre::OverlayElement* guiAvg = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/AverageFps");
-		guiAvg->setCaption(avgFps + StringConverter::toString(stats.avgFPS));
-
-		Ogre::OverlayElement* guiCurr = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/CurrFps");
-		guiCurr->setCaption(currFps + StringConverter::toString(stats.lastFPS));
-
-		Ogre::OverlayElement* guiBest = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/BestFps");
-		guiBest->setCaption(bestFps + StringConverter::toString(stats.bestFPS)
-			+" "+StringConverter::toString(stats.bestFrameTime)+" ms");
-
-		Ogre::OverlayElement* guiWorst = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/WorstFps");
-		guiWorst->setCaption(worstFps + StringConverter::toString(stats.worstFPS)
-			+" "+StringConverter::toString(stats.worstFrameTime)+" ms");
-
-		Ogre::OverlayElement* guiTris = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/NumTris");
-		guiTris->setCaption(tris + StringConverter::toString(stats.triangleCount));
+		
+		Ogre::OverlayElement* guiCurr = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/NumTris");
+		guiCurr->setCaption(StringConverter::toString((int)stats.lastFPS) + "fps");
 
 		Ogre::OverlayElement* guiBatches = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/NumBatches");
-		guiBatches->setCaption(batches + StringConverter::toString(stats.batchCount));
+		guiBatches->setCaption(StringConverter::toString(stats.batchCount) + " batches");
 
 		Ogre::OverlayElement* guiDbg = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/DebugText");
 		guiDbg->setCaption(mDebugText);
+
+		Ogre::OverlayElement* deleted = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/AverageFps");
+		deleted->setCaption("");
+		deleted = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/BestFps");
+		deleted->setCaption("");
+		deleted = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/WorstFps");
+		deleted->setCaption("");
+		deleted = Ogre::OverlayManager::getSingleton().getOverlayElement("Core/CurrFps");
+		deleted->setCaption("");
 	}
 	catch (...) {}
 }
