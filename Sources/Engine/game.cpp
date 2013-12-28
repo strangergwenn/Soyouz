@@ -77,7 +77,7 @@ void Game::tick(const Ogre::FrameEvent& evt)
 	// Physics tick
 	if (mPhysWorld)
 	{
-		mPhysWorld->stepSimulation(evt.timeSinceLastFrame, 10, btScalar(1.)/btScalar(120.));
+		mPhysWorld->stepSimulation(evt.timeSinceLastFrame, 4, btScalar(1.)/btScalar(60.));
 	}
 
 	// Actor pre-tick
@@ -363,8 +363,8 @@ bool Game::setupSystem(const String desiredRenderer)
 void Game::setupRender(bool bShowPostProcess)
 {
 	// Render resources
-	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Boot");
 	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Core");
+	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Debug");
 	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Game");
 
 	// Player

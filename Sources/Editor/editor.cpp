@@ -44,11 +44,12 @@ void Editor::construct()
     {
 		Ogre::ResourcePtr data = it.getNext();
 		Ogre::String matGroup = data.getPointer()->getGroup();
-		if (matGroup != "Core")
+		if (matGroup != "Core" && matGroup != "Internal")
 		{
 			Ogre::String matName = data.getPointer()->getName();
 			MeshActor* sphere = new MeshActor(this, "Sphere_" + Ogre::StringConverter::toString(i), "core2.mesh", matName);
 			sphere->translate(Vector3(i * mSphereGap, 0, 0));
+			sphere->setScale(0.5f);
 			mSpheres.push_back(sphere);
 			i++;
 		}
