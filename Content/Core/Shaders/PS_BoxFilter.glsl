@@ -10,7 +10,7 @@
 /*-----------------------------------------------*/
 
 #version 150
-#define KERNEL_SIZE 12
+#define KERNEL_SIZE 8
 
 uniform sampler2D input1;
 uniform vec4 size;

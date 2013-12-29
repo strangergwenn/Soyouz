@@ -34,7 +34,7 @@ void Editor::construct()
 	l1->setCastShadows(false);
 	
 
-	MeshActor* sphere = new MeshActor(this, "dbgdbgAAA", "sphere.mesh", "AAA");
+	MeshActor* sphere = new MeshActor(this, "dbgdbgAAA", "teapot.mesh", "AAA");
 	sphere->setScale(0.5f);
 
 

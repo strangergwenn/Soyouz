@@ -32,7 +32,7 @@ in vec3 oTangent;
 in vec3 oBiNormal;
 in vec2 oUv0;
 
-out vec4 fragData[3];
+out vec4 gBuffer[3];
 
 
 /*
@@ -59,18 +59,17 @@ void main()
 	// Diffuse + specularity
 	if (length(cDiffuseColor) > 0.01)
 	{
-		fragData[0].rgb = cDiffuseColor;
+		gBuffer[0].rgb = cDiffuseColor;
 	}
 	else
 	{
-		fragData[0].rgb = texture(DiffuseMap, oUv0).rgb;
-		fragData[0].rgb += vec3(0.1, 0.5, 0.95) * rimFactor;
+		gBuffer[0].rgb = texture(DiffuseMap, oUv0).rgb;
+		gBuffer[0].rgb += vec3(0.1, 0.5, 0.95) * rimFactor;
 	}
-	fragData[0].a = length(texture(SpecularMap, oUv0).rgb);
+	gBuffer[0].a = length(texture(SpecularMap, oUv0).rgb);
 	
 	// Normal mapping setup
 	vec3 texNormal = texture(NormalMap, oUv0).rgb;
-	texNormal.b = texNormal.b * 2;
 	mat3 normalRotation = mat3(oTangent, oBiNormal, oNormal);
 	vec3 localTexNormal = normalRotation * texNormal;
 
@@ -81,8 +80,8 @@ void main()
 	float lDepth = float(depth & uint(0x000000FF)) / 256.0;
 
 	// Normal mapping + depth
-	fragData[1].rgb = normalize(localTexNormal);
-	fragData[1].a = hDepth;
+	gBuffer[1].rgb = normalize(localTexNormal);
+	gBuffer[1].a = hDepth;
 	
 	// Glow
 	vec3 base = texture(GlowMap, oUv0).rgb;
@@ -90,7 +89,6 @@ void main()
 	{
 		base = cGlowColor * length(base);
 	}
-	fragData[2].rgb = base * cGlowAlpha;
-	fragData[2].a = lDepth;
+	gBuffer[2].rgb = base * cGlowAlpha;
+	gBuffer[2].a = lDepth;
 }
-
