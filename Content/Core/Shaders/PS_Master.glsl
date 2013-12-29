@@ -57,8 +57,15 @@ void main()
 	}
 
 	// Diffuse + specularity
-	fragData[0].rgb = cDiffuseColor * texture(DiffuseMap, oUv0).rgb;
-	fragData[0].rgb += vec3(0.1, 0.5, 0.95) * rimFactor;
+	if (length(cDiffuseColor) > 0.01)
+	{
+		fragData[0].rgb = cDiffuseColor;
+	}
+	else
+	{
+		fragData[0].rgb = texture(DiffuseMap, oUv0).rgb;
+		fragData[0].rgb += vec3(0.1, 0.5, 0.95) * rimFactor;
+	}
 	fragData[0].a = length(texture(SpecularMap, oUv0).rgb);
 	
 	// Normal mapping setup

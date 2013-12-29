@@ -6,7 +6,7 @@
 		<option name="Full Screen" value="No" />
 		<option name="RTT Preferred Mode" value="FBO" />
 		<option name="VSync" value="No" />
-		<option name="Video Mode" value="1280 x 720" />
+		<option name="Video Mode" value="1900 x 950" />
 	</rendersystem>
 	
 	<renderer>

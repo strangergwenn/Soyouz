@@ -32,8 +32,15 @@ void Editor::construct()
     l1->setSpecularColour(1.95f, 1.95f, 1.95f);
 	l1->setDirection(0, -0.1f, -1.0f);
 	l1->setCastShadows(false);
+	
+
+	MeshActor* sphere = new MeshActor(this, "dbgdbgAAA", "sphere.mesh", "AAA");
+	sphere->setScale(0.5f);
+
+
 
 	// Resources preparation
+	/*
 	int i = 0;
 	mSphereGap = 20.0f;
 	Ogre::MaterialManager &matMan = Ogre::MaterialManager::getSingleton();
@@ -47,13 +54,14 @@ void Editor::construct()
 		if (matGroup != "Core" && matGroup != "Internal")
 		{
 			Ogre::String matName = data.getPointer()->getName();
-			MeshActor* sphere = new MeshActor(this, "Sphere_" + Ogre::StringConverter::toString(i), "core2.mesh", matName);
+			MeshActor* sphere = new MeshActor(this, "Sphere_" + Ogre::StringConverter::toString(i), "teapot.mesh", matName);
 			sphere->translate(Vector3(i * mSphereGap, 0, 0));
 			sphere->setScale(0.5f);
 			mSpheres.push_back(sphere);
 			i++;
 		}
 	}
+	*/
 }
 
 void Editor::setupPlayer()
