@@ -55,6 +55,7 @@ vertex_program VS_UVMap glsl
 	source VS_UVMap.glsl
 	default_params
 	{
+		param_named farCorner float3 1 1 1
 		param_named_auto projection		worldviewproj_matrix
 	}
 }
@@ -105,6 +106,7 @@ fragment_program PS_ShowGBuffer glsl
 		param_named Tex0			int 0
 		param_named Tex1			int 1
 		param_named Tex2			int 2
+		param_named Tex3			int 3
 	}
 }
 

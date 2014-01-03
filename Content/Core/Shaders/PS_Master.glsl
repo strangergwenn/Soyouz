@@ -32,8 +32,20 @@ in vec3 oTangent;
 in vec3 oBiNormal;
 in vec2 oUv0;
 
-out vec4 gBuffer[3];
+out vec4 gBuffer[4];
 
+/*-------------------------------------------------
+	Helpers
+/*-----------------------------------------------*/
+
+vec3 packFloat(float f)
+{
+    vec3 color;
+    color.b = floor(f / 256.0 / 256.0);
+    color.g = floor((f - color.b * 256.0 * 256.0) / 256.0);
+    color.r = floor(f - color.b * 256.0 * 256.0 - color.g * 256.0);
+    return color / 256.0;
+}
 
 /*
  +-----------------------------------------------------------+
@@ -42,8 +54,9 @@ out vec4 gBuffer[3];
  |MRT|      R      |      G       |      B      |      A     |
  +---+-------------+-------------+-------------+-------------+
  | 0 |  diffuse R  |  diffuse G   |  diffuse B  |  specular  |
- | 1 |  normal R   |   normal G   |   normal B  | depth high |
- | 2 |    glow R   |    glow G    |    glow B   |  depth low |
+ | 1 |  normal R   |   normal G   |   normal B  |  |
+ | 2 |    glow R   |    glow G    |    glow B   |  |
+ | 2 |   depth R   |    depth G   |   depth B   |  |
  +---+-------------+-------------+-------------+-------------+
 */
 
@@ -73,11 +86,10 @@ void main()
 	mat3 normalRotation = mat3(oTangent, oBiNormal, oNormal);
 	vec3 localTexNormal = normalRotation * texNormal;
 
-	// Depth setup
 	float multiplier = 65535.0 / cFarDistance;
 	uint depth = uint(clamp(length(oViewPos) * multiplier, 0.0, 65535.0));
-	float hDepth = float(depth & uint(0x0000FF00)) / 65535.0;
-	float lDepth = float(depth & uint(0x000000FF)) / 256.0;
+	float hDepth = float(depth) / 65535.0;
+
 
 	// Normal mapping + depth
 	gBuffer[1].rgb = normalize(localTexNormal);
@@ -90,5 +102,7 @@ void main()
 		base = cGlowColor * length(base);
 	}
 	gBuffer[2].rgb = base * cGlowAlpha;
-	gBuffer[2].a = lDepth;
+	gBuffer[2].a = 0;
+
+	gBuffer[3].rgb = packFloat(length(oViewPos));
 }

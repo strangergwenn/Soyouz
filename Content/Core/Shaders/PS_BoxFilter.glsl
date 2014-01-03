@@ -34,4 +34,5 @@ void main()
 	}
 	color /= (KERNEL_SIZE * KERNEL_SIZE);
 	pPixel = vec4(color, color, color, 1);
+	pPixel = texture2D(input1, vUv0);
 }

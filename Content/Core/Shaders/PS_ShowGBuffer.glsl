@@ -24,6 +24,7 @@ to the following conditions:
 uniform sampler2D Tex0;
 uniform sampler2D Tex1;
 uniform sampler2D Tex2;
+uniform sampler2D Tex3;
 
 
 /*-------------------------------------------------
@@ -72,7 +73,7 @@ void main()
 		// Glow
 		else
 		{
-			fragColour = texture(Tex2, 2 * vec2(oUv0.r - 0.5, oUv0.g - 0.5));
+			fragColour = texture(Tex3, 2 * vec2(oUv0.r - 0.5, oUv0.g - 0.5));
 		}
 	}
 }

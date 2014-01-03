@@ -327,6 +327,7 @@
     <ClCompile Include="Sources\Engine\player.cpp" />
     <ClCompile Include="Sources\Engine\actor.cpp" />
     <ClCompile Include="Sources\Engine\iomanager.cpp" />
+    <ClCompile Include="Sources\Engine\Rendering\ssaolistener.cpp" />
     <ClCompile Include="Sources\Engine\savable.cpp" />
     <ClCompile Include="Sources\Game\bullet.cpp" />
     <ClCompile Include="Sources\Game\machinegun.cpp" />
@@ -647,6 +648,7 @@
     <ClInclude Include="Sources\Engine\meshactor.hpp" />
     <ClInclude Include="Sources\Engine\Rendering\renderer.hpp" />
     <ClInclude Include="Sources\Engine\lightactor.hpp" />
+    <ClInclude Include="Sources\Engine\Rendering\ssaolistener.hpp" />
     <ClInclude Include="Sources\Engine\savable.hpp" />
     <ClInclude Include="Sources\Game\bullet.hpp" />
     <ClInclude Include="Sources\Game\orbitSegment.hpp" />

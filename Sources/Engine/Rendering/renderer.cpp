@@ -7,6 +7,7 @@
 
 #include "Engine/Rendering/renderer.hpp"
 #include "Engine/Rendering/renderoperation.hpp"
+#include "Engine/Rendering/ssaolistener.hpp"
 #include "Engine/game.hpp"
 
 
@@ -56,6 +57,10 @@ Renderer::Renderer(Ogre::Viewport* vp, Ogre::SceneManager* sm, tinyxml2::XMLElem
 	mInstance[DSM_SHOWLIT] =		compMan.addCompositor(mViewport, "DeferredShading/ShowLit");
 	mInstance[DSM_SHOWGBUFFER] =	compMan.addCompositor(mViewport, "DeferredShading/ShowGBuffer");
 	mInstance[DSM_SHOWSSAO] =		compMan.addCompositor(mViewport, "DeferredShading/ShowSSAO");
+
+	// SSAO listener
+	SSAOListener* lst = new SSAOListener;
+	mInstance[DSM_SHOWSSAO]->addListener(lst);
 
 	// Ready up
 	mCurrentMode = DSM_NONE;

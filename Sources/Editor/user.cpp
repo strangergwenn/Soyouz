@@ -20,7 +20,7 @@ User::User(Editor* g, String name) : Player(g, name)
 	bMeshTurning = false;
 	bLightsTurning = false;
 
-	mDistance = 20;
+	mDistance = 0;
 	mDistanceStep = 1.0f;
 	mDegreeStep = 0.5f;
 }

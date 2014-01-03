@@ -50,13 +50,9 @@ material PostProcess/SSAO
 
             fragment_program_ref PS_SSAO
             {
-                param_named_auto cViewportSize viewport_size
-                param_named_auto cFov fov
-
-				param_named cStrength float 1.0
-				param_named cOffsetScale float 0.02
-				param_named cFarDistance float 1000.0
-                param_named cSampleLengthScreenSpace float 0.2
+				param_named cKernelSize		int 4
+				param_named cRadius			float 0.1
+				param_named cPower			float 1.0
             }
 
             texture_unit
@@ -66,16 +62,23 @@ material PostProcess/SSAO
                 filtering none
             }
 
+			texture_unit
+			{
+				content_type compositor DeferredShading/GBuffer mrt_output 3
+				tex_address_mode clamp
+				filtering none
+			}
+
             texture_unit
             {
-				content_type compositor DeferredShading/GBuffer mrt_output 2
-                tex_address_mode clamp
+				texture rand1x128.png
+                tex_address_mode wrap
                 filtering none
             }
             
             texture_unit
             {
-                texture regularSphereJittered4.png
+                texture rand4x4.png
                 tex_address_mode wrap
                 filtering none
             }

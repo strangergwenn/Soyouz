@@ -23,8 +23,8 @@
 {
 
 	// Open the world
-	OrbitSegment w;
-	//Editor w;
+	//OrbitSegment w;
+	Editor w;
 
 	try {
 		w.run();
