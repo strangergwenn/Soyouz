@@ -25,7 +25,9 @@ void Editor::rotateLights(Ogre::Degree pitch, Ogre::Degree roll)
 void Editor::construct()
 {
 	// Lighting and background
-	new MeshActor(this, "Background", "testbed.mesh", "Default");
+	MeshActor* testbed = new MeshActor(this, "Background", "testbed.mesh", "Default");
+	testbed->setScale(0.005f);
+
 	Ogre::Light* l1 = mScene->createLight();
     l1->setType(Ogre::Light::LT_DIRECTIONAL);
     l1->setDiffuseColour(1.95f, 1.95f, 1.95f);
@@ -35,7 +37,7 @@ void Editor::construct()
 	
 
 	MeshActor* sphere = new MeshActor(this, "dbgdbgAAA", "teapot.mesh", "AAA");
-	sphere->setScale(0.5f);
+	sphere->setScale(0.001f);
 
 
 

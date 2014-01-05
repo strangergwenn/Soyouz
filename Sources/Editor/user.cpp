@@ -21,7 +21,7 @@ User::User(Editor* g, String name) : Player(g, name)
 	bLightsTurning = false;
 
 	mDistance = 0;
-	mDistanceStep = 1.0f;
+	mDistanceStep = 0.01f;
 	mDegreeStep = 0.5f;
 }
 

@@ -37,7 +37,7 @@ out vec4 pPixel;
 /*-------------------------------------------------
 	Helpers
 /*-----------------------------------------------*/
-
+/*
 float packColor(vec3 color)
 {
     return color.r + color.g * 256.0 + color.b * 256.0 * 256.0;
@@ -75,7 +75,7 @@ vec4 ssao(in mat3 system, in vec3 center)
 	
 	occlusion = 1.0 - (occlusion / float(cKernelSize));
 	return vec4(pow(occlusion, cPower));
-}
+}*/
 
 
 /*-------------------------------------------------
@@ -83,19 +83,22 @@ vec4 ssao(in mat3 system, in vec3 center)
 /*-----------------------------------------------*/
 
 void main()
-{
+{/*
 	// Noise
 	vec2 screenSize = vec2(textureSize(sSceneDepth, 0));
 	vec2 rotCoords = vUv0 * screenSize / vec2(textureSize(sTextureNoise, 0));
-	vec3 rotationVector = 2.0 * texture2D(sTextureNoise, rotCoords).xyz - 1.0;
+	vec3 rotationVector = 2.0 * texture2D(sTextureNoise, rotCoords).xyz - 1.0;*/
 	
 	// Position
-	float originDepth = getDepth(vUv0);
-	vec3 pos = normalize(vRay) * originDepth * 0.01;
-	vec4 worldPos = inverse(cProj) * vec4(pos, 0);
-	worldPos.z = -worldPos.z;
-	pPixel = worldPos * 1000;
-
+	float originDepth = texture2D(sSceneNormal, vUv0).a;
+	vec3 pos = vRay * originDepth;
+	vec4 worldPos = inverse(cProj) * vec4(pos, 1);
+	//worldPos.z = -worldPos.z;
+	pPixel = vec4(vRay, 0);
+	//pPixel = vec4(originDepth);
+	pPixel = worldPos * 1;
+	
+	/*
 	// Normal system
 	vec3 normal = texture2D(sSceneNormal, vUv0).rgb;
 	vec3 tangent = normalize(rotationVector - normal * dot(rotationVector, normal));
@@ -103,5 +106,5 @@ void main()
 	mat3 system = mat3(tangent, bitangent, normal);
 	
 	// Calculation
-	//pPixel = ssao(system, vec3(worldPos));
+	pPixel = ssao(system, vec3(worldPos));*/
 }

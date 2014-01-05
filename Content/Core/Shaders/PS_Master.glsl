@@ -93,7 +93,7 @@ void main()
 
 	// Normal mapping + depth
 	gBuffer[1].rgb = normalize(localTexNormal);
-	gBuffer[1].a = hDepth;
+	gBuffer[1].a = length(oViewPos);
 	
 	// Glow
 	vec3 base = texture(GlowMap, oUv0).rgb;

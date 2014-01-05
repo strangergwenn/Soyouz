@@ -41,7 +41,7 @@ void SSAOListener::notifyMaterialRender(Ogre::uint32 pass_id, Ogre::MaterialPtr 
 		Ogre::Matrix4 viewMatrix = cam->getViewMatrix();
 		//viewMatrix.setTrans(Ogre::Vector3(0, 0, 0));
 		
-		params->setNamedConstant("cProj", viewMatrix);
+		params->setNamedConstant("cProj", cameraSpace->_getFullTransform());
 		params->setNamedConstant("cCamPosition", cameraSpace->getPosition());
 
 			Ogre::LogManager::getSingletonPtr()->logMessage((

@@ -18,8 +18,8 @@ Player::Player(Game* g, String name) : Actor(g, name)
 	mNode->setDirection(0,0,-1);
 
 	mCamera = g->getScene()->createCamera(name + "_camera");
-	mCamera->setFarClipDistance(2000000);
-	mCamera->setNearClipDistance(1);
+	mCamera->setFarClipDistance(1);
+	mCamera->setNearClipDistance(0.001);
 	mCamera->setPosition(Vector3(0,0,0));
 	mCamera->setDirection(Vector3(0,0,-1));
 
