@@ -33,30 +33,14 @@ void SSAOListener::notifyMaterialRender(Ogre::uint32 pass_id, Ogre::MaterialPtr 
 	{
 		Ogre::Vector3 corner = cam->getViewMatrix() * cam->getWorldSpaceCorners()[4];
 		params->setNamedConstant("farCorner", corner);
-			Ogre::LogManager::getSingletonPtr()->logMessage((
-				"corner = " +
-				Ogre::StringConverter::toString(corner)
-				).c_str());
 	}
 
 	// Transformation update
 	params = pass->getFragmentProgramParameters();
 	if (params->_findNamedConstantDefinition("cProj"))
-	{
-		Ogre::Matrix4 viewMatrix = cam->getViewMatrix();
-		//viewMatrix.setTrans(Ogre::Vector3(0, 0, 0));
-		
+	{		
 		params->setNamedConstant("cProj", cam->getViewMatrix());
 		params->setNamedConstant("cCamPosition", cameraSpace->getPosition());
-
-			Ogre::LogManager::getSingletonPtr()->logMessage((
-				"mat = " +
-				Ogre::StringConverter::toString(viewMatrix) +
-				"pos = " +
-				Ogre::StringConverter::toString(cameraSpace->getPosition())
-				).c_str());
-
-
 	}
 }
   

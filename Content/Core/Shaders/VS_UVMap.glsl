@@ -36,14 +36,7 @@ void main()
 
 	vec2 pos = vertex.xy;
 	vec3 corner = farCorner;
-	//corner.z = -corner.z;
-	
-	vRay.x = pos.x * corner.x;
-	vRay.y = pos.y * corner.y;
-	vRay.z = corner.z;
-
-	//vRay = corner * vec3(pos, 1);
-	//vRay =  vec3(pos, 0);
+	vRay = corner * vec3(pos, 1);
 
 	gl_Position = projection * vertex;
 }

@@ -51,7 +51,7 @@ material PostProcess/SSAO
             fragment_program_ref PS_SSAO
             {
 				param_named cKernelSize		int 4
-				param_named cRadius			float 0.1
+				param_named cRadius			float 0.05
 				param_named cPower			float 1.0
             }
 
