@@ -31,7 +31,12 @@ void SSAOListener::notifyMaterialRender(Ogre::uint32 pass_id, Ogre::MaterialPtr 
 	Ogre::GpuProgramParametersSharedPtr params = pass->getVertexProgramParameters();
 	if (params->_findNamedConstantDefinition("farCorner"))
 	{
-		params->setNamedConstant("farCorner", cam->getViewMatrix() * cam->getWorldSpaceCorners()[4]);
+		Ogre::Vector3 corner = cam->getViewMatrix() * cam->getWorldSpaceCorners()[4];
+		params->setNamedConstant("farCorner", corner);
+			Ogre::LogManager::getSingletonPtr()->logMessage((
+				"corner = " +
+				Ogre::StringConverter::toString(corner)
+				).c_str());
 	}
 
 	// Transformation update
@@ -41,11 +46,14 @@ void SSAOListener::notifyMaterialRender(Ogre::uint32 pass_id, Ogre::MaterialPtr 
 		Ogre::Matrix4 viewMatrix = cam->getViewMatrix();
 		//viewMatrix.setTrans(Ogre::Vector3(0, 0, 0));
 		
-		params->setNamedConstant("cProj", cameraSpace->_getFullTransform());
+		params->setNamedConstant("cProj", cam->getViewMatrix());
 		params->setNamedConstant("cCamPosition", cameraSpace->getPosition());
 
 			Ogre::LogManager::getSingletonPtr()->logMessage((
-				Ogre::StringConverter::toString(viewMatrix.inverse())
+				"mat = " +
+				Ogre::StringConverter::toString(viewMatrix) +
+				"pos = " +
+				Ogre::StringConverter::toString(cameraSpace->getPosition())
 				).c_str());
 
 

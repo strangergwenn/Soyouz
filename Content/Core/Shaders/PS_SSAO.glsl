@@ -37,7 +37,7 @@ out vec4 pPixel;
 /*-------------------------------------------------
 	Helpers
 /*-----------------------------------------------*/
-/*
+
 float packColor(vec3 color)
 {
     return color.r + color.g * 256.0 + color.b * 256.0 * 256.0;
@@ -75,7 +75,7 @@ vec4 ssao(in mat3 system, in vec3 center)
 	
 	occlusion = 1.0 - (occlusion / float(cKernelSize));
 	return vec4(pow(occlusion, cPower));
-}*/
+}
 
 
 /*-------------------------------------------------
@@ -89,14 +89,15 @@ void main()
 	vec2 rotCoords = vUv0 * screenSize / vec2(textureSize(sTextureNoise, 0));
 	vec3 rotationVector = 2.0 * texture2D(sTextureNoise, rotCoords).xyz - 1.0;*/
 	
-	// Position
 	float originDepth = texture2D(sSceneNormal, vUv0).a;
-	vec3 pos = vRay * originDepth;
-	vec4 worldPos = inverse(cProj) * vec4(pos, 1);
-	//worldPos.z = -worldPos.z;
-	pPixel = vec4(vRay, 0);
-	//pPixel = vec4(originDepth);
-	pPixel = worldPos * 1;
+	//originDepth = getDepth(vUv0) ;
+
+	vec3 viewPos = vRay * originDepth;
+
+	vec4 worldPos = inverse(cProj) * vec4(viewPos, 1);
+
+	pPixel = worldPos * 100;
+//	pPixel = vec4(originDepth);
 	
 	/*
 	// Normal system

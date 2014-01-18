@@ -104,5 +104,6 @@ void main()
 	gBuffer[2].rgb = base * cGlowAlpha;
 	gBuffer[2].a = 0;
 
-	gBuffer[3].rgb = packFloat(length(oViewPos));
+	// Depth
+	gBuffer[3].rgb = packFloat(length(oViewPos) * 100);
 }
