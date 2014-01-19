@@ -19,7 +19,6 @@ uniform sampler2D GlowMap;
 uniform vec3 cDiffuseColor;
 uniform vec3 cGlowColor;
 uniform float cGlowAlpha;
-uniform float cFarDistance;
 
 
 /*-------------------------------------------------
@@ -32,20 +31,8 @@ in vec3 oTangent;
 in vec3 oBiNormal;
 in vec2 oUv0;
 
-out vec4 gBuffer[4];
+out vec4 gBuffer[3];
 
-/*-------------------------------------------------
-	Helpers
-/*-----------------------------------------------*/
-
-vec3 packFloat(float f)
-{
-    vec3 color;
-    color.b = floor(f / 256.0 / 256.0);
-    color.g = floor((f - color.b * 256.0 * 256.0) / 256.0);
-    color.r = floor(f - color.b * 256.0 * 256.0 - color.g * 256.0);
-    return color / 256.0;
-}
 
 /*
  +-----------------------------------------------------------+
@@ -81,17 +68,10 @@ void main()
 	}
 	gBuffer[0].a = length(texture(SpecularMap, oUv0).rgb);
 	
-	// Normal mapping setup
+	// Normal mapping + depth
 	vec3 texNormal = texture(NormalMap, oUv0).rgb;
 	mat3 normalRotation = mat3(oTangent, oBiNormal, oNormal);
 	vec3 localTexNormal = normalRotation * texNormal;
-
-	float multiplier = 65535.0 / cFarDistance;
-	uint depth = uint(clamp(length(oViewPos) * multiplier, 0.0, 65535.0));
-	float hDepth = float(depth) / 65535.0;
-
-
-	// Normal mapping + depth
 	gBuffer[1].rgb = normalize(localTexNormal);
 	gBuffer[1].a = length(oViewPos);
 	
@@ -103,7 +83,4 @@ void main()
 	}
 	gBuffer[2].rgb = base * cGlowAlpha;
 	gBuffer[2].a = 0;
-
-	// Depth
-	gBuffer[3].rgb = packFloat(length(oViewPos) * 100);
 }

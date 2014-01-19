@@ -62,7 +62,6 @@ fragment_program PS_SSAO glsl
 	{
 		param_named cCamPosition float3 1 1 1
 		param_named sSceneNormal int 0
-		param_named sSceneDepth int 1
 		param_named sTextureKernel int 2
 		param_named sTextureNoise int 3
 	}

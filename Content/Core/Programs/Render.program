@@ -106,7 +106,6 @@ fragment_program PS_ShowGBuffer glsl
 		param_named Tex0			int 0
 		param_named Tex1			int 1
 		param_named Tex2			int 2
-		param_named Tex3			int 3
 	}
 }
 
